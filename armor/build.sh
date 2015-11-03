@@ -5,7 +5,7 @@
 #$1: target platform name
 #$2: target distributions name
 #$3: target rootfs directory(absolutely)
-#$4: kernel source code directory(absolutely)
+#$4: kernel build directory(absolutely)
 #return: 0: build success, other: failed
 
 echo "Building package <your name> ..."
