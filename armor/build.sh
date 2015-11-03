@@ -8,6 +8,7 @@
 #return: 0: build success, other: failed
 
 echo "Building armor ..."
+echo "Platform=$1, distro=$2,rootfs=$3."
 
 echo "Installing armor ..."
 
