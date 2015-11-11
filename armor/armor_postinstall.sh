@@ -30,6 +30,58 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
 	    #Install perf tool
 	    apt-get install -y linux-tools-3.19.0-23 
 
+            #install lttng packages
+            apt-get install -y lttng-tools
+            apt-get install -y liblttng-ust-dev
+            depmod -a
+            modprobe lttng-probe-kvm
+            modprobe lttng-probe-sock
+            modprobe lttng-probe-asoc
+            modprobe lttng-ring-buffer-metadata-client
+            modprobe lttng-probe-printk
+            modprobe lttng-probe-napi
+            modprobe lttng-probe-v4l2
+            modprobe lttng-statedump
+            modprobe lttng-probe-btrfs
+            modprobe lttng-ring-buffer-client-mmap-discard
+            modprobe lttng-probe-kmem
+            modprobe lttng-probe-compaction
+            modprobe lttng-ring-buffer-client-overwrite
+            modprobe lttng-ring-buffer-client-mmap-overwrite
+            modprobe lttng-probe-sunrpc
+            modprobe lttng-ftrace
+            modprobe lttng-probe-signal
+            modprobe lttng-probe-module
+            modprobe lttng-ring-buffer-client-discard
+            modprobe lttng-probe-timer
+            modprobe lttng-types
+            modprobe lttng-probe-net
+            modprobe lttng-probe-writeback
+            modprobe lttng-probe-gpio
+            modprobe lttng-probe-udp
+            modprobe lttng-kretprobes
+            modprobe lttng-ring-buffer-metadata-mmap-client
+            modprobe lttng-lib-ring-buffer
+            modprobe lttng-probe-jbd2
+            modprobe lttng-probe-statedump
+            modprobe lttng-probe-ext4
+            modprobe lttng-probe-rcu
+            modprobe lttng-tracer
+            modprobe lttng-probe-power
+            modprobe lttng-probe-sched
+            modprobe lttng-probe-block
+            modprobelttng-probe-jbd
+            modprobe lttng-probe-vmscan
+            modprobe lttng-kprobes
+            modprobe lttng-probe-scsi
+            modprobe lttng-probe-regmap
+            modprobe lttng-probe-skb
+            modprobe lttng-probe-ext3
+            modprobe lttng-probe-regulator
+            modprobe lttng-probe-random
+            modprobe lttng-probe-workqueue
+            modprobe lttng-probe-irq
+
             # install prebuilt deb packages   
             dpkg -i /usr/local/armor/binary/dmidecode-1.0-arm64.deb
             dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb
