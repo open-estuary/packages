@@ -9,6 +9,9 @@ INSTALL_ARMOR_TOOLS="YES"
 if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
     Distribution=`cat /etc/issue| cut -d' ' -f 1`
     echo "Installing Armor tools packages on $Distribution..." 
+   
+    #add path to the perf tool 
+    echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
 
     case "$Distribution" in
         Ubuntu) 
