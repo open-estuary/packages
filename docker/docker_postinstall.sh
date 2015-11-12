@@ -12,8 +12,19 @@ if [ "$INSTALL_DOCKER_PACKAGES" = 'YES' ]; then
         Ubuntu)
             #echo "Ubuntu Distribution"
             sudo apt-get -y update
+            if [ $? != 0 ];
+            then
+               echo "Docker script: apt-get update failed..."
+               exit 1
+            fi
+
             echo "Installing Docker on $Distribution..."
             sudo apt-get install -y docker.io
+            if [ $? != 0 ];
+            then
+               echo "apt-get install docker.io failed..."
+               exit 1
+            fi
         ;;
         *)
             echo "Docker not installed as it is not supported/verified on $Distribution..."
