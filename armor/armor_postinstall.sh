@@ -20,103 +20,105 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             apt-get -y update 
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get -y update failed"
-               exit 1
+               #exit 1
+            fi
+
+            #Install perf tool
+            apt-get install -y linux-tools-3.19.0-23
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y linux-tools-3.19.0-23 failed"
+               #exit 1
             fi
 
             apt-get install -y sysstat  # sar
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y sysstat failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y gdb 
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y gdb failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y iptables  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y iptables failed"
-               exit 1
+               #exit 1
             fi
  
             apt-get install -y dstat  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y dstat failed"
-               exit 1
+               #exit 1
             fi
            
             apt-get install -y iotop  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y iotop  failed"
-               exit 1
+               #exit 1
             fi
+
             apt-get install -y blktrace  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y blktrace failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y nicstat  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y nicstat failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y libconfig9  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y libconfig9 failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y lldpad  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y lldpad failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y oprofile  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y  oprofile failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y latencytop 
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y latecytop failed"
-               exit 1
+               #exit 1
             fi
+
             apt-get install -y systemtap  
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y systemtap failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y crash 
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y  crash failed"
-               exit 1
+               #exit 1
             fi
 	   
-            #Install perf tool
-	    apt-get install -y linux-tools-3.19.0-23 
-            if [ $? -ne 0 ]; then
-               echo "armor_postinstall: apt-get install -y linux-tools-3.19.0-23 failed"
-               exit 1
-            fi
-
             #install lttng packages
             apt-get install -y lttng-tools
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y lttng-tools failed"
-               exit 1
+               #exit 1
             fi
 
             apt-get install -y liblttng-ust-dev
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y liblttng-ust-dev failed"
-               exit 1
+               #exit 1
             fi
 
             # temporary workaround for modules are not getting installed.
