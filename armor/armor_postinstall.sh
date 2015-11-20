@@ -175,13 +175,13 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             dpkg -i /usr/local/armor/binary/dmidecode-1.0-arm64.deb
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/dmidecode-1.0-arm64.deb failed"
-               exit 1
+               #exit 1
             fi
 
             dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb  failed"
-               exit 1
+               #exit 1
             fi
             ;;
            
