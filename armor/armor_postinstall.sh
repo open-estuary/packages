@@ -45,6 +45,7 @@ COMMENT_OUT_APT_UPDATE
             else
                #add path for the perf binary 
                echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
+               echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
             fi
 
             sudo apt-get install -y sysstat  # sar
