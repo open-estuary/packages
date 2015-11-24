@@ -11,12 +11,13 @@ if [ "$INSTALL_DOCKER_PACKAGES" = 'YES' ]; then
     case "$Distribution" in
         Ubuntu)
             #echo "Ubuntu Distribution"
-            sudo apt-get -y update
-            if [ $? != 0 ];
-            then
-               echo "Docker script: apt-get update failed..."
-               exit 1
-            fi
+# Justin commented them, because the update will be called only one times in main scripts for all packages
+#            sudo apt-get -y update
+#            if [ $? != 0 ];
+#            then
+#               echo "Docker script: apt-get update failed..."
+#               exit 1
+#            fi
 
             echo "Installing Docker on $Distribution..."
             sudo apt-get install -y docker.io
