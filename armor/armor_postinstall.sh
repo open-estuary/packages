@@ -15,11 +15,12 @@ err_apt_update_flag=0
 # Uncomment below line to install Armor tool's packages.
 INSTALL_ARMOR_TOOLS="YES"
 if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
-    Distribution=`cat /etc/issue| cut -d' ' -f 1`
-    echo "Installing Armor tools packages on $Distribution..." | tee -a $armor_post_log 
-    
     #delete log file
     rm $armor_post_log
+    
+    Distribution=`sed -n 1p /etc/issue| cut -d' ' -f 1`
+    echo "Installing Armor tools packages on $Distribution..." | tee -a $armor_post_log 
+    
 
     case "$Distribution" in
         Ubuntu)
