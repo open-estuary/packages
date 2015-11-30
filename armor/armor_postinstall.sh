@@ -51,6 +51,10 @@ COMMENT_OUT_APT_UPDATE
                #add path for the perf binary 
                echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
                echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
+               # Fix for Bug ID Mantis-40: sudo perf is not working
+               OLD_STR="secure_path\=\""
+               NEW_STR="secure_path\=\"\/usr\/lib\/linux\-tools\-3\.19\.0\-23\:"
+               sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
             fi
 
             sudo apt-get install -y sysstat  # sar
