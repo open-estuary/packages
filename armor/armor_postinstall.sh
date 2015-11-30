@@ -371,6 +371,12 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
             
+            zypper install -y latencytop
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: zypper install -y latencytop failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
             # install prebuilt rpm packages 
             rpm -i /usr/local/armor/binary/lldpad-1.0.1-0.aarch64.rpm 
             if [ $? -ne 0 ]; then
