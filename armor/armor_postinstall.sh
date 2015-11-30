@@ -19,6 +19,10 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
     rm $armor_post_log
     
     Distribution=`sed -n 1p /etc/issue| cut -d' ' -f 1`
+    # Temp fix for OpenSuse distribution as the format of /etc/issue in OpenSuse is different
+    if [ "$Distribution" = 'Welcome' ]; then
+        Distribution=`sed -n 1p /etc/issue| cut -d' ' -f 3`
+    fi
     echo "Installing Armor tools packages on $Distribution..." | tee -a $armor_post_log 
     
 
@@ -293,7 +297,7 @@ COMMENT_OUT_APT_UPDATE
             # install prebuilt rpm packages 
             ;;
          
-        OpenSuse) 
+        openSUSE)
             #echo "OpenSuse Distribution"
             zypper install -y ltrace
             if [ $? -ne 0 ]; then
