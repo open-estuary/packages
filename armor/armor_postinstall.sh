@@ -298,6 +298,84 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
 
+            dnf install -y netstat-nat.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y netstat-nat.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            # installations for lspci and setpci
+            dnf install -y pciutils.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y  pciutils.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #LLTNG
+            dnf install -y lttng-tools.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y lttng-tools.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            #dnf install -y lttng-ust.aarch64
+            # babeltrace - lttng trace analyser
+            dnf install -y babeltrace.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y babeltrace.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            # temporary workaround for lttng modules are not getting installed.
+            depmod -a
+            modprobe lttng-probe-kvm
+            modprobe lttng-probe-sock
+            modprobe lttng-probe-asoc
+            modprobe lttng-ring-buffer-metadata-client
+            modprobe lttng-probe-printk
+            modprobe lttng-probe-napi
+            modprobe lttng-probe-v4l2
+            modprobe lttng-statedump
+            modprobe lttng-probe-btrfs
+            modprobe lttng-ring-buffer-client-mmap-discard
+            modprobe lttng-probe-kmem
+            modprobe lttng-probe-compaction
+            modprobe lttng-ring-buffer-client-overwrite
+            modprobe lttng-ring-buffer-client-mmap-overwrite
+            modprobe lttng-probe-sunrpc
+            modprobe lttng-ftrace
+            modprobe lttng-probe-signal
+            modprobe lttng-probe-module
+            modprobe lttng-ring-buffer-client-discard
+            modprobe lttng-probe-timer
+            modprobe lttng-types
+            modprobe lttng-probe-net
+            modprobe lttng-probe-writeback
+            modprobe lttng-probe-gpio
+            modprobe lttng-probe-udp
+            modprobe lttng-kretprobes
+            modprobe lttng-ring-buffer-metadata-mmap-client
+            modprobe lttng-lib-ring-buffer
+            modprobe lttng-probe-jbd2
+            modprobe lttng-probe-statedump
+            modprobe lttng-probe-ext4
+            modprobe lttng-probe-rcu
+            modprobe lttng-tracer
+            modprobe lttng-probe-power
+            modprobe lttng-probe-sched
+            modprobe lttng-probe-block
+            modprobe lttng-probe-jbd
+            modprobe lttng-probe-vmscan
+            modprobe lttng-kprobes
+            modprobe lttng-probe-scsi
+            modprobe lttng-probe-regmap
+            modprobe lttng-probe-skb
+            modprobe lttng-probe-ext3
+            modprobe lttng-probe-regulator
+            modprobe lttng-probe-random
+            modprobe lttng-probe-workqueue
+            modprobe lttng-probe-irq
+
+
             # install prebuilt rpm packages 
             ;;
          
