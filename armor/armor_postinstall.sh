@@ -325,6 +325,16 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
 
+            #dependency for perf rpm installation
+            dnf install -y numactl-libs.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y numactl-libs.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            # install prebuilt rpm packages
+            rpm -i /usr/local/armor/binary/perf-4.0.4-301.fc22.aarch64.rpm
+
             # temporary workaround for lttng modules are not getting installed.
             depmod -a
             modprobe lttng-probe-kvm
@@ -374,9 +384,6 @@ COMMENT_OUT_APT_UPDATE
             modprobe lttng-probe-random
             modprobe lttng-probe-workqueue
             modprobe lttng-probe-irq
-
-
-            # install prebuilt rpm packages 
             ;;
          
         openSUSE)
@@ -456,6 +463,12 @@ COMMENT_OUT_APT_UPDATE
             zypper install -y latencytop
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: zypper install -y latencytop failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            zypper install -y perf
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: zypper install -y perf failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
