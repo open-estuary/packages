@@ -79,6 +79,9 @@ sh build_kprobes_test.sh $kernel_build_dir
 # build lttng kernel module and lttng uspace test code
 sh build_lttng.sh $kernel_build_dir $ROOTFS
 
+# build  ktap code
+sh build_ktap.sh $kernel_build_dir $ROOTFS
+
 cd -
 popd
 
