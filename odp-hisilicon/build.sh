@@ -11,10 +11,3 @@
 ###################################################################################
 ###################### Initialise variables ####################
 ###################################################################################
-
-echo "/packages/odp-hisilicon/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
-
-if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
-    echo "Invalid parameter passed. Usage ./armor/build.sh <platform> <distrib> <rootfs> <kernal>" 
-    exit
-fi
