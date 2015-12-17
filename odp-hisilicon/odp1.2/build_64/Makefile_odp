@@ -1,0 +1,107 @@
+TARGET = $(notdir $(CURDIR))
+
+ROOT            = ../$(TARGET)/../..
+
+
+GNU_PREFIX        := aarch64-linux-gnu-
+CC                := $(GNU_PREFIX)gcc
+LD                := $(GNU_PREFIX)ld
+ECHO              := @echo
+
+
+
+SRCS      := $(wildcard $(ROOT)/platform/linux-generic/*.c)
+SRCS      += $(wildcard $(ROOT)/platform/linux-generic/pktio/*.c)
+SRCS      += $(wildcard $(ROOT)/platform/linux-generic/arch/linux/*.c)
+SRCS      += $(wildcard $(ROOT)/helper/*.c)
+
+OBJS      := $(SRCS:.c=.o)  
+
+
+OBJ_FILE   = $(OBJS)
+
+
+
+                    
+#定义当前模块的依赖文件
+DEP_FILE        := $(OBJ_FILE:.o=.d)
+I_OBJ_FILE      := $(OBJ_FILE:.o=.i)
+
+
+#定义当前的依赖文件的搜索路径
+vpath %.c $(SRCDIR)
+
+
+#定义当前模块的编译选项和头文件搜索路径
+INCLUDE_FILES     := -I$(ROOT)/platform/linux-generic \
+                     -I$(ROOT)/platform/linux-generic/include \
+                     -I$(ROOT)/platform/linux-generic/include/odp/plat \
+                     -I$(ROOT)/platform/linux-hisilicon/include/odp \
+                     -I$(ROOT)/platform/linux-hisilicon/include \
+                     -I$(BUILD_PATH) \
+                     -I$(ROOT)/helper/include/odp/helper \
+                     -I$(ROOT)/helper/include \
+                     -I$(ROOT)/include \
+                     -I$(ABS_GCC_DIR)/aarch64-linux-gnu/include \
+                     -I$(ABS_GCC_DIR)/aarch64-linux-gnu/sys-include \
+                     -I$(ABS_GCC_DIR)/aarch64-linux-gnu/sys-include\sys \
+                     -I$(ABS_GCC_DIR)/aarch64-linux-gnu/sys-include\asm \
+                     -I$(ABS_GCC_DIR)/aarch64-linux-gnu/sys-include\asm-generic
+
+
+#整版的编译和链接选项以及在宏定义
+CFLAGS  = -O3 -c -pipe $(HRD_ENDIAN_LINUX_CC) -march=armv8-a -mtune=cortex-a57 -mcpu=cortex-a57 -Wall -Wunused -MD -MP -fPIC -DHRD_OS_LINUX -DHRD_ENDNESS_${LINUX_ENDNESS} -DBOARD_TYPE_$(HRD_ENV_TYPE)
+
+
+#当前模块的.i 的连接规则
+#$(ODP_OBJ_FILENAME) : $(I_OBJ_FILE)
+#	$(ECHO) "LD " $@;\
+	$(LD) -fpic -shared -o  $@ $^
+
+#当前模块的.o 的连接规则
+$(ODP_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_64/lib/odp_pmd.o
+	$(ECHO) "LD " $@;\
+	$(LD) -r -o $@ $^
+
+#当前模块的.so 的连接规则
+#$(ODP_OBJ_FILENAME) : $(OBJ_FILE)
+#	$(ECHO) "LD " $@;\
+	$(LD) -fpic -shared -o $@ $^
+
+#当前模块的 应用程序 的连接规则
+#$(ODP_OBJ_FILENAME) : $(OBJ_FILE)
+#	$(ECHO) "LD " $@;\
+#	$(CC) -o $@ -lc -ldl -T app.lds  $^
+
+
+
+.PHONY: clean
+clean:
+	rm -f *.o *.i *.d *.so $(ROOT)/platform/linux-generic/*.o $(ROOT)/platform/linux-generic/.d $(ROOT)/platform/linux-generic/pktio/*.d \
+	$(ROOT)/platform/linux-generic/arch/linux/*.o $(ROOT)/platform/linux-generic/arch/linux/*.d $(ROOT)/helper/*.o $(ROOT)/helper/*.d $(ROOT)/platform/linux-generic/pktio/*.o
+
+$(I_OBJ_FILE) :%.i :%.c
+	$(ECHO) "CC " $@;
+	$(CC) $(CFLAGS) $(INCLUDE_FILES) $< -E -C -P -o $@
+
+#当前模块的.o 的编译规则
+$(OBJ_FILE) : %.o : %.c
+	$(ECHO) "CC " $(notdir $@);
+	$(CC)  $(CFLAGS) $(INCLUDE_FILES) -fPIC -c -o $@ $<
+
+
+#当前模块的.d 文件的编译规则
+$(DEP_FILE) : %.d : %.c
+	$(ECHO) "CC -MM " $@;\
+	set -e;rm -f $@;\
+	$(CC) $(INCLUDE_FILES) -MM  $< > $@.$$$$;\
+	sed 's,\($(*F)\).o \[ :]*,\1.o \ $@ : ,g' < $@.$$$$ > $@;\
+	rm -f $@.$$$$
+
+
+#如果需要增量编译的话，需要命令行输入INC_BUILD=1
+ifeq ($(INC_BUILD),1)
+-include $(PEM_DEP_FILE)
+endif
+
+
