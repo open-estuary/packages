@@ -148,6 +148,34 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
 
+            #sysdig
+            sudo apt-get install -y sysdig
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y sysdig failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #powertop
+            sudo apt-get install -y powertop
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y powertop failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #procps for slabtop tool
+            sudo apt-get install -y procps
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y procps failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #valgrind
+            sudo apt-get install -y valgrind
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y valgrind failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
             # temporary workaround for modules are not getting installed.
             depmod -a
             modprobe lttng-probe-kvm
@@ -332,6 +360,19 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
 
+            dnf install -y powertop.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y powertop.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #valgrind
+            dnf install -y valgrind.aarch64
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dnf install -y valgrind.aarch64 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
             # install prebuilt rpm packages
             rpm -i /usr/local/armor/binary/perf-4.0.4-301.fc22.aarch64.rpm
 
@@ -465,10 +506,25 @@ COMMENT_OUT_APT_UPDATE
                echo "armor_postinstall: zypper install -y latencytop failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
-
+            
+            #perf
             zypper install -y perf
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: zypper install -y perf failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            
+            #powertop
+            zypper install -y powertop
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: zypper install -y powertop failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #valgrind
+            zypper install -y valgrind
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: zypper install -y valgrind failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 

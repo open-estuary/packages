@@ -83,6 +83,9 @@ sh build_lttng.sh $kernel_build_dir $ROOTFS
 # build  ktap code
 sh build_ktap.sh $kernel_build_dir $ROOTFS
 
+# build gprof test code
+sh build_gprof_test.sh $ROOTFS
+
 cd -
 popd
 
