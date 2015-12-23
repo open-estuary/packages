@@ -65,6 +65,7 @@ sudo mkdir $ROOTFS/usr/local/armor/
 sudo mkdir $ROOTFS/usr/local/armor/binary
 sudo mkdir $ROOTFS/usr/local/armor/source
 sudo mkdir $ROOTFS/usr/local/armor/test_scripts
+sudo mkdir $ROOTFS/usr/local/armor/build_scripts
 
 pushd $armor_build_dir
 
@@ -79,6 +80,15 @@ sh build_kprobes_test.sh $kernel_build_dir
 # build lttng kernel module and lttng uspace test code
 sh build_lttng.sh $kernel_build_dir $ROOTFS
 
+# build  ktap code
+sh build_ktap.sh $kernel_build_dir $ROOTFS
+
+# build gprof test code
+sh build_gprof_test.sh $ROOTFS
+
+# build valgrind test code
+sh build_valgrind_test.sh $ROOTFS
+
 cd -
 popd
 
@@ -90,8 +100,13 @@ echo "Installing package armor ..."
 
 # copy prebuilt binaries to the rootfs
 case $DISTRO in
-    OpenSuse | Fedora)
+    Fedora)
         sudo cp $armor_dir/testing/binary/*.rpm   $ROOTFS/usr/local/armor/binary
+        ;;
+    OpenSuse)
+        sudo cp $armor_dir/testing/binary/*.rpm   $ROOTFS/usr/local/armor/binary
+        # copy build scripts to the rootfs
+        sudo cp $armor_dir/testing/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
         ;;
     Debian | Ubuntu)
         sudo cp $armor_dir/testing/binary/*.deb   $ROOTFS/usr/local/armor/binary
