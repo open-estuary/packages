@@ -72,7 +72,7 @@ pushd $armor_build_dir
 cd testing/build_scripts/
 
 # build demidecode
-sh build_dmidecode.sh $cross_gcc
+sh build_dmidecode.sh $cross_gcc $ROOTFS
 
 # build kprobes test code
 sh build_kprobes_test.sh $kernel_build_dir
