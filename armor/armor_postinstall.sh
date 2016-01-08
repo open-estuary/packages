@@ -227,12 +227,6 @@ COMMENT_OUT_APT_UPDATE
             modprobe lttng-probe-irq
 
             # install prebuilt deb packages   
-            dpkg -i /usr/local/armor/binary/dmidecode-1.0-arm64.deb
-            if [ $? -ne 0 ]; then
-               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/dmidecode-1.0-arm64.deb failed" | tee -a $armor_post_log
-               err_apt_install_flag=1
-            fi
-
             dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb  failed"  | tee -a $armor_post_log
@@ -245,12 +239,6 @@ COMMENT_OUT_APT_UPDATE
             dnf install -y sysstat.aarch64 # sar
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dnf install -y sysstat.aarch64 failed" | tee -a $armor_post_log
-               err_apt_install_flag=1
-            fi
-
-            dnf install -y dmidecode.aarch64
-            if [ $? -ne 0 ]; then
-               echo "armor_postinstall: dnf install -y dmidecode.aarch64 failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
@@ -441,12 +429,6 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
             
-            zypper install -y dmidecode
-            if [ $? -ne 0 ]; then
-               echo "armor_postinstall: zypper install -y dmidecode failed" | tee -a $armor_post_log
-               err_apt_install_flag=1
-            fi
-
             zypper install -y strace
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: zypper install -y strace failed" | tee -a $armor_post_log 
