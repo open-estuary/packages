@@ -76,7 +76,7 @@ innodb_sync_array_size=16
 innodb_print_all_deadlocks
 innodb_checksum_algorithm=CRC32
 innodb_max_dirty_pages_pct_lwm=10
-innodb_buffer_pool_size=70G
+innodb_buffer_pool_size=2G
 
 #myisam
 key_buffer=64M
