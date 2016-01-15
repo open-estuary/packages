@@ -108,8 +108,15 @@ case $DISTRO in
         # copy build scripts to the rootfs
         sudo cp $armor_dir/testing/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
         ;;
-    Debian | Ubuntu)
+    Ubuntu)
         sudo cp $armor_dir/testing/binary/*.deb   $ROOTFS/usr/local/armor/binary
+        ;;
+    Debian)
+        sudo cp $armor_dir/testing/binary/*.deb   $ROOTFS/usr/local/armor/binary
+        # copy prebuilt binarieis(not supported in the distribution) to the rootfs
+        sudo cp $armor_dir/testing/binary/ltrace   $ROOTFS/usr/bin
+        sudo cp $armor_dir/testing/binary/lspci    $ROOTFS/usr/bin
+        sudo cp $armor_dir/testing/binary/setpci   $ROOTFS/usr/bin
     ;;
     esac
 sudo cp $armor_dir/testing/binary/crash   $ROOTFS/usr/local/armor/binary

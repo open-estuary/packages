@@ -529,6 +529,276 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
             ;;
+
+        Debian)
+            #echo "Debian Distribution"
+
+<<COMMENT_OUT_APT_UPDATE
+            if [ ! -e $armor_post_install_dir/.apt-update ]; then  
+                sudo apt-get -y update
+                if [ $? -ne 0 ]; then
+                    echo "armor_postinstall: apt-get -y update failed" | tee -a $armor_post_log
+                    err_apt_update_flag=1
+                else
+                    touch  $armor_post_install_dir/.apt-update
+                fi 
+            fi
+COMMENT_OUT_APT_UPDATE
+
+            #Install perf tool
+            #sudo apt-get install -y linux-tools-3.19.0-23
+                         
+            dpkg -i /usr/local/armor/binary/linux-tools-common_3.19.0-39.44_all.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/linux-tools-common_3.19.0-39.44_all.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            else
+               #add path for the perf binary 
+               echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
+               echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
+               # Fix for Bug ID Mantis-40: sudo perf is not working
+               OLD_STR="secure_path\=\""
+               NEW_STR="secure_path\=\"\/usr\/lib\/linux\-tools\-3\.19\.0\-23\:"
+               sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
+            fi
+
+            sudo apt-get install -y sysstat  # sar
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y sysstat failed"  | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y iptables
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y iptables failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y dstat
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y dstat failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y iotop
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y iotop  failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y blktrace
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y blktrace failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y nicstat
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y nicstat failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y libconfig9
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y libconfig9 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/lldpad_0.9.46-3_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/lldpad_0.9.46-3_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/libopagent1_1.0.0-0ubuntu9_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/libopagent1_1.0.0-0ubuntu9_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            
+            dpkg -i /usr/local/armor/binary/oprofile_1.0.0-0ubuntu9_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/oprofile_1.0.0-0ubuntu9_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            sudo apt-get install -y latencytop
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y latecytop failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            apt-get install -y systemtap-common
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y systemtap-common failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/libnspr4_2%3a4.10.10-0ubuntu0.15.04.1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/libnspr4_2%3a4.10.10-0ubuntu0.15.04.1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            apt-get install -y libnss3-nssdb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y libnss3-nssdb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/libnss3_2%3a3.19.2.1-0ubuntu0.15.04.1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/libnss3_2%3a3.19.2.1-0ubuntu0.15.04.1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/systemtap-common_2.7-0ubuntu1_all.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/systemtap-common_2.7-0ubuntu1_all.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/systemtap-runtime_2.7-0ubuntu1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/systemtap-runtime_2.7-0ubuntu1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            
+            dpkg -i /usr/local/armor/binary/systemtap_2.7-0ubuntu1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/systemtap_2.7-0ubuntu1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #install lttng packages
+            dpkg -i /usr/local/armor/binary/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            
+            apt-get install -y liburcu2
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y liburcu2 failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/lttng-tools_2.5.2-1ubuntu1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/lttng-tools_2.5.2-1ubuntu1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            dpkg -i /usr/local/armor/binary/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #sysdig
+            sudo apt-get install -y sysdig-dkms
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y sysdig-dkms failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            
+            sudo apt-get install -y sysdig
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y sysdig failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #powertop
+            sudo apt-get install -y powertop
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y powertop failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #procps for slabtop tool
+            sudo apt-get install -y procps
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y procps failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #valgrind
+            sudo apt-get install -y valgrind
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y valgrind failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            # temporary workaround for modules are not getting installed.
+            depmod -a
+            modprobe lttng-probe-kvm
+            modprobe lttng-probe-sock
+            modprobe lttng-probe-asoc
+            modprobe lttng-ring-buffer-metadata-client
+            modprobe lttng-probe-printk
+            modprobe lttng-probe-napi
+            modprobe lttng-probe-v4l2
+            modprobe lttng-statedump
+            modprobe lttng-probe-btrfs
+            modprobe lttng-ring-buffer-client-mmap-discard
+            modprobe lttng-probe-kmem
+            modprobe lttng-probe-compaction
+            modprobe lttng-ring-buffer-client-overwrite
+            modprobe lttng-ring-buffer-client-mmap-overwrite
+            modprobe lttng-probe-sunrpc
+            modprobe lttng-ftrace
+            modprobe lttng-probe-signal
+            modprobe lttng-probe-module
+            modprobe lttng-ring-buffer-client-discard
+            modprobe lttng-probe-timer
+            modprobe lttng-types
+            modprobe lttng-probe-net
+            modprobe lttng-probe-writeback
+            modprobe lttng-probe-gpio
+            modprobe lttng-probe-udp
+            modprobe lttng-kretprobes
+            modprobe lttng-ring-buffer-metadata-mmap-client
+            modprobe lttng-lib-ring-buffer
+            modprobe lttng-probe-jbd2
+            modprobe lttng-probe-statedump
+            modprobe lttng-probe-ext4
+            modprobe lttng-probe-rcu
+            modprobe lttng-tracer
+            modprobe lttng-probe-power
+            modprobe lttng-probe-sched
+            modprobe lttng-probe-block
+            modprobe lttng-probe-jbd
+            modprobe lttng-probe-vmscan
+            modprobe lttng-kprobes
+            modprobe lttng-probe-scsi
+            modprobe lttng-probe-regmap
+            modprobe lttng-probe-skb
+            modprobe lttng-probe-ext3
+            modprobe lttng-probe-regulator
+            modprobe lttng-probe-random
+            modprobe lttng-probe-workqueue
+            modprobe lttng-probe-irq
+
+            # install prebuilt deb packages   
+            dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/tiptop-2.3_arm64.deb  failed"  | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi  
+            ;;
+
         esac
 
         if [ $err_apt_install_flag -eq 1 ]; then
