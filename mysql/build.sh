@@ -45,14 +45,11 @@
     useradd –g mysql mysql
     cd ..
     cp my-sigle.cnf  /etc/my.cnf
-    mkdir /u01
-    cd /u01
-    mkdir ./mysql
+    mkdir /u01/mysql
     cp –rf /u01/my3306/share /u01/mysql
-    cd ./my3306
-    mkdir ./tmp
-    mkdir ./log
-    mkdir ./run
+    mkdir /u01/my3306/tmp
+    mkdir /u01/my3306/log
+    mkdir /u01/my3306/run
     cd /u01
     chown –R mysql.root ./
     cd /u01/my3306
