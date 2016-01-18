@@ -30,10 +30,12 @@
 #    fi
 #######
     echo "Installing mysql on $Distribution..."
-    cd ./percona-server-5.6.22-72.0
-    cd ./BUILD
+    DIR=$(pwd)
+    echo $DIR
+    cd $DIR/percona-server-5.6.22-72.0
+    cd $DIR/percona-server-5.6.22-72.0/BUILD
     sh autorun.sh
-    cd ..
+    cd $DIR/percona-server-5.6.22-72.0
     cmake -DCMAKE_INSTALL_PREFIX=/u01/my3306 -DMYSQL_DATADIR=/u01/my3306/data -DMYSQL_USER=mysql -DSYSCONFDIR=/etc  -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1-DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/u01/my3306/run/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1  -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8  -DDEFAULT_COLLATION=utf8_general_ci
     if [ "$?" == 1 ] ; then
       echo "cmake mysql failed..."
@@ -43,7 +45,7 @@
     make install
     groupadd mysql
     useradd –g mysql mysql
-    cp ./my-sigle.cnf  /etc/my.cnf
+    cp $DIR/my-sigle.cnf  /etc/my.cnf
     mkdir /u01/mysql
     cp –rf /u01/my3306/share /u01/mysql
     mkdir /u01/my3306/tmp
