@@ -544,10 +544,11 @@ COMMENT_OUT_APT_UPDATE
                 fi 
             fi
 COMMENT_OUT_APT_UPDATE
-
+            ln -s /bin/kmod /sbin/depmod
+            ln -s /bin/kmod /sbin/modprobe
+            apt-get -f -y install
+            
             #Install perf tool
-            #sudo apt-get install -y linux-tools-3.19.0-23
-                         
             dpkg -i /usr/local/armor/binary/linux-tools-common_3.19.0-39.44_all.deb
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/linux-tools-common_3.19.0-39.44_all.deb failed" | tee -a $armor_post_log
@@ -568,43 +569,71 @@ COMMENT_OUT_APT_UPDATE
                sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
             fi
 
-            sudo apt-get install -y sysstat  # sar
+            apt-get install -y sysstat  # sar
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y sysstat failed"  | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y iptables
+            apt-get install -y iptables
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y iptables failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y dstat
+            apt-get install -y dstat
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y dstat failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y iotop
+            apt-get install -y iotop
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y iotop  failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y blktrace
+            apt-get install -y blktrace
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y blktrace failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y nicstat
+            apt-get install -y nicstat
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y nicstat failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y libconfig9
+            #ethtool      
+            apt-get install -y ethtool
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y ethtool failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+            
+            #tcpdump      
+            apt-get install -y tcpdump
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y tcpdump failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #net-tools(netstat)
+            apt-get install -y net-tools
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y net-tools failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            #strace
+            apt-get install -y strace
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y strace failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
+            apt-get install -y libconfig9
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y libconfig9 failed" | tee -a $armor_post_log
                err_apt_install_flag=1
@@ -628,7 +657,7 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
 
-            sudo apt-get install -y latencytop
+            apt-get install -y latencytop
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y latecytop failed" | tee -a $armor_post_log
                err_apt_install_flag=1
@@ -646,9 +675,9 @@ COMMENT_OUT_APT_UPDATE
                err_apt_install_flag=1
             fi
 
-            apt-get install -y libnss3-nssdb
+            apt-get install -y libnss3
             if [ $? -ne 0 ]; then
-               echo "armor_postinstall: apt-get install -y libnss3-nssdb failed" | tee -a $armor_post_log
+               echo "armor_postinstall: apt-get install -y libnss3 failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
@@ -677,6 +706,12 @@ COMMENT_OUT_APT_UPDATE
             fi
 
             #install lttng packages
+            dpkg -i /usr/local/armor/binary/liburcu2_0.8.5-1ubuntu1_arm64.deb
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liburcu2_0.8.5-1ubuntu1_arm64.deb failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
+
             dpkg -i /usr/local/armor/binary/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb failed" | tee -a $armor_post_log
@@ -686,12 +721,6 @@ COMMENT_OUT_APT_UPDATE
             dpkg -i /usr/local/armor/binary/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb failed" | tee -a $armor_post_log
-               err_apt_install_flag=1
-            fi
-            
-            apt-get install -y liburcu2
-            if [ $? -ne 0 ]; then
-               echo "armor_postinstall: apt-get install -y liburcu2 failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
@@ -706,41 +735,50 @@ COMMENT_OUT_APT_UPDATE
                echo "armor_postinstall: dpkg -i /usr/local/armor/binary/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
+            
+            #babeltrace
+            apt-get install -y babeltrace
+            if [ $? -ne 0 ]; then
+               echo "armor_postinstall: apt-get install -y babeltrace failed" | tee -a $armor_post_log
+               err_apt_install_flag=1
+            fi
 
             #sysdig
-            sudo apt-get install -y sysdig-dkms
+            apt-get install -y sysdig-dkms
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y sysdig-dkms failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
             
-            sudo apt-get install -y sysdig
+            apt-get install -y sysdig
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y sysdig failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
             #powertop
-            sudo apt-get install -y powertop
+            apt-get install -y powertop
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y powertop failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
             #procps for slabtop tool
-            sudo apt-get install -y procps
+            apt-get install -y procps
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y procps failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
 
             #valgrind
-            sudo apt-get install -y valgrind
+            apt-get install -y valgrind
             if [ $? -ne 0 ]; then
                echo "armor_postinstall: apt-get install -y valgrind failed" | tee -a $armor_post_log
                err_apt_install_flag=1
             fi
-
+            
+            apt-get -f -y install
+ 
             # temporary workaround for modules are not getting installed.
             depmod -a
             modprobe lttng-probe-kvm

@@ -117,15 +117,18 @@ case $DISTRO in
         sudo cp $armor_dir/testing/binary/ltrace   $ROOTFS/usr/bin
         sudo cp $armor_dir/testing/binary/lspci    $ROOTFS/usr/bin
         sudo cp $armor_dir/testing/binary/setpci   $ROOTFS/usr/bin
+        sudo cp $armor_dir/testing/binary/lsmod    $ROOTFS/usr/bin
+        sudo cp $armor_dir/testing/binary/kmod     $ROOTFS/bin
     ;;
     esac
-sudo cp $armor_dir/testing/binary/crash   $ROOTFS/usr/local/armor/binary
+
+sudo cp $armor_dir/testing/binary/crash   $ROOTFS/usr/bin
 
 #copy armor test scripts and prebuilt test executables to rootfs
 sudo cp -rf $armor_dir/testing/test_scripts   $ROOTFS/usr/local/armor/
 
 # copy demidecode to rootfs
-sudo cp $armor_build_dir/testing/source/dmidecode/dmidecode $ROOTFS/usr/local/armor/binary
+sudo cp $armor_build_dir/testing/source/dmidecode/dmidecode $ROOTFS/usr/bin
 
 # copy kprobes test binaries to rootfs
 sudo cp $armor_build_dir/testing/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
