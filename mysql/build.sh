@@ -39,10 +39,10 @@ EOF
     sh autorun.sh
     cd ..
     cmake -DCMAKE_INSTALL_PREFIX=/u01/my3306 -DMYSQL_DATADIR=/u01/my3306/data -DMYSQL_USER=mysql -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/u01/my3306/run/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
-    if [ "$?" == 1 ] ; then
-      echo "cmake mysql failed..."
-      exit 1
-    fi
+#    if [ "$?" == 1 ] ; then
+#      echo "cmake mysql failed..."
+#      exit 1
+#    fi
     make -j 16
     make install
     groupadd mysql
@@ -59,4 +59,4 @@ EOF
     cd /u01/my3306
     scripts/mysql_install_db --basedir=/u01/my3306 --datadir=/u01/my3306/data --user=mysql
     /u01/my3306/bin/mysqld_safe --defaults-file=/etc/my.cnf --basedir=/u01/my3306 --datadir=/u01/my3306/data &
-echo "mysql install finished"
+    echo "mysql install finished"
