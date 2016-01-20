@@ -34,7 +34,7 @@ EOF
 #    fi
 #######
     echo "Installing mysql on $Distribution..."
-    cd percona-server-5.6.22-72.0
+    cd percona-5.6.22-72.0
     cd BUILD
     sh autorun.sh
     cd ..
