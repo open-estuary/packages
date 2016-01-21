@@ -44,4 +44,7 @@ EOF
 #      exit 1
 #    fi
     make -j 16
-    make install
+    make DESTDIR=$DIR install
+    mkdir $DIR/etc
+    cp my-sigle.cnf  $DIR/etc/my.cnf
+    tar cjvf mysql.tar.bz2 $DIR/*
