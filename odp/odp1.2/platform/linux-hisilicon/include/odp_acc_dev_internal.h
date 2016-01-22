@@ -63,7 +63,7 @@ typedef struct odp_acc_generic_op_result {
 struct odp_acc_dev_data {
 	char name[ODP_ACC_NAME_MAX_LEN];                    /**< Unique identifier name */
 
-	void *dev_private;                                  /**< PMD-specific private data */
+	void *dev_private;                                  /**< UMD-specific private data */
 
 	enum odp_acc_dev_sub_type sub_type;
 	struct odp_acc_pf_attr	  pf_attr;
@@ -138,12 +138,12 @@ struct accio_entry {
  * The generic data structure associated with each acc device.
  */
 struct odp_acc_dev {
-	odp_acc_rx_t		rx_pkt;       /**< Pointer to PMD receive function.  */
-	odp_acc_tx_t		tx_pkt;       /**< Pointer to PMD transmit function. */
-	odp_acc_rx_burst_t	rx_pkt_burst; /**< Pointer to PMD receive function.  */
-	odp_acc_tx_burst_t	tx_pkt_burst; /**< Pointer to PMD transmit function. */
+	odp_acc_rx_t		rx_pkt;       /**< Pointer to UMD receive function.  */
+	odp_acc_tx_t		tx_pkt;       /**< Pointer to UMD transmit function. */
+	odp_acc_rx_burst_t	rx_pkt_burst; /**< Pointer to UMD receive function.  */
+	odp_acc_tx_burst_t	tx_pkt_burst; /**< Pointer to UMD transmit function. */
 	struct odp_acc_dev_data data;         /**< Pointer to device data */
-	struct odp_acc_dev_ops *dev_ops;      /**< Functions exported by PMD */
+	struct odp_acc_dev_ops *dev_ops;      /**< Functions exported by UMD */
 	struct odp_uio_device  *uio_dev;      /**< UIO info. supplied by probing */
 	uint8_t			attached;     /**< Flag indicating the deice is attached */
 	int			fd;

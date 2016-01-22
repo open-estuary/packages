@@ -37,7 +37,7 @@
 /**
  * @file
  *
- * ODP PMD Driver Registration Interface
+ * ODP UMD Driver Registration Interface
  *
  * This file manages the list of device drivers.
  */
@@ -64,9 +64,9 @@ typedef int (odp_dev_uninit_t)(const char *name);
 /**
  * Driver type enumeration
  */
-enum pmd_type {
-	PMD_VDEV = 0,
-	PMD_PDEV = 1,
+enum umd_type {
+	UMD_VDEV = 0,
+	UMD_PDEV = 1,
 };
 
 /**
@@ -75,7 +75,7 @@ enum pmd_type {
 struct odp_driver {
 	TAILQ_ENTRY(odp_driver) next; /**< Next in list. */
 
-	enum pmd_type	   type;       /**< PMD Driver type */
+	enum umd_type	   type;       /**< UMD Driver type */
 	const char	  *name;       /**< Driver name. */
 	odp_dev_init_t	  *init;       /**< Device init. function. */
 	odp_dev_uninit_t *uninit;     /**< Device uninit. function. */
@@ -126,7 +126,7 @@ int odp_vdev_init(const char *name, const char *args);
  */
 int odp_vdev_uninit(const char *name);
 
-#define PMD_REGISTER_DRIVER(d) \
+#define UMD_REGISTER_DRIVER(d) \
 	void devinitfn_ ## d(void); \
 	void __attribute__((constructor, used)) devinitfn_ ## d(void) \
 	{ \

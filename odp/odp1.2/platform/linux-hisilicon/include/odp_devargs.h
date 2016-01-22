@@ -39,7 +39,7 @@
  * ODP devargs: list of devices and their user arguments
  *
  * This file stores a list of devices and their arguments given by
- * the user when a DPDK application is started. These devices can be PCI
+ * the user when a ODP application is started. These devices can be PCI
  * devices or virtual devices. These devices are stored at startup in a
  * list of odp_devargs structures.
  */
@@ -65,7 +65,7 @@ enum odp_devtype {
  * Structure that stores a device given by the user with its arguments
  *
  * A user device is a physical or a virtual device given by the user to
- * the DPDK application at startup through command line arguments.
+ * the ODP application at startup through command line arguments.
  *
  * The structure stores the configuration of the device, its PCI
  * identifier if it's a PCI device or the driver name if it's a virtual
@@ -111,7 +111,7 @@ extern struct odp_devargs_list devargs_list;
  *
  * For virtual devices, the format of arguments string is "DRIVER_NAME*"
  * or "DRIVER_NAME*,key=val,key2=val2,...". Examples: "eth_ring",
- * "eth_ring0", "eth_pmdAnything,arg=0:arg2=1".
+ * "eth_ring0", "eth_Anything,arg=0:arg2=1".
  *
  * The function parses the arguments string to get driver name and driver
  * arguments.
@@ -139,7 +139,7 @@ int odp_parse_devargs_str(const char *devargs_str,
  *
  * For virtual devices, the format of arguments string is "DRIVER_NAME*"
  * or "DRIVER_NAME*,key=val,key2=val2,...". Examples: "eth_ring",
- * "eth_ring0", "eth_pmdAnything,arg=0:arg2=1". The validity of the
+ * "eth_ring0", "eth_Anything,arg=0:arg2=1". The validity of the
  * driver name is not checked by this function, it is done when probing
  * the drivers.
  *

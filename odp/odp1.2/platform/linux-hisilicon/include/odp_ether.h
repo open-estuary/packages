@@ -50,9 +50,6 @@ extern "C" {
 #include <odp_memcpy.h>
 #include <odp/random.h>
 #include <odp/hints.h>
-
-#include <odp_mbuf.h>
-//#include <odp_byteorder.h>
 #include <odp/byteorder.h>
 
 #define ETHER_ADDR_LEN 6                                /**< Length of Ethernet address. */
@@ -343,23 +340,8 @@ struct vxlan_hdr {
  *   - 0: Success
  *   - 1: not a vlan packet
  */
-static inline int odp_vlan_strip(struct odp_mbuf *m)
+static inline int odp_vlan_strip(void *m)
 {
-	struct ether_hdr *eh
-		= odp_pktmbuf_mtod(m, struct ether_hdr *);
-
-	if (eh->ether_type != odp_cpu_to_be_16(ETHER_TYPE_VLAN))
-		return -1;
-
-	struct vlan_hdr *vh = (struct vlan_hdr *)(eh + 1);
-
-	m->ol_flags |= PKT_RX_VLAN_PKT;
-	m->vlan_tci  = odp_be_to_cpu_16(vh->vlan_tci);
-
-	/* Copy ether header over rather than moving whole packet */
-	memmove(odp_pktmbuf_adj(m, sizeof(struct vlan_hdr)),
-		eh, 2 * ETHER_ADDR_LEN);
-
 	return 0;
 }
 
@@ -375,35 +357,8 @@ static inline int odp_vlan_strip(struct odp_mbuf *m)
  *   -EPERM: mbuf is is shared overwriting would be unsafe
  *   -ENOSPC: not enough headroom in mbuf
  */
-static inline int odp_vlan_insert(struct odp_mbuf **m)
+static inline int odp_vlan_insert(void **m)
 {
-	struct ether_hdr *oh, *nh;
-	struct vlan_hdr	 *vh;
-
-	/* Can't insert header if mbuf is shared */
-	if (odp_mbuf_refcnt_read(*m) > 1) {
-		struct odp_mbuf *copy;
-
-		copy = odp_pktmbuf_clone(*m, (*m)->pool);
-		if (odp_unlikely(!copy))
-			return -ENOMEM;
-
-		odp_pktmbuf_free(*m);
-		*m = copy;
-	}
-
-	oh = odp_pktmbuf_mtod(*m, struct ether_hdr *);
-	nh = (struct ether_hdr *)
-	     odp_pktmbuf_prepend(*m, sizeof(struct vlan_hdr));
-	if (!nh)
-		return -ENOSPC;
-
-	memmove(nh, oh, 2 * ETHER_ADDR_LEN);
-	nh->ether_type = odp_cpu_to_be_16(ETHER_TYPE_VLAN);
-
-	vh = (struct vlan_hdr *)(nh + 1);
-	vh->vlan_tci = odp_cpu_to_be_16((*m)->vlan_tci);
-
 	return 0;
 }
 

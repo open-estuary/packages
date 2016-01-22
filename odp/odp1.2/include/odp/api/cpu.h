@@ -44,6 +44,25 @@ int odp_cpu_id(void);
 int odp_cpu_count(void);
 
 /**
+ * CPU detected
+ *
+ * Report the number of CPU's available to this ODP program.
+ * This may be smaller than the number of (online) CPU's in the system.
+ *
+ * @return Number of available CPU's
+ */
+int odp_cpu_detected(unsigned core_id);
+
+/**
+ * global data
+ *
+ *
+ *
+ *
+ * @return odp's global data
+ */
+void *odp_get_global_data(void);
+/**
  * @}
  */
 

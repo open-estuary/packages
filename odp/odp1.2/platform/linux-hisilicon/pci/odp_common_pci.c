@@ -72,9 +72,9 @@
 /* #include <rte_interrupts.h>
  #include <rte_log.h> */
 #include <odp_pci.h>
-#include <odp_lcore.h>
+#include <odp_core.h>
 #include <odp_memory.h>
-#include <odp_memzone.h>
+#include <odp_mmdistrict.h>
 #include <odp_base.h>
 #include <odp/config.h>
 

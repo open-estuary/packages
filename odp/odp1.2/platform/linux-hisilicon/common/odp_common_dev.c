@@ -73,12 +73,12 @@ int odp_vdev_init(const char *name, const char *args)
 
 	TAILQ_FOREACH(driver, &dev_driver_list, next)
 	{
-		if (driver->type != PMD_VDEV)
+		if (driver->type != UMD_VDEV)
 			continue;
 
 		/*
 		 * search a driver prefix in virtual device name.
-		 * For example, if the driver is pcap PMD, driver->name
+		 * For example, if the driver is pcap UMD, driver->name
 		 * will be "eth_pcap", but "name" will be "eth_pcapN".
 		 * So use strncmp to compare.
 		 */
@@ -98,7 +98,7 @@ int odp_dev_init(void)
 	/*
 	 * Note that the dev_driver_list is populated here
 	 * from calls made to odp_driver_register from constructor functions
-	 * embedded into PMD modules via the PMD_REGISTER_DRIVER macro
+	 * embedded into UMD modules via the UMD_REGISTER_DRIVER macro
 	 */
 
 	/* call the init function for each virtual device */
@@ -116,7 +116,7 @@ int odp_dev_init(void)
 	/* Once the vdevs are initalized, start calling all the pdev drivers */
 	TAILQ_FOREACH(driver, &dev_driver_list, next)
 	{
-		if (driver->type != PMD_PDEV)
+		if (driver->type != UMD_PDEV)
 			continue;
 
 		/* PDEV drivers don't get passed any parameters */
@@ -135,12 +135,12 @@ int odp_vdev_uninit(const char *name)
 
 	TAILQ_FOREACH(driver, &dev_driver_list, next)
 	{
-		if (driver->type != PMD_VDEV)
+		if (driver->type != UMD_VDEV)
 			continue;
 
 		/*
 		 * search a driver prefix in virtual device name.
-		 * For example, if the driver is pcap PMD, driver->name
+		 * For example, if the driver is pcap UMD, driver->name
 		 * will be "eth_pcap", but "name" will be "eth_pcapN".
 		 * So use strncmp to compare.
 		 */

@@ -82,7 +82,7 @@
  * - Bulk dequeue.
  * - Bulk enqueue.
  *
- * Note: the ring implementation is not preemptable. A lcore must not
+ * Note: the ring implementation is not preemptable. A core must not
  * be interrupted by another task that uses the same ring.
  *
  */
@@ -98,7 +98,7 @@ extern "C" {
 #include <odp_common.h>
 #include <odp_base.h>
 #include <odp_memory.h>
-#include <odp_lcore.h>
+#include <odp_core.h>
 #include <odp/atomic.h>
 #include <odp/hints.h>
 
@@ -116,7 +116,7 @@ enum odp_ring_queue_behavior {
 #ifdef ODP_LIBHODP_RING_DEBUG
 
 /**
- * A structure that stores the ring statistics (per-lcore).
+ * A structure that stores the ring statistics (per-core).
  */
 struct odp_ring_debug_stats {
 	uint64_t enq_success_bulk;  /**< Successful enqueues number. */
@@ -179,7 +179,7 @@ struct odp_ring {
 #endif
 
 #ifdef ODP_LIBHODP_RING_DEBUG
-	struct odp_ring_debug_stats stats[ODP_MAX_LCORE];
+	struct odp_ring_debug_stats stats[ODP_MAX_CORE];
 #endif
 
 	void *ring[0] __odp_cache_aligned;                 /**< Memory space of ring starts here.
@@ -207,10 +207,10 @@ struct odp_ring {
  */
 #ifdef ODP_LIBHODP_RING_DEBUG
 #define __RING_STAT_ADD(r, name, n) do {                        \
-		unsigned __lcore_id = odp_lcore_id();           \
-		if (__lcore_id < ODP_MAX_LCORE) {               \
-			r->stats[__lcore_id].name ## _objs += n;  \
-			r->stats[__lcore_id].name ## _bulk += 1;  \
+		unsigned __core_id = odp_core_id();           \
+		if (__core_id < ODP_MAX_CORE) {               \
+			r->stats[__core_id].name ## _objs += n;  \
+			r->stats[__core_id].name ## _bulk += 1;  \
 		}                                               \
 } while (0)
 #else
@@ -273,7 +273,7 @@ int odp_ring_init(struct odp_ring *r, const char *name, unsigned count,
 /**
  * Create a new ring named *name* in memory.
  *
- * This function uses ``memzone_reserve()`` to allocate memory. Then it
+ * This function uses ``mm_district_reserve()`` to allocate memory. Then it
  * calls odp_ring_init() to initialize an empty ring.
  *
  * The new ring size is set to *count*, which must be a power of
@@ -305,9 +305,9 @@ int odp_ring_init(struct odp_ring *r, const char *name, unsigned count,
  *    - E_ODP_NO_CONFIG - function could not get pointer to odp_config structure
  *    - E_ODP_SECONDARY - function was called from a secondary process instance
  *    - EINVAL - count provided is not a power of 2
- *    - ENOSPC - the maximum number of memzones has already been allocated
- *    - EEXIST - a memzone with the same name already exists
- *    - ENOMEM - no appropriate memory area found in which to create memzone
+ *    - ENOSPC - the maximum number of mm_districts has already been allocated
+ *    - EEXIST - a mm_district with the same name already exists
+ *    - ENOMEM - no appropriate memory area found in which to create mm_district
  */
 struct odp_ring *odp_ring_create(const char *name, unsigned count,
 				 int socket_id, unsigned flags);
