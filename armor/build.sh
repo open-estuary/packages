@@ -63,13 +63,17 @@ cp -rf $armor_dir $build_dir
 # create armor folders in the rootfs    
 sudo mkdir $ROOTFS/usr/local/armor/
 sudo mkdir $ROOTFS/usr/local/armor/binary
+sudo mkdir $ROOTFS/usr/local/armor/build_scripts
+sudo mkdir $ROOTFS/usr/local/armor/config
 sudo mkdir $ROOTFS/usr/local/armor/source
 sudo mkdir $ROOTFS/usr/local/armor/test_scripts
-sudo mkdir $ROOTFS/usr/local/armor/build_scripts
 
 pushd $armor_build_dir
 
-cd testing/build_scripts/
+cd build_scripts/
+
+# build armor utility
+sh build_armor_utility.sh $ROOTFS
 
 # build demidecode
 sh build_dmidecode.sh $cross_gcc $ROOTFS
@@ -101,37 +105,41 @@ echo "Installing package armor ..."
 # copy prebuilt binaries to the rootfs
 case $DISTRO in
     Fedora)
-        sudo cp $armor_dir/testing/binary/*.rpm   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/*.rpm   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_fedora.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         ;;
     OpenSuse)
-        sudo cp $armor_dir/testing/binary/*.rpm   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/*.rpm   $ROOTFS/usr/local/armor/binary
         # copy build scripts to the rootfs
-        sudo cp $armor_dir/testing/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
+        sudo cp $armor_dir/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_opensuse.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         ;;
     Ubuntu)
-        sudo cp $armor_dir/testing/binary/*.deb   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/*.deb   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_ubuntu.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         ;;
     Debian)
-        sudo cp $armor_dir/testing/binary/*.deb   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/*.deb   $ROOTFS/usr/local/armor/binary
         # copy prebuilt binarieis(not supported in the distribution) to the rootfs
-        sudo cp $armor_dir/testing/binary/ltrace   $ROOTFS/usr/bin
-        sudo cp $armor_dir/testing/binary/lspci    $ROOTFS/usr/bin
-        sudo cp $armor_dir/testing/binary/setpci   $ROOTFS/usr/bin
-        sudo cp $armor_dir/testing/binary/lsmod    $ROOTFS/usr/bin
-        sudo cp $armor_dir/testing/binary/kmod     $ROOTFS/bin
+        sudo cp $armor_dir/binary/ltrace   $ROOTFS/usr/bin
+        sudo cp $armor_dir/binary/lspci    $ROOTFS/usr/bin
+        sudo cp $armor_dir/binary/setpci   $ROOTFS/usr/bin
+        sudo cp $armor_dir/binary/lsmod    $ROOTFS/usr/bin
+        sudo cp $armor_dir/binary/kmod     $ROOTFS/bin
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_debian.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
     ;;
     esac
 
-sudo cp $armor_dir/testing/binary/crash   $ROOTFS/usr/bin
+sudo cp $armor_dir/binary/crash   $ROOTFS/usr/bin
 
 #copy armor test scripts and prebuilt test executables to rootfs
 sudo cp -rf $armor_dir/testing/test_scripts   $ROOTFS/usr/local/armor/
 
 # copy demidecode to rootfs
-sudo cp $armor_build_dir/testing/source/dmidecode/dmidecode $ROOTFS/usr/bin
+sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
 
 # copy kprobes test binaries to rootfs
-sudo cp $armor_build_dir/testing/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
-sudo cp $armor_build_dir/testing/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
+sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
 
 exit 0
