@@ -47,8 +47,9 @@
 #include <linux/of_net.h>
 #include <linux/of_mdio.h>
 #include "hns_uio_enet.h"
+#include "hns_dsaf_reg.h"
 
-#define MODE_IDX_IN_NAME 6
+#define MODE_IDX_IN_NAME 8
 #define HNS_UIO_DEV_MAX 129
 
 /* module_param(num, int, S_IRUGO); */
@@ -71,6 +72,9 @@ enum {
 	HNS_UIO_IOCTL_MTU,
 	HNS_UIO_IOCTL_GET_STAT,
 	HNS_UIO_IOCTL_GET_LINK,
+	HNS_UIO_IOCTL_REG_READ,
+	HNS_UIO_IOCTL_REG_WRITE,
+	HNS_UIO_IOCTL_SET_PAUSE,
 	HNS_UIO_IOCTL_NUM
 };
 
@@ -200,6 +204,17 @@ void hns_uio_get_stats(struct nic_uio_device *priv, unsigned long long *data)
 	h->dev->ops->get_stats(h, &p[25]);
 }
 
+void hns_uio_pausefrm_cfg(void *mac_drv, u32 rx_en, u32 tx_en)
+{
+	struct hns_mac_cb *mac_cb = (struct hns_mac_cb *)mac_drv;
+	u8 __iomem *base = (u8 *)mac_cb->vaddr + XGMAC_MAC_PAUSE_CTRL_REG;
+	u32 origin = readl(base);
+
+	dsaf_set_bit(origin, XGMAC_PAUSE_CTL_TX_B, !!tx_en);
+	dsaf_set_bit(origin, XGMAC_PAUSE_CTL_RX_B, !!rx_en);
+	writel(origin, base);
+}
+
 long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
 	int ret = 0;
@@ -211,11 +226,6 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	/* unsigned long long data[128] = {0}; */
 
 	parg = (void __user *)arg;
-
-	if (!uio_dev_info) {
-		PRINT("KO is not registered.\n");
-		return UIO_ERROR;
-	}
 
 	if (copy_from_user(&uio_para, parg, sizeof(struct hns_uio_ioctrl_para))) {
 		PRINT("copy_from_user error.\n");
@@ -303,6 +313,36 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 			return UIO_ERROR;
 
 		break;
+	case HNS_UIO_IOCTL_REG_READ:
+	{
+		struct hnae_queue *queue;
+
+		queue = handle->qs[0];
+		
+		uio_para.value = dsaf_read_reg(queue->io_base, uio_para.cmd);
+		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+			return UIO_ERROR;
+	
+		break;
+	}
+	case HNS_UIO_IOCTL_REG_WRITE:
+	{
+		struct hnae_queue *queue;
+
+		queue = handle->qs[0];
+		dsaf_write_reg(queue->io_base, uio_para.cmd, uio_para.value);
+		uio_para.value = dsaf_read_reg(queue->io_base, uio_para.cmd);
+		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+			return UIO_ERROR;
+	
+		break;
+
+	}
+	case HNS_UIO_IOCTL_SET_PAUSE:
+	{
+		hns_uio_pausefrm_cfg(priv->vf_cb->mac_cb, 0, uio_para.value);
+		break;
+	}
 	default:
 		PRINT("uio ioctl cmd(%d) illegal! range:0-%d.\n", cmd, HNS_UIO_IOCTL_NUM - 1);
 		return UIO_ERROR;
@@ -419,8 +459,9 @@ int hns_uio_probe(struct platform_device *pdev)
 	struct device_node *node = dev->of_node;
 	struct net_device *netdev;
 	struct hnae_queue *queue;
+	struct hnae_vf_cb *vf_cb;
 	const char *ae_name;
-	const char *ae_opts;
+
 	int ret;
 	int port       = 0;
 	int mode       = 0;
@@ -437,46 +478,41 @@ int hns_uio_probe(struct platform_device *pdev)
 	if (ret)
 		return UIO_ERROR;
 
-	ret = of_property_read_string(node, "ae-opts", &ae_opts);
+	ret = of_property_read_u32(node, "port-id", &port);
 	if (ret)
 		return UIO_ERROR;
 
-	PRINT("ae_name = %s, ae_opts = %s\n", ae_name, ae_opts);
 
-	mode = ae_name[MODE_IDX_IN_NAME] - '0';
-	if (mode >= sizeof(port_vf) / sizeof(int)) {
-		dev_err(dev, "mode fail. (ae_name=%s, ae_opts=%s, mode=%d).\n", ae_name, ae_opts, mode);
-		return UIO_ERROR;
-	}
+	PRINT("vf_sum = %d, name = %s, port = %d\n",vf_sum,  ae_name, port);
 
-	port = hns_uio_get_port(ae_opts);
 
-	PRINT("port = %d, vf_num = %d, vf_sum = %d.\n", port, port_vf[mode], vf_sum);
+	mode = 7;
 	port_start = vf_sum;
 	port_end   = vf_sum + port_vf[mode];
 
 	for (i = 0; i < port_vf[mode]; i++) {
-		handle = hnae_get_handle(dev, ae_name, ae_opts, &hns_uio_nic_bops);
+		handle = hnae_get_handle(dev, ae_name, port, &hns_uio_nic_bops);
 		if (IS_ERR_OR_NULL(handle)) {
 			ret = PTR_ERR(handle);
-			PRINT("hnae_get_handle fail. (ae_name=%s, ae_opts=%s).\n", ae_name, ae_opts);
+			PRINT("hnae_get_handle fail. (port = %d, port_vf = %d).\n", port, i);
 			goto err_uio_dev_free;
 		}
 
-		/* PRINT("handle->q_num = %d, vf_id = %d\n", handle->q_num, handle->vf_id); */
+		vf_cb = (struct hnae_vf_cb *)container_of(handle, struct hnae_vf_cb, ae_handle);
 		netdev = alloc_etherdev_mq(sizeof(struct nic_uio_device), handle->q_num);
 		if (!netdev) {
-			PRINT("alloc_etherdev_mq fail. (ae_name=%s, ae_opts=%s).\n", ae_name, ae_opts);
+			PRINT("alloc_etherdev_mq fail. (name = %s, port = %d).\n", ae_name, port);
 			goto err_get_handle;
 		}
 
 		priv		    = netdev_priv(netdev);
 		priv->dev	    = dev;
-		priv->netdev	    = netdev;
-		priv->ae_handle	    = handle;
+		priv->netdev	= netdev;
+		priv->ae_handle	= handle;
+		priv->vf_cb     = vf_cb;
 		priv->port	    = port;
-		priv->vf_sum	    = port_vf[mode];
-		priv->vf_id	    = i;
+		priv->vf_sum	= port_vf[mode];
+		priv->vf_id	    = handle->vf_id;
 		priv->q_num	    = handle->q_num;
 		priv->port_vf_start = port_start;
 		priv->port_vf_end   = port_end;
@@ -613,7 +649,7 @@ int hns_uio_resume(struct platform_device *pdev)
 
 /*for dts*/
 static const struct of_device_id hns_uio_enet_match[] = {
-	{.compatible = "hisilicon,hns-nic0"},
+	{.compatible = "hisilicon,hns-nic-v0"},
 	{}
 };
 

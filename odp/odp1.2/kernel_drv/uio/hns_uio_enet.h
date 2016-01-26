@@ -27,6 +27,8 @@
 #define _HNS_UIO_ENET_H
 
 #include "hnae.h"
+#include "hns_dsaf_mac.h"
+#include "hns_dsaf_main.h"
 
 #define NIC_MOD_VERSION     "iWareV2R2C00B961"
 #define DRIVER_UIO_NAME     "hns-nic-uio"
@@ -40,13 +42,13 @@ struct char_device {
 };
 
 struct nic_uio_device {
-    const char *        ae_name;
-    const char *        ae_opts;
-
     struct device *     dev;
     struct hnae_handle *ae_handle;
-    struct net_device * netdev;
-
+    struct net_device  *netdev;
+    struct device_node *ae_node;
+    struct hnae_vf_cb  *vf_cb;
+    
+    unsigned int        enet_ver;
     unsigned int        port;
     unsigned int        vf_sum;
     unsigned int        vf_id;
