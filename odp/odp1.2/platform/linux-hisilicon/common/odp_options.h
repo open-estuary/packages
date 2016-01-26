@@ -53,11 +53,11 @@ enum {
 	OPT_FILE_PREFIX_NUM,
 #define OPT_HUGE_DIR "huge-dir"
 	OPT_HUGE_DIR_NUM,
-#define OPT_LCORES "lcores"
+#define OPT_LCORES "cores"
 	OPT_LCORES_NUM,
 #define OPT_LOG_LEVEL "log-level"
 	OPT_LOG_LEVEL_NUM,
-#define OPT_MASTER_LCORE "master-lcore"
+#define OPT_MASTER_LCORE "master-core"
 	OPT_MASTER_LCORE_NUM,
 #define OPT_PROC_TYPE "proc-type"
 	OPT_PROC_TYPE_NUM,
@@ -87,10 +87,8 @@ enum {
 extern const char odp_short_options[];
 extern const struct option odp_long_options[];
 
-int odp_parse_common_option(int opt, const char *optarg, struct odp_internal_config *conf);
-int odp_adjust_config(struct odp_internal_config *internal_cfg);
-int odp_check_common_options(struct odp_internal_config *internal_cfg);
-void odp_common_usage(void);
+int odp_parse_common_option(int opt, const char *optarg, struct odp_local_config *conf);
+int odp_adjust_local_config(struct odp_local_config *local_cfg);
 
 enum odp_proc_type_t odp_proc_type_detect(void);
 #endif /* ODP_OPTIONS_H */

@@ -88,12 +88,12 @@ enum odp_hisi_timer_type {
 
 /**
  * Timer status: A union of the state (stopped, pending, running,
- * config) and an owner (the id of the lcore that owns the timer).
+ * config) and an owner (the id of the core that owns the timer).
  */
 union odp_hisi_timer_status {
 	struct {
 		uint16_t state; /**< Stop, pending, running, config. */
-		int16_t	 owner; /**< The lcore that owns the timer. */
+		int16_t	 owner; /**< The core that owns the timer. */
 	};
 	uint32_t u32;           /**< To atomic-set status + owner. */
 };
@@ -101,7 +101,7 @@ union odp_hisi_timer_status {
 #ifdef HODP_LIBHODP_TIMER_DEBUG
 
 /**
- * A structure that stores the timer statistics (per-lcore).
+ * A structure that stores the timer statistics (per-core).
  */
 struct odp_hisi_timer_debug_stats {
 	uint64_t reset;     /**< Number of success calls to odp_hisi_timer_reset(). */
@@ -184,7 +184,7 @@ void odp_hisi_timer_init(struct odp_hisi_timer *tim);
  * The odp_hisi_timer_reset() function resets and starts the timer
  * associated with the timer handle *tim*. When the timer expires after
  * *ticks* HPET cycles, the function specified by *fct* will be called
- * with the argument *arg* on core *tim_lcore*.
+ * with the argument *arg* on core *tim_core*.
  *
  * If the timer associated with the timer handle is already running
  * (in the RUNNING state), the function will fail. The user has to check
@@ -208,9 +208,9 @@ void odp_hisi_timer_init(struct odp_hisi_timer *tim);
  *     (returns to the PENDING state)
  *   - SINGLE: The timer is one-shot, that is, the timer goes to a
  *     STOPPED state after execution.
- * @param tim_lcore
- *   The ID of the lcore where the timer callback function has to be
- *   executed. If tim_lcore is LCORE_ID_ANY, the timer library will
+ * @param tim_core
+ *   The ID of the core where the timer callback function has to be
+ *   executed. If tim_core is CORE_ID_ANY, the timer library will
  *   launch it on a different core for each call (round-robin).
  * @param fct
  *   The callback function of the timer.
@@ -221,7 +221,7 @@ void odp_hisi_timer_init(struct odp_hisi_timer *tim);
  *   - (-1): Timer is in the RUNNING or CONFIG state.
  */
 int odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t ticks,
-		     enum odp_hisi_timer_type type, unsigned tim_lcore,
+		     enum odp_hisi_timer_type type, unsigned tim_core,
 		     odp_timer_cb_t fct, void *arg);
 
 /**
@@ -241,9 +241,9 @@ int odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t ticks,
  *     (returns to the PENDING state)
  *   - SINGLE: The timer is one-shot, that is, the timer goes to a
  *     STOPPED state after execution.
- * @param tim_lcore
- *   The ID of the lcore where the timer callback function has to be
- *   executed. If tim_lcore is LCORE_ID_ANY, the timer library will
+ * @param tim_core
+ *   The ID of the core where the timer callback function has to be
+ *   executed. If tim_core is CORE_ID_ANY, the timer library will
  *   launch it on a different core for each call (round-robin).
  * @param fct
  *   The callback function of the timer.
@@ -252,7 +252,7 @@ int odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t ticks,
  */
 void
 odp_hisi_timer_reset_sync(struct odp_hisi_timer *tim, uint64_t ticks,
-		      enum odp_hisi_timer_type type, unsigned tim_lcore,
+		      enum odp_hisi_timer_type type, unsigned tim_core,
 		      odp_timer_cb_t fct, void *arg);
 
 /**
@@ -309,7 +309,7 @@ int odp_hisi_timer_pending(struct odp_hisi_timer *tim);
 /**
  * Manage the timer list and execute callback functions.
  *
- * This function must be called periodically from ODP lcores
+ * This function must be called periodically from ODP cores
  * main_loop(). It browses the list of pending timers and runs all
  * timers that are expired.
  *

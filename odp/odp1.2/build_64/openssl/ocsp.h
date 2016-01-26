@@ -454,7 +454,7 @@ int OCSP_id_cmp(OCSP_CERTID *a, OCSP_CERTID *b);
 int OCSP_request_onereq_count(OCSP_REQUEST *req);
 OCSP_ONEREQ *OCSP_request_onereq_get0(OCSP_REQUEST *req, int i);
 OCSP_CERTID *OCSP_onereq_get0_id(OCSP_ONEREQ *one);
-int OCSP_id_get0_info(ASN1_OCTET_STRING **piNameHash, ASN1_OBJECT **pmd,
+int OCSP_id_get0_info(ASN1_OCTET_STRING **piNameHash, ASN1_OBJECT **umd,
                       ASN1_OCTET_STRING **pikeyHash,
                       ASN1_INTEGER **pserial, OCSP_CERTID *cid);
 int OCSP_request_is_signed(OCSP_REQUEST *req);

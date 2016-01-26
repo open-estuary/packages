@@ -51,7 +51,7 @@ struct pktio_entry {
 		pkt_sock_t pkt_sock;		/**< using socket API for IO */
 		pkt_sock_mmap_t pkt_sock_mmap;	/**< using socket mmap
 						 *   API for IO */
-              pkt_dpdk_t pkt_dpdk;
+              pkt_odp_t pkt_odp;
 		pkt_kni_t  pkt_kni;
 	};
 	classifier_t cls;		/**< classifier linked with this pktio*/
@@ -80,7 +80,7 @@ typedef struct pktio_if_ops {
 	int (*promisc_mode_set)(pktio_entry_t *pktio_entry,  int enable);
 	int (*promisc_mode_get)(pktio_entry_t *pktio_entry);
 	int (*mac_get)(pktio_entry_t *pktio_entry, void *mac_addr);
-    int (*mtu_set)(pktio_entry_t *pktio_entry, uint16_t mtu);  /*added ops member to pktio_if_ops in linaro 1.2 version. 2015-08-28*/
+    	int (*mtu_set)(pktio_entry_t *pktio_entry, uint16_t mtu);  /*added ops member to pktio_if_ops in linaro 1.2 version. 2015-08-28*/
 } pktio_if_ops_t;
 
 extern void *pktio_entry_ptr[];
@@ -107,7 +107,7 @@ extern const pktio_if_ops_t sock_mmsg_pktio_ops;
 extern const pktio_if_ops_t sock_mmap_pktio_ops;
 extern const pktio_if_ops_t loopback_pktio_ops;
 extern const pktio_if_ops_t * const pktio_if_ops[];
-extern const pktio_if_ops_t dpdk_pmd_pktio_ops;
+extern const pktio_if_ops_t hns_eth_pktio_ops;
 /*extern const pktio_if_ops_t kni_pktio_ops;*/
 
 #ifdef __cplusplus

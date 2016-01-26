@@ -14,7 +14,7 @@ const pktio_if_ops_t * const pktio_if_ops[]  = {
 	&loopback_pktio_ops,
 	&sock_mmap_pktio_ops,
 	&sock_mmsg_pktio_ops,
-	&dpdk_pmd_pktio_ops,
+	&hns_eth_pktio_ops,
 	/*&kni_pktio_ops,*/
 	NULL
 };

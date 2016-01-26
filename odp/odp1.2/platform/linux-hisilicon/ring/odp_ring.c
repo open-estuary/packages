@@ -74,11 +74,11 @@
 #include <odp_common.h>
 #include <odp/config.h>
 #include <odp_memory.h>
-#include <odp_memzone.h>
+#include <odp_mmdistrict.h>
 #include <odp_base.h>
-#include <odp_memconfig.h>
+#include <odp_mmlayout.h>
 #include <odp/atomic.h>
-#include <odp_lcore.h>
+#include <odp_core.h>
 #include <odp/spinlock.h>
 #include "odp_ring.h"
 
@@ -149,7 +149,7 @@ struct odp_ring *odp_ring_create(const char *name, unsigned count, int socket_id
 	char mz_name[ODP_MEMZONE_NAMESIZE];
 	struct odp_ring *r;
 	struct odp_tailq_entry *te;
-	const struct odp_memzone *mz;
+	const struct odp_mm_district *mz;
 	ssize_t ring_size;
 	int mz_flags = 0;
 	struct odp_ring_list *ring_list = NULL;
@@ -176,9 +176,9 @@ struct odp_ring *odp_ring_create(const char *name, unsigned count, int socket_id
 	odp_rwlock_write_lock(ODP_TAILQ_RWLOCK);
 
 	/* reserve a memory zone for this ring. If we can't get odp_config or
-	 * we are secondary process, the memzone_reserve function will set
+	 * we are secondary process, the mm_district_reserve function will set
 	 * odp_err for us appropriately - hence no check in this this function */
-	mz = odp_memzone_reserve(mz_name, ring_size, socket_id, mz_flags);
+	mz = odp_mm_district_reserve(mz_name, ring_size, socket_id, mz_flags);
 	if (mz != NULL) {
 		r = mz->addr;
 
@@ -223,7 +223,7 @@ void odp_ring_dump(FILE *f, const struct odp_ring *r)
 {
 #ifdef ODP_LIBHODP_RING_DEBUG
 	struct odp_ring_debug_stats sum;
-	unsigned lcore_id;
+	unsigned core_id;
 #endif
 
 	fprintf(f, "ring <%s>@%p\n", r->name, r);
@@ -243,17 +243,17 @@ void odp_ring_dump(FILE *f, const struct odp_ring *r)
 	/* sum and dump statistics */
 #ifdef ODP_LIBHODP_RING_DEBUG
 	memset(&sum, 0, sizeof(sum));
-	for (lcore_id = 0; lcore_id < ODP_MAX_LCORE; lcore_id++) {
-		sum.enq_success_bulk += r->stats[lcore_id].enq_success_bulk;
-		sum.enq_success_objs += r->stats[lcore_id].enq_success_objs;
-		sum.enq_quota_bulk += r->stats[lcore_id].enq_quota_bulk;
-		sum.enq_quota_objs += r->stats[lcore_id].enq_quota_objs;
-		sum.enq_fail_bulk  += r->stats[lcore_id].enq_fail_bulk;
-		sum.enq_fail_objs  += r->stats[lcore_id].enq_fail_objs;
-		sum.deq_success_bulk += r->stats[lcore_id].deq_success_bulk;
-		sum.deq_success_objs += r->stats[lcore_id].deq_success_objs;
-		sum.deq_fail_bulk += r->stats[lcore_id].deq_fail_bulk;
-		sum.deq_fail_objs += r->stats[lcore_id].deq_fail_objs;
+	for (core_id = 0; core_id < ODP_MAX_CORE; core_id++) {
+		sum.enq_success_bulk += r->stats[core_id].enq_success_bulk;
+		sum.enq_success_objs += r->stats[core_id].enq_success_objs;
+		sum.enq_quota_bulk += r->stats[core_id].enq_quota_bulk;
+		sum.enq_quota_objs += r->stats[core_id].enq_quota_objs;
+		sum.enq_fail_bulk  += r->stats[core_id].enq_fail_bulk;
+		sum.enq_fail_objs  += r->stats[core_id].enq_fail_objs;
+		sum.deq_success_bulk += r->stats[core_id].deq_success_bulk;
+		sum.deq_success_objs += r->stats[core_id].deq_success_objs;
+		sum.deq_fail_bulk += r->stats[core_id].deq_fail_bulk;
+		sum.deq_fail_objs += r->stats[core_id].deq_fail_objs;
 	}
 
 	fprintf(f, "  size=%d\n", r->prod.size);

@@ -50,7 +50,7 @@
 
 /* #include <odp_log.h> */
 #include <odp_pci.h>
-#include <odp_memconfig.h>
+#include <odp_mmlayout.h>
 #include "odp_filesystem.h"
 #include "odp_pci_init.h"
 
@@ -89,8 +89,7 @@ static void get_socket_path(char *buffer, int bufsz)
 		dir = home_dir;
 
 	/* use current prefix as file path */
-	snprintf(buffer, bufsz, SOCKET_PATH_FMT, dir,
-		 internal_config.hugefile_prefix);
+	snprintf(buffer, bufsz, SOCKET_PATH_FMT, dir, HUGEFILE_PREFIX_DEFAULT);
 }
 
 /*

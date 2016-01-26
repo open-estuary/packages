@@ -54,7 +54,7 @@ INCLUDE_FILES     := -I$(ROOT)/platform/linux-hisilicon \
 	$(LD) -fpic -shared -o  $@ $^
 
 #当前模块的.o 的连接规则
-$(HISI_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_32/lib/odp_memory.o
+$(HISI_OBJ_FILENAME) : $(OBJ_FILE)
 	$(ECHO) "LD " $@;\
 	$(LD)  -r -o $@ $^
 

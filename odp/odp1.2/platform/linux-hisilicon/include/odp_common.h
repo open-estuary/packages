@@ -43,7 +43,7 @@
 #include <stdint.h>
 #include <sched.h>
 
-/* #include <odp_lcore.h> */
+/* #include <odp_core.h> */
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,32 +51,33 @@ extern "C" {
 
 #define ODP_MAGIC	   19820526         /**< Magic number written by the main partition when ready. */
 #define ODP_PATH_MAX	   256
+#define ODP_LIB_DESC_LEN	   128
 #define ODP_BUFF_SIZE	   ODP_PATH_MAX
-#define ODP_MAX_LCORE	   128              /* max number of cores in one cpu chipset*/
+#define ODP_MAX_CORE	   128              /* max number of cores in one cpu chipset*/
 #define ODP_MAX_NUMA_NODES 8                /* max number of numa nodes in one board*/
 
 /**
- * Macro to define a per lcore variable "var" of type "type", don't
+ * Macro to define a per core variable "var" of type "type", don't
  * use keywords like "static" or "volatile" in type, just prefix the
  * whole macro.
  */
-#define ODP_DEFINE_PER_LCORE(type, name)           \
-	__thread __typeof__(type)per_lcore_ ## name
+#define ODP_DEFINE_PER_CORE(type, name)           \
+	__thread __typeof__(type)per_core_##name
 
 /**
- * Macro to declare an extern per lcore variable "var" of type "type"
+ * Macro to declare an extern per core variable "var" of type "type"
  */
-#define ODP_DECLARE_PER_LCORE(type, name) __thread __typeof__(type)per_lcore_ ## name
+#define ODP_DECLARE_PER_CORE(type, name) __thread __typeof__(type)per_core_##name
 
 /**
- * Read/write the per-lcore variable value
+ * Read/write the per-core variable value
  */
-#define ODP_PER_LCORE(name) per_lcore_ ## name
+#define ODP_PER_CORE(name) per_core_##name
 
 /**
- * The lcore role (used in ODP or not).
+ * The core role (used in ODP or not).
  */
-enum odp_lcore_role_t {
+enum odp_core_role_t {
 	ROLE_ODP,
 	ROLE_OFF,
 };
@@ -96,18 +97,18 @@ enum odp_proc_type_t {
  * The global ODP configuration structure.
  */
 struct odp_config {
-	uint32_t	       master_lcore;              /**< Id of the master lcore */
-	uint32_t	       lcore_count;               /**< Number of available logical cores. */
-	enum odp_lcore_role_t lcore_role[ODP_MAX_LCORE]; /**< State of cores. */
+	uint32_t	       bsp_core;              /**< Id of the bsp core */
+	uint32_t	       core_num;               /**< Number of available cores. */
+	enum odp_core_role_t core_role[ODP_MAX_CORE]; /**< State of cores. */
 
 	/** Primary or secondary configuration */
 	enum odp_proc_type_t process_type;
-
+	void *global_data;
 	/**
 	 * Pointer to memory configuration, which may be shared across multiple
-	 * Huawei DPDK instances
+	 * Huawei ODP instances
 	 */
-	struct odp_mem_config *mem_config;
+	struct odp_mem_layout *mem_layout;
 } __attribute__((__packed__));
 
 /**
@@ -119,14 +120,14 @@ struct odp_config {
 struct odp_config *odp_get_configuration(void);
 
 /**
- * Get a lcore's role.
+ * Get a core's role.
  *
- * @param lcore_id
- *   The identifier of the lcore.
+ * @param core_id
+ *   The identifier of the core.
  * @return
- *   The role of the lcore.
+ *   The role of the core.
  */
-enum odp_lcore_role_t odp_lcore_role(unsigned lcore_id);
+enum odp_core_role_t odp_core_role(unsigned core_id);
 
 /**
  * Get the process type in a multi-process setup
@@ -139,7 +140,7 @@ enum odp_proc_type_t odp_process_type(void);
 /**
  * Request iopl privilege for all RPL.
  *
- * This function should be called by pmds which need access to ioports.
+ * This function should be called by umds which need access to ioports.
 
  * @return
  *   - On success, returns 0.
@@ -150,11 +151,11 @@ int odp_iopl_init(void);
 /**
  * Initialize the Environment Abstraction Layer (ODP).
  *
- * This function is to be executed on the MASTER lcore only, as soon
+ * This function is to be executed on the MASTER core only, as soon
  * as possible in the application's main() function.
  *
  * The function finishes the initialization process before main() is called.
- * It puts the SLAVE lcores in the WAIT state.
+ * It puts the SLAVE cores in the WAIT state.
  *
  * When the multi-partition feature is supported, depending on the
  * configuration (if CONFIG_ODP_MAIN_PARTITION is disabled), this
@@ -173,7 +174,7 @@ int odp_iopl_init(void);
  *     not be accessed by the application.
  *   - On failure, a negative error value.
  */
-int odp_init(int argc, char **argv);
+int odp_arch_pv660_init(int argc, char **argv);
 
 /**
  * Usage function typedef used by the application usage function.
@@ -208,19 +209,19 @@ odp_usage_hook_t
 odp_set_application_usage_hook(odp_usage_hook_t usage_func);
 
 /**
- * macro to get the lock of tailq in mem_config
+ * macro to get the lock of tailq in mem_layout
  */
-#define ODP_TAILQ_RWLOCK (&(odp_get_configuration()->mem_config->qlock))
+#define ODP_TAILQ_RWLOCK (&(odp_get_configuration()->mem_layout->qlock))
 
 /**
  * macro to get the multiple lock of mempool shared by multiple-instance
  */
-#define ODP_MEMPOOL_RWLOCK (&(odp_get_configuration()->mem_config->mplock))
+#define ODP_MEMPOOL_RWLOCK (&(odp_get_configuration()->mem_layout->mplock))
 
 /**
  * Whether ODP is using huge pages (disabled by --no-huge option).
  * The no-huge mode cannot be used with UIO poll-mode drivers like igb/ixgbe.
- * It is useful for NIC drivers (e.g. libodp_pmd_mlx4, libodp_pmd_vmxnet3) or
+ * It is useful for NIC drivers () or
  * crypto drivers (e.g. libodp_crypto_nitrox) provided by third-parties such
  * as 6WIND.
  *
@@ -247,15 +248,15 @@ int odp_sys_gettid(void);
  */
 static inline int odp_gettid(void)
 {
-	static ODP_DEFINE_PER_LCORE(int, _thread_id) = -1;
+	static ODP_DEFINE_PER_CORE(int, _thread_id) = -1;
 
-	if (ODP_PER_LCORE(_thread_id) == -1)
-		ODP_PER_LCORE(_thread_id) = odp_sys_gettid();
+	if (ODP_PER_CORE(_thread_id) == -1)
+		ODP_PER_CORE(_thread_id) = odp_sys_gettid();
 
-	return ODP_PER_LCORE(_thread_id);
+	return ODP_PER_CORE(_thread_id);
 }
 
-extern ODP_DECLARE_PER_LCORE(int, _odp_errno); /**< Per core error number. */
+extern ODP_DECLARE_PER_CORE(int, _odp_errno); /**< Per core error number. */
 
 /**
  * Error number value, stored per-thread, which can be queried after
@@ -264,9 +265,9 @@ extern ODP_DECLARE_PER_LCORE(int, _odp_errno); /**< Per core error number. */
  * Uses standard values from errno.h wherever possible, with a small number
  * of additional possible values for ODP-specific conditions.
  */
-#define odp_err ODP_PER_LCORE(_odp_errno)
+#define odp_err ODP_PER_CORE(_odp_errno)
 
-int odp_parse_sysfs_value(const char *filename, unsigned long *val);
+unsigned long odp_parse_sysfs_value(const char *filename);
 
 #ifdef __cplusplus
 }

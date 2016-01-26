@@ -6,8 +6,11 @@
 
 #define _GNU_SOURCE
 #include <odp/system_info.h>
+
 #include <odp_internal.h>
 #include <odp_debug_internal.h>
+#include <odp_common.h>
+#include <odp_core.h>
 #include <odp/align.h>
 #include <odp/cpu.h>
 #include <pthread.h>
@@ -403,3 +406,24 @@ int odp_cpu_count(void)
 {
 	return odp_global_data.system_info.cpu_count;
 }
+
+int odp_cpu_detected(unsigned core_id)
+{
+	char path[ODP_PATH_MAX];
+	int  len = snprintf(path, sizeof(path), SYS_CPU_DIR
+			    "/" CORE_ID_FILE, core_id);
+
+	if ((len <= 0) || ((unsigned)len >= sizeof(path)))
+		return 0;
+
+	if (access(path, F_OK) != 0)
+		return 0;
+
+	return 1;
+}
+
+void *odp_get_global_data(void)
+{
+	return (void *)&odp_global_data;
+}
+

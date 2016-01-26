@@ -45,7 +45,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#include "odp_base.h"
 /*
  * A packet can be identified by hardware as different flow types. Different
  * NIC hardwares may support different flow types.

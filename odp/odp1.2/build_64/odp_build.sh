@@ -34,7 +34,7 @@ cd $ROOT_DIR/platform/linux-hisilicon
 make -s -f Makefile_hisilicon clean
 make -s -f Makefile_hisilicon  -j16
 cp $HISI_OBJ_FILENAME $BUILD_PATH/
-#make -s -f Makefile_hisilicon clean
+make -s -f Makefile_hisilicon clean
 cd $BUILD_PATH
 
 make -s -f Makefile clean

@@ -40,14 +40,14 @@
 #include <inttypes.h>
 
 #include <odp_memory.h>
-#include <odp_memzone.h>
+#include <odp_mmdistrict.h>
 
 /* #include <odp_launch.h> */
 #include <odp_base.h>
-#include <odp_memconfig.h>
+#include <odp_mmlayout.h>
 
-/* #include <odp_per_lcore.h> */
-#include <odp_lcore.h>
+/* #include <odp_per_core.h> */
+#include <odp_core.h>
 
 /* #include <odp_memory.h> */
 #include <odp/config.h>
@@ -72,7 +72,7 @@ static int odp_tailqs_count = -1;
 struct odp_tailq_head *odp_tailq_lookup(const char *name)
 {
 	unsigned i;
-	struct odp_mem_config *mcfg = odp_get_configuration()->mem_config;
+	struct odp_mem_layout *mcfg = odp_get_configuration()->mem_layout;
 
 	if (!name)
 		return NULL;
@@ -86,10 +86,10 @@ struct odp_tailq_head *odp_tailq_lookup(const char *name)
 
 void odp_dump_tailq(FILE *f)
 {
-	struct odp_mem_config *mcfg;
+	struct odp_mem_layout *mcfg;
 	unsigned i = 0;
 
-	mcfg = odp_get_configuration()->mem_config;
+	mcfg = odp_get_configuration()->mem_layout;
 
 	odp_rwlock_read_lock(&mcfg->qlock);
 	for (i = 0; i < ODP_MAX_TAILQ; i++) {
@@ -109,9 +109,9 @@ static struct odp_tailq_head *odp_tailq_create(const char *name)
 
 	if (!odp_tailq_lookup(name) &&
 	    (odp_tailqs_count + 1 < ODP_MAX_TAILQ)) {
-		struct odp_mem_config *mcfg;
+		struct odp_mem_layout *mcfg;
 
-		mcfg = odp_get_configuration()->mem_config;
+		mcfg = odp_get_configuration()->mem_layout;
 		head = &mcfg->tailq_head[odp_tailqs_count];
 		snprintf(head->name, sizeof(head->name) - 1, "%s", name);
 		TAILQ_INIT(&head->tailq_head);

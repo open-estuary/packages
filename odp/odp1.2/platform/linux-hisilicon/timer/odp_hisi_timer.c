@@ -47,13 +47,13 @@
 
 /* #include <odp_per_lcore.h> */
 #include <odp_memory.h>
-#include <odp_memzone.h>
+#include <odp_mmdistrict.h>
 
 /* #include <odp_launch.h> */
 #include <odp_base.h>
 
 /* #include <odp_per_lcore.h> */
-#include <odp_lcore.h>
+#include <odp_core.h>
 
 /* #include <odp_branch_prediction.h> */
 #include <odp/spinlock.h>
@@ -74,24 +74,24 @@ struct priv_timer {
 	/** track the current depth of the skiplist */
 	unsigned curr_skiplist_depth;
 
-	unsigned prev_lcore;          /**< used for lcore round robin */
+	unsigned prev_core;          /**< used for core round robin */
 
 #ifdef HODP_LIBHODP_TIMER_DEBUG
 
-	/** per-lcore statistics */
+	/** per-core statistics */
 	struct odp_hisi_timer_debug_stats stats;
 #endif
 } __odp_cache_aligned;
 
-/** per-lcore private info for timers */
-static struct priv_timer priv_timer[ODP_MAX_LCORE];
+/** per-core private info for timers */
+static struct priv_timer priv_timer[ODP_MAX_CORE];
 
 /* when debug is enabled, store some statistics */
 #ifdef HODP_LIBHODP_TIMER_DEBUG
 #define __TIMER_STAT_ADD(name, n) do {                  \
-		unsigned __lcore_id = odp_lcore_id();            \
-		if (__lcore_id < ODP_MAX_LCORE)             \
-			priv_timer[__lcore_id].stats.name += (n);   \
+		unsigned __core_id = odp_core_id();            \
+		if (__core_id < ODP_MAX_CORE)             \
+			priv_timer[__core_id].stats.name += (n);   \
 } while (0)
 #else
 #define __TIMER_STAT_ADD(name, n) do {} while (0)
@@ -100,14 +100,14 @@ static struct priv_timer priv_timer[ODP_MAX_LCORE];
 /* Init the timer library. */
 void odp_hisi_timer_subsystem_init(void)
 {
-	unsigned lcore_id;
+	unsigned core_id;
 
 	/* since priv_timer is static, it's zeroed by default, so only init some
 	 * fields.
 	 */
-	for (lcore_id = 0; lcore_id < ODP_MAX_LCORE; lcore_id++) {
-		odp_spinlock_init(&priv_timer[lcore_id].list_lock);
-		priv_timer[lcore_id].prev_lcore = lcore_id;
+	for (core_id = 0; core_id < ODP_MAX_CORE; core_id++) {
+		odp_spinlock_init(&priv_timer[core_id].list_lock);
+		priv_timer[core_id].prev_core = core_id;
 	}
 }
 
@@ -131,9 +131,9 @@ static int timer_set_config_state(struct odp_hisi_timer	  *tim,
 {
 	union odp_hisi_timer_status prev_status, status;
 	int success = 0;
-	unsigned lcore_id;
+	unsigned core_id;
 
-	lcore_id = odp_lcore_id();
+	core_id = odp_core_id();
 
 	/* wait that the timer is in correct status before update,
 	 * and mark it as being configured */
@@ -142,7 +142,7 @@ static int timer_set_config_state(struct odp_hisi_timer	  *tim,
 
 		/* timer is running on another core, exit */
 		if ((prev_status.state == ODP_HISI_TIMER_RUNNING) &&
-		    (prev_status.owner != (uint16_t)lcore_id))
+		    (prev_status.owner != (uint16_t)core_id))
 			return -1;
 
 		/* timer is being configured on another core */
@@ -152,7 +152,7 @@ static int timer_set_config_state(struct odp_hisi_timer	  *tim,
 		/* here, we know that timer is stopped or pending,
 		 * mark it atomically as being configured */
 		status.state = ODP_HISI_TIMER_CONFIG;
-		status.owner = (int16_t)lcore_id;
+		status.owner = (int16_t)core_id;
 		success = odp_atomic_cmpset_u32((odp_atomic_u32_t *)&tim->status.u32,
 						prev_status.u32,
 						status.u32);
@@ -168,7 +168,7 @@ static int timer_set_config_state(struct odp_hisi_timer	  *tim,
 static int timer_set_running_state(struct odp_hisi_timer *tim)
 {
 	union odp_hisi_timer_status prev_status, status;
-	unsigned lcore_id = odp_lcore_id();
+	unsigned core_id = odp_core_id();
 	int success = 0;
 
 	/* wait that the timer is in correct status before update,
@@ -183,7 +183,7 @@ static int timer_set_running_state(struct odp_hisi_timer *tim)
 		/* here, we know that timer is stopped or pending,
 		 * mark it atomically as being configured */
 		status.state = ODP_HISI_TIMER_RUNNING;
-		status.owner = (int16_t)lcore_id;
+		status.owner = (int16_t)core_id;
 		success = odp_atomic_cmpset_u32((odp_atomic_u32_t *)&tim->status.u32,
 						prev_status.u32,
 						status.u32);
@@ -242,12 +242,12 @@ static uint32_t timer_get_skiplist_level(unsigned curr_depth)
  * For a given time value, get the entries at each level which
  * are <= that time value.
  */
-static void timer_get_prev_entries(uint64_t time_val, unsigned tim_lcore,
+static void timer_get_prev_entries(uint64_t time_val, unsigned tim_core,
 				   struct odp_hisi_timer **prev)
 {
-	unsigned lvl = priv_timer[tim_lcore].curr_skiplist_depth;
+	unsigned lvl = priv_timer[tim_core].curr_skiplist_depth;
 
-	prev[lvl] = &priv_timer[tim_lcore].pending_head;
+	prev[lvl] = &priv_timer[tim_core].pending_head;
 	while (lvl != 0) {
 		lvl--;
 		prev[lvl] = prev[lvl + 1];
@@ -261,7 +261,7 @@ static void timer_get_prev_entries(uint64_t time_val, unsigned tim_lcore,
  * Given a timer node in the skiplist, find the previous entries for it at
  * all skiplist levels.
  */
-static void timer_get_prev_entries_for_node(struct odp_hisi_timer *tim, unsigned tim_lcore,
+static void timer_get_prev_entries_for_node(struct odp_hisi_timer *tim, unsigned tim_core,
 					    struct odp_hisi_timer **prev)
 {
 	int i;
@@ -269,8 +269,8 @@ static void timer_get_prev_entries_for_node(struct odp_hisi_timer *tim, unsigned
 	/* to get a specific entry in the list, look for just lower than the time
 	 * values, and then increment on each level individually if necessary
 	 */
-	timer_get_prev_entries(tim->expire - 1, tim_lcore, prev);
-	for (i = priv_timer[tim_lcore].curr_skiplist_depth - 1; i >= 0; i--)
+	timer_get_prev_entries(tim->expire - 1, tim_core, prev);
+	for (i = priv_timer[tim_core].curr_skiplist_depth - 1; i >= 0; i--)
 		while (prev[i]->sl_next[i] && (prev[i]->sl_next[i] != tim) &&
 		       (prev[i]->sl_next[i]->expire <= tim->expire))
 			prev[i] = prev[i]->sl_next[i];
@@ -281,28 +281,28 @@ static void timer_get_prev_entries_for_node(struct odp_hisi_timer *tim, unsigned
  * timer must be in config state
  * timer must not be in a list
  */
-static void timer_add(struct odp_hisi_timer *tim, unsigned tim_lcore, int local_is_locked)
+static void timer_add(struct odp_hisi_timer *tim, unsigned tim_core, int local_is_locked)
 {
-	unsigned lcore_id = odp_lcore_id();
+	unsigned core_id = odp_core_id();
 	unsigned lvl;
 	struct odp_hisi_timer *prev[MAX_SKIPLIST_DEPTH + 1];
 
 	/* if timer needs to be scheduled on another core, we need to
 	 * lock the list; if it is on local core, we need to lock if
 	 * we are not called from odp_hisi_timer_manage() */
-	if ((tim_lcore != lcore_id) || !local_is_locked)
-		odp_spinlock_lock(&priv_timer[tim_lcore].list_lock);
+	if ((tim_core != core_id) || !local_is_locked)
+		odp_spinlock_lock(&priv_timer[tim_core].list_lock);
 
 	/* find where exactly this element goes in the list of elements
 	 * for each depth. */
-	timer_get_prev_entries(tim->expire, tim_lcore, prev);
+	timer_get_prev_entries(tim->expire, tim_core, prev);
 
 	/* now assign it a new level and add at that level */
 	const unsigned tim_level = timer_get_skiplist_level(
-		priv_timer[tim_lcore].curr_skiplist_depth);
+		priv_timer[tim_core].curr_skiplist_depth);
 
-	if (tim_level == priv_timer[tim_lcore].curr_skiplist_depth)
-		priv_timer[tim_lcore].curr_skiplist_depth++;
+	if (tim_level == priv_timer[tim_core].curr_skiplist_depth)
+		priv_timer[tim_core].curr_skiplist_depth++;
 
 	lvl = tim_level;
 	while (lvl > 0) {
@@ -316,11 +316,11 @@ static void timer_add(struct odp_hisi_timer *tim, unsigned tim_lcore, int local_
 
 	/* save the lowest list entry into the expire field of the dummy hdr
 	 * NOTE: this is not atomic on 32-bit*/
-	priv_timer[tim_lcore].pending_head.expire =
-		priv_timer[tim_lcore].pending_head.sl_next[0]->expire;
+	priv_timer[tim_core].pending_head.expire =
+		priv_timer[tim_core].pending_head.sl_next[0]->expire;
 
-	if ((tim_lcore != lcore_id) || !local_is_locked)
-		odp_spinlock_unlock(&priv_timer[tim_lcore].list_lock);
+	if ((tim_core != core_id) || !local_is_locked)
+		odp_spinlock_unlock(&priv_timer[tim_core].list_lock);
 }
 
 /*
@@ -331,7 +331,7 @@ static void timer_add(struct odp_hisi_timer *tim, unsigned tim_lcore, int local_
 static void timer_del(struct odp_hisi_timer *tim, union odp_hisi_timer_status prev_status,
 		      int local_is_locked)
 {
-	unsigned lcore_id = odp_lcore_id();
+	unsigned core_id = odp_core_id();
 	unsigned prev_owner = prev_status.owner;
 	int i;
 	struct odp_hisi_timer *prev[MAX_SKIPLIST_DEPTH + 1];
@@ -339,7 +339,7 @@ static void timer_del(struct odp_hisi_timer *tim, union odp_hisi_timer_status pr
 	/* if timer needs is pending another core, we need to lock the
 	 * list; if it is on local core, we need to lock if we are not
 	 * called from odp_hisi_timer_manage() */
-	if ((prev_owner != lcore_id) || !local_is_locked)
+	if ((prev_owner != core_id) || !local_is_locked)
 		odp_spinlock_lock(&priv_timer[prev_owner].list_lock);
 
 	/* save the lowest list entry into the expire field of the dummy hdr.
@@ -361,32 +361,32 @@ static void timer_del(struct odp_hisi_timer *tim, union odp_hisi_timer_status pr
 		else
 			break;
 
-	if ((prev_owner != lcore_id) || !local_is_locked)
+	if ((prev_owner != core_id) || !local_is_locked)
 		odp_spinlock_unlock(&priv_timer[prev_owner].list_lock);
 }
 
 /* Reset and start the timer associated with the timer handle (private func) */
 static int __odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t expire,
-			      uint64_t period, unsigned tim_lcore,
+			      uint64_t period, unsigned tim_core,
 			      odp_timer_cb_t fct, void *arg,
 			      int local_is_locked)
 {
 	union odp_hisi_timer_status prev_status, status;
 	int ret;
-	unsigned lcore_id = odp_lcore_id();
+	unsigned core_id = odp_core_id();
 
-	/* round robin for tim_lcore */
-	if (tim_lcore == (unsigned)LCORE_ID_ANY) {
-		if (lcore_id < ODP_MAX_LCORE) {
-			/* ODP thread with valid lcore_id */
-			tim_lcore = odp_get_next_lcore(
-				priv_timer[lcore_id].prev_lcore,
+	/* round robin for tim_core */
+	if (tim_core == (unsigned)CORE_ID_ANY) {
+		if (core_id < ODP_MAX_CORE) {
+			/* ODP thread with valid core_id */
+			tim_core = odp_get_next_core(
+				priv_timer[core_id].prev_core,
 				0, 1);
-			priv_timer[lcore_id].prev_lcore = tim_lcore;
+			priv_timer[core_id].prev_core = tim_core;
 		} else {
 			/* non-ODP thread do not run odp_hisi_timer_manage(),
-			 * so schedule the timer on the first enabled lcore. */
-			tim_lcore = odp_get_next_lcore(LCORE_ID_ANY, 0, 1);
+			 * so schedule the timer on the first enabled core. */
+			tim_core = odp_get_next_core(CORE_ID_ANY, 0, 1);
 		}
 	}
 
@@ -398,8 +398,8 @@ static int __odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t expire,
 
 	__TIMER_STAT_ADD(reset, 1);
 	if ((prev_status.state == ODP_HISI_TIMER_RUNNING) &&
-	    (lcore_id < ODP_MAX_LCORE))
-		priv_timer[lcore_id].updated = 1;
+	    (core_id < ODP_MAX_CORE))
+		priv_timer[core_id].updated = 1;
 
 	/* remove it from list */
 	if (prev_status.state == ODP_HISI_TIMER_PENDING) {
@@ -413,13 +413,13 @@ static int __odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t expire,
 	tim->arg = arg;
 
 	__TIMER_STAT_ADD(pending, 1);
-	timer_add(tim, tim_lcore, local_is_locked);
+	timer_add(tim, tim_core, local_is_locked);
 
 	/* update state: as we are in CONFIG state, only us can modify
 	 * the state so we don't need to use cmpset() here */
 	odp_sync_stores();
 	status.state = ODP_HISI_TIMER_PENDING;
-	status.owner = (int16_t)tim_lcore;
+	status.owner = (int16_t)tim_core;
 	tim->status.u32 = status.u32;
 
 	return 0;
@@ -427,14 +427,14 @@ static int __odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t expire,
 
 /* Reset and start the timer associated with the timer handle tim */
 int odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t ticks,
-		     enum odp_hisi_timer_type type, unsigned tim_lcore,
+		     enum odp_hisi_timer_type type, unsigned tim_core,
 		     odp_timer_cb_t fct, void *arg)
 {
 	uint64_t cur_time = odp_get_tsc_cycles();
 	uint64_t period;
 
-	if (odp_unlikely((tim_lcore != (unsigned)LCORE_ID_ANY) &&
-			 (!odp_lcore_is_enabled(tim_lcore))))
+	if (odp_unlikely((tim_core != (unsigned)CORE_ID_ANY) &&
+			 (!odp_core_is_enabled(tim_core))))
 		return -1;
 
 	if (type == PERIODICAL)
@@ -442,16 +442,16 @@ int odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t ticks,
 	else
 		period = 0;
 
-	return __odp_hisi_timer_reset(tim, cur_time + ticks, period, tim_lcore,
+	return __odp_hisi_timer_reset(tim, cur_time + ticks, period, tim_core,
 				  fct, arg, 0);
 }
 
 /* loop until odp_hisi_timer_reset() succeed */
 void odp_hisi_timer_reset_sync(struct odp_hisi_timer *tim, uint64_t ticks,
-			   enum odp_hisi_timer_type type, unsigned tim_lcore,
+			   enum odp_hisi_timer_type type, unsigned tim_core,
 			   odp_timer_cb_t fct, void *arg)
 {
-	while (odp_hisi_timer_reset(tim, ticks, type, tim_lcore,
+	while (odp_hisi_timer_reset(tim, ticks, type, tim_core,
 				fct, arg) != 0)
 		odp_pause();
 }
@@ -460,7 +460,7 @@ void odp_hisi_timer_reset_sync(struct odp_hisi_timer *tim, uint64_t ticks,
 int odp_hisi_timer_stop(struct odp_hisi_timer *tim)
 {
 	union odp_hisi_timer_status prev_status, status;
-	unsigned lcore_id = odp_lcore_id();
+	unsigned core_id = odp_core_id();
 	int ret;
 
 	/* wait that the timer is in correct status before update,
@@ -471,8 +471,8 @@ int odp_hisi_timer_stop(struct odp_hisi_timer *tim)
 
 	__TIMER_STAT_ADD(stop, 1);
 	if ((prev_status.state == ODP_HISI_TIMER_RUNNING) &&
-	    (lcore_id < ODP_MAX_LCORE))
-		priv_timer[lcore_id].updated = 1;
+	    (core_id < ODP_MAX_CORE))
+		priv_timer[core_id].updated = 1;
 
 	/* remove it from list */
 	if (prev_status.state == ODP_HISI_TIMER_PENDING) {
@@ -507,18 +507,18 @@ void odp_hisi_timer_manage(void)
 {
 	union odp_hisi_timer_status status;
 	struct odp_hisi_timer *tim, *next_tim;
-	unsigned lcore_id = odp_lcore_id();
+	unsigned core_id = odp_core_id();
 	struct odp_hisi_timer *prev[MAX_SKIPLIST_DEPTH + 1];
 	uint64_t cur_time;
 	int i, ret;
 
-	/* timer manager only runs on ODP thread with valid lcore_id */
-	assert(lcore_id < ODP_MAX_LCORE);
+	/* timer manager only runs on ODP thread with valid core_id */
+	assert(core_id < ODP_MAX_CORE);
 
 	__TIMER_STAT_ADD(manage, 1);
 
 	/* optimize for the case where per-cpu list is empty */
-	if (!priv_timer[lcore_id].pending_head.sl_next[0])
+	if (!priv_timer[core_id].pending_head.sl_next[0])
 		return;
 
 	cur_time = odp_get_tsc_cycles();
@@ -528,27 +528,27 @@ void odp_hisi_timer_manage(void)
 	/* on 64-bit the value cached in the pending_head.expired will be updated
 	 * atomically, so we can consult that for a quick check here outside the
 	 * lock */
-	if (odp_likely(priv_timer[lcore_id].pending_head.expire > cur_time))
+	if (odp_likely(priv_timer[core_id].pending_head.expire > cur_time))
 		return;
 #endif
 
 	/* browse ordered list, add expired timers in 'expired' list */
-	odp_spinlock_lock(&priv_timer[lcore_id].list_lock);
+	odp_spinlock_lock(&priv_timer[core_id].list_lock);
 
 	/* if nothing to do just unlock and return */
-	if ((!priv_timer[lcore_id].pending_head.sl_next[0]) ||
-	    (priv_timer[lcore_id].pending_head.sl_next[0]->expire > cur_time))
+	if ((!priv_timer[core_id].pending_head.sl_next[0]) ||
+	    (priv_timer[core_id].pending_head.sl_next[0]->expire > cur_time))
 		goto done;
 
 	/* save start of list of expired timers */
-	tim = priv_timer[lcore_id].pending_head.sl_next[0];
+	tim = priv_timer[core_id].pending_head.sl_next[0];
 
 	/* break the existing list at current time point */
-	timer_get_prev_entries(cur_time, lcore_id, prev);
-	for (i = priv_timer[lcore_id].curr_skiplist_depth - 1; i >= 0; i--) {
-		priv_timer[lcore_id].pending_head.sl_next[i] = prev[i]->sl_next[i];
+	timer_get_prev_entries(cur_time, core_id, prev);
+	for (i = priv_timer[core_id].curr_skiplist_depth - 1; i >= 0; i--) {
+		priv_timer[core_id].pending_head.sl_next[i] = prev[i]->sl_next[i];
 		if (!prev[i]->sl_next[i])
-			priv_timer[lcore_id].curr_skiplist_depth--;
+			priv_timer[core_id].curr_skiplist_depth--;
 
 		prev[i]->sl_next[i] = NULL;
 	}
@@ -563,19 +563,19 @@ void odp_hisi_timer_manage(void)
 		if (ret < 0)
 			continue;
 
-		odp_spinlock_unlock(&priv_timer[lcore_id].list_lock);
+		odp_spinlock_unlock(&priv_timer[core_id].list_lock);
 
-		priv_timer[lcore_id].updated = 0;
+		priv_timer[core_id].updated = 0;
 
 		/* execute callback function with list unlocked */
 		tim->f(tim, tim->arg);
 
-		odp_spinlock_lock(&priv_timer[lcore_id].list_lock);
+		odp_spinlock_lock(&priv_timer[core_id].list_lock);
 		__TIMER_STAT_ADD(pending, -1);
 
 		/* the timer was stopped or reloaded by the callback
 		 * function, we have nothing to do here */
-		if (priv_timer[lcore_id].updated == 1)
+		if (priv_timer[core_id].updated == 1)
 			continue;
 
 		if (tim->period == 0) {
@@ -588,22 +588,22 @@ void odp_hisi_timer_manage(void)
 			/* keep it in list and mark timer as pending */
 			status.state = ODP_HISI_TIMER_PENDING;
 			__TIMER_STAT_ADD(pending, 1);
-			status.owner = (int16_t)lcore_id;
+			status.owner = (int16_t)core_id;
 			odp_sync_stores();
 			tim->status.u32 = status.u32;
 			__odp_hisi_timer_reset(tim, cur_time + tim->period,
-					   tim->period, lcore_id, tim->f, tim->arg, 1);
+					   tim->period, core_id, tim->f, tim->arg, 1);
 		}
 	}
 
 	/* update the next to expire timer value */
-	priv_timer[lcore_id].pending_head.expire =
-		(!priv_timer[lcore_id].pending_head.sl_next[0]) ? 0 :
-		priv_timer[lcore_id].pending_head.sl_next[0]->expire;
+	priv_timer[core_id].pending_head.expire =
+		(!priv_timer[core_id].pending_head.sl_next[0]) ? 0 :
+		priv_timer[core_id].pending_head.sl_next[0]->expire;
 done:
 
 	/* job finished, unlock the list lock */
-	odp_spinlock_unlock(&priv_timer[lcore_id].list_lock);
+	odp_spinlock_unlock(&priv_timer[core_id].list_lock);
 }
 
 /* dump statistics about timers */
@@ -611,14 +611,14 @@ void odp_hisi_timer_dump_stats(FILE *f)
 {
 #ifdef HODP_LIBHODP_TIMER_DEBUG
 	struct odp_hisi_timer_debug_stats sum;
-	unsigned lcore_id;
+	unsigned core_id;
 
 	memset(&sum, 0, sizeof(sum));
-	for (lcore_id = 0; lcore_id < ODP_MAX_LCORE; lcore_id++) {
-		sum.reset   += priv_timer[lcore_id].stats.reset;
-		sum.stop    += priv_timer[lcore_id].stats.stop;
-		sum.manage  += priv_timer[lcore_id].stats.manage;
-		sum.pending += priv_timer[lcore_id].stats.pending;
+	for (core_id = 0; core_id < ODP_MAX_CORE; core_id++) {
+		sum.reset   += priv_timer[core_id].stats.reset;
+		sum.stop    += priv_timer[core_id].stats.stop;
+		sum.manage  += priv_timer[core_id].stats.manage;
+		sum.pending += priv_timer[core_id].stats.pending;
 	}
 
 	fprintf(f, "Timer statistics:\n");

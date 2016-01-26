@@ -47,21 +47,21 @@
  *   to receive and to transmit packets, and so on.
  *
  * - The driver-oriented Ethernet API that exports a function allowing
- *   an Ethernet Poll Mode Driver (PMD) to simultaneously register itself as
+ *   an Ethernet Poll Mode Driver (UMD) to simultaneously register itself as
  *   an Ethernet device driver and as a PCI driver for a set of matching PCI
  *   [Ethernet] devices classes.
  *
- * By default, all the functions of the Ethernet Device API exported by a PMD
+ * By default, all the functions of the Ethernet Device API exported by a UMD
  * are lock-free functions which assume to not be invoked in parallel on
  * different logical cores to work on the same target object.  For instance,
- * the receive function of a PMD cannot be invoked in parallel on two logical
+ * the receive function of a UMD cannot be invoked in parallel on two logical
  * cores to poll the same RX queue [of the same port]. Of course, this function
  * can be invoked in parallel by different logical cores on different RX queues.
  * It is the responsibility of the upper level application to enforce this rule.
  *
  * If needed, parallel accesses by multiple logical cores to shared queues
  * shall be explicitly protected by dedicated inline lock-aware functions
- * built on top of their corresponding lock-free functions of the PMD API.
+ * built on top of their corresponding lock-free functions of the UMD API.
  *
  * In all functions of the Ethernet API, the Ethernet device is
  * designated by an integer >= 0 named the device port identifier.
@@ -124,7 +124,7 @@
  * odp_eth_dev_close() function.
  *
  * Each function of the application Ethernet API invokes a specific function
- * of the PMD that controls the target device designated by its port
+ * of the UMD that controls the target device designated by its port
  * identifier.
  * For this purpose, all device-specific functions of an Ethernet driver are
  * supplied through a set of pointers contained in a generic structure of type
@@ -172,7 +172,8 @@ extern "C" {
 
 #include <stdint.h>
 #include <odp/hints.h>
-
+#include <odp/align.h>
+#include "odp_config.h"
 #include <odp_devargs.h>
 #include "odp_ether.h"
 #include "odp_eth_ctrl.h"
@@ -233,8 +234,8 @@ struct odp_eth_stats {
 struct odp_eth_link {
 	uint16_t link_speed;                /**< ETH_LINK_SPEED_[10, 100, 1000, 10000] */
 	uint16_t link_duplex;               /**< ETH_LINK_[HALF_DUPLEX, FULL_DUPLEX] */
-	uint8_t	 link_status : 1;           /**< 1 -> link up, 0 -> link down */
-} __attribute__((aligned(8)));              /**< aligned for atomic64 read/write */
+	uint8_t link_status : 1;           /**< 1 -> link up, 0 -> link down */
+} ODP_ALIGNED(8);              /**< aligned for atomic64 read/write */
 
 #define ETH_LINK_SPEED_AUTONEG 0            /**< Auto-negotiate link speed. */
 #define ETH_LINK_SPEED_10      10           /**< 10 megabits/second. */
@@ -1101,7 +1102,7 @@ typedef int (*eth_rx_queue_setup_t)(struct odp_eth_dev		*dev,
 				    uint16_t			 nb_rx_desc,
 				    unsigned int		 socket_id,
 				    const struct odp_eth_rxconf *rx_conf,
-				    struct odp_mempool		*mb_pool);
+				    void		*mb_pool);
 
 /**< @internal Set up a receive queue of an Ethernet device. */
 
@@ -1110,7 +1111,7 @@ typedef int (*eth_tx_queue_setup_t)(struct odp_eth_dev		*dev,
 				    uint16_t			 nb_tx_desc,
 				    unsigned int		 socket_id,
 				    const struct odp_eth_txconf *tx_conf,
-				    struct odp_mempool		*mb_pool);
+				    void		*mb_pool);
 
 /**< @internal Setup a transmit queue of an Ethernet device. */
 
@@ -1159,13 +1160,13 @@ typedef void (*vlan_strip_queue_set_t)(struct odp_eth_dev *dev,
 /**< @internal VLAN stripping enable/disable by an queue of Ethernet device. */
 
 typedef int (*eth_rx_burst_t)(void		*rxq,
-			      struct odp_mbuf **rx_pkts,
+			      void **rx_pkts,
 			      unsigned int	 nb_pkts);
 
 /**< @internal Retrieve input packets from a receive queue of an Ethernet device. */
 
 typedef int (*eth_tx_burst_t)(void		*txq,
-			      struct odp_mbuf **tx_pkts,
+			      void **tx_pkts,
 			      unsigned int	 nb_pkts);
 
 /**< @internal Send output packets on a transmit queue of an Ethernet device. */
@@ -1543,7 +1544,7 @@ struct eth_dev_ops {
  *   The number of packets returned to the user.
  */
 typedef uint16_t (*odp_rx_callback_fn)(uint8_t port, uint16_t queue,
-				       struct odp_mbuf *pkts[], uint16_t nb_pkts, uint16_t max_pkts,
+				       void *pkts[], uint16_t nb_pkts, uint16_t max_pkts,
 				       void *user_param);
 
 /**
@@ -1567,7 +1568,7 @@ typedef uint16_t (*odp_rx_callback_fn)(uint8_t port, uint16_t queue,
  *   The number of packets to be written to the NIC.
  */
 typedef uint16_t (*odp_tx_callback_fn)(uint8_t port, uint16_t queue,
-				       struct odp_mbuf *pkts[], uint16_t nb_pkts, void *user_param);
+				       void *pkts[], uint16_t nb_pkts, void *user_param);
 
 /**
  * @internal
@@ -1608,11 +1609,11 @@ enum odp_eth_dev_type {
  * process, while the actual configuration data for the device is shared.
  */
 struct odp_eth_dev {
-	eth_rx_burst_t		 rx_pkt_burst; /**< Pointer to PMD receive function. */
-	eth_tx_burst_t		 tx_pkt_burst; /**< Pointer to PMD transmit function. */
+	eth_rx_burst_t		 rx_pkt_burst; /**< Pointer to UMD receive function. */
+	eth_tx_burst_t		 tx_pkt_burst; /**< Pointer to UMD transmit function. */
 	struct odp_eth_dev_data *data;         /**< Pointer to device data */
 	const struct eth_driver *driver;       /**< Driver for this device */
-	struct eth_dev_ops	*dev_ops;      /**< Functions exported by PMD */
+	struct eth_dev_ops	*dev_ops;      /**< Functions exported by UMD */
 	struct odp_pci_device	*pci_dev;      /**< PCI info. supplied by probing */
 	/** User application callbacks for NIC interrupts */
 	struct odp_eth_dev_cb_list link_intr_cbs;
@@ -1660,7 +1661,7 @@ struct odp_eth_dev_data {
 
 	struct odp_eth_dev_sriov sriov;                        /**< SRIOV data */
 
-	void *dev_private;                                     /**< PMD-specific private data */
+	void *dev_private;                                     /**< UMD-specific private data */
 
 	struct odp_eth_link dev_link;
 
@@ -1825,7 +1826,7 @@ typedef int (*eth_dev_uninit_t)(struct odp_eth_dev *eth_dev);
 
 /**
  * @internal
- * The structure associated with a PMD Ethernet driver.
+ * The structure associated with a UMD Ethernet driver.
  *
  * Each Ethernet driver acts as a PCI driver and is represented by a generic
  * *eth_driver* structure that holds:
@@ -1839,7 +1840,7 @@ typedef int (*eth_dev_uninit_t)(struct odp_eth_dev *eth_dev);
  * - The size of the private data to allocate for each matching device.
  */
 struct eth_driver {
-	struct odp_pci_driver pci_drv;          /**< The PMD is also a PCI driver. */
+	struct odp_pci_driver pci_drv;          /**< The UMD is also a PCI driver. */
 	eth_dev_init_t	       eth_dev_init;     /**< Device init function. */
 	eth_dev_uninit_t       eth_dev_uninit;   /**< Device uninit function. */
 	unsigned int	       dev_private_size; /**< Size of device private data. */
@@ -1849,7 +1850,7 @@ struct eth_driver {
  * @internal
  * A function invoked by the initialization function of an Ethernet driver
  * to simultaneously register itself as a PCI driver and as an Ethernet
- * Poll Mode Driver (PMD).
+ * Poll Mode Driver (UMD).
  *
  * @param eth_drv
  *   The pointer to the *eth_driver* structure associated with
@@ -1933,7 +1934,7 @@ int odp_eth_dev_configure(uint8_t		     port_id,
 int odp_eth_rx_queue_setup(uint8_t port_id, uint16_t rx_queue_id,
 			   uint16_t nb_rx_desc, unsigned int socket_id,
 			   const struct odp_eth_rxconf *rx_conf,
-			   struct odp_mempool *mb_pool);
+			   void *mb_pool);
 
 /**
  * Allocate and set up a transmit queue for an Ethernet device.
@@ -1981,7 +1982,7 @@ int odp_eth_rx_queue_setup(uint8_t port_id, uint16_t rx_queue_id,
 int odp_eth_tx_queue_setup(uint8_t port_id, uint16_t tx_queue_id,
 			   uint16_t nb_tx_desc, unsigned int socket_id,
 			   const struct odp_eth_txconf *tx_conf,
-			   struct odp_mempool *mp);
+			   void *mp);
 
 /*
  * Return the NUMA socket to which an Ethernet device is connected
@@ -2009,7 +2010,7 @@ int odp_eth_dev_socket_id(uint8_t port_id);
  * @return
  *   - 0: Success, the transmit queue is correctly set up.
  *   - -EINVAL: The port_id or the queue_id out of range.
- *   - -ENOTSUP: The function not supported in PMD driver.
+ *   - -ENOTSUP: The function not supported in UMD driver.
  */
 int odp_eth_dev_rx_queue_start(uint8_t port_id, uint16_t rx_queue_id);
 
@@ -2025,7 +2026,7 @@ int odp_eth_dev_rx_queue_start(uint8_t port_id, uint16_t rx_queue_id);
  * @return
  *   - 0: Success, the transmit queue is correctly set up.
  *   - -EINVAL: The port_id or the queue_id out of range.
- *   - -ENOTSUP: The function not supported in PMD driver.
+ *   - -ENOTSUP: The function not supported in UMD driver.
  */
 int odp_eth_dev_rx_queue_stop(uint8_t port_id, uint16_t rx_queue_id);
 
@@ -2042,7 +2043,7 @@ int odp_eth_dev_rx_queue_stop(uint8_t port_id, uint16_t rx_queue_id);
  * @return
  *   - 0: Success, the transmit queue is correctly set up.
  *   - -EINVAL: The port_id or the queue_id out of range.
- *   - -ENOTSUP: The function not supported in PMD driver.
+ *   - -ENOTSUP: The function not supported in UMD driver.
  */
 int odp_eth_dev_tx_queue_start(uint8_t port_id, uint16_t tx_queue_id);
 
@@ -2058,7 +2059,7 @@ int odp_eth_dev_tx_queue_start(uint8_t port_id, uint16_t tx_queue_id);
  * @return
  *   - 0: Success, the transmit queue is correctly set up.
  *   - -EINVAL: The port_id or the queue_id out of range.
- *   - -ENOTSUP: The function not supported in PMD driver.
+ *   - -ENOTSUP: The function not supported in UMD driver.
  */
 int odp_eth_dev_tx_queue_stop(uint8_t port_id, uint16_t tx_queue_id);
 
@@ -2464,117 +2465,6 @@ int odp_eth_dev_get_vlan_offload(uint8_t port_id);
  */
 int odp_eth_dev_set_vlan_pvid(uint8_t port_id, uint16_t pvid, int on);
 
-/**
- *
- * Retrieve a burst of input packets from a receive queue of an Ethernet
- * device. The retrieved packets are stored in *odp_mbuf* structures whose
- * pointers are supplied in the *rx_pkts* array.
- *
- * The odp_eth_rx_burst() function loops, parsing the RX ring of the
- * receive queue, up to *nb_pkts* packets, and for each completed RX
- * descriptor in the ring, it performs the following operations:
- *
- * - Initialize the *odp_mbuf* data structure associated with the
- *   RX descriptor according to the information provided by the NIC into
- *   that RX descriptor.
- *
- * - Store the *odp_mbuf* data structure into the next entry of the
- *   *rx_pkts* array.
- *
- * - Replenish the RX descriptor with a new *odp_mbuf* buffer
- *   allocated from the memory pool associated with the receive queue at
- *   initialization time.
- *
- * When retrieving an input packet that was scattered by the controller
- * into multiple receive descriptors, the odp_eth_rx_burst() function
- * appends the associated *odp_mbuf* buffers to the first buffer of the
- * packet.
- *
- * The odp_eth_rx_burst() function returns the number of packets
- * actually retrieved, which is the number of *odp_mbuf* data structures
- * effectively supplied into the *rx_pkts* array.
- * A return value equal to *nb_pkts* indicates that the RX queue contained
- * at least *rx_pkts* packets, and this is likely to signify that other
- * received packets remain in the input queue. Applications implementing
- * a "retrieve as much received packets as possible" policy can check this
- * specific case and keep invoking the odp_eth_rx_burst() function until
- * a value less than *nb_pkts* is returned.
- *
- * This receive method has the following advantages:
- *
- * - It allows a run-to-completion network stack engine to retrieve and
- *   to immediately process received packets in a fast burst-oriented
- *   approach, avoiding the overhead of unnecessary intermediate packet
- *   queue/dequeue operations.
- *
- * - Conversely, it also allows an asynchronous-oriented processing
- *   method to retrieve bursts of received packets and to immediately
- *   queue them for further parallel processing by another logical core,
- *   for instance. However, instead of having received packets being
- *   individually queued by the driver, this approach allows the invoker
- *   of the odp_eth_rx_burst() function to queue a burst of retrieved
- *   packets at a time and therefore dramatically reduce the cost of
- *   enqueue/dequeue operations per packet.
- *
- * - It allows the odp_eth_rx_burst() function of the driver to take
- *   advantage of burst-oriented hardware features (CPU cache,
- *   prefetch instructions, and so on) to minimize the number of CPU
- *   cycles per packet.
- *
- * To summarize, the proposed receive API enables many
- * burst-oriented optimizations in both synchronous and asynchronous
- * packet processing environments with no overhead in both cases.
- *
- * The odp_eth_rx_burst() function does not provide any error
- * notification to avoid the corresponding overhead. As a hint, the
- * upper-level application might check the status of the device link once
- * being systematically returned a 0 value for a given number of tries.
- *
- * @param port_id
- *   The port identifier of the Ethernet device.
- * @param queue_id
- *   The index of the receive queue from which to retrieve input packets.
- *   The value must be in the range [0, nb_rx_queue - 1] previously supplied
- *   to odp_eth_dev_configure().
- * @param rx_pkts
- *   The address of an array of pointers to *odp_mbuf* structures that
- *   must be large enough to store *nb_pkts* pointers in it.
- * @param nb_pkts
- *   The maximum number of packets to retrieve.
- * @return
- *   The number of packets actually retrieved, which is the number
- *   of pointers to *odp_mbuf* structures effectively supplied to the
- *   *rx_pkts* array.
- */
-#ifdef ODP_LIBODP_ETHDEV_DEBUG
-int odp_eth_rx_burst(uint8_t port_id, uint16_t queue_id,
-		     struct odp_mbuf **rx_pkts, unsigned int nb_pkts);
-#else
-
-static inline int odp_eth_rx_burst(uint8_t port_id, uint16_t queue_id, struct odp_mbuf **rx_pkts,
-				   const unsigned int nb_pkts)
-{
-	struct odp_eth_dev *dev;
-
-	dev = &odp_eth_devices[port_id];
-
-	int nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[queue_id], rx_pkts, nb_pkts);
-
-#ifdef ODP_ETHDEV_RXTX_CALLBACKS
-	struct odp_eth_rxtx_callback *cb = dev->post_rx_burst_cbs[queue_id];
-
-	if (odp_unlikely(cb)) {
-		do {
-			nb_rx = cb->fn.rx(port_id, queue_id, rx_pkts, nb_rx,
-					  nb_pkts, cb->param);
-			cb = cb->next;
-		} while (cb);
-	}
-#endif
-
-	return nb_rx;
-}
-#endif
 
 /**
  * Get the number of used descriptors in a specific queue
@@ -2627,93 +2517,6 @@ static inline int odp_eth_rx_descriptor_done(uint8_t port_id, uint16_t queue_id,
 
 	dev = &odp_eth_devices[port_id];
 	return (*dev->dev_ops->rx_descriptor_done)(dev->data->rx_queues[queue_id], offset);
-}
-#endif
-
-/**
- * Send a burst of output packets on a transmit queue of an Ethernet device.
- *
- * The odp_eth_tx_burst() function is invoked to transmit output packets
- * on the output queue *queue_id* of the Ethernet device designated by its
- * *port_id*.
- * The *nb_pkts* parameter is the number of packets to send which are
- * supplied in the *tx_pkts* array of *odp_mbuf* structures.
- * The odp_eth_tx_burst() function loops, sending *nb_pkts* packets,
- * up to the number of transmit descriptors available in the TX ring of the
- * transmit queue.
- * For each packet to send, the odp_eth_tx_burst() function performs
- * the following operations:
- *
- * - Pick up the next available descriptor in the transmit ring.
- *
- * - Free the network buffer previously sent with that descriptor, if any.
- *
- * - Initialize the transmit descriptor with the information provided
- *   in the *odp_mbuf data structure.
- *
- * In the case of a segmented packet composed of a list of *odp_mbuf* buffers,
- * the odp_eth_tx_burst() function uses several transmit descriptors
- * of the ring.
- *
- * The odp_eth_tx_burst() function returns the number of packets it
- * actually sent. A return value equal to *nb_pkts* means that all packets
- * have been sent, and this is likely to signify that other output packets
- * could be immediately transmitted again. Applications that implement a
- * "send as many packets to transmit as possible" policy can check this
- * specific case and keep invoking the odp_eth_tx_burst() function until
- * a value less than *nb_pkts* is returned.
- *
- * It is the responsibility of the odp_eth_tx_burst() function to
- * transparently free the memory buffers of packets previously sent.
- * This feature is driven by the *tx_free_thresh* value supplied to the
- * odp_eth_dev_configure() function at device configuration time.
- * When the number of previously sent packets reached the "minimum transmit
- * packets to free" threshold, the odp_eth_tx_burst() function must
- * [attempt to] free the *odp_mbuf*  buffers of those packets whose
- * transmission was effectively completed.
- *
- * @param port_id
- *   The port identifier of the Ethernet device.
- * @param queue_id
- *   The index of the transmit queue through which output packets must be
- *   sent.
- *   The value must be in the range [0, nb_tx_queue - 1] previously supplied
- *   to odp_eth_dev_configure().
- * @param tx_pkts
- *   The address of an array of *nb_pkts* pointers to *odp_mbuf* structures
- *   which contain the output packets.
- * @param nb_pkts
- *   The maximum number of packets to transmit.
- * @return
- *   The number of output packets actually stored in transmit descriptors of
- *   the transmit ring. The return value can be less than the value of the
- *   *tx_pkts* parameter when the transmit ring is full or has been filled up.
- */
-#ifdef ODP_LIBODP_ETHDEV_DEBUG
-uint16_t odp_eth_tx_burst(uint8_t port_id, uint16_t queue_id,
-			  struct odp_mbuf **tx_pkts, uint16_t nb_pkts);
-
-#else
-
-static inline uint16_t odp_eth_tx_burst(uint8_t port_id, uint16_t queue_id,
-					struct odp_mbuf **tx_pkts, uint16_t nb_pkts)
-{
-	struct odp_eth_dev *dev;
-
-	dev = &odp_eth_devices[port_id];
-
-#ifdef ODP_ETHDEV_RXTX_CALLBACKS
-	struct odp_eth_rxtx_callback *cb = dev->pre_tx_burst_cbs[queue_id];
-
-	if (odp_unlikely(cb)) {
-		do {
-			nb_pkts = cb->fn.tx(port_id, queue_id, tx_pkts, nb_pkts,
-					    cb->param);
-			cb = cb->next;
-		} while (cb);
-	}
-#endif
-	return (*dev->tx_pkt_burst)(dev->data->tx_queues[queue_id], tx_pkts, nb_pkts);
 }
 #endif
 
@@ -2991,7 +2794,7 @@ int odp_eth_dev_callback_unregister(uint8_t port_id,
 
 /**
  * @internal Executes all the user application registered callbacks for
- * the specific device. It is for DPDK internal user only. User
+ * the specific device. It is for ODP internal user only. User
  * application should not call it directly.
  *
  * @param dev

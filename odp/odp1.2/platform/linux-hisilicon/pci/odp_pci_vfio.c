@@ -44,7 +44,7 @@
 
 /* #include <odp_common.h> */
 #include <odp_pci.h>
-#include <odp_memconfig.h>
+#include <odp_mmlayout.h>
 #include <odp_private.h>
 
 #include "odp_filesystem.h"
@@ -196,7 +196,7 @@ static int pci_vfio_set_bus_master(int dev_fd)
 /* set up DMA mappings */
 static int pci_vfio_setup_dma_maps(int vfio_container_fd)
 {
-	const struct odp_memseg *ms = odp_get_physmem_layout();
+	const struct odp_mmfrag *ms = odp_get_physmem_layout();
 	int i, ret;
 
 	ret = ioctl(vfio_container_fd, VFIO_SET_IOMMU,
@@ -208,7 +208,7 @@ static int pci_vfio_setup_dma_maps(int vfio_container_fd)
 	}
 
 	/* map all DPDK segments for DMA. use 1:1 PA to IOVA mapping */
-	for (i = 0; i < ODP_MAX_MEMSEG; i++) {
+	for (i = 0; i < ODP_MAX_MMFRAG; i++) {
 		struct vfio_iommu_type1_dma_map dma_map;
 
 		if (!ms[i].addr)
@@ -244,7 +244,7 @@ static int pci_vfio_setup_interrupts(struct odp_pci_device *dev, int vfio_dev_fd
 	/* get interrupt type from internal config (MSI-X by default, can be
 	 * overridden from the command line
 	 */
-	switch (internal_config.vfio_intr_mode) {
+	switch (local_config.vfio_intr_mode) {
 	case ODP_INTR_MODE_MSIX:
 		intr_idx = VFIO_PCI_MSIX_IRQ_INDEX;
 		break;
@@ -271,7 +271,7 @@ static int pci_vfio_setup_interrupts(struct odp_pci_device *dev, int vfio_dev_fd
 		int fd = -1;
 
 		/* skip interrupt modes we don't want */
-		if ((internal_config.vfio_intr_mode != ODP_INTR_MODE_NONE) &&
+		if ((local_config.vfio_intr_mode != ODP_INTR_MODE_NONE) &&
 		    (i != intr_idx))
 			continue;
 
@@ -287,7 +287,7 @@ static int pci_vfio_setup_interrupts(struct odp_pci_device *dev, int vfio_dev_fd
 		/* if this vector cannot be used with eventfd, fail if we explicitly
 		 * specified interrupt type, otherwise continue */
 		if ((irq.flags & VFIO_IRQ_INFO_EVENTFD) == 0) {
-			if (internal_config.vfio_intr_mode != ODP_INTR_MODE_NONE) {
+			if (local_config.vfio_intr_mode != ODP_INTR_MODE_NONE) {
 				PRINT("  interrupt vector does not support eventfd!\n");
 				return -1;
 			}
@@ -308,15 +308,15 @@ static int pci_vfio_setup_interrupts(struct odp_pci_device *dev, int vfio_dev_fd
 
 		switch (i) {
 		case VFIO_PCI_MSIX_IRQ_INDEX:
-			internal_config.vfio_intr_mode = ODP_INTR_MODE_MSIX;
+			local_config.vfio_intr_mode = ODP_INTR_MODE_MSIX;
 			dev->intr_handle.type = ODP_INTR_HANDLE_VFIO_MSIX;
 			break;
 		case VFIO_PCI_MSI_IRQ_INDEX:
-			internal_config.vfio_intr_mode = ODP_INTR_MODE_MSI;
+			local_config.vfio_intr_mode = ODP_INTR_MODE_MSI;
 			dev->intr_handle.type = ODP_INTR_HANDLE_VFIO_MSI;
 			break;
 		case VFIO_PCI_INTX_IRQ_INDEX:
-			internal_config.vfio_intr_mode = ODP_INTR_MODE_LEGACY;
+			local_config.vfio_intr_mode = ODP_INTR_MODE_LEGACY;
 			dev->intr_handle.type = ODP_INTR_HANDLE_VFIO_LEGACY;
 			break;
 		default:
@@ -337,7 +337,7 @@ int pci_vfio_get_container_fd(void)
 	int ret, vfio_container_fd;
 
 	/* if we're in a primary process, try to open the container */
-	if (internal_config.process_type == ODP_PROC_PRIMARY) {
+	if (local_config.process_type == ODP_PROC_PRIMARY) {
 		vfio_container_fd = open(VFIO_CONTAINER_PATH, O_RDWR);
 		if (vfio_container_fd < 0) {
 			PRINT("  cannot open VFIO container, error %i (%s)\n",
@@ -416,7 +416,7 @@ int pci_vfio_get_group_fd(int iommu_group_no)
 			return vfio_cfg.vfio_groups[i].fd;
 
 	/* if primary, try to open the group */
-	if (internal_config.process_type == ODP_PROC_PRIMARY) {
+	if (local_config.process_type == ODP_PROC_PRIMARY) {
 		snprintf(filename, sizeof(filename), VFIO_GROUP_FMT, iommu_group_no);
 		vfio_group_fd = open(filename, O_RDWR);
 		if (vfio_group_fd < 0) {
@@ -657,7 +657,7 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 	 * needs to be done only once, only when at least one group is assigned to
 	 * a container and only in primary process
 	 */
-	if ((internal_config.process_type == ODP_PROC_PRIMARY) &&
+	if ((local_config.process_type == ODP_PROC_PRIMARY) &&
 	    (vfio_cfg.vfio_container_has_dma == 0)) {
 		ret = pci_vfio_setup_dma_maps(vfio_cfg.vfio_container_fd);
 		if (ret) {
@@ -701,7 +701,7 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 	}
 
 	/* if we're in a primary process, allocate vfio_res and get region info */
-	if (internal_config.process_type == ODP_PROC_PRIMARY) {
+	if (local_config.process_type == ODP_PROC_PRIMARY) {
 		vfio_res = malloc(sizeof(*vfio_res));
 		if (!vfio_res) {
 			PRINT("%s(): cannot store uio mmap details\n", __func__);
@@ -754,7 +754,7 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 			PRINT("  %s cannot get device region info error %i (%s)\n",
 			      pci_addr, errno, strerror(errno));
 			close(vfio_dev_fd);
-			if (internal_config.process_type == ODP_PROC_PRIMARY)
+			if (local_config.process_type == ODP_PROC_PRIMARY)
 				free(vfio_res);
 
 			return -1;
@@ -796,7 +796,7 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 		}
 
 		/* try to figure out an address */
-		if (internal_config.process_type == ODP_PROC_PRIMARY) {
+		if (local_config.process_type == ODP_PROC_PRIMARY) {
 			/* try mapping somewhere close to the end of hugepages */
 			if (!pci_map_addr)
 				pci_map_addr = pci_find_max_end_va();
@@ -838,12 +838,12 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 		}
 
 		if ((bar_addr == MAP_FAILED) ||
-		    ((internal_config.process_type == ODP_PROC_SECONDARY) &&
+		    ((local_config.process_type == ODP_PROC_SECONDARY) &&
 		     (bar_addr != maps[i].addr))) {
 			PRINT("  %s mapping BAR%i failed: %s\n", pci_addr, i,
 			      strerror(errno));
 			close(vfio_dev_fd);
-			if (internal_config.process_type == ODP_PROC_PRIMARY)
+			if (local_config.process_type == ODP_PROC_PRIMARY)
 				free(vfio_res);
 
 			return -1;
@@ -857,7 +857,7 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 	}
 
 	/* if secondary process, do not set up interrupts */
-	if (internal_config.process_type == ODP_PROC_PRIMARY) {
+	if (local_config.process_type == ODP_PROC_PRIMARY) {
 		if (pci_vfio_setup_interrupts(dev, vfio_dev_fd) != 0) {
 			PRINT("  %s error setting up interrupts!\n", pci_addr);
 			close(vfio_dev_fd);
@@ -877,7 +877,7 @@ int pci_vfio_map_resource(struct odp_pci_device *dev)
 		ioctl(vfio_dev_fd, VFIO_DEVICE_RESET);
 	}
 
-	if (internal_config.process_type == ODP_PROC_PRIMARY)
+	if (local_config.process_type == ODP_PROC_PRIMARY)
 		TAILQ_INSERT_TAIL(vfio_res_list, vfio_res, next);
 
 	return 0;

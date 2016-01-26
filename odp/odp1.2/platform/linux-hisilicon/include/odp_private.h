@@ -37,13 +37,13 @@
 #include <stdio.h>
 
 /**
- * Initialize the memzone subsystem (private to odp).
+ * Initialize the mm_district subsystem (private to odp).
  *
  * @return
  *   - 0 on success
  *   - Negative on error
  */
-int odp_memzone_init(void);
+int odp_mm_district_init(void);
 
 /**
  * Common log initialization function (private to odp).
@@ -121,35 +121,13 @@ int odp_log_init(const char *id, int facility);
 /**
  * Init the default log stream
  *
- * This function is private to HODP.
+ * This function is private to ODP.
  *
  * @return
  *   0 on success, negative on error
  */
-int odp_pci_init(void);
+int odp_pci_info_init(void);
 
-#ifdef HODP_LIBHODP_IVSHMEM
-
-/**
- * Init the memory from IVSHMEM devices
- *
- * This function is private to HODP.
- *
- * @return
- *  0 on success, negative on error
- */
-int odp_ivshmem_init(void);
-
-/**
- * Init objects in IVSHMEM devices
- *
- * This function is private to HODP.
- *
- * @return
- *  0 on success, negative on error
- */
-int odp_ivshmem_obj_init(void);
-#endif
 
 struct odp_pci_driver;
 struct odp_pci_device;

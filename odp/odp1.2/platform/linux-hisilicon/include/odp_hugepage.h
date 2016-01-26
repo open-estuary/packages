@@ -51,7 +51,7 @@ struct hugepage_file {
 	size_t	 size;                          /**< the page size */
 	int	 socket_id;                     /**< NUMA socket ID */
 	int	 file_id;                       /**< the '%d' in HUGEFILE_FMT */
-	int	 memseg_id;                     /**< the memory segment to which page belongs */
+	int	 mmfrag_id;                     /**< the memory segment to which page belongs */
 
 #ifdef ODP_SINGLE_FILE_SEGMENTS
 	int repeated;                           /**< number of times the page size is repeated */
