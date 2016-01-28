@@ -48,7 +48,6 @@
 
 #include <odp_pci.h>
 #include <odp_memory.h>
-#include <odp_mempool.h>
 
 #include "odp_kni_common.h"
 
@@ -78,7 +77,7 @@ struct odp_kni_conf {
 	/*
 	 * KNI name which will be used in relevant network device.
 	 * Let the name as short as possible, as it will be part of
-	 * memzone name.
+	 * mm_district name.
 	 */
 	char		     name[ODP_KNI_NAMESIZE];
 	uint32_t	     core_id;   /* Core ID to bind kernel thread on */
@@ -119,7 +118,7 @@ typedef struct odp_kni pkt_kni_t;
 /**
  * Initialize and preallocate KNI subsystem
  *
- * This function is to be executed on the MASTER lcore only, after EAL
+ * This function is to be executed on the MASTER core only, after EAL
  * initialization and before any KNI interface is attempted to be
  * allocated
  *

@@ -254,9 +254,9 @@ struct rsa_st {
     EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, EVP_PKEY_OP_TYPE_SIG,  \
                       EVP_PKEY_CTRL_RSA_MGF1_MD, 0, (void *)md)
 
-#define  EVP_PKEY_CTX_get_rsa_mgf1_md(ctx, pmd) \
+#define  EVP_PKEY_CTX_get_rsa_mgf1_md(ctx, umd) \
     EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, EVP_PKEY_OP_TYPE_SIG,  \
-                      EVP_PKEY_CTRL_GET_RSA_MGF1_MD, 0, (void *)pmd)
+                      EVP_PKEY_CTRL_GET_RSA_MGF1_MD, 0, (void *)umd)
 
 #define EVP_PKEY_CTRL_RSA_PADDING				(EVP_PKEY_ALG_CTRL + 1)
 #define EVP_PKEY_CTRL_RSA_PSS_SALTLEN			(EVP_PKEY_ALG_CTRL + 2)

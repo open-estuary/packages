@@ -37,7 +37,7 @@
 
 #include <odp/config.h>
 #include <odp_pci.h>
-#include <odp_memconfig.h>
+#include <odp_mmlayout.h>
 #include <odp_devargs.h>
 
 /* #include <odp_memcpy.h> */
@@ -125,11 +125,11 @@ static int pci_get_kernel_driver_by_path(const char *filename, char *dri_name)
 
 void *pci_find_max_end_va(void)
 {
-	const struct odp_memseg *seg  = odp_get_physmem_layout();
-	const struct odp_memseg *last = seg;
+	const struct odp_mmfrag *seg  = odp_get_physmem_layout();
+	const struct odp_mmfrag *last = seg;
 	unsigned i = 0;
 
-	for (i = 0; i < ODP_MAX_MEMSEG; i++, seg++) {
+	for (i = 0; i < ODP_MAX_MMFRAG; i++, seg++) {
 		if (!seg->addr)
 			break;
 
@@ -257,7 +257,7 @@ static int odp_pci_scan_one(const char *dirname, uint16_t domain, uint8_t bus,
 
 	/* get vendor id */
 	snprintf(filename, sizeof(filename), "%s/vendor", dirname);
-	if (odp_parse_sysfs_value(filename, &tmp) < 0) {
+	if ((tmp = odp_parse_sysfs_value(filename)) < 0) {
 		free(dev);
 		return -1;
 	}
@@ -266,7 +266,7 @@ static int odp_pci_scan_one(const char *dirname, uint16_t domain, uint8_t bus,
 
 	/* get device id */
 	snprintf(filename, sizeof(filename), "%s/device", dirname);
-	if (odp_parse_sysfs_value(filename, &tmp) < 0) {
+	if ((tmp = odp_parse_sysfs_value(filename)) < 0) {
 		free(dev);
 		return -1;
 	}
@@ -275,7 +275,7 @@ static int odp_pci_scan_one(const char *dirname, uint16_t domain, uint8_t bus,
 
 	/* get subsystem_vendor id */
 	snprintf(filename, sizeof(filename), "%s/subsystem_vendor", dirname);
-	if (odp_parse_sysfs_value(filename, &tmp) < 0) {
+	if ((tmp = odp_parse_sysfs_value(filename)) < 0) {
 		free(dev);
 		return -1;
 	}
@@ -284,7 +284,7 @@ static int odp_pci_scan_one(const char *dirname, uint16_t domain, uint8_t bus,
 
 	/* get subsystem_device id */
 	snprintf(filename, sizeof(filename), "%s/subsystem_device", dirname);
-	if (odp_parse_sysfs_value(filename, &tmp) < 0) {
+	if ((tmp = odp_parse_sysfs_value(filename)) < 0) {
 		free(dev);
 		return -1;
 	}
@@ -294,12 +294,12 @@ static int odp_pci_scan_one(const char *dirname, uint16_t domain, uint8_t bus,
 	/* get max_vfs */
 	dev->max_vfs = 0;
 	snprintf(filename, sizeof(filename), "%s/max_vfs", dirname);
-	if (!access(filename, F_OK) && (odp_parse_sysfs_value(filename, &tmp) == 0)) {
+	if (!access(filename, F_OK) && ((tmp = odp_parse_sysfs_value(filename)) != -1)) {
 		dev->max_vfs = (uint16_t)tmp;
 	} else {
 		/* for non igb_uio driver, need kernel version >= 3.8 */
 		snprintf(filename, sizeof(filename), "%s/sriov_numvfs", dirname);
-		if (!access(filename, F_OK) && (odp_parse_sysfs_value(filename, &tmp) == 0))
+		if (!access(filename, F_OK) && ((tmp = odp_parse_sysfs_value(filename)) != -1))
 			dev->max_vfs = (uint16_t)tmp;
 	}
 
@@ -309,7 +309,7 @@ static int odp_pci_scan_one(const char *dirname, uint16_t domain, uint8_t bus,
 		/* if no NUMA support just set node to -1 */
 		dev->numa_node = -1;
 	} else {
-		if (odp_parse_sysfs_value(filename, &tmp) < 0) {
+		if ((tmp = odp_parse_sysfs_value(filename)) < 0) {
 			free(dev);
 			return -1;
 		}
@@ -451,16 +451,14 @@ int odp_pci_scan(void)
 			continue;
 
 		snprintf(dirname, sizeof(dirname), "%s/%s", SYSFS_PCI_DEVICES, e->d_name);
-		if (odp_pci_scan_one(dirname, domain, bus, devid, function) < 0)
-			goto error;
+		if (odp_pci_scan_one(dirname, domain, bus, devid, function) < 0){
+			closedir(dir);
+			return -1;
+		}
 	}
 
 	closedir(dir);
 	return 0;
-
-error:
-	closedir(dir);
-	return -1;
 }
 
 #ifdef ODP_PCI_CONFIG
@@ -751,13 +749,13 @@ int odp_pci_close_one_driver(struct odp_pci_driver *dr  __odp_unused,
 #endif /* ODP_LIBHODP_HOTPLUG */
 
 /* Init the PCI HODP subsystem */
-int odp_pci_init(void)
+int odp_pci_info_init(void)
 {
 	TAILQ_INIT(&pci_driver_list);
 	TAILQ_INIT(&pci_device_list);
 
 	/* for debug purposes, PCI can be disabled */
-	if (internal_config.no_pci)
+	if (local_config.no_pci)
 		return 0;
 
 	if (odp_pci_scan() < 0) {
@@ -776,7 +774,7 @@ int odp_pci_init(void)
 		 * because VFIO does not allow multiple open descriptors on a group or
 		 * VFIO container.
 		 */
-		if ((internal_config.process_type == ODP_PROC_PRIMARY) &&
+		if ((local_config.process_type == ODP_PROC_PRIMARY) &&
 		    (pci_vfio_mp_sync_setup() < 0))
 			return -1;
 #endif

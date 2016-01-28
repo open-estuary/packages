@@ -187,9 +187,9 @@ typedef struct odph_ring {
  *   On success, the pointer to the new allocated ring. NULL on error with
  *    odp_errno set appropriately. Possible errno values include:
  *    - EINVAL - count provided is not a power of 2
- *    - ENOSPC - the maximum number of memzones has already been allocated
- *    - EEXIST - a memzone with the same name already exists
- *    - ENOMEM - no appropriate memory area found in which to create memzone
+ *    - ENOSPC - the maximum number of mm_districts has already been allocated
+ *    - EEXIST - a mm_district with the same name already exists
+ *    - ENOMEM - no appropriate memory area found in which to create mm_district
  */
 odph_ring_t *odph_ring_create(const char *name, unsigned count,
 			    unsigned flags);

@@ -22,8 +22,9 @@
 
 #include <string.h>
 #include <stdlib.h>
-
-#include "odp_memzone.h"
+#include <sys/types.h>
+#include <unistd.h>
+#include "odp_mmdistrict.h"
 
 #if ODP_CONFIG_POOLS > ODP_BUFFER_MAX_POOLS
 #error ODP_CONFIG_POOLS > ODP_BUFFER_MAX_POOLS
@@ -272,9 +273,11 @@ odp_pool_t odp_pool_create(const char *name, odp_pool_param_t *params)
 						  mdata_size +
 						  udata_size);
 
-	const struct odp_memzone *zone = NULL;
-
-	zone = odp_memzone_reserve(pool->s.name, pool->s.pool_size, 0, ODP_MEMZONE_2MB | ODP_MEMZONE_SIZE_HINT_ONLY);
+	const struct odp_mm_district *zone = NULL;
+	char memdistrict_name[ODP_POOL_NAME_LEN + 8];
+	int pid = getpid();
+	snprintf(memdistrict_name, sizeof(memdistrict_name), "%s%d", pool->s.name, pid);
+	zone = odp_mm_district_reserve(memdistrict_name, pool->s.pool_size, 0, ODP_MEMZONE_2MB | ODP_MEMZONE_SIZE_HINT_ONLY);
 	if (zone == NULL) {
 		POOL_UNLOCK(&pool->s.lock);
 		return ODP_POOL_INVALID;
@@ -467,9 +470,9 @@ odp_pool_t odp_pool_create_packet(const char *name, odp_pool_param_t *params)
 	pool->s.params	= *params;
 	pool->s.buf_num = buf_num * 2;
 
-	const struct odp_memzone *zone = NULL;
+	const struct odp_mm_district *zone = NULL;
 
-	zone = odp_memzone_reserve(pool->s.name, pool->s.pool_size, 0,
+	zone = odp_mm_district_reserve(pool->s.name, pool->s.pool_size, 0,
 				   ODP_MEMZONE_2MB | ODP_MEMZONE_SIZE_HINT_ONLY);
 	if (zone == NULL) {
 		POOL_UNLOCK(&pool->s.lock);
@@ -532,8 +535,8 @@ odp_pool_t odp_pool_create_packet(const char *name, odp_pool_param_t *params)
 	packet_head_t *buf_hear_malloc = NULL;
 	packet_head_t *buf_hear_free = NULL;
 	odp_packet_hdr_t *buf_packet_hdr;
-	unsigned long  vir_addr = zone->addr_64 + PACKET_HEAD_SIZE;
-	unsigned long long phy_addr = zone->phys_addr + PACKET_HEAD_SIZE;
+	unsigned long  vir_addr = zone->addr_64 + PACKET_HEAD_SIZE + seg_len;
+	unsigned long long phy_addr = zone->phys_addr + PACKET_HEAD_SIZE + seg_len;
 
 	for (i = 0; i < buf_num; i++) {
 		buf_addr = (packet_head_t *)(block_base_addr + i * buf_len);
@@ -554,7 +557,7 @@ odp_pool_t odp_pool_create_packet(const char *name, odp_pool_param_t *params)
 		buf_addr->packet_hdr = (unsigned long)buf_packet_hdr;
 		buf_addr->headroom = seg_len;
 		buf_addr->tailroom = 0;
-		SET_HEADROOM(vir_addr + seg_len, seg_len);
+		SET_HEADROOM(vir_addr, seg_len);
 
 		buf_hear_malloc->vir_addr = vir_addr;
 		buf_hear_malloc->phy_addr = phy_addr;

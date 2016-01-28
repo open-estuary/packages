@@ -59,7 +59,7 @@ CFLAGS  = -O3 -c -pipe $(HRD_ENDIAN_LINUX_CC) -march=armv8-a -mtune=cortex-a57 -
 	$(LD) -fpic -shared -o  $@ $^
 
 #当前模块的.o 的连接规则
-$(ODP_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_64/lib/odp_pmd.o
+$(ODP_OBJ_FILENAME) : $(OBJ_FILE)
 	$(ECHO) "LD " $@;\
 	$(LD) -r -o $@ $^
 
@@ -77,8 +77,8 @@ $(ODP_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_64/lib/odp_pmd.o
 
 .PHONY: clean
 clean:
-	rm -f *.o *.i *.d *.so $(ROOT)/platform/linux-generic/*.o $(ROOT)/platform/linux-generic/.d $(ROOT)/platform/linux-generic/pktio/*.d \
-	$(ROOT)/platform/linux-generic/arch/linux/*.o $(ROOT)/platform/linux-generic/arch/linux/*.d $(ROOT)/helper/*.o $(ROOT)/helper/*.d $(ROOT)/platform/linux-generic/pktio/*.o
+	rm -f *.o *.i *.d *.so $(ROOT)/platform/linux-generic/*.o $(ROOT)/platform/linux-generic/.d $(ROOT)/platform/linux-generic/pktio/*.o $(ROOT)/platform/linux-generic/pktio/*.d \
+	$(ROOT)/platform/linux-generic/arch/linux/*.o $(ROOT)/platform/linux-generic/arch/linux/*.d $(ROOT)/helper/*.o $(ROOT)/helper/*.d
 
 $(I_OBJ_FILE) :%.i :%.c
 	$(ECHO) "CC " $@;

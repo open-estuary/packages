@@ -41,7 +41,7 @@
 
 /* #include <odp_log.h> */
 #include <odp_pci.h>
-#include <odp_memconfig.h>
+#include <odp_mmlayout.h>
 #include <odp_common.h>
 #include <odp/config.h>
 
@@ -136,46 +136,6 @@ static int pci_uio_map_secondary(struct odp_pci_device *dev)
 	PRINT("Cannot find resource for device\n");
 	return 1;
 }
-
-static int pci_mknod_uio_dev(const char *sysfs_uio_path, unsigned uio_num)
-{
-	FILE *f;
-	char  filename[ODP_PATH_MAX];
-	int   ret;
-	unsigned major, minor;
-	dev_t dev;
-
-	/* get the name of the sysfs file that contains the major and minor
-	 * of the uio device and read its content */
-	snprintf(filename, sizeof(filename), "%s/dev", sysfs_uio_path);
-
-	f = fopen(filename, "r");
-	if (!f) {
-		PRINT("%s(): cannot open sysfs to get major:minor\n", __func__);
-		return -1;
-	}
-
-	ret = fscanf(f, "%u:%u", &major, &minor);
-	if (ret != 2) {
-		PRINT("%s(): cannot parse sysfs to get major:minor\n", __func__);
-		fclose(f);
-		return -1;
-	}
-
-	fclose(f);
-
-	/* create the char device "mknod /dev/uioX c major minor" */
-	snprintf(filename, sizeof(filename), "/dev/uio%u", uio_num);
-	dev = makedev(major, minor);
-	ret = mknod(filename, S_IFCHR | S_IRUSR | S_IWUSR, dev);
-	if (!f) {
-		PRINT("%s(): mknod() failed %s\n", __func__, strerror(errno));
-		return -1;
-	}
-
-	return ret;
-}
-
 /*
  * Return the uioX char device used for a pci device. On success, return
  * the UIO number and fill dstbuf string with the path of the device in
@@ -247,10 +207,6 @@ static int pci_get_uio_dev(struct odp_pci_device *dev, char *dstbuf,
 	if (!e)
 		return -1;
 
-	/* create uio device if we've been asked to */
-	if (internal_config.create_uio_dev &&
-	    (pci_mknod_uio_dev(dstbuf, uio_num) < 0))
-		PRINT("Cannot create /dev/uio%u\n", uio_num);
 
 	return uio_num;
 }

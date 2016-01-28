@@ -13,7 +13,7 @@ SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/accelerator/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/common/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/cpudrv/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/ether/*.c)
-#SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/mem/*.c)
+SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/mem/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/pci/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/ring/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/timer/*.c)
@@ -63,7 +63,7 @@ CFLAGS  = -O3 -c -pipe $(HRD_ENDIAN_LINUX_CC) -march=armv8-a -mtune=cortex-a57 -
 	$(LD) -fpic -shared -o  $@ $^
 
 #当前模块的.o 的连接规则
-$(HISI_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_64/lib/odp_memory.o
+$(HISI_OBJ_FILENAME) : $(OBJ_FILE)
 	$(ECHO) "LD " $@;\
 	$(LD)  -r -o $@ $^
 
@@ -80,7 +80,7 @@ $(HISI_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_64/lib/odp_memory.o
 .PHONY: clean
 clean:
 	rm -f *.o *.i *.d *.so $(CLEAN_DIR)/accelerator/*.o $(CLEAN_DIR)/accelerator/*.d  $(CLEAN_DIR)/common/*.o $(CLEAN_DIR)/common/*.d \
-	$(CLEAN_DIR)/cpudrv/*.o $(CLEAN_DIR)/cpudrv/*.d $(CLEAN_DIR)/ether/*.d \
+	$(CLEAN_DIR)/cpudrv/*.o $(CLEAN_DIR)/cpudrv/*.d $(CLEAN_DIR)/ether/*.o $(CLEAN_DIR)/ether/*.d \
 	$(CLEAN_DIR)/mem/*.o $(CLEAN_DIR)/mem/*.d $(CLEAN_DIR)/pci/*.o $(CLEAN_DIR)/pci/*.d \
 	$(CLEAN_DIR)/ring/*.o $(CLEAN_DIR)/ring/*.d $(CLEAN_DIR)/timer/*.o $(CLEAN_DIR)/timer/*.d $(CLEAN_DIR)/uio/*.o $(CLEAN_DIR)/uio/*.d \
 	

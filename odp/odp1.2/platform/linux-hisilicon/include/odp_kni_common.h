@@ -59,8 +59,9 @@
 #include <linux/if.h>
 #endif
 
+#include <odp/align.h>
 /**
- * KNI name is part of memzone name.
+ * KNI name is part of mm_district name.
  */
 #define ODP_KNI_NAMESIZE 32
 
@@ -110,7 +111,7 @@ struct odp_kni_fifo {
  * Padding is necessary to assure the offsets of these fields
  */
 struct odp_kni_mbuf {
-	void	*buf_addr __attribute__((__aligned__(ODP_CACHE_LINE_SIZE)));
+	void	*buf_addr ODP_ALIGNED(ODP_CACHE_LINE_SIZE);
 	char	 pad0[10];
 	uint16_t data_off;      /**< Start address of data in segment buffer. */
 	char	 pad1[4];
@@ -128,7 +129,7 @@ struct odp_kni_mbuf {
 #endif
 
 	/* fields on second cache line */
-	char  pad3[8] __attribute__((__aligned__(ODP_CACHE_LINE_SIZE)));
+	char  pad3[8] ODP_ALIGNED(ODP_CACHE_LINE_SIZE);
 	void *pool;
 	void *next;
 };

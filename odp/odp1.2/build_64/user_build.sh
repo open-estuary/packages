@@ -13,8 +13,5 @@ export HRD_ARCH=HRD_ARM64
 
 
 
-#$ROOT_DIR/user_drv/uio_enet/build.sh
-#$ROOT_DIR/user_drv/sec/build.sh
-#$ROOT_DIR/user_drv/mlx4/build.sh
 
 

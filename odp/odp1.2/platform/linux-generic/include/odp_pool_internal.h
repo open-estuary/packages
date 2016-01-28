@@ -220,7 +220,7 @@ typedef struct {
 #define PACKET_MIN_SIZE	    64
 #define PACKET_HEAD_SIZE    sizeof(packet_head_stride)
 #define PROTOCOL_HEAD_SIZE  sizeof(odp_packet_hdr_stride)
-#define PACKET_SEG_LEN      192
+#define PACKET_SEG_LEN      0
 
 #define GET_HEADROOM(addr) (int *)((unsigned char *)(addr) - 4)
 #define SET_HEADROOM(addr, len) *GET_HEADROOM(addr) = len
