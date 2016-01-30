@@ -1,7 +1,6 @@
     groupadd mysql
     useradd -g mysql mysql
     cd ..
-    cp my-sigle.cnf  /etc/my.cnf
     mkdir /u01/mysql
     cp -rf /u01/my3306/share /u01/mysql
     mkdir /u01/my3306/tmp
