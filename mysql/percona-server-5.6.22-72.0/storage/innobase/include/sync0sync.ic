@@ -82,6 +82,7 @@ ib_mutex_test_and_set(
 /*===============*/
 	ib_mutex_t*	mutex)	/*!< in: mutex */
 {
+	__sync_synchronize();
 #if defined(HAVE_ATOMIC_BUILTINS)
 # if defined(HAVE_ATOMIC_BUILTINS_BYTE)
 	return(os_atomic_test_and_set_byte(&mutex->lock_word, 1));
@@ -115,6 +116,7 @@ mutex_reset_lock_word(
 /*==================*/
 	ib_mutex_t*	mutex)	/*!< in: mutex */
 {
+	__sync_synchronize();
 #if defined(HAVE_ATOMIC_BUILTINS)
 	/* In theory __sync_lock_release should be used to release the lock.
 	Unfortunately, it does not work properly alone. The workaround is
@@ -140,7 +142,7 @@ mutex_get_lock_word(
 	const ib_mutex_t*	mutex)	/*!< in: mutex */
 {
 	ut_ad(mutex);
-
+	__sync_synchronize();
 	return(mutex->lock_word);
 }
 
