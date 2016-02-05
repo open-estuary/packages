@@ -370,6 +370,8 @@ void *odp_packet_push_tail(odp_packet_t pkt, uint32_t len);
  * @retval NULL  The specified offset exceeds allowable data length
  */
 void *odp_packet_pull_tail(odp_packet_t pkt, uint32_t len);
+void odp_packet_set_head(odp_packet_t pkt, uint32_t len);
+void odp_packet_set_tail(odp_packet_t pkt, uint32_t len);
 
 /**
  * Packet offset pointer

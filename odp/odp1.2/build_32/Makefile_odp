@@ -47,7 +47,7 @@ INCLUDE_FILES     := -I$(ROOT)/platform/linux-generic \
 	$(LD) -fpic -shared -o  $@ $^
 
 #当前模块的.o 的连接规则
-$(ODP_OBJ_FILENAME) : $(OBJ_FILE) $(ROOT)/build_32/lib/odp_pmd.o
+$(ODP_OBJ_FILENAME) : $(OBJ_FILE)
 	$(ECHO) "LD " $@;\
 	$(LD) -r -o $@ $^
 

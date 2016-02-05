@@ -1241,9 +1241,10 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < gbl_args->appl.if_count; ++i) {
-		params.pkt.seg_len = 1;
+		params.pkt.seg_len = PACKET_SEG_LEN;
 		params.pkt.len = SHM_PKT_POOL_BUF_SIZE;
 		params.pkt.num = SHM_PKT_POOL_SIZE;
+		params.pkt.lock = 0;
 		params.type = ODP_POOL_PACKET;
 		pool = odp_pool_create(gbl_args->appl.if_names[i], &params);
 		if (pool == ODP_POOL_INVALID) {

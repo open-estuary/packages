@@ -15,7 +15,7 @@
 #include <odp/helper/ip.h>
 #include <odp/helper/tcp.h>
 #include <odp/helper/udp.h>
-#include <odp_memzone.h>
+#include <odp_mmdistrict.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -30,18 +30,14 @@
 unsigned long _packet_alloc(pool_entry_t *pool)
 {
 	int error = 0;
-	unsigned long vir_addr;
 	packet_head_t *buf_head = (packet_head_t *)pool->s.pool_malloc_addr;
 
 to:
 	if (pool->s.pool_malloc_addr == pool->s.pool_free_addr) {
 		usleep(5);
 		error++;
-		if (error > 3) {
-			PRINT("odp_packet_alloc_test is fail. pool_id = %d, malloc_index = %d, free_index = %d\n",
-			      buf_head->pool_id, pool->s.malloc_index, pool->s.free_index);
+		if (error > 3)
 			return (unsigned long)ODP_PACKET_INVALID;
-		}
 
 		goto to;
 	}
@@ -53,11 +49,10 @@ to:
 		pool->s.malloc_index = 0;
 	}
 
-	vir_addr = buf_head->vir_addr + buf_head->headroom;
-	SET_HEADROOM(vir_addr, buf_head->headroom);
-	SET_TAILROOM(vir_addr, buf_head->tailroom);
+	SET_HEADROOM(buf_head->vir_addr, buf_head->headroom);
+	SET_TAILROOM(buf_head->vir_addr, buf_head->tailroom);
 
-	return vir_addr;
+	return buf_head->vir_addr;
 }
 
 unsigned long _packet_alloc_lock(pool_entry_t *pool)
@@ -265,6 +260,16 @@ void *odp_packet_pull_tail(odp_packet_t pkt, uint32_t len)
 	SET_TAILROOM(pkt, tailroom + len);
 
 	return (void *)pkt;
+}
+
+void odp_packet_set_head(odp_packet_t pkt, uint32_t len)
+{
+	SET_HEADROOM(pkt, len);
+}
+
+void odp_packet_set_tail(odp_packet_t pkt, uint32_t len)
+{
+	SET_TAILROOM(pkt, len);
 }
 
 void *odp_packet_offset(odp_packet_t pkt, uint32_t offset, uint32_t *len,

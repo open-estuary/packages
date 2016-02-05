@@ -1,0 +1,22 @@
+
+3
+
+ifconfig -s eth0 192.168.1.20 255.255.255.0 192.168.1.1
+provision 192.168.1.151 -u root -p huawei -f Image -a 0x80000
+provision 192.168.1.151 -u root -p huawei -f hip05-d02.dtb -a 0x6000000
+provision 192.168.1.151 -u root -p huawei -f filesystem.cpio.gz -a 0x7000000
+
+exit
+5
+
+
+
+ifconfig eth1 192.168.1.20
+mkdir /mnt/huge
+mount none /mnt/huge -t hugetlbfs
+echo 200 > /proc/sys/vm/nr_hugepages
+
+说明: 
+当前测试环境下，如果需要使用64bit odp及相关应用，请使用filesystem.cpio.gz
+如果需要运行32bit odp及相关应用程序，请使用filesystem_32bit.cpio.gz(进入linux shell后，账号root,密码EulerLinux)
+      

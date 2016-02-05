@@ -38,7 +38,7 @@
  * @file
  *
  * Generic, commonly-used macro and inline function definitions
- * for Huawei DPDK.
+ * for Huawei ODP.
  */
 
 #ifdef __cplusplus

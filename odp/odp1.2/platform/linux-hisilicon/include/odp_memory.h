@@ -85,22 +85,18 @@ typedef uint64_t phys_addr_t;   /**< Physical address definition. */
 /**
  * Physical memory segment descriptor.
  */
-struct odp_memseg {
+struct odp_mmfrag {
 	phys_addr_t phys_addr;    /**< Start physical address. */
 
 	union {
 		void	*addr;    /**< Start virtual address. */
 		uint64_t addr_64; /**< Makes sure addr is always 64 bits */
 	};
-#ifdef HODP_LIBHODP_IVSHMEM
-	phys_addr_t ioremap_addr; /**< Real physical address inside the VM */
-#endif
-
 	size_t	 len;             /**< Length of the segment. */
 	uint64_t hugepage_sz;     /**< The pagesize of underlying memory */
 	int32_t	 socket_id;       /**< NUMA socket ID. */
-	uint32_t nchannel;        /**< Number of channels. */
-	uint32_t nrank;           /**< Number of ranks. */
+	uint32_t channel_num;        /**< Number of channels. */
+	uint32_t rank_num;           /**< Number of ranks. */
 
 #ifdef ODP_LIBODP_XEN_DOM0
 
@@ -146,7 +142,7 @@ phys_addr_t odp_mem_virt2phy(const void *virt);
  *  - On error, return NULL. This should not happen since it is a fatal
  *    error that will probably cause the entire system to panic.
  */
-const struct odp_memseg *odp_get_physmem_layout(void);
+const struct odp_mmfrag *odp_get_physmem_layout(void);
 
 /**
  * Dump the physical memory layout to the console.
@@ -171,7 +167,7 @@ uint64_t odp_get_physmem_size(void);
  *   The number of memory channels on the system. The value is 0 if unknown
  *   or not the same on all devices.
  */
-unsigned int odp_memory_get_nchannel(void);
+unsigned int odp_memory_get_channel_num(void);
 
 /**
  * Get the number of memory ranks.
@@ -180,14 +176,14 @@ unsigned int odp_memory_get_nchannel(void);
  *   The number of memory ranks on the system. The value is 0 if unknown or
  *   not the same on all devices.
  */
-unsigned int odp_memory_get_nrank(void);
+unsigned int odp_memory_get_rank_num(void);
 
 #ifdef ODP_LIBODP_XEN_DOM0
 
 /**
  * Return the physical address of elt, which is an element of the pool mp.
  *
- * @param memseg_id
+ * @param mmfrag_id
  *   The mempool is from which memory segment.
  * @param phy_addr
  *   physical address of elt.
@@ -195,7 +191,7 @@ unsigned int odp_memory_get_nrank(void);
  * @return
  *   The physical address or error.
  */
-phys_addr_t odp_mem_phy2mch(uint32_t memseg_id, const phys_addr_t phy_addr);
+phys_addr_t odp_mem_phy2mch(uint32_t mmfrag_id, const phys_addr_t phy_addr);
 
 /**
  * Memory init for supporting application running on Xen domain0.

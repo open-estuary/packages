@@ -49,9 +49,12 @@
 #include <stdlib.h>
 
 /* #include <odp_string_fns.h> */
-#include "odp_internal_cfg.h"
+#include "odp_local_cfg.h"
 
-extern struct odp_internal_config internal_config;
+/** define the default filename prefix for the %s values above */
+#define HUGEFILE_PREFIX_DEFAULT "odp"
+
+extern struct odp_local_config local_config;
 
 static const char *default_config_dir = "/var/run";
 
@@ -65,7 +68,7 @@ static inline const char *odp_runtime_config_path(void)
 		directory = home_dir;
 
 	snprintf(buffer, sizeof(buffer) - 1, RUNTIME_CONFIG_FMT, directory,
-		 internal_config.hugefile_prefix);
+		 HUGEFILE_PREFIX_DEFAULT);
 	return buffer;
 }
 
@@ -82,7 +85,7 @@ static inline const char *odp_hugepage_info_path(void)
 		directory = home_dir;
 
 	snprintf(buffer, sizeof(buffer) - 1, HUGEPAGE_INFO_FMT, directory,
-		 internal_config.hugefile_prefix);
+		HUGEFILE_PREFIX_DEFAULT);
 	return buffer;
 }
 
@@ -93,24 +96,16 @@ static inline const char *odp_hugepage_info_path(void)
 static inline const char *odp_get_hugefile_path(char *buffer, size_t buflen, const char *hugedir, int f_id)
 {
 	snprintf(buffer, buflen, HUGEFILE_FMT, hugedir,
-		 internal_config.hugefile_prefix, f_id);
+		HUGEFILE_PREFIX_DEFAULT, f_id);
 	buffer[buflen - 1] = '\0';
 	return buffer;
 }
 
-#ifdef ODP_SINGLE_FILE_SEGMENTS
-static inline const char *odp_get_hugefile_temp_path(char *buffer, size_t buflen, const char *hugedir, int f_id)
-{
-	snprintf(buffer, buflen, TEMP_HUGEFILE_FMT, hugedir, internal_config.hugefile_prefix, f_id);
-	buffer[buflen - 1] = '\0';
-	return buffer;
-}
-#endif
 
-/** define the default filename prefix for the %s values above */
-#define HUGEFILE_PREFIX_DEFAULT "odp"
+
 
 /** Function to read a single numeric value from a file on the filesystem.
  * Used to read information from files on /sys */
-int odp_parse_sysfs_value(const char *filename, unsigned long *val);
+unsigned long odp_parse_sysfs_value(const char *filename);
+
 #endif /* ODP_FILESYSTEM_H */

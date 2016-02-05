@@ -138,9 +138,9 @@ struct odp_tailq_head *odp_tailq_lookup(const char *name);
  * Register a tail queue.
  *
  * Register a tail queue from shared memory.
- * This function is mainly used by HODP_REGISTER_TAILQ macro which is used to
- * register tailq from the different dpdk libraries. Since this macro is a
- * constructor, the function has no access to dpdk shared memory, so the
+ * This function is mainly used by ODP_REGISTER_TAILQ macro which is used to
+ * register tailq from the different odp libraries. Since this macro is a
+ * constructor, the function has no access to odp shared memory, so the
  * registered tailq can not be used before call to odp_init() which calls
  * odp_tailqs_init().
  *

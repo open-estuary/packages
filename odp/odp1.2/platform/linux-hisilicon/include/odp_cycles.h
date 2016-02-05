@@ -72,15 +72,6 @@ extern "C" {
 #include <odp/atomic.h>
 #include <odp/time.h>
 
-/* #include "generic/odp_cycles.h" */
-
-#ifdef ODP_LIBODP_VMWARE_TSC_MAP_SUPPORT
-
-/* Global switch to use VMWARE mapping of TSC instead of RDTSC */
-extern int odp_cycles_vmware_tsc_map;
-
-/* #include <odp_branch_prediction.h> */
-#endif
 
 static inline uint64_t odp_rdtsc_precise(void)
 {
