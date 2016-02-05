@@ -26,41 +26,28 @@ current_dir=`pwd`/packages/mysql
 echo "----$build_dir  $current_dir----"
 
 ###################################################################################
-############################# Setup host environmenta #############################
-###################################################################################
-# Detect and dertermine some environment variables
-LOCALARCH=`uname -m`
-if [ x"$PLATFORM" = x"D01" ]; then
-    TARGETARCH="ARM32"
-else
-    TARGETARCH="ARM64"
-fi
-
-if [ x"$TARGETARCH" = x"ARM32" ]; then
-    cross_gcc=arm-linux-gnueabihf-gcc
-    cross_prefix=arm-linux-gnueabihf
-else
-    cross_gcc=aarch64-linux-gnu-gcc
-    cross_prefix=aarch64-linux-gnu
-fi
-
-
-###################################################################################
 ################################### Build MySQL ###################################
 ###################################################################################
-echo "Installing mysql ..."
-cd $current_dir/percona-server-5.6.22-72.0
-cd BUILD
-sh autorun.sh
-cd ..
-sudo apt-get install cmake <<EOF
+LOCALARCH=`uname -m`
+if [ x"LOCALARCH" = x"x86_64" ]; then
+    exit 1
+fi
+
+if [ x"LOCALARCH" = x"aarch64" ]; then
+    echo "Installing mysql ..."
+    cd $current_dir/percona-server-5.6.22-72.0
+    cd BUILD
+    sh autorun.sh
+    cd ..
+    sudo apt-get install cmake <<EOF
 Y
 EOF
-echo "finish install cmake"
-cmake -DCMAKE_INSTALL_PREFIX=/u01/my3306 -DMYSQL_DATADIR=/u01/my3306/data -DMYSQL_USER=mysql -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/u01/my3306/run/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
-make -j16 $cross_gcc
-sudo make DESTDIR=$ROOTFS install
-sudo cp $current_dir/my-sigle.cnf  $ROOTFS/etc/my.cnf
-echo "mysql make install finished"
-exit 0
+    echo "finish install cmake"
+    cmake -DCMAKE_INSTALL_PREFIX=/u01/my3306 -DMYSQL_DATADIR=/u01/my3306/data -DMYSQL_USER=mysql -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/u01/my3306/run/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+    make -j16 $cross_gcc
+    sudo make DESTDIR=$ROOTFS install
+    sudo cp $current_dir/my-sigle.cnf  $ROOTFS/etc/my.cnf
+    echo "mysql make install finished"
+    exit 0
+fi
 
