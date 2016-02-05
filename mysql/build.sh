@@ -39,7 +39,7 @@ if [ x"LOCALARCH" = x"aarch64" ]; then
     cd BUILD
     sh autorun.sh
     cd ..
-    sudo apt-get install cmake <<EOF
+    sudo apt-get install cmake g++ <<EOF
 Y
 EOF
     echo "finish install cmake"
