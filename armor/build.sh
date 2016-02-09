@@ -56,11 +56,11 @@ install_armor_tools_ubuntu()
                 ;;
                 "gdb")
                     pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libpython3.4_3.4.3-3_arm64.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libc6-dbg_2.21-0ubuntu4_arm64.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libc6-dev_2.21-0ubuntu4_arm64.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/gdbserver_7.9-1ubuntu1_arm64.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/gdb_7.9-1ubuntu1_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libpython3.4_3.4.3-3_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libc6-dbg_2.21-0ubuntu4_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libc6-dev_2.21-0ubuntu4_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/gdbserver_7.9-1ubuntu1_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/gdb_7.9-1ubuntu1_arm64.deb
                     popd     
                 ;;
                 "gprof")
@@ -77,8 +77,8 @@ install_armor_tools_ubuntu()
                 ;;
                 "iostat")
                     pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libsensors4_1%3a3.3.5-2_arm64.deb    
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/sysstat_11.0.1-1_arm64.deb 
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libsensors4_1%3a3.3.5-2_arm64.deb    
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/sysstat_11.0.1-1_arm64.deb 
                     popd     
                 ;;
                 "iotop")
@@ -156,16 +156,16 @@ install_armor_tools_ubuntu()
                 ;;
                 "perf")
                     pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libdw1_0.160-0ubuntu3_arm64.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libunwind8_1.1-3.2_arm64.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/linux-tools-common_3.19.0-39.44_all.deb
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libdw1_0.160-0ubuntu3_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libunwind8_1.1-3.2_arm64.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/linux-tools-common_3.19.0-39.44_all.deb
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb
                     popd
                 ;;
                 "pidstat")
                     pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/libsensors4_1%3a3.3.5-2_arm64.deb    
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/deb/sysstat_11.0.1-1_arm64.deb 
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libsensors4_1%3a3.3.5-2_arm64.deb    
+                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/sysstat_11.0.1-1_arm64.deb 
                     popd     
                 ;;
                 "powertop")
@@ -203,7 +203,7 @@ install_armor_tools_ubuntu()
                 ;;
                 "tiptop")
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/deb/tiptop-2.3_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/tiptop-2.3_arm64.deb
                     popd
                 ;;
                 "top")
@@ -277,7 +277,9 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "ethtool")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/ethtool-3.18-1.fc22.aarch64.rpm
+                    popd
                 ;;
                 "ftrace")
                     #default installed. 
@@ -295,7 +297,9 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "iostat")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/sysstat-11.1.2-3.fc22.aarch64.rpm
+                    popd
                 ;;
                 "iotop")
                     #supported run time installation on board. 
@@ -367,11 +371,15 @@ install_armor_tools_fedora()
                 ;;
                 "perf")
                     pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscript --root=$ROOTFS -i $armor_build_dir/binary/rpm/perf-4.0.4-301.fc22.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/numactl-libs-2.0.10-2.fc22.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/numactl-2.0.10-2.fc22.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/perf-4.3.4-200.fc22.aarch64.rpm
                     popd
                 ;;
                 "pidstat")
-                    #default installed. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/sysstat-11.1.2-3.fc22.aarch64.rpm
+                    popd
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -404,7 +412,9 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "tcpdump")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/tcpdump-4.7.4-2.fc22.aarch64.rpm
+                    popd
                 ;;
                 "tiptop")
                     #supported run time installation on board. 
@@ -505,7 +515,9 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "iostat")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/pcp-import-iostat2pcp-3.10.4-1.8.aarch64.rpm
+                    popd
                 ;;
                 "iotop")
                     #supported run time installation on board. 
@@ -544,7 +556,7 @@ install_armor_tools_opensuse()
                 ;;
                 "lldptool")
                     pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscript --root=$ROOTFS -i usr/local/armor/binary/rpm/lldpad-1.0.1-0.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/lldpad-1.0.1-0.aarch64.rpm
                     popd
                 ;;
                 "lscpu")
@@ -554,7 +566,9 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "ltrace")
-                    #supported run time installation on board.    
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/ltrace-0.7.91-1.3.aarch64.rpm
+                    popd
                 ;;
                 "lttng")
                     #TBD. 
@@ -569,21 +583,28 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "netstat")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/nicstat-1.95-0.aarch64.rpm
+                    popd
                 ;;
                 "nicstat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscript --root=$ROOTFS -i usr/local/armor/binary/rpm/nicstat-1.95-0.aarch64.rpm
-                    popd 
+                    #supported run time installation on board.    
                 ;;
                 "oprofile")
                     #supported run time installation on board. 
                 ;;
                 "perf")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libslang2-2.3.0-1.2.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libnuma1-2.0.10-5.1.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libunwind-1.1-14.1.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/perf-4.4.0-44.1.aarch64.rpm
+                    popd
                 ;;
                 "pidstat")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/sysstat-11.0.8-1.1.aarch64.rpm
+                    popd
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -604,7 +625,9 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "strace")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/strace-4.11-1.1.aarch64.rpm
+                    popd
                 ;;
                 "swapon")
                     #default installed. 
@@ -620,7 +643,7 @@ install_armor_tools_opensuse()
                 ;;
                 "tiptop")
                     pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscript --root=$ROOTFS -i usr/local/armor/binary/rpm/tiptop-2.3-0.aarch64.rpm
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/tiptop-2.3-0.aarch64.rpm
                     popd
                 ;;
                 "top")
@@ -771,11 +794,11 @@ install_armor_tools_debian()
                 ;;
                 "lttng")
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/liburcu2_0.8.5-1ubuntu1_arm64.deb
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/lttng-tools_2.5.2-1ubuntu1_arm64.deb
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liburcu2_0.8.5-1ubuntu1_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/lttng-tools_2.5.2-1ubuntu1_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb
                     popd  
                 ;;
                 "memwatch")
@@ -795,14 +818,14 @@ install_armor_tools_debian()
                 ;;
                 "oprofile")
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/libopagent1_1.0.0-0ubuntu9_arm64.deb
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/oprofile_1.0.0-0ubuntu9_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libopagent1_1.0.0-0ubuntu9_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/oprofile_1.0.0-0ubuntu9_arm64.deb
                     popd
                 ;;
                 "perf")
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/linux-tools-common_3.19.0-39.44_all.deb
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/binary/deb/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/linux-tools-common_3.19.0-39.44_all.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb
                     popd                     
                 ;;
                 "pidstat")
@@ -846,7 +869,7 @@ install_armor_tools_debian()
                 ;;
                 "tiptop")
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i usr/local/armor/deb/binary/tiptop-2.3_arm64.deb
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/tiptop-2.3_arm64.deb
                     popd
                 ;;
                 "top")
@@ -946,19 +969,19 @@ sudo mkdir $ROOTFS/usr/local/armor/test_scripts
 
 case $DISTRO in
     Ubuntu)
-        sudo cp $armor_dir/binary/deb/*.deb   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/ubuntu/*.deb   $ROOTFS/usr/local/armor/binary
         sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_ubuntu.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_ubuntu.json
         install_armor_tools_ubuntu
         ;;
     Fedora)
-        sudo cp $armor_dir/binary/rpm/*.rpm   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/fedora/*.rpm   $ROOTFS/usr/local/armor/binary
         sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_fedora.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_fedora.json
         install_armor_tools_fedora
         ;;
     OpenSuse)
-        sudo cp $armor_dir/binary/rpm/*.rpm   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/opensuse/*.rpm   $ROOTFS/usr/local/armor/binary
         # copy build scripts to the rootfs
         sudo cp $armor_dir/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
         sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_opensuse.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
@@ -966,7 +989,7 @@ case $DISTRO in
         install_armor_tools_opensuse
         ;;
     Debian)
-        sudo cp $armor_dir/binary/deb/*.deb   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/binary/debian/*.deb   $ROOTFS/usr/local/armor/binary
         # copy prebuilt binarieis(not supported in the distribution) to the rootfs
         sudo cp $armor_dir/binary/ltrace   $ROOTFS/usr/bin
         sudo cp $armor_dir/binary/lspci    $ROOTFS/usr/bin
