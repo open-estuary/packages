@@ -719,7 +719,9 @@ install_armor_tools_debian()
                     #default installed. 
                 ;;                
                 "ethtool")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/ethtool_1%3a3.16-1_arm64.deb  >> $LOG_FILE 2>&1
+                    popd
                 ;;
                 "ftrace")
                     #default installed. 
@@ -749,7 +751,9 @@ install_armor_tools_debian()
                     #supported run time installation on board. 
                 ;;
                 "iptables")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/iptables_1.4.21-2+b1_arm64.deb >> $LOG_FILE 2>&1
+                    popd
                 ;;
                 "kdb")
                     #default installed. 
@@ -799,7 +803,7 @@ install_armor_tools_debian()
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/lttng-tools_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
-                    popd  
+                    popd
                 ;;
                 "memwatch")
                     #memwatch to be integrated to the code to be tested. 
@@ -829,7 +833,16 @@ install_armor_tools_debian()
                     popd                     
                 ;;
                 "pidstat")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/cron_3.0pl1-127+deb8u1_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libsensors4_1%3a3.3.5-2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-config_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-base_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-daemon-light_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/bsd-mailx_8.1.2-0.20141216cvs-2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/sysstat_11.0.1-1_arm64.deb >> $LOG_FILE 2>&1 
+                    popd
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -850,7 +863,9 @@ install_armor_tools_debian()
                      #supported run time installation on board. 
                 ;;
                 "strace")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/strace_4.9-2_arm64.deb >> $LOG_FILE 2>&1
+                    popd
                 ;;
                 "swapon")
                     #default installed. 
@@ -865,7 +880,10 @@ install_armor_tools_debian()
                     #default installed. 
                 ;;
                 "tcpdump")
-                    #supported run time installation on board. 
+                    pushd $ROOTFS
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libpcap0.8_1.6.2-2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/tcpdump_4.6.2-5+deb8u1_arm64.deb >> $LOG_FILE 2>&1
+                    popd
                 ;;
                 "tiptop")
                     pushd $ROOTFS
