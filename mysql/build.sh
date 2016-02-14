@@ -47,6 +47,18 @@ EOF
     make -j16
     sudo make DESTDIR=$ROOTFS install
     sudo cp $current_dir/my-sigle.cnf  $ROOTFS/etc/my.cnf
+    
+case $DISTRO in
+    Fedora)
+        ;;
+    OpenSuse)
+        ;;
+    Ubuntu)
+        ;;
+    Debian)
+    ;;
+    esac
+
     echo "mysql make install finished"
     exit 0
 fi
