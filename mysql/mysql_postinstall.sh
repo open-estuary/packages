@@ -15,7 +15,7 @@ echo "Installing Mysql on $Distribution..."
 case "$Distribution" in
     Fedora)
         ;;
-    OpenSuse)
+    openSUSE)
         ;;
     Ubuntu)
         ;;
