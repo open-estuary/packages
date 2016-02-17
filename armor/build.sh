@@ -15,7 +15,10 @@ install_armor_tools_ubuntu()
     echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
+    # Fix for dpkg -i ... error - syntax error: unknown group 'landscape' in statoverride file
+    sudo sed -i '/landscape/d' $ROOTFS/var/lib/dpkg/statoverride
+
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -227,6 +230,7 @@ install_armor_tools_ubuntu()
     fi
     let idx=$idx+1
     install=`jq -r ".tools[$idx].install" $CFGFILE`
+
 done
 
 pushd $armor_build_dir
@@ -237,14 +241,16 @@ sh build_armor_utility.sh $ROOTFS
 
 cd -
 popd
+    # revert the previously deleted line for landscape user/group in $ROOTFS/var/lib/dpkg/statoverride file
+    sudo sed -i -e "\$aroot landscape 4754 /usr/lib/landscape/apt-update" $ROOTFS/var/lib/dpkg/statoverride
 } #install_armor_tools_ubuntu
 
 install_armor_tools_fedora()
 {
-    echo "CFGFILE = $CFGFILE"
+    #echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -454,10 +460,10 @@ popd
 
 install_armor_tools_opensuse()
 {
-    echo "CFGFILE = $CFGFILE"
+    #echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -682,10 +688,10 @@ popd
 
 install_armor_tools_debian()
 {
-    echo "CFGFILE = $CFGFILE"
+    #echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
