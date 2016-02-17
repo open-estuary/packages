@@ -157,6 +157,14 @@ install_armor_tools_ubuntu()
                 "oprofile")
                     #supported run time installation on board. 
                 ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
+                ;;
                 "perf")
                     pushd $ROOTFS
                     sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libdw1_0.160-0ubuntu3_arm64.deb >> $LOG_FILE 2>&1
@@ -374,6 +382,14 @@ install_armor_tools_fedora()
                 ;;
                 "oprofile")
                     #supported run time installation on board. 
+                ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
                 ;;
                 "perf")
                     pushd $ROOTFS
@@ -598,6 +614,14 @@ install_armor_tools_opensuse()
                 ;;
                 "oprofile")
                     #supported run time installation on board. 
+                ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
                 ;;
                 "perf")
                     pushd $ROOTFS
@@ -830,6 +854,14 @@ install_armor_tools_debian()
                     pushd $ROOTFS
                     sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libopagent1_1.0.0-0ubuntu9_arm64.deb >> $LOG_FILE 2>&1
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/oprofile_1.0.0-0ubuntu9_arm64.deb >> $LOG_FILE 2>&1 
+                    popd
+                ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
                     popd
                 ;;
                 "perf")

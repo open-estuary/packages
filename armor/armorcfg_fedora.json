@@ -38,6 +38,7 @@
 {"name":"netstat","install":"no"},
 {"name":"nicstat","install":"no"},
 {"name":"oprofile","install":"no"},
+{"name":"packETHcli","install":"yes"},
 {"name":"perf","install":"yes"},
 {"name":"pidstat","install":"yes"},
 {"name":"powertop","install":"no"},
