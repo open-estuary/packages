@@ -13,7 +13,7 @@
 ###################### Initialise variables ####################
 ###################################################################################
 
-echo "/packagesmysql/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
+echo "/packages/mysql/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
 
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
     echo "Invalid parameter passed. Usage ./mysql/build.sh <platform> <distrib> <rootfs> <kernal>" 
@@ -23,17 +23,17 @@ fi
 ROOTFS=$3
 
 current_dir=`pwd`/packages/mysql
-echo "----$build_dir  $current_dir----"
+echo "---- $current_dir ----"
 
 ###################################################################################
 ################################### Build MySQL ###################################
 ###################################################################################
 LOCALARCH=`uname -m`
-if [ x"LOCALARCH" = x"x86_64" ]; then
+if [ x"$LOCALARCH" = x"x86_64" ]; then
     exit 1
 fi
 
-if [ x"LOCALARCH" = x"aarch64" ]; then
+if [ x"$LOCALARCH" = x"aarch64" ]; then
     echo "Installing mysql ..."
     cd $current_dir/percona-server-5.6.22-72.0
     cd BUILD
