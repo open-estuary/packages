@@ -37,8 +37,8 @@ if [ x"$LOCALARCH" = x"aarch64" ]; then
     sudo apt-get install g++ <<EOF
 Y
 EOF
-    pcre_path=$ROOTFS/usr/local/pcre
-    if [ ! -d "$pcre_path"]; then
+    pcre_path="$ROOTFS/usr/local/pcre"
+    if [ ! -d "$pcre_path" ]; then
     	cd $current_dir/pcre-8.37
     	./configure --prefix=$ROOTFS/usr/local/pcre
     	make -j${corenum} 
