@@ -31,7 +31,7 @@
 {"name":"lscpu","install":"yes"},
 {"name":"lspci","install":"yes"},
 {"name":"ltrace","install":"yes"},
-{"name":"lttng","install":"yes"},
+{"name":"lttng","install":"no"},
 {"name":"memwatch","install":"no"},
 {"name":"mkfs","install":"yes"},
 {"name":"mount","install":"yes"},
