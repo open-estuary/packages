@@ -43,19 +43,22 @@ EOF
     make -j${corenum}
     sudo make install
     echo "apr install finished"
+    
     cd $current_dir/apr-util-1.5.4
     ./configure --prefix=$ROOTFS/usr/local/apr-util -with-apr=$ROOTFS/usr/local/apr/bin/apr-1-config
     make -j${corenum}
     sudo make install
     echo "apr-util install finished"
-    pcre_path=$ROOTFS/usr/local/pcre 
-    if [! -d "$pcre_path"]; then
+    
+    pcre_path="$ROOTFS/usr/local/pcre" 
+    if [ ! -d "$pcre_path" ]; then
     	cd $current_dir/pcre-8.37
     	./configure --prefix=$ROOTFS/usr/local/pcre
     	make -j${corenum}
-   	sudo make install
+   	    sudo make install
+        echo "pcre install finished"
     fi
-    echo "pcre install finished"
+    
     cd $current_dir/httpd-2.2.29
     ./configure --prefix=$ROOTFS/usr/local/apache2 --with-apr=$ROOTFS/usr/local/apr --with-apr-util=$ROOTFS/usr/local/apr-util --with-pcre=$ROOTFS/usr/local/pcre -with-mpm=worker
     make -j${corenum}
