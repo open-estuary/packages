@@ -15,7 +15,10 @@ install_armor_tools_ubuntu()
     echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
+    # Fix for dpkg -i ... error - syntax error: unknown group 'landscape' in statoverride file
+    sudo sed -i '/landscape/d' $ROOTFS/var/lib/dpkg/statoverride
+
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -154,6 +157,14 @@ install_armor_tools_ubuntu()
                 "oprofile")
                     #supported run time installation on board. 
                 ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
+                ;;
                 "perf")
                     pushd $ROOTFS
                     sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libdw1_0.160-0ubuntu3_arm64.deb >> $LOG_FILE 2>&1
@@ -227,6 +238,7 @@ install_armor_tools_ubuntu()
     fi
     let idx=$idx+1
     install=`jq -r ".tools[$idx].install" $CFGFILE`
+
 done
 
 pushd $armor_build_dir
@@ -237,14 +249,16 @@ sh build_armor_utility.sh $ROOTFS
 
 cd -
 popd
+    # revert the previously deleted line for landscape user/group in $ROOTFS/var/lib/dpkg/statoverride file
+    sudo sed -i -e "\$aroot landscape 4754 /usr/lib/landscape/apt-update" $ROOTFS/var/lib/dpkg/statoverride
 } #install_armor_tools_ubuntu
 
 install_armor_tools_fedora()
 {
-    echo "CFGFILE = $CFGFILE"
+    #echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -369,6 +383,14 @@ install_armor_tools_fedora()
                 "oprofile")
                     #supported run time installation on board. 
                 ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
+                ;;
                 "perf")
                     pushd $ROOTFS
                     sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/numactl-libs-2.0.10-2.fc22.aarch64.rpm >> $LOG_FILE 2>&1
@@ -454,10 +476,10 @@ popd
 
 install_armor_tools_opensuse()
 {
-    echo "CFGFILE = $CFGFILE"
+    #echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -593,6 +615,14 @@ install_armor_tools_opensuse()
                 "oprofile")
                     #supported run time installation on board. 
                 ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
+                ;;
                 "perf")
                     pushd $ROOTFS
                     sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libslang2-2.3.0-1.2.aarch64.rpm >> $LOG_FILE 2>&1
@@ -682,10 +712,10 @@ popd
 
 install_armor_tools_debian()
 {
-    echo "CFGFILE = $CFGFILE"
+    #echo "CFGFILE = $CFGFILE"
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
-    echo "install= $install" 
+    #echo "install= $install" 
     while [ x"$install" != x"null" ];
     do
         if [ x"yes" = x"$install" ]; then
@@ -824,6 +854,14 @@ install_armor_tools_debian()
                     pushd $ROOTFS
                     sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libopagent1_1.0.0-0ubuntu9_arm64.deb >> $LOG_FILE 2>&1
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/oprofile_1.0.0-0ubuntu9_arm64.deb >> $LOG_FILE 2>&1 
+                    popd
+                ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
                     popd
                 ;;
                 "perf")
