@@ -13,7 +13,7 @@
 ###################### Initialise variables ####################
 ###################################################################################
 
-echo "/packagesmysql/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
+echo "/packages/mysql/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
 
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
     echo "Invalid parameter passed. Usage ./mysql/build.sh <platform> <distrib> <rootfs> <kernal>" 
@@ -21,19 +21,19 @@ if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
 fi
 
 ROOTFS=$3
-
+corenum=`cat /proc/cpuinfo | grep "processor"| wc -l`
 current_dir=`pwd`/packages/mysql
-echo "----$build_dir  $current_dir----"
+echo "---- $current_dir ----"
 
 ###################################################################################
 ################################### Build MySQL ###################################
 ###################################################################################
 LOCALARCH=`uname -m`
-if [ x"LOCALARCH" = x"x86_64" ]; then
+if [ x"$LOCALARCH" = x"x86_64" ]; then
     exit 1
 fi
 
-if [ x"LOCALARCH" = x"aarch64" ]; then
+if [ x"$LOCALARCH" = x"aarch64" ]; then
     echo "Installing mysql ..."
     cd $current_dir/percona-server-5.6.22-72.0
     cd BUILD
@@ -44,7 +44,7 @@ Y
 EOF
     echo "finish install cmake"
     cmake -DCMAKE_INSTALL_PREFIX=/u01/my3306 -DMYSQL_DATADIR=/u01/my3306/data -DMYSQL_USER=mysql -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/u01/my3306/run/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
-    make -j16
+    make -j${corenum}
     sudo make DESTDIR=$ROOTFS install
     sudo cp $current_dir/my-sigle.cnf  $ROOTFS/etc/my.cnf
     
