@@ -1021,6 +1021,9 @@ sudo mkdir $ROOTFS/usr/local/armor/config
 sudo mkdir $ROOTFS/usr/local/armor/source
 sudo mkdir $ROOTFS/usr/local/armor/test_scripts
 
+kernel_version=$(sudo cat $kernel_build_dir/include/config/kernel.release)
+echo "kernel_version=$kernel_version"
+sudo mkdir $ROOTFS/lib/modules/$kernel_version/armor
 
 # copy prebuilt binaries to the rootfs
 
