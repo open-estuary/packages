@@ -355,7 +355,9 @@ static void *pktio_ifburst_thread(void *arg)
 		}
 		
 		if (pkts > 0)
-			odp_pktio_send(pktio_dst, pkt_tbl, pkts);
+			if ((i = odp_pktio_send(pktio_dst, pkt_tbl, pkts)) < pkts)
+				for (; i < pkts; i++)
+					odp_packet_free(pkt_tbl[i]);
 	}
 
 	return NULL;
