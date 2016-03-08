@@ -57,7 +57,6 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-writeback
             modprobe lttng-probe-gpio
             modprobe lttng-probe-udp
-            modprobe lttng-kretprobes
             modprobe lttng-ring-buffer-metadata-mmap-client
             modprobe lttng-lib-ring-buffer
             modprobe lttng-probe-jbd2
@@ -68,13 +67,10 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-power
             modprobe lttng-probe-sched
             modprobe lttng-probe-block
-            modprobe lttng-probe-jbd
             modprobe lttng-probe-vmscan
-            modprobe lttng-kprobes
             modprobe lttng-probe-scsi
             modprobe lttng-probe-regmap
             modprobe lttng-probe-skb
-            modprobe lttng-probe-ext3
             modprobe lttng-probe-regulator
             modprobe lttng-probe-random
             modprobe lttng-probe-workqueue
@@ -111,7 +107,6 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-writeback
             modprobe lttng-probe-gpio
             modprobe lttng-probe-udp
-            modprobe lttng-kretprobes
             modprobe lttng-ring-buffer-metadata-mmap-client
             modprobe lttng-lib-ring-buffer
             modprobe lttng-probe-jbd2
@@ -122,13 +117,10 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-power
             modprobe lttng-probe-sched
             modprobe lttng-probe-block
-            modprobe lttng-probe-jbd
             modprobe lttng-probe-vmscan
-            modprobe lttng-kprobes
             modprobe lttng-probe-scsi
             modprobe lttng-probe-regmap
             modprobe lttng-probe-skb
-            modprobe lttng-probe-ext3
             modprobe lttng-probe-regulator
             modprobe lttng-probe-random
             modprobe lttng-probe-workqueue
@@ -164,7 +156,6 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-writeback
             modprobe lttng-probe-gpio
             modprobe lttng-probe-udp
-            modprobe lttng-kretprobes
             modprobe lttng-ring-buffer-metadata-mmap-client
             modprobe lttng-lib-ring-buffer
             modprobe lttng-probe-jbd2
@@ -175,13 +166,10 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-power
             modprobe lttng-probe-sched
             modprobe lttng-probe-block
-            modprobe lttng-probe-jbd
             modprobe lttng-probe-vmscan
-            modprobe lttng-kprobes
             modprobe lttng-probe-scsi
             modprobe lttng-probe-regmap
             modprobe lttng-probe-skb
-            modprobe lttng-probe-ext3
             modprobe lttng-probe-regulator
             modprobe lttng-probe-random
             modprobe lttng-probe-workqueue
@@ -228,7 +216,6 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-writeback
             modprobe lttng-probe-gpio
             modprobe lttng-probe-udp
-            modprobe lttng-kretprobes
             modprobe lttng-ring-buffer-metadata-mmap-client
             modprobe lttng-lib-ring-buffer
             modprobe lttng-probe-jbd2
@@ -239,13 +226,10 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             modprobe lttng-probe-power
             modprobe lttng-probe-sched
             modprobe lttng-probe-block
-            modprobe lttng-probe-jbd
             modprobe lttng-probe-vmscan
-            modprobe lttng-kprobes
             modprobe lttng-probe-scsi
             modprobe lttng-probe-regmap
             modprobe lttng-probe-skb
-            modprobe lttng-probe-ext3
             modprobe lttng-probe-regulator
             modprobe lttng-probe-random
             modprobe lttng-probe-workqueue
