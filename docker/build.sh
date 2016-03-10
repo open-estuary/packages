@@ -39,15 +39,17 @@ pushd $ROOTFS/
 sudo tar xvf docker*.gz -C $ROOTFS/
 sudo rm docker*.gz
 
-echo "Copy n untar done"
-
 #Create the libdevmapper sym link used by docker for distros
 case $DISTRO in
     Fedora)
-        sudo ln -s lib64/libdevmapper.so.1.02 lib64/libdevmapper.so.1.02.1
+        cd lib64
+        sudo ln -s libdevmapper.so.1.02 libdevmapper.so.1.02.1
+        cd -
         ;;
     OpenSuse)
-        sudo ln -s lib64/libdevmapper.so.1.02 lib64/libdevmapper.so.1.02.1
+        cd lib64
+        sudo ln -s libdevmapper.so.1.02 libdevmapper.so.1.02.1
+        cd -
         ;;
     Ubuntu)
         ;;
