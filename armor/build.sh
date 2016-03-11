@@ -827,13 +827,20 @@ install_armor_tools_debian()
                     #default installed.    
                 ;;
                 "lttng")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liburcu2_0.8.5-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/lttng-tools_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
+                    #supported run time installation on board.
+                    # build lttng kernel module and lttng uspace test code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    cd -
                     popd
+                    #pushd $ROOTFS
+                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liburcu2_0.8.5-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
+                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
+                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
+                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/lttng-tools_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
+                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
+                    #popd
                 ;;
                 "memwatch")
                     #memwatch to be integrated to the code to be tested. 
