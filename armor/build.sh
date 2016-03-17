@@ -827,7 +827,6 @@ install_armor_tools_debian()
                     #default installed.    
                 ;;
                 "lttng")
-                    #supported run time installation on board.
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
@@ -968,6 +967,228 @@ cd -
 popd
 } #install_armor_tools_debian
 
+install_armor_tools_centos()
+{
+    #echo "CFGFILE = $CFGFILE"
+    idx=0
+    install=`jq -r ".tools[$idx].install" $CFGFILE`
+    #echo "install= $install" 
+    while [ x"$install" != x"null" ];
+    do
+        if [ x"yes" = x"$install" ]; then
+            name=`jq -r ".tools[$idx].name" $CFGFILE`
+            case $name in
+                "awk")
+                    #default installed. 
+                ;;
+                "blktrace")
+                    #supported run time installation on board. 
+                ;;
+                "crash")
+                    #supported run time installation on board. 
+                ;;
+                "dmidecode")
+                    echo "dmidecode"
+                    # build demidecode
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_dmidecode.sh $cross_gcc $ROOTFS
+                    cd -
+                    popd
+                    # copy demidecode to rootfs
+                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
+                ;;
+                "dstat")
+                    #supported run time installation on board. 
+                ;;
+                "df")
+                    #default installed. 
+                ;;
+                "ethtool")
+                    #default installed. 
+                ;;
+                "ftrace")
+                    #default installed. 
+                ;;
+                "fsck")
+                    #default installed. 
+                ;;
+                "gdb")
+                    #default installed. 
+                ;;
+                "gprof")
+                    #default installed. 
+                ;;
+                "grep")
+                    #default installed. 
+                ;;
+                "iostat")
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/pcp-import-iostat2pcp-3.10.6-2.el7.aarch64.rpm >> $LOG_FILE 2>&1
+                    popd
+                ;;
+                "iotop")
+                    #supported run time installation on board. 
+                ;;
+                "iptables")
+                    #default installed.
+                ;;
+                "kdb")
+                    #default installed. 
+                ;;
+                "kgdb")
+                    #default installed. 
+                ;;
+                "kprobes")
+                    #default installed. 
+                    # build kprobes test code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_kprobes_test.sh $kernel_build_dir
+                    cd -
+                    popd
+                    # copy kprobes test binaries to rootfs
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+                ;;
+                "ktap")
+                    # build  ktap code and install binaries into rootfs
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_ktap.sh $kernel_build_dir $ROOTFS
+                    cd -
+                    popd
+                ;;
+                "latencytop")
+                    #supported run time installation on board. 
+                ;;
+                "lldptool")
+                    #supported run time installation on board. 
+                ;;
+                "lscpu")
+                    #default installed. 
+                ;;
+                "lspci")
+                    #supported run time installation on board. 
+                ;;
+                "ltrace")
+                    #default installed. 
+                ;;
+                "lttng")
+                    #supported run time installation on board. 
+                ;;
+                "memwatch")
+                    #memwatch to be integrated to the code to be tested. 
+                ;;
+                "mkfs")
+                    #default installed. 
+                ;;
+                "mount")
+                    #default installed. 
+                ;;
+                "netstat")
+                    #supported run time installation on board. 
+                ;;
+                "nicstat")
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/nicstat-1.95-0.aarch64.rpm >> $LOG_FILE 2>&1
+                    popd
+                ;;
+                "oprofile")
+                    #supported run time installation on board. 
+                ;;
+                "packETHcli")
+                    # build packeth cli(command line) tool code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_packETHcli.sh $ROOTFS
+                    cd -
+                    popd
+                ;;
+                "perf")
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/perf-4.2.0-0.26.el7.1.aarch64.rpm >> $LOG_FILE 2>&1
+                    popd
+                ;;
+                "pidstat")
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/sysstat-10.1.5-7.el7.aarch64.rpm >> $LOG_FILE 2>&1
+                    popd
+                ;;
+                "powertop")
+                    #supported run time installation on board. 
+                ;;
+                "procps")
+                    #default installed. 
+                ;;
+                "sar")
+                    #supported run time installation on board. 
+                ;;
+                "sed")
+                    #default installed. 
+                ;;
+                "setpci")
+                    #supported run time installation on board. 
+                ;;
+                "slabtop")
+                    #default installed.
+                ;;
+                "strace")
+                    #default installed.
+                ;;
+                "swapon")
+                    #default installed. 
+                ;;
+                "systemtap")
+                    #supported run time installation on board. 
+                ;;
+                "tail")
+                    #default installed. 
+                ;;
+                "tcpdump")
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/tcpdump-4.5.1-3.el7.aarch64.rpm >> $LOG_FILE 2>&1
+                    popd
+                ;;
+                "tiptop")
+                    pushd $ROOTFS
+                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/tiptop-2.3-0.aarch64.rpm >> $LOG_FILE 2>&1
+                    popd
+                ;;
+                "top")
+                    #default installed. 
+                ;;
+                "valgrind")
+                    #supported run time installation on board. 
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    # build valgrind test code
+                    sh build_valgrind_test.sh $ROOTFS
+                    cd -
+                    popd
+                ;;
+                "vmstat")
+                    #default installed. 
+                ;;
+            *)
+            ;;
+            esac
+    fi
+    let idx=$idx+1
+    install=`jq -r ".tools[$idx].install" $CFGFILE`
+done
+
+pushd $armor_build_dir
+cd build_scripts/
+
+# build armor utility
+sh build_armor_utility.sh $ROOTFS
+
+cd -
+popd
+} #install_armor_tools_centos
+
+
 ###################################################################################
 ###################### Initialise variables ####################
 ###################################################################################
@@ -1067,6 +1288,13 @@ case $DISTRO in
         CFGFILE=$pkg_dir/armor/armorcfg_debian.json
         install_armor_tools_debian
     ;;
+    CentOS)
+        sudo cp $armor_dir/binary/centos/*.rpm   $ROOTFS/usr/local/armor/binary
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_centos.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
+        CFGFILE=$pkg_dir/armor/armorcfg_centos.json
+        install_armor_tools_centos
+    ;; 
+
     esac
 
 sudo cp -rf $armor_dir/testing/test_scripts   $ROOTFS/usr/local/armor/
