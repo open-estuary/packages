@@ -827,7 +827,6 @@ install_armor_tools_debian()
                     #default installed.    
                 ;;
                 "lttng")
-                    #supported run time installation on board. 
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
