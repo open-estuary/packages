@@ -11,6 +11,14 @@ if hash docker >/dev/null 2>&1; then
     if [ "$Distribution" = 'Welcome' ]; then
         Distribution=`sed -n 1p /etc/issue| cut -d' ' -f 3`
     fi
+    # fix for CentOS
+    if [ "$Distribution" = '\S' ]; then
+        Distribution=`uname -n`
+        if [ "$Distribution" = 'cent-est' ]; then
+            Distribution=CentOS
+        fi
+    fi
+
     echo $Distribution
     case "$Distribution" in
         Debian)
@@ -30,7 +38,7 @@ if hash docker >/dev/null 2>&1; then
                 echo "Docker service start failed..may still work by starting the daemon manually"
             fi
         ;;
-        Ubuntu|openSUSE|Fedora)
+        Ubuntu|openSUSE|Fedora|CentOS)
             sudo groupadd docker
             sudo gpasswd -a ${USER} docker
             sudo systemctl enable docker

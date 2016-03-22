@@ -46,7 +46,7 @@ case $DISTRO in
         sudo ln -s libdevmapper.so.1.02 libdevmapper.so.1.02.1
         cd -
         ;;
-    OpenSuse)
+    CentOS|OpenSuse)
         cd lib64
         sudo ln -s libdevmapper.so.1.02 libdevmapper.so.1.02.1
         cd -
