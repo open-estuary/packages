@@ -1,6 +1,0 @@
-*.trs
-*.log
-odp_chksum
-odp_process
-odp_thread
-odph_pause
