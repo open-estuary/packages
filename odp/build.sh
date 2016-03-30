@@ -34,6 +34,7 @@ sudo mkdir "$HUGE_PATH"
 fi
 sudo mount none $ROOTFS/mnt/huge -t hugetlbfs
 echo 400 > $ROOTFS/proc/sys/vm/nr_hugepages
+echo 0 > /proc/sys/kernel/randomize_va_space
 
 LOCALARCH=`uname -m`
 if [[ x"$LOCALARCH" =~ x"x86" ]]; then
@@ -48,10 +49,10 @@ echo "building the odp project..."
 
 if [ x"$PLATFORM" = x"D01" ]; then
 	TARGETARCH="ARM32"
-	BUILDADDR=$ODP_ADDR/odp1.2/build_32    
+	BUILDADDR=$ODP_ADDR/odp1.7/platform/linux-hisilicon/build    
 else
 	TARGETARCH="ARM64"
-	BUILDADDR=$ODP_ADDR/odp1.2/build_64
+	BUILDADDR=$ODP_ADDR/odp1.7/platform/linux-hisilicon/build
 fi
 
 if [ x"BUILDTYPE" = x"cross" ]; then
@@ -79,15 +80,15 @@ if [ ! -d "$WORKADDR" ]; then
 fi
 
 echo "copy odp kernel driver and app to workspace..."
-sudo cp $BUILDADDR/ko/*.ko $WORKADDR/
-sudo cp $BUILDADDR/app/* $WORKADDR/
+sudo cp $BUILDADDR/objs/ko/*.ko $WORKADDR/
+sudo cp $BUILDADDR/objs/examples/* $WORKADDR/
 echo "copy odp user driver to $ROOTFS/usr/lib/odp..."
 if [ ! -d "$ROOTFS/usr/lib/odp" ]; then
 	sudo mkdir "$ROOTFS/usr/lib/odp"
 fi
-sudo cp $BUILDADDR/user_drv/*.so $ROOTFS/usr/lib/odp
+sudo cp $BUILDADDR/objs/drv/*.so $ROOTFS/usr/lib/odp
 echo "copy odp libs to $ROOTFS/usr/lib/..."
-sudo cp $BUILDADDR/bin/*.so $ROOTFS/usr/lib/
+sudo cp $BUILDADDR/objs/lib/*.so $ROOTFS/usr/lib/
 
 echo "odp drive and app copy finished!"
 echo "odp build finished!"

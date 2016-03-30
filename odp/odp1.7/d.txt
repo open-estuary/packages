@@ -1,0 +1,2112 @@
+CHECK: Please don't use multiple blank lines
+#57: FILE: ./platform/linux-hisilicon/common/odp_common.c:57:
++
++
+
+CHECK: Please don't use multiple blank lines
+#122: FILE: ./platform/linux-hisilicon/common/odp_common.c:122:
++
++
+
+CHECK: Alignment should match open parenthesis
+#197: FILE: ./platform/linux-hisilicon/common/odp_common.c:197:
++			ODP_ERR("Cannot open '%s' for odp_sys_layout\n",
++			pathname);
+
+CHECK: Alignment should match open parenthesis
+#214: FILE: ./platform/linux-hisilicon/common/odp_common.c:214:
++	odp_mem_cfg_addr = mmap(odp_mem_cfg_addr,
++		sizeof(*godp_config.sys_layout),
+
+CHECK: Alignment should match open parenthesis
+#242: FILE: ./platform/linux-hisilicon/common/odp_common.c:242:
++			ODP_PRINT("Cannot open '%s' for odp_sys_layout\n",
++			pathname);
+
+CHECK: Alignment should match open parenthesis
+#297: FILE: ./platform/linux-hisilicon/common/odp_common.c:297:
++	ODP_PRINT("Auto-detected process type: %s\n",
++	      ptype == ODP_PROC_PRIMARY ? "PRIMARY" : "SECONDARY");
+
+CHECK: Alignment should match open parenthesis
+#334: FILE: ./platform/linux-hisilicon/common/odp_common.c:334:
++		flock(local_config.odp_hugepage_type[i].lock_descriptor,
++						LOCK_UN);
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#394: FILE: ./platform/linux-hisilicon/common/odp_common.c:394:
++}
++static int xdigit2val(unsigned char c)
+
+CHECK: Please don't use multiple blank lines
+#472: FILE: ./platform/linux-hisilicon/common/odp_common.c:472:
++
++
+
+CHECK: Please don't use multiple blank lines
+#527: FILE: ./platform/linux-hisilicon/common/odp_common.c:527:
++
++
+
+CHECK: Please don't use multiple blank lines
+#543: FILE: ./platform/linux-hisilicon/common/odp_common.c:543:
++
++
+
+ERROR: do not initialise statics to 0 or NULL
+#566: FILE: ./platform/linux-hisilicon/common/odp_common.c:566:
++	static int run_once = 0;
+
+CHECK: Alignment should match open parenthesis
+#603: FILE: ./platform/linux-hisilicon/common/odp_common.c:603:
++	ODP_PRINT("system memory=%lu (k), current system pagesize=%lu (k), dirent=%s, number=%d\n",
++		local_config.memory / 1024,
+
+CHECK: Please don't use multiple blank lines
+#641: FILE: ./platform/linux-hisilicon/common/odp_common.c:641:
++
++
+
+CHECK: Alignment should match open parenthesis
+#687: FILE: ./platform/linux-hisilicon/common/odp_common.c:687:
++		ODP_ERR("Open /proc/modules failed! error %i (%s)\n",
++		      errno, strerror(errno));
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#738: FILE: ./platform/linux-hisilicon/common/odp_common.c:738:
++}
++enum odp_proc_type_t odp_get_process_type(void)
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#742: FILE: ./platform/linux-hisilicon/common/odp_common.c:742:
++}
++int odp_init_hisilicon(void)
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#751: FILE: ./platform/linux-hisilicon/common/odp_common.c:751:
++}
++int odp_hisi_term_global(void)
+
+total: 1 errors, 0 warnings, 17 checks, 755 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/common/odp_common.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#112: FILE: ./platform/linux-hisilicon/common/odp_common_dev.c:112:
++			ODP_PRINT("failed to initialize %s device\n",
++				devargs->virtual.drv_name);
+
+total: 0 errors, 0 warnings, 1 checks, 156 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/common/odp_common_dev.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#49: FILE: ./platform/linux-hisilicon/common/odp_common_devargs.c:49:
++int odp_parse_devargs_str(const char *devargs_str,
++			   char **drvname, char **drvargs)
+
+CHECK: Alignment should match open parenthesis
+#118: FILE: ./platform/linux-hisilicon/common/odp_common_devargs.c:118:
++		if ((ret < 0) ||
++			(ret >= (int)sizeof(devargs->virtual.drv_name))) {
+
+total: 0 errors, 0 warnings, 2 checks, 187 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/common/odp_common_devargs.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Please don't use multiple blank lines
+#53: FILE: ./platform/linux-hisilicon/common/odp_core.c:53:
++
++
+
+CHECK: Please don't use multiple blank lines
+#68: FILE: ./platform/linux-hisilicon/common/odp_core.c:68:
++
++
+
+CHECK: Alignment should match open parenthesis
+#112: FILE: ./platform/linux-hisilicon/common/odp_core.c:112:
++	if ((!endptr) || (*endptr != '\0') ||
++		(endptr == e->d_name + pref_len)) {
+
+CHECK: Blank lines aren't necessary after an open brace '{'
+#113: FILE: ./platform/linux-hisilicon/common/odp_core.c:113:
++		(endptr == e->d_name + pref_len)) {
++
+
+CHECK: Alignment should match open parenthesis
+#117: FILE: ./platform/linux-hisilicon/common/odp_core.c:117:
++		len = snprintf(path, sizeof(path), SYS_CPU_DIR "/%s", core_id,
++			PHYS_PKG_FILE);
+
+CHECK: Alignment should match open parenthesis
+#162: FILE: ./platform/linux-hisilicon/common/odp_core.c:162:
++			if (lcore_id < (sizeof(uint64_t) * 8 * (i + 1)) &&
++				lcore_id >= (sizeof(uint64_t) * 8 * i)) {
+
+CHECK: spaces preferred around that '<<' (ctx:VxW)
+#165: FILE: ./platform/linux-hisilicon/common/odp_core.c:165:
++						(1<< (lcore_id & 63))) {
+ 						  ^
+
+CHECK: spaces preferred around that '<<' (ctx:VxW)
+#170: FILE: ./platform/linux-hisilicon/common/odp_core.c:170:
++						|= (1<< (lcore_id & 63));
+ 						     ^
+
+CHECK: Alignment should match open parenthesis
+#192: FILE: ./platform/linux-hisilicon/common/odp_core.c:192:
++			if (lcore_id < (sizeof(uint64_t) * 8 * (i + 1)) &&
++				lcore_id >= (sizeof(uint64_t) * 8 * i)) {
+
+CHECK: spaces preferred around that '<<' (ctx:VxW)
+#194: FILE: ./platform/linux-hisilicon/common/odp_core.c:194:
++						(uint64_t)(1<< (lcore_id & 63));
+ 						            ^
+
+CHECK: Alignment should match open parenthesis
+#219: FILE: ./platform/linux-hisilicon/common/odp_core.c:219:
++			if (cpu_id < (sizeof(uint64_t) * 8 * (i + 1)) &&
++			     cpu_id >= (sizeof(uint64_t) * 8 * i)) {
+
+CHECK: spaces preferred around that '<<' (ctx:VxW)
+#222: FILE: ./platform/linux-hisilicon/common/odp_core.c:222:
++				(uint64_t)(1<< (cpu_id & 63));
+ 				            ^
+
+CHECK: Alignment should match open parenthesis
+#224: FILE: ./platform/linux-hisilicon/common/odp_core.c:224:
++				if (!lcore_mask &&
++					gcore_config[cpu_id].detected) {
+
+CHECK: spaces preferred around that '<<' (ctx:VxW)
+#226: FILE: ./platform/linux-hisilicon/common/odp_core.c:226:
++					  |= (uint64_t)(1<< (cpu_id & 63));
+ 					                 ^
+
+CHECK: Please don't use multiple blank lines
+#233: FILE: ./platform/linux-hisilicon/common/odp_core.c:233:
++
++
+
+CHECK: Blank lines aren't necessary before a close brace '}'
+#234: FILE: ./platform/linux-hisilicon/common/odp_core.c:234:
++
++	}
+
+CHECK: Alignment should match open parenthesis
+#250: FILE: ./platform/linux-hisilicon/common/odp_core.c:250:
++			if (cpu_id < (sizeof(uint64_t) * 8 * (i + 1)) &&
++				cpu_id >= (sizeof(uint64_t) * 8 * i)) {
+
+CHECK: spaces preferred around that '<<' (ctx:VxW)
+#252: FILE: ./platform/linux-hisilicon/common/odp_core.c:252:
++					(uint64_t)(1<< (cpu_id & 63)) &
+ 					            ^
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#266: FILE: ./platform/linux-hisilicon/common/odp_core.c:266:
++}
++/*****************************************************************************
+
+CHECK: Alignment should match open parenthesis
+#288: FILE: ./platform/linux-hisilicon/common/odp_core.c:288:
++		memset(config->sys_layout->odp_lcore_status, 0,
++			(sizeof(uint64_t) * (ODP_MAX_CORE >> 6)));
+
+CHECK: Please don't use multiple blank lines
+#294: FILE: ./platform/linux-hisilicon/common/odp_core.c:294:
++
++
+
+CHECK: Alignment should match open parenthesis
+#369: FILE: ./platform/linux-hisilicon/common/odp_core.c:369:
++	s = pthread_setaffinity_np(tid, sizeof(odp_cpumask_t),
++		(cpu_set_t *)cpusetp);
+
+total: 0 errors, 0 warnings, 22 checks, 493 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/common/odp_core.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#82: FILE: ./platform/linux-hisilicon/common/odp_tailqs.c:82:
++		if (!strncmp(name, mcfg->tailq_head[i].name,
++				ODP_TAILQ_NAMESIZE - 1))
+
+total: 0 errors, 0 warnings, 1 checks, 200 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/common/odp_tailqs.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+total: 0 errors, 0 warnings, 0 checks, 21 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/cpudrv/odp_swab.c has no obvious style problems and is ready for submission.
+CHECK: Please don't use multiple blank lines
+#64: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:64:
++
++
+
+ERROR: do not initialise statics to 0 or NULL
+#73: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:73:
++static struct odp_eth_dev_data *odp_eth_dev_data = NULL;
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#74: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:74:
++static uint8_t nb_ports = 0; /* 当前已注册端口数 */
+                                 ^
+
+ERROR: do not initialise statics to 0 or NULL
+#74: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:74:
++static uint8_t nb_ports = 0; /* 当前已注册端口数 */
+
+CHECK: Please don't use multiple blank lines
+#88: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:88:
++
++
+
+WARNING: Macros with flow control statements should be avoided
+#90: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:90:
++#define PROC_PRIMARY_OR_ERR_RET(retval) do { \
++		if (odp_process_type() != ODP_PROC_PRIMARY) { \
++		ODP_ERR("Cannot run in secondary processes\n"); \
++			return retval; \
++		} \
++} while (0)
++
+
+WARNING: suspect code indent for conditional statements (16, 16)
+#91: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:91:
++		if (odp_process_type() != ODP_PROC_PRIMARY) { \
++		ODP_ERR("Cannot run in secondary processes\n"); \
+
+WARNING: Macros with flow control statements should be avoided
+#97: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:97:
++#define PROC_PRIMARY_OR_RET()		do { \
++		if (odp_process_type() != ODP_PROC_PRIMARY) { \
++		ODP_ERR("Cannot run in secondary processes\n"); \
++			return; \
++		} \
++} while (0)
++
+
+WARNING: suspect code indent for conditional statements (16, 16)
+#98: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:98:
++		if (odp_process_type() != ODP_PROC_PRIMARY) { \
++		ODP_ERR("Cannot run in secondary processes\n"); \
+
+WARNING: Macros with flow control statements should be avoided
+#105: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:105:
++#define FUNC_PTR_OR_ERR_RET(func, retval) do { \
++		if ((func) == NULL) { \
++			ODP_ERR("Function not supported\n"); \
++			return retval; \
++		} \
++} while (0)
++#define FUNC_PTR_OR_RET(func)		  do { \
+
+WARNING: Macros with flow control statements should be avoided
+#111: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:111:
++#define FUNC_PTR_OR_RET(func)		  do { \
++		if ((func) == NULL) { \
++			return; \
++		} \
++} while (0)
++
+
+CHECK: Please don't use multiple blank lines
+#117: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:117:
++
++
+
+CHECK: Alignment should match open parenthesis
+#189: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:189:
++		mz = odp_mm_district_reserve(MZ_ODP_ETH_DEV_DATA,
++					 MZ_ODP_ETH_DEV_DATA,
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#208: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:208:
++/* 检查当前设备名是否已注册 */
+    ^
+
+ERROR: do not initialise statics to 0 or NULL
+#224: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:224:
++	static int  eth_dev_init_flag = 0;
+
+CHECK: Alignment should match open parenthesis
+#240: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:240:
++struct odp_eth_dev *odp_eth_dev_allocate(const char *name,
++			enum odp_eth_dev_type type)
+
+CHECK: Please don't use multiple blank lines
+#252: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:252:
++
++
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#268: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:268:
++	nb_ports++; /* 已注册端口加1 */
+ 	               ^
+
+CHECK: Alignment should match open parenthesis
+#273: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:273:
++static inline int odp_eth_dev_create_unique_device_name(char *name,
++					size_t size,
+
+CHECK: Alignment should match open parenthesis
+#312: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:312:
++	odp_eth_dev_create_unique_device_name(ethdev_name,
++					sizeof(ethdev_name), pci_dev);
+
+CHECK: Unnecessary parentheses around eth_dev->link_intr_cbs
+#331: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:331:
++	TAILQ_INIT(&(eth_dev->link_intr_cbs));
+
+CHECK: Alignment should match open parenthesis
+#368: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:368:
++	odp_eth_dev_create_unique_device_name(ethdev_name,
++					  sizeof(ethdev_name), pci_dev);
+
+CHECK: Logical continuations should be on the previous line
+#420: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:420:
++	if ((port_id >= ODP_MAX_ETHPORTS)
++	    || (odp_eth_devices[port_id].attached != DEV_ATTACHED))
+
+CHECK: Logical continuations should be on the previous line
+#453: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:453:
++	if ((devs == NULL)
++	    || (size != sizeof(struct odp_eth_dev) * ODP_MAX_ETHPORTS))
+
+CHECK: Alignment should match open parenthesis
+#462: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:462:
++static int odp_eth_dev_get_changed_port(struct odp_eth_dev *devs,
++				uint8_t *port_id)
+
+CHECK: Alignment should match open parenthesis
+#476: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:476:
++static int odp_eth_dev_get_addr_by_port(uint8_t port_id,
++			struct odp_pci_addr *addr)
+
+CHECK: Alignment should match open parenthesis
+#538: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:538:
++static int odp_eth_dev_attach_pdev(struct odp_pci_addr *addr,
++				uint8_t *port_id)
+
+CHECK: Alignment should match open parenthesis
+#575: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:575:
++static int odp_eth_dev_detach_pdev(uint8_t port_id,
++			struct odp_pci_addr *addr)
+
+CHECK: multiple assignments should be avoided
+#592: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:592:
++	vp.domain = vp.bus = vp.devid = vp.function = 0;
+
+CHECK: Please don't use multiple blank lines
+#616: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:616:
++
++
+
+CHECK: Alignment should match open parenthesis
+#742: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:742:
++static int odp_eth_dev_rx_queue_config(struct odp_eth_dev *dev,
++			uint16_t nb_queues)
+
+CHECK: Alignment should match open parenthesis
+#757: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:757:
++		FUNC_PTR_OR_ERR_RET(*dev->dev_ops->rx_queue_release,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#880: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:880:
++static int odp_eth_dev_tx_queue_config(struct odp_eth_dev *dev,
++				uint16_t nb_queues)
+
+CHECK: Please don't use multiple blank lines
+#886: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:886:
++
++
+
+CHECK: Alignment should match open parenthesis
+#896: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:896:
++		FUNC_PTR_OR_ERR_RET(*dev->dev_ops->tx_queue_release,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#922: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:922:
++static int odp_eth_dev_check_vf_rss_rxq_num(uint8_t port_id,
++				uint16_t nb_rx_q)
+
+CHECK: Alignment should match open parenthesis
+#948: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:948:
++static int odp_eth_dev_check_mq_mode(uint8_t port_id, uint16_t nb_rx_q,
++					uint16_t nb_tx_q,
+
+CHECK: Logical continuations should be on the previous line
+#956: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:956:
++		if ((dev_conf->rxmode.mq_mode == ETH_MQ_RX_DCB)
++		    || (dev_conf->rxmode.mq_mode == ETH_MQ_RX_DCB_RSS)
+
+CHECK: Logical continuations should be on the previous line
+#957: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:957:
++		    || (dev_conf->rxmode.mq_mode == ETH_MQ_RX_DCB_RSS)
++		    || (dev_conf->txmode.mq_mode == ETH_MQ_TX_DCB)) {
+
+CHECK: Avoid CamelCase: <PRIu8>
+#959: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:959:
++			ODP_ERR("ethdev port_id=%" PRIu8
+
+CHECK: Alignment should match open parenthesis
+#983: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:983:
++				if (odp_eth_dev_check_vf_rss_rxq_num(port_id,
++					nb_rx_q) != 0) {
+
+CHECK: Logical continuations should be on the previous line
+#1030: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1030:
++		if ((nb_rx_q > ODP_ETH_DEV_SRIOV(dev).nb_q_per_pool)
++		    || (nb_tx_q > ODP_ETH_DEV_SRIOV(dev).nb_q_per_pool)) {
+
+CHECK: Unnecessary parentheses around dev_conf->rx_adv_conf.vmdq_dcb_conf
+#1051: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1051:
++			conf = &(dev_conf->rx_adv_conf.vmdq_dcb_conf);
+
+CHECK: Logical continuations should be on the previous line
+#1053: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1053:
++			if (!((conf->nb_queue_pools == ETH_16_POOLS)
++			      || (conf->nb_queue_pools == ETH_32_POOLS))) {
+
+CHECK: Unnecessary parentheses around dev_conf->tx_adv_conf.vmdq_dcb_tx_conf
+#1074: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1074:
++			conf = &(dev_conf->tx_adv_conf.vmdq_dcb_tx_conf);
+
+CHECK: Logical continuations should be on the previous line
+#1076: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1076:
++			if (!((conf->nb_queue_pools == ETH_16_POOLS)
++			      || (conf->nb_queue_pools == ETH_32_POOLS))) {
+
+CHECK: Unnecessary parentheses around dev_conf->rx_adv_conf.dcb_rx_conf
+#1099: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1099:
++			conf = &(dev_conf->rx_adv_conf.dcb_rx_conf);
+
+CHECK: Logical continuations should be on the previous line
+#1101: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1101:
++			if (!((conf->nb_tcs == ETH_4_TCS)
++			      || (conf->nb_tcs == ETH_8_TCS))) {
+
+CHECK: Unnecessary parentheses around dev_conf->tx_adv_conf.dcb_tx_conf
+#1123: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1123:
++			conf = &(dev_conf->tx_adv_conf.dcb_tx_conf);
+
+CHECK: Logical continuations should be on the previous line
+#1125: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1125:
++			if (!((conf->nb_tcs == ETH_4_TCS)
++			      || (conf->nb_tcs == ETH_8_TCS))) {
+
+CHECK: Alignment should match open parenthesis
+#1140: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1140:
++int odp_eth_dev_configure(uint8_t port_id, uint16_t nb_rx_q,
++			uint16_t nb_tx_q,
+
+CHECK: Please don't use multiple blank lines
+#1147: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1147:
++
++
+
+CHECK: Please don't use multiple blank lines
+#1157: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1157:
++
++
+
+CHECK: Alignment should match open parenthesis
+#1181: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1181:
++		ODP_ERR("port %d must be stopped to allow configuration\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#1197: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1197:
++		ODP_ERR("ethdev port_id=%d nb_rx_queues=%d > %d\n",
++				port_id, nb_rx_q, dev_info.max_rx_queues);
+
+CHECK: Alignment should match open parenthesis
+#1208: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1208:
++		ODP_ERR("ethdev port_id=%d nb_tx_queues=%d > %d\n",
++				port_id, nb_tx_q, dev_info.max_tx_queues);
+
+CHECK: Alignment should match open parenthesis
+#1224: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1224:
++			ODP_ERR("driver %s does not support lsc\n",
++					pci_drv->name);
+
+CHECK: Logical continuations should be on the previous line
+#1252: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1252:
++	} else if ((dev_conf->rxmode.max_rx_pkt_len < ODP_ETHER_MIN_LEN)
++		   || (dev_conf->rxmode.max_rx_pkt_len > ODP_ETHER_MAX_LEN)) {
+
+CHECK: Alignment should match open parenthesis
+#1262: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1262:
++		ODP_ERR("port%d odp_eth_dev_check_mq_mode = %d\n",
++				port_id, diag);
+
+CHECK: Alignment should match open parenthesis
+#1272: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1272:
++		ODP_ERR("port%d odp_eth_dev_tx_queue_config = %d\n",
++				port_id, diag);
+
+CHECK: Alignment should match open parenthesis
+#1280: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1280:
++		ODP_ERR("port%d odp_eth_dev_rx_queue_config = %d\n",
++				port_id, diag);
+
+CHECK: Alignment should match open parenthesis
+#1287: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1287:
++		ODP_ERR("port%d dev_configure = %d\n",
++				port_id, diag);
+
+CHECK: Logical continuations should be on the previous line
+#1321: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1321:
++		if (*dev->dev_ops->mac_addr_add
++		    && (dev->data->mac_pool_sel[i] & (1ULL << pool))) {
+
+CHECK: Blank lines aren't necessary before a close brace '}'
+#1345: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1345:
++
++}
+
+CHECK: Alignment should match open parenthesis
+#1381: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1381:
++		FUNC_PTR_OR_ERR_RET(*dev->dev_ops->link_update,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#1659: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1659:
++odp_eth_dev_atomic_read_link_status(struct odp_eth_dev  *dev,
++					struct odp_eth_link *link)
+
+CHECK: Unnecessary parentheses around dev->data->dev_link
+#1662: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1662:
++	struct odp_eth_link *src = &(dev->data->dev_link);
+
+CHECK: Alignment should match open parenthesis
+#1665: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1665:
++	if (odp_atomic_cmpset_u64_a64((odp_atomic_u64_t *)dst,
++				*(uint64_t *)dst,
+
+CHECK: Alignment should match open parenthesis
+#1840: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1840:
++static int set_queue_stats_mapping(uint8_t port_id, uint16_t queue_id,
++				uint8_t stat_idx,
+
+CHECK: Alignment should match open parenthesis
+#1853: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1853:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->queue_stats_mapping_set,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#1859: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1859:
++int odp_eth_dev_set_tx_queue_stats_mapping(uint8_t port_id,
++					uint16_t tx_queue_id,
+
+CHECK: Alignment should match open parenthesis
+#1867: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1867:
++int odp_eth_dev_set_rx_queue_stats_mapping(uint8_t port_id,
++					uint16_t rx_queue_id,
+
+CHECK: Alignment should match open parenthesis
+#1953: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1953:
++		ODP_ERR("(port_id=%d) invalid vlan_id=%u > 4095\n",
++				port_id, (unsigned)vlan_id);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#1960: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1960:
++		return (-ENOSYS);
+
+CHECK: Alignment should match open parenthesis
+#1969: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:1969:
++int odp_eth_dev_set_vlan_strip_on_queue(uint8_t port_id,
++	uint16_t rx_queue_id, int on)
+
+CHECK: Please don't use multiple blank lines
+#2028: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2028:
++
++
+
+CHECK: Alignment should match open parenthesis
+#2108: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2108:
++		ODP_ERR("port %d: invalid FDIR mode=%u\n",
++				port_id, dev->data->dev_conf.fdir_conf.mode);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2109: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2109:
++		return (-ENOSYS);
+
+CHECK: Logical continuations should be on the previous line
+#2113: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2113:
++	if (((fdir_filter->l4type == ODP_FDIR_L4TYPE_SCTP)
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
+
+CHECK: Logical continuations should be on the previous line
+#2114: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2114:
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
++	    && (fdir_filter->port_src || fdir_filter->port_dst)) {
+
+CHECK: Alignment should match open parenthesis
+#2122: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2122:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->fdir_add_signature_filter,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2128: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2128:
++int odp_eth_dev_fdir_update_signature_filter(uint8_t	port_id,
++					  struct odp_fdir_filter *fdir_filter,
+
+CHECK: Alignment should match open parenthesis
+#2142: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2142:
++		ODP_ERR("port %d: invalid FDIR mode=%u\n",
++				port_id, dev->data->dev_conf.fdir_conf.mode);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2143: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2143:
++		return (-ENOSYS);
+
+CHECK: Logical continuations should be on the previous line
+#2147: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2147:
++	if (((fdir_filter->l4type == ODP_FDIR_L4TYPE_SCTP)
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
+
+CHECK: Logical continuations should be on the previous line
+#2148: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2148:
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
++	    && (fdir_filter->port_src || fdir_filter->port_dst)) {
+
+CHECK: Alignment should match open parenthesis
+#2156: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2156:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->fdir_update_signature_filter,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2162: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2162:
++int odp_eth_dev_fdir_remove_signature_filter(uint8_t	port_id,
++					  struct odp_fdir_filter *fdir_filter)
+
+CHECK: Alignment should match open parenthesis
+#2175: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2175:
++		ODP_ERR("port %d: invalid FDIR mode=%u\n",
++				port_id, dev->data->dev_conf.fdir_conf.mode);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2176: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2176:
++		return (-ENOSYS);
+
+CHECK: Logical continuations should be on the previous line
+#2180: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2180:
++	if (((fdir_filter->l4type == ODP_FDIR_L4TYPE_SCTP)
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
+
+CHECK: Logical continuations should be on the previous line
+#2181: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2181:
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
++	    && (fdir_filter->port_src || fdir_filter->port_dst)) {
+
+CHECK: Alignment should match open parenthesis
+#2189: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2189:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->fdir_remove_signature_filter,
++		-ENOTSUP);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2205: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2205:
++		return (-ENOSYS);
+
+CHECK: Alignment should match open parenthesis
+#2230: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2230:
++		ODP_ERR("port %d: invalid FDIR mode=%u\n",
++				port_id, dev->data->dev_conf.fdir_conf.mode);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2231: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2231:
++		return (-ENOSYS);
+
+CHECK: Logical continuations should be on the previous line
+#2235: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2235:
++	if (((fdir_filter->l4type == ODP_FDIR_L4TYPE_SCTP)
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
+
+CHECK: Logical continuations should be on the previous line
+#2236: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2236:
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
++	    && (fdir_filter->port_src || fdir_filter->port_dst)) {
+
+CHECK: Alignment should match open parenthesis
+#2249: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2249:
++	return (*dev->dev_ops->fdir_add_perfect_filter)(dev, fdir_filter,
++						soft_id, queue,
+
+CHECK: Alignment should match open parenthesis
+#2254: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2254:
++int odp_eth_dev_fdir_update_perfect_filter(uint8_t port_id,
++					 struct odp_fdir_filter *fdir_filter,
+
+CHECK: Alignment should match open parenthesis
+#2269: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2269:
++		ODP_ERR("port %d: invalid FDIR mode=%u\n",
++				port_id, dev->data->dev_conf.fdir_conf.mode);
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2270: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2270:
++		return (-ENOSYS);
+
+CHECK: Logical continuations should be on the previous line
+#2274: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2274:
++	if (((fdir_filter->l4type == ODP_FDIR_L4TYPE_SCTP)
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
+
+CHECK: Logical continuations should be on the previous line
+#2275: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2275:
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
++	    && (fdir_filter->port_src || fdir_filter->port_dst)) {
+
+CHECK: Alignment should match open parenthesis
+#2287: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2287:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->fdir_update_perfect_filter,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2289: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2289:
++	return (*dev->dev_ops->fdir_update_perfect_filter)(dev, fdir_filter,
++						soft_id, queue, drop);
+
+CHECK: Alignment should match open parenthesis
+#2293: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2293:
++int odp_eth_dev_fdir_remove_perfect_filter(uint8_t port_id,
++				struct odp_fdir_filter *fdir_filter,
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2308: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2308:
++		return -ENOSYS;
+
+CHECK: Logical continuations should be on the previous line
+#2312: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2312:
++	if (((fdir_filter->l4type == ODP_FDIR_L4TYPE_SCTP)
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
+
+CHECK: Logical continuations should be on the previous line
+#2313: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2313:
++	     || (fdir_filter->l4type == ODP_FDIR_L4TYPE_NONE))
++	    && (fdir_filter->port_src || fdir_filter->port_dst)) {
+
+CHECK: Alignment should match open parenthesis
+#2325: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2325:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->fdir_remove_perfect_filter,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2327: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2327:
++	return (*dev->dev_ops->fdir_remove_perfect_filter)(dev, fdir_filter,
++							soft_id);
+
+CHECK: Alignment should match open parenthesis
+#2331: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2331:
++int odp_eth_dev_fdir_set_masks(uint8_t port_id,
++	struct odp_fdir_masks *fdir_mask)
+
+WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+#2343: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2343:
++		return (-ENOSYS);
+
+CHECK: Alignment should match open parenthesis
+#2351: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2351:
++int odp_eth_dev_flow_ctrl_get(uint8_t port_id,
++	struct odp_eth_fc_conf *fc_conf)
+
+CHECK: Alignment should match open parenthesis
+#2367: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2367:
++int odp_eth_dev_flow_ctrl_set(uint8_t port_id,
++	struct odp_eth_fc_conf *fc_conf)
+
+CHECK: Alignment should match open parenthesis
+#2387: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2387:
++int odp_eth_dev_priority_flow_ctrl_set(uint8_t port_id,
++	struct odp_eth_pfc_conf *pfc_conf)
+
+CHECK: Alignment should match open parenthesis
+#2412: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2412:
++odp_eth_check_reta_mask(struct odp_eth_rss_reta_entry64 *reta_conf,
++					  uint16_t	reta_size)
+
+CHECK: Alignment should match open parenthesis
+#2421: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2421:
++		ODP_ERR("Invalid reta size, should be %u aligned\n",
++				ODP_RETA_GROUP_SIZE);
+
+CHECK: Alignment should match open parenthesis
+#2435: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2435:
++odp_eth_check_reta_entry(struct odp_eth_rss_reta_entry64 *reta_conf,
++					   uint16_t	 reta_size,
+
+CHECK: Logical continuations should be on the previous line
+#2452: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2452:
++		if ((reta_conf[idx].mask & (1ULL << shift))
++		    && (reta_conf[idx].reta[shift] >= max_rxq)) {
+
+CHECK: Alignment should match open parenthesis
+#2464: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2464:
++int odp_eth_dev_rss_reta_update(uint8_t port_id,
++			struct odp_eth_rss_reta_entry64 *reta_conf,
+
+CHECK: Alignment should match open parenthesis
+#2515: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2515:
++int odp_eth_dev_rss_hash_update(uint8_t port_id,
++		struct odp_eth_rss_conf *rss_conf)
+
+CHECK: Logical continuations should be on the previous line
+#2527: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2527:
++	if ((rss_hash_protos != 0)
++	    && ((rss_hash_protos & ETH_RSS_PROTO_MASK) == 0)) {
+
+CHECK: Alignment should match open parenthesis
+#2529: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2529:
++		ODP_ERR("Invalid rss_hash_protos=0x%x\n",
++				rss_hash_protos);
+
+CHECK: Alignment should match open parenthesis
+#2535: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2535:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->rss_hash_update,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2551: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2551:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->rss_hash_conf_get,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2556: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2556:
++int odp_eth_dev_udp_tunnel_add(uint8_t port_id,
++		struct odp_eth_udp_tunnel *udp_tunnel)
+
+CHECK: Alignment should match open parenthesis
+#2577: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2577:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->udp_tunnel_add,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2582: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2582:
++int odp_eth_dev_udp_tunnel_delete(uint8_t port_id,
++		struct odp_eth_udp_tunnel *udp_tunnel)
+
+CHECK: Alignment should match open parenthesis
+#2604: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2604:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->udp_tunnel_del,
++		-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2641: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2641:
++static inline int get_mac_addr_index(uint8_t port_id,
++			struct odp_ether_addr *addr)
+
+CHECK: Alignment should match open parenthesis
+#2651: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2651:
++		if (memcmp(addr, &dev->data->mac_addrs[i],
++			ODP_ETHER_ADDR_LEN) == 0)
+
+CHECK: Alignment should match open parenthesis
+#2676: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2676:
++		ODP_ERR("port %d: Cannot add NULL MAC address\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2690: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2690:
++			ODP_ERR("port %d: MAC address array full\n",
++					port_id);
+
+CHECK: Alignment should match open parenthesis
+#2757: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2757:
++		ODP_ERR("set VF RX mode:Invalid port_id=%d\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2784: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2784:
++static inline int get_hash_mac_addr_index(uint8_t port_id,
++				struct odp_ether_addr *addr)
+
+CHECK: Alignment should match open parenthesis
+#2811: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2811:
++		ODP_ERR("unicast hash setting:Invalid port_id=%d\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2818: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2818:
++		ODP_ERR("port %d: Cannot add NULL MAC address\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2838: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2838:
++			ODP_ERR("port %d: MAC address array full\n",
++					port_id);
+
+CHECK: Alignment should match open parenthesis
+#2864: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2864:
++		ODP_ERR("unicast hash setting:Invalid port_id=%d\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2871: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2871:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->uc_all_hash_table_set,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2907: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2907:
++		ODP_ERR("set pool tx:Invalid port_id=%d\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2931: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2931:
++		ODP_ERR("VF VLAN filter:invalid port id=%d\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2944: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2944:
++		ODP_ERR("VF VLAN filter:invalid VLAN id=%d\n",
++				vlan_id);
+
+CHECK: Alignment should match open parenthesis
+#2949: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2949:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->set_vf_vlan_filter,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#2963: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2963:
++		ODP_ERR("set queue rate limit:invalid port id=%d\n",
++				port_id);
+
+CHECK: Alignment should match open parenthesis
+#2986: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:2986:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->set_queue_rate_limit,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#3002: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3002:
++		ODP_ERR("set VF rate limit:invalid port id=%d\n",
++				port_id);
+
+CHECK: Logical continuations should be on the previous line
+#3050: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3050:
++	if ((mirror_conf->rule_type_mask & ETH_VMDQ_POOL_MIRROR)
++	    && (mirror_conf->pool_mask == 0)) {
+
+CHECK: Alignment should match open parenthesis
+#3079: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3079:
++		ODP_ERR("Invalid rule_id, rule_id must be 0-%d\n",
++				ETH_VMDQ_NUM_MIRROR_RULE - 1);
+
+CHECK: Please don't use multiple blank lines
+#3089: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3089:
++
++
+
+CHECK: Unnecessary parentheses around dev->link_intr_cbs
+#3109: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3109:
++	TAILQ_FOREACH(user_cb, &(dev->link_intr_cbs), next)
+
+CHECK: Logical continuations should be on the previous line
+#3112: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3112:
++		if ((user_cb->cb_fn == cb_fn)
++		    && (user_cb->cb_arg == cb_arg)
+
+CHECK: Logical continuations should be on the previous line
+#3113: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3113:
++		    && (user_cb->cb_arg == cb_arg)
++		    && (user_cb->event == event))
+
+CHECK: Alignment should match open parenthesis
+#3120: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3120:
++		user_cb = odp_zmalloc("user_cb",
++			sizeof(struct odp_eth_dev_callback), 0);
+
+CHECK: Unnecessary parentheses around dev->link_intr_cbs
+#3126: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3126:
++		TAILQ_INSERT_TAIL(&(dev->link_intr_cbs), user_cb, next);
+
+CHECK: Logical continuations should be on the previous line
+#3158: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3158:
++		if ((cb->cb_fn != cb_fn) || (cb->event != event)
++		    || ((cb->cb_arg != (void *)-1)
+
+CHECK: Logical continuations should be on the previous line
+#3159: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3159:
++		    || ((cb->cb_arg != (void *)-1)
++			&& (cb->cb_arg != cb_arg)))
+
+CHECK: Unnecessary parentheses around dev->link_intr_cbs
+#3167: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3167:
++			TAILQ_REMOVE(&(dev->link_intr_cbs), cb, next);
+
+CHECK: Unnecessary parentheses around dev->link_intr_cbs
+#3186: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3186:
++	TAILQ_FOREACH(cb_lst, &(dev->link_intr_cbs), next)
+
+CHECK: Alignment should match open parenthesis
+#3264: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3264:
++int odp_eth_dev_bypass_event_show(uint8_t port_id, uint32_t event,
++					uint32_t *state)
+
+CHECK: Alignment should match open parenthesis
+#3285: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3285:
++int odp_eth_dev_bypass_event_store(uint8_t port_id, uint32_t event,
++					uint32_t state)
+
+CHECK: Alignment should match open parenthesis
+#3321: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3321:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->bypass_wd_timeout_set,
++			-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#3347: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3347:
++int odp_eth_dev_bypass_wd_timeout_show(uint8_t port_id,
++					uint32_t *wd_timeout)
+
+CHECK: Alignment should match open parenthesis
+#3363: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3363:
++	FUNC_PTR_OR_ERR_RET(*dev->dev_ops->bypass_wd_timeout_show,
++				-ENOTSUP);
+
+CHECK: Alignment should match open parenthesis
+#3390: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3390:
++int odp_eth_dev_filter_supported(uint8_t port_id,
++		enum odp_filter_type filter_type)
+
+CHECK: Alignment should match open parenthesis
+#3406: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3406:
++int odp_eth_dev_filter_ctrl(uint8_t port_id,
++			enum odp_filter_type filter_type,
+
+CHECK: Logical continuations should be on the previous line
+#3431: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3431:
++	if (!odp_eth_dev_is_valid_port(port_id) || (fn == NULL)
++	    || (queue_id >= odp_eth_devices[port_id].data->nb_rx_queues)) {
+
+CHECK: Logical continuations should be on the previous line
+#3460: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3460:
++	if (!odp_eth_dev_is_valid_port(port_id) || (fn == NULL)
++	    || (queue_id >= odp_eth_devices[port_id].data->nb_tx_queues)) {
+
+CHECK: Logical continuations should be on the previous line
+#3488: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3488:
++	if (!odp_eth_dev_is_valid_port(port_id) || (user_cb == NULL)
++	    || (queue_id >= odp_eth_devices[port_id].data->nb_rx_queues))
+
+CHECK: Logical continuations should be on the previous line
+#3525: FILE: ./platform/linux-hisilicon/ether/odp_ethdev.c:3525:
++	if (!odp_eth_dev_is_valid_port(port_id) || (user_cb == NULL)
++	    || (queue_id >= odp_eth_devices[port_id].data->nb_tx_queues))
+
+total: 3 errors, 15 warnings, 154 checks, 3551 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/ether/odp_ethdev.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#57: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:57:
++#define BD_BUFFER_MAX_SIZE 4096          /* PV660 RCB buffer最大值 */
+                                                             ^
+
+WARNING: Use of volatile is usually wrong: see Documentation/volatile-considered-harmful.txt
+#112: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:112:
++static volatile int kni_fd = -1;
+
+CHECK: Alignment should match open parenthesis
+#118: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:118:
++static const struct odp_mm_district  *kni_mm_district_reserve(const char *name,
++						size_t len, int socket_id,
+
+CHECK: Alignment should match open parenthesis
+#213: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:213:
++	memset((void *)kni_mm_district_pool.slots, 0,
++		sizeof(struct odp_kni_mm_district_slot) * max_kni_ifaces);
+
+CHECK: Alignment should match open parenthesis
+#230: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:230:
++		mz = kni_mm_district_reserve(mz_name, sizeof(struct odp_kni),
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#242: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:242:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#254: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:254:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#266: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:266:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#278: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:278:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#290: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:290:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#302: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:302:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#314: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:314:
++		mz = kni_mm_district_reserve(obj_name, KNI_FIFO_SIZE,
++					 SOCKET_ID_ANY, 0);
+
+CHECK: Alignment should match open parenthesis
+#627: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:627:
++unsigned odp_kni_tx_burst(struct odp_kni *kni,
++				odp_packet_t mbufs[], unsigned num)
+
+CHECK: Alignment should match open parenthesis
+#638: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:638:
++unsigned odp_kni_rx_burst(struct odp_kni *kni,
++			odp_packet_t mbufs[], unsigned num)
+
+CHECK: Blank lines aren't necessary before a close brace '}'
+#659: FILE: ./platform/linux-hisilicon/kni/odp_kni.c:659:
++
++}
+
+total: 0 errors, 1 warnings, 14 checks, 810 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/kni/odp_kni.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#89: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:89:
++	snprintf(path, sizeof(path), "%s/%s/%s",
++		sys_dir_path, subdir, nr_hp_file);
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#130: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:130:
++}
++#define HUGETLBFS_DESC "hugetlbfs"
+
+CHECK: Alignment should match open parenthesis
+#165: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:165:
++		if (strncmp(splitstr[FSTYPE], HUGETLBFS_DESC,
++				HGTLB_DSC_LEN) == 0) {
+
+CHECK: Alignment should match open parenthesis
+#196: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:196:
++static inline void swap_hpt(struct odp_hugepage_type *a,
++	struct odp_hugepage_type *b)
+
+CHECK: Alignment should match open parenthesis
+#297: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:297:
++		if (strncmp(dirent->d_name, "hugepages-",
++			ODP_SYS_HGPG_STR_LEN) == 0) {
+
+CHECK: Alignment should match open parenthesis
+#324: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:324:
++				if (flock(hpt->lock_descriptor,
++					LOCK_EX) == -1) {
+
+CHECK: Alignment should match open parenthesis
+#344: FILE: ./platform/linux-hisilicon/mem/odp_hugepage.c:344:
++				 ODP_MIN(hpt->num_pages[0],
++				 ODP_PAGE_MEMORY_MAX / hpt->hugepage_sz);
+
+total: 0 errors, 0 warnings, 7 checks, 375 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/mem/odp_hugepage.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#201: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:201:
++static int find_hpt_physaddrs(struct hugepage_file *hugepg_tbl,
++		struct odp_hugepage_type *hpt)
+
+CHECK: Alignment should match open parenthesis
+#283: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:283:
++		addr = mmap(addr, (*size) + hugepage_sz,
++			PROT_READ, MAP_PRIVATE, fd, 0);
+
+CHECK: Alignment should match open parenthesis
+#334: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:334:
++			odp_get_hugefile_path(hugepg_tbl[i].filepath,
++				sizeof(hugepg_tbl[i].filepath), hpt->hugedir,
+
+CHECK: Alignment should match open parenthesis
+#346: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:346:
++		else if ((hugepage_sz == ODP_PGSIZE_1G) ||
++			  (hugepage_sz == ODP_PGSIZE_16G)) {
+
+CHECK: Alignment should match open parenthesis
+#384: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:384:
++		virtaddr = mmap(vma_addr, hugepage_sz,
++			PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+CHECK: Alignment should match open parenthesis
+#420: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:420:
++static int unmap_hpt_hugepages_orig(struct hugepage_file *hugepg_tbl,
++				struct odp_hugepage_type *hpt)
+
+CHECK: Alignment should match open parenthesis
+#438: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:438:
++static int find_hpt_numasocket(struct hugepage_file *hugepg_tbl,
++			struct odp_hugepage_type *hpt)
+
+CHECK: Alignment should match open parenthesis
+#453: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:453:
++	snprintf(hugedir_str, sizeof(hugedir_str), "%s/%s",
++		hpt->hugedir, HUGEFILE_PREFIX_DEFAULT);
+
+CHECK: Alignment should match open parenthesis
+#519: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:519:
++static int sort_hpt_by_physaddr(struct hugepage_file *hugepg_tbl,
++		struct odp_hugepage_type *hpt)
+
+CHECK: Logical continuations should be on the previous line
+#537: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:537:
++#ifdef HODP_ARCH_PPC_64
++			    || (hugepg_tbl[j].physaddr > compare_addr))
+
+CHECK: Logical continuations should be on the previous line
+#539: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:539:
++#else
++			    || (hugepg_tbl[j].physaddr < compare_addr))
+
+CHECK: Alignment should match open parenthesis
+#556: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:556:
++		memcpy(&tmp, &hugepg_tbl[compare_idx],
++			sizeof(struct hugepage_file));
+
+CHECK: Alignment should match open parenthesis
+#558: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:558:
++		memcpy(&hugepg_tbl[compare_idx],
++			&hugepg_tbl[i], sizeof(struct hugepage_file));
+
+CHECK: Alignment should match open parenthesis
+#583: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:583:
++	retval = mmap(NULL, mem_size,
++		PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+CHECK: Alignment should match open parenthesis
+#594: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:594:
++copy_hugepages_to_shared_mem(struct hugepage_file *dst, int dest_size,
++			const struct hugepage_file *src, int src_size)
+
+CHECK: Alignment should match open parenthesis
+#605: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:605:
++			memcpy(&dst[dst_pos],
++				&src[src_pos], sizeof(struct hugepage_file));
+
+CHECK: Alignment should match open parenthesis
+#642: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:642:
++				if ((hp->size == hpt[size].hugepage_sz) &&
++					(hp->socket_id == (int)socket)) {
+
+CHECK: Alignment should match open parenthesis
+#654: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:654:
++						munmap(hp->final_va,
++							(size_t)unmap_len);
+
+CHECK: Alignment should match open parenthesis
+#730: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:730:
++		for (socket = 0; socket < ODP_MAX_NUMA_NODES &&
++			    total_size != 0; socket++) {
+
+CHECK: Alignment should match open parenthesis
+#738: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:738:
++			default_size = ODP_MIN(default_size,
++			   get_socket_mem_size(socket));
+
+CHECK: Alignment should match open parenthesis
+#750: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:750:
++		for (socket = 0; socket < ODP_MAX_NUMA_NODES &&
++				total_size != 0; socket++) {
+
+CHECK: Alignment should match open parenthesis
+#804: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:804:
++				cur_mem = ODP_MIN(memory[socket],
++						   hp_info[i].hugepage_sz);
+
+CHECK: Alignment should match open parenthesis
+#857: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:857:
++	addr = mmap(NULL, local_config.memory,
++		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#869: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:869:
++}
++static int odp_hugepage_init(void)
+
+CHECK: Please don't use multiple blank lines
+#882: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:882:
++
++
+
+CHECK: Alignment should match open parenthesis
+#999: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:999:
++	nr_hugepages = calc_num_pages_per_socket(memory,
++				local_config.odp_hugepage_type, used_hp,
+
+CHECK: Alignment should match open parenthesis
+#1008: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1008:
++	hugepage = create_shared_memory(odp_hugepage_info_path(),
++			nr_hugefiles * sizeof(struct hugepage_file));
+
+CHECK: Please don't use multiple blank lines
+#1086: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1086:
++
++
+
+CHECK: Avoid CamelCase: <getFileSize>
+#1113: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1113:
++static off_t getFileSize(int fd)
+
+CHECK: Alignment should match open parenthesis
+#1222: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1222:
++					ODP_ERR("Could not open %s\n",
++					      hp[i].filepath);
+
+CHECK: Alignment should match open parenthesis
+#1228: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1228:
++				addr = mmap(ODP_PTR_ADD(base_addr, offset),
++					 mapping_size, PROT_READ | PROT_WRITE,
+
+CHECK: Alignment should match open parenthesis
+#1234: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1234:
++				if ((addr == MAP_FAILED) ||
++					(addr !=
+
+CHECK: Alignment should match open parenthesis
+#1237: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1237:
++					ODP_ERR("Could not mmap %s\n",
++					      hp[i].filepath);
+
+CHECK: Alignment should match open parenthesis
+#1245: FILE: ./platform/linux-hisilicon/mem/odp_memops.c:1245:
++		ODP_PRINT("Mapped segment %u of size 0x%llx\n",
++			s, (unsigned long long)mcfg->mmfrag[s].len);
+
+total: 0 errors, 0 warnings, 34 checks, 1296 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/mem/odp_memops.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+total: 0 errors, 0 warnings, 0 checks, 116 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/mem/odp_memory.c has no obvious style problems and is ready for submission.
+CHECK: Alignment should match open parenthesis
+#72: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:72:
++		if (!strncmp(name, mcfg->mm_district[i].name,
++			  ODP_MEMZONE_NAMESIZE))
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#77: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:77:
++}
++static inline struct odp_mm_district *
+
+CHECK: Alignment should match open parenthesis
+#93: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:93:
++		if (!strncmp(orig_name, mcfg->free_mm_district[i].orig_name,
++			  ODP_MEMZONE_NAMESIZE - 8))
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#98: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:98:
++}
++static inline void
+
+CHECK: Alignment should match open parenthesis
+#108: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:108:
++	memcpy(&mcfg->mm_district[mcfg->mm_district_idx], md,
++		sizeof(struct odp_mm_district));
+
+CHECK: Alignment should match open parenthesis
+#167: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:167:
++	if ((phyaddr >= mcfg->mm_district[i].phys_addr) &&
++		  (phyaddr < mcfg->mm_district[i].phys_addr_end))
+
+CHECK: Alignment should match open parenthesis
+#172: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:172:
++		if ((phyaddr >= mcfg->mm_district[i].phys_addr) &&
++			  (phyaddr < mcfg->mm_district[i].phys_addr_end))
+
+CHECK: Alignment should match open parenthesis
+#185: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:185:
++	if ((phyaddr >= mcfg->mm_district[i].phys_addr) &&
++		(phyaddr < mcfg->mm_district[i].phys_addr_end))
+
+CHECK: Alignment should match open parenthesis
+#196: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:196:
++		if ((phyaddr >= mcfg->mm_district[i].phys_addr) &&
++			(phyaddr < mcfg->mm_district[i].phys_addr_end))
+
+CHECK: Alignment should match open parenthesis
+#213: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:213:
++const struct odp_mm_district *odp_mm_district_reserve(const char *name,
++	const char *orig_name, size_t len, int socket_id, unsigned flags)
+
+CHECK: Alignment should match open parenthesis
+#226: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:226:
++static inline phys_addr_t align_phys_boundary(const struct odp_mmfrag *ms,
++				size_t len, size_t align,
+
+CHECK: Alignment should match open parenthesis
+#255: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:255:
++mm_district_reserve_aligned(const char *name, const char *orig_name,
++	size_t len, int socket_id, unsigned flags,
+
+CHECK: Alignment should match open parenthesis
+#321: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:321:
++	if ((bound != 0) && ((requested_len > bound) ||
++			!odp_is_power_of_2(bound))) {
+
+CHECK: Alignment should match open parenthesis
+#338: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:338:
++		if ((socket_id != SOCKET_ID_ANY) &&
++			  (free_mmfrag[i].socket_id != SOCKET_ID_ANY) &&
+
+CHECK: Alignment should match open parenthesis
+#347: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:347:
++		addr_offset = align_phys_boundary(free_mmfrag + i,
++				requested_len, align, bound);
+
+CHECK: Alignment should match open parenthesis
+#355: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:355:
++		if ((flags & ODP_MEMZONE_2MB) &&
++			(free_mmfrag[i].hugepage_sz == ODP_PGSIZE_1G))
+
+CHECK: Alignment should match open parenthesis
+#359: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:359:
++		if ((flags & ODP_MEMZONE_1GB) &&
++			(free_mmfrag[i].hugepage_sz == ODP_PGSIZE_2M))
+
+CHECK: Alignment should match open parenthesis
+#363: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:363:
++		if ((flags & ODP_MEMZONE_16MB) &&
++			(free_mmfrag[i].hugepage_sz == ODP_PGSIZE_16G))
+
+CHECK: Alignment should match open parenthesis
+#367: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:367:
++		if ((flags & ODP_MEMZONE_16GB) &&
++			(free_mmfrag[i].hugepage_sz == ODP_PGSIZE_16M))
+
+CHECK: Alignment should match open parenthesis
+#407: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:407:
++		if ((flags & ODP_MEMZONE_SIZE_HINT_ONLY) &&
++			((flags & ODP_MEMZONE_1GB) ||
+
+CHECK: Alignment should match open parenthesis
+#421: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:421:
++	mmfrag_addr = ODP_PTR_ADD(free_mmfrag[mmfrag_idx].addr,
++			(uintptr_t)seg_offset);
+
+CHECK: Blank lines aren't necessary after an open brace '{'
+#462: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:462:
++{
++
+
+CHECK: Alignment should match open parenthesis
+#485: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:485:
++			memcpy(&mcfg->free_mm_district[mcfg->free_district_idx],
++				md, sizeof(struct odp_mm_district));
+
+CHECK: Alignment should match open parenthesis
+#494: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:494:
++	for (index = 0; index < ODP_MAX_MM_DISTRICT &&
++		mcfg->mm_district[index].addr; index++)
+
+CHECK: Alignment should match open parenthesis
+#496: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:496:
++		if (!strncmp(name, mcfg->mm_district[index].name,
++			ODP_MEMZONE_NAMESIZE)) {
+
+CHECK: Blank lines aren't necessary after an open brace '{'
+#497: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:497:
++			ODP_MEMZONE_NAMESIZE)) {
++
+
+CHECK: Alignment should match open parenthesis
+#504: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:504:
++				memcpy(md_t, md_t + 1,
++					sizeof(struct odp_mm_district));
+
+CHECK: Alignment should match open parenthesis
+#521: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:521:
++const struct odp_mm_district *odp_mm_district_reserve_aligned(const char *name,
++	const char *orig_name, size_t len,
+
+CHECK: Alignment should match open parenthesis
+#541: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:541:
++		mm_district_reserve_aligned(name, orig_name,
++		len, socket_id, flags, align, 0);
+
+CHECK: Alignment should match open parenthesis
+#554: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:554:
++const struct odp_mm_district *odp_mm_district_reserve_bounded(const char *name,
++				const char *orig_name,
+
+CHECK: Alignment should match open parenthesis
+#747: FILE: ./platform/linux-hisilicon/mem/odp_mmdistrict.c:747:
++void odp_mm_district_walk(void (*func)(const struct odp_mm_district *, void *),
++		       void *arg)
+
+total: 0 errors, 0 warnings, 31 checks, 760 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/mem/odp_mmdistrict.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+total: 0 errors, 0 warnings, 0 checks, 314 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/pci/odp_common_pci.c has no obvious style problems and is ready for submission.
+CHECK: Alignment should match open parenthesis
+#86: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:86:
++		ODP_PRINT("%s(): could not write to %s\n", __func__,
++		      filename);
+
+CHECK: Alignment should match open parenthesis
+#154: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:154:
++		ODP_PRINT("%s(): cannot mmap(%d, %p, 0x%lx, 0x%lx): %s (%p)\n",
++		      __func__, fd, requested_addr,
+
+CHECK: Alignment should match open parenthesis
+#172: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:172:
++		ODP_PRINT("%s(): cannot munmap(%p, 0x%lx): %s\n",
++		      __func__, requested_addr, (unsigned long)size,
+
+CHECK: Alignment should match open parenthesis
+#180: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:180:
++static int pci_parse_sysfs_resource(const char *filename,
++				struct odp_pci_device *dev)
+
+CHECK: Alignment should match open parenthesis
+#209: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:209:
++		if (odp_strsplit(buf, sizeof(buf),
++			res_info.ptrs, 3, ' ') != 3) {
+
+CHECK: Alignment should match open parenthesis
+#305: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:305:
++	if (!access(filename, F_OK) &&
++		(tmp != -1)) {
+
+CHECK: Alignment should match open parenthesis
+#310: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:310:
++		snprintf(filename, sizeof(filename), "%s/sriov_numvfs",
++			dirname);
+
+CHECK: Alignment should match open parenthesis
+#313: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:313:
++		if (!access(filename, F_OK) &&
++			(tmp != -1))
+
+CHECK: Alignment should match open parenthesis
+#397: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:397:
++parse_pci_addr_format(const char *buf, int bufsize, uint16_t *domain,
++			uint8_t *bus, uint8_t *devid, uint8_t *function)
+
+CHECK: Alignment should match open parenthesis
+#466: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:466:
++		if (parse_pci_addr_format(e->d_name, sizeof(e->d_name),
++			&domain, &bus, &devid, &function) != 0)
+
+CHECK: Alignment should match open parenthesis
+#470: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:470:
++		snprintf(dirname, sizeof(dirname), "%s/%s",
++			SYSFS_PCI_DEVICES, e->d_name);
+
+CHECK: Alignment should match open parenthesis
+#472: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:472:
++		if (odp_pci_scan_one(dirname,
++			domain, bus, devid, function) < 0) {
+
+WARNING: Consecutive strings are generally better as a single string
+#498: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:498:
++		 SYSFS_PCI_DEVICES "/" PCI_PRI_FMT "/" "extended_tag",
+
+WARNING: Consecutive strings are generally better as a single string
+#539: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:539:
++		 SYSFS_PCI_DEVICES "/" PCI_PRI_FMT "/" "max_read_request_size",
+
+CHECK: Alignment should match open parenthesis
+#631: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:631:
++int odp_pci_probe_one_driver(struct odp_pci_driver *dr,
++			struct odp_pci_device *dev)
+
+CHECK: Alignment should match open parenthesis
+#659: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:659:
++		ODP_PRINT("PCI device " PCI_PRI_FMT " on NUMA socket %i\n",
++		      loc->domain, loc->bus, loc->devid, loc->function,
+
+CHECK: Alignment should match open parenthesis
+#663: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:663:
++		ODP_PRINT("  probe driver: %x:%x %s\n", dev->id.vendor_id,
++		      dev->id.device_id, dr->name);
+
+CHECK: Alignment should match open parenthesis
+#711: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:711:
++int odp_pci_close_one_driver(struct odp_pci_driver *dr,
++			      struct odp_pci_device *dev)
+
+CHECK: Alignment should match open parenthesis
+#741: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:741:
++		ODP_PRINT("PCI device " PCI_PRI_FMT " on NUMA socket %i\n",
++		      loc->domain, loc->bus, loc->devid,
+
+CHECK: Alignment should match open parenthesis
+#745: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:745:
++		ODP_PRINT("  remove driver: %x:%x %s\n",
++		      dev->id.vendor_id, dev->id.device_id,
+
+CHECK: Alignment should match open parenthesis
+#768: FILE: ./platform/linux-hisilicon/pci/odp_pci.c:768:
++int odp_pci_close_one_driver(struct odp_pci_driver *dr  __odp_unused,
++			      struct odp_pci_device *dev __odp_unused)
+
+total: 0 errors, 2 warnings, 19 checks, 808 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/pci/odp_pci.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Please don't use multiple blank lines
+#54: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:54:
++
++
+
+CHECK: Alignment should match open parenthesis
+#111: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:111:
++				ODP_PRINT("Cannot open %s: %s\n",
++				      uio_res->maps[i].path, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#122: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:122:
++					ODP_PRINT("Cannot mmap device resource file %s: %s\n",
++					      uio_res->maps[i].path,
+
+CHECK: Alignment should match open parenthesis
+#126: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:126:
++					ODP_PRINT("Cannot mmap device resource file %s to address: %p\n",
++					      uio_res->maps[i].path,
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#143: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:143:
++}
++/*
+
+CHECK: Alignment should match open parenthesis
+#204: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:204:
++			snprintf(dstbuf, buflen, "%s/uio:uio%u",
++				dirname, uio_num);
+
+CHECK: Please don't use multiple blank lines
+#215: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:215:
++
++
+
+CHECK: Alignment should match open parenthesis
+#258: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:258:
++		ODP_PRINT("Cannot open %s: %s\n",
++		      devname, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#269: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:269:
++		ODP_PRINT("Cannot open %s: %s\n",
++		      cfgname, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#311: FILE: ./platform/linux-hisilicon/pci/odp_pci_uio.c:311:
++		mapaddr = pci_map_resource(NULL, dev->intr_handle.fd,
++					(map_idx) * PAGE_SIZE,
+
+total: 0 errors, 0 warnings, 10 checks, 405 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/pci/odp_pci_uio.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#89: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:89:
++static int pci_vfio_get_msix_bar(int fd, int *msix_bar,
++			uint32_t *msix_table_offset,
+
+CHECK: Alignment should match open parenthesis
+#113: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:113:
++		ret = pread64(fd, &reg, sizeof(reg),
++			  VFIO_GET_REGION_ADDR(VFIO_PCI_CONFIG_REGION_INDEX) +
+
+CHECK: Alignment should match open parenthesis
+#127: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:127:
++			ret = pread64(fd, &reg, sizeof(reg),
++			  VFIO_GET_REGION_ADDR(VFIO_PCI_CONFIG_REGION_INDEX) +
+
+CHECK: Alignment should match open parenthesis
+#145: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:145:
++			ret = pread64(fd, &reg, sizeof(reg),
++			 VFIO_GET_REGION_ADDR(VFIO_PCI_CONFIG_REGION_INDEX) +
+
+CHECK: Alignment should match open parenthesis
+#154: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:154:
++			ret = pread64(fd, &flags, sizeof(flags),
++			 VFIO_GET_REGION_ADDR(VFIO_PCI_CONFIG_REGION_INDEX) +
+
+CHECK: Alignment should match open parenthesis
+#213: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:213:
++		ODP_PRINT("  cannot set IOMMU type, error %i (%s)\n",
++		      errno, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#247: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:247:
++static int pci_vfio_setup_interrupts(struct odp_pci_device *dev,
++				int vfio_dev_fd)
+
+CHECK: Alignment should match open parenthesis
+#294: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:294:
++			ODP_PRINT("  cannot get IRQ info, error %i (%s)\n",
++			      errno, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#316: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:316:
++			ODP_PRINT("  cannot set up eventfd, error %i (%s)\n",
++			      errno, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#379: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:379:
++		ret = ioctl(vfio_container_fd, VFIO_CHECK_EXTENSION,
++			VFIO_TYPE1_IOMMU);
+
+CHECK: Alignment should match open parenthesis
+#440: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:440:
++		snprintf(filename, sizeof(filename), VFIO_GROUP_FMT,
++			iommu_group_no);
+
+CHECK: Alignment should match open parenthesis
+#481: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:481:
++		if (vfio_mp_sync_send_request(socket_fd,
++			SOCKET_REQ_GROUP) < 0) {
+
+CHECK: Alignment should match open parenthesis
+#541: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:541:
++	ret = odp_strsplit(filename, sizeof(filename),
++			    tok, ODP_DIM(tok), '/');
+
+CHECK: Alignment should match open parenthesis
+#627: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:627:
++		ODP_PRINT("  %s not managed by VFIO driver, skipping\n",
++		      pci_addr);
+
+CHECK: Alignment should match open parenthesis
+#646: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:646:
++		ODP_PRINT("  %s cannot get group status, error %i (%s)\n",
++		      pci_addr, errno, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#698: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:698:
++			ODP_ERR("  %s DMA remapping failed, error %i (%s)\n",
++			      pci_addr, errno, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#712: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:712:
++		ODP_ERR("  %s not managed by VFIO driver, skipping\n",
++		      pci_addr);
+
+CHECK: Alignment should match open parenthesis
+#720: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:720:
++		ODP_ERR("  %s cannot get device info, error %i (%s)\n",
++		      pci_addr, errno, strerror(errno));
+
+CHECK: Alignment should match open parenthesis
+#749: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:749:
++		memcpy(&vfio_res->pci_addr, &dev->addr,
++			sizeof(vfio_res->pci_addr));
+
+CHECK: Alignment should match open parenthesis
+#759: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:759:
++			if (memcmp(&vfio_res->pci_addr,
++				&dev->addr, sizeof(dev->addr)))
+
+CHECK: Blank lines aren't necessary after an open brace '{'
+#841: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:841:
++		if (local_config.process_type == ODP_PROC_PRIMARY) {
++
+
+CHECK: Alignment should match open parenthesis
+#863: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:863:
++					pci_map_resource(bar_addr, vfio_dev_fd,
++							    memreg[0].offset,
+
+CHECK: Alignment should match open parenthesis
+#874: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio.c:874:
++				map_addr = pci_map_resource(second_addr,
++						vfio_dev_fd, memreg[1].offset,
+
+total: 0 errors, 0 warnings, 23 checks, 974 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/pci/odp_pci_vfio.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#288: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio_mp_sync.c:288:
++				vfio_mp_sync_send_request(conn_sock,
++					SOCKET_ERR);
+
+CHECK: Alignment should match open parenthesis
+#307: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio_mp_sync.c:307:
++				vfio_mp_sync_send_request(conn_sock,
++					SOCKET_ERR);
+
+CHECK: Alignment should match open parenthesis
+#312: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio_mp_sync.c:312:
++				vfio_mp_sync_send_request(conn_sock,
++					SOCKET_NO_FD);
+
+CHECK: Alignment should match open parenthesis
+#317: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio_mp_sync.c:317:
++				vfio_mp_sync_send_request(conn_sock,
++					SOCKET_OK);
+
+CHECK: Alignment should match open parenthesis
+#384: FILE: ./platform/linux-hisilicon/pci/odp_pci_vfio_mp_sync.c:384:
++	ret = pthread_create(&socket_thread, NULL,
++		pci_vfio_mp_sync_thread, NULL);
+
+total: 0 errors, 0 warnings, 5 checks, 394 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/pci/odp_pci_vfio_mp_sync.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Alignment should match open parenthesis
+#114: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:114:
++int odp_ring_init(struct odp_ring *r, const char *name,
++	unsigned count, unsigned flags)
+
+CHECK: multiple assignments should be avoided
+#139: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:139:
++	r->prod.size = r->cons.size = count;
+
+CHECK: multiple assignments should be avoided
+#140: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:140:
++	r->prod.mask = r->cons.mask = count - 1;
+
+CHECK: multiple assignments should be avoided
+#141: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:141:
++	r->prod.head = r->cons.head = 0;
+
+CHECK: multiple assignments should be avoided
+#142: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:142:
++	r->prod.tail = r->cons.tail = 0;
+
+CHECK: Alignment should match open parenthesis
+#149: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:149:
++struct odp_ring *odp_ring_create(const char *name, unsigned count,
++		int socket_id, unsigned flags)
+
+CHECK: Alignment should match open parenthesis
+#182: FILE: ./platform/linux-hisilicon/ring/odp_ring.c:182:
++	mz = odp_mm_district_reserve(mz_name, mz_name, ring_size,
++				socket_id, mz_flags);
+
+total: 0 errors, 0 warnings, 7 checks, 320 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/ring/odp_ring.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Blank lines aren't necessary after an open brace '{'
+#68: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:68:
++struct priv_timer {
++
+
+CHECK: Please don't use multiple blank lines
+#89: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:89:
++
++
+
+CHECK: Alignment should match open parenthesis
+#148: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:148:
++		odp_atomic_cmpset_u32_a64((odp_atomic_u32_t *)&tim->status.u32,
++						prev_status.u32,
+
+CHECK: Alignment should match open parenthesis
+#180: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:180:
++		odp_atomic_cmpset_u32_a64((odp_atomic_u32_t *)&tim->status.u32,
++						prev_status.u32,
+
+CHECK: Alignment should match open parenthesis
+#244: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:244:
++static void timer_get_prev_entries_for_node(struct odp_hisi_timer *tim,
++					unsigned tim_core,
+
+CHECK: Alignment should match open parenthesis
+#265: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:265:
++static void timer_add(struct odp_hisi_timer *tim,
++	unsigned tim_core, int local_is_locked)
+
+CHECK: Alignment should match open parenthesis
+#313: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:313:
++static void timer_del(struct odp_hisi_timer *tim,
++	union odp_hisi_timer_status prev_status,
+
+CHECK: Alignment should match open parenthesis
+#352: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:352:
++static int __odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t expire,
++			      uint64_t period, unsigned tim_core,
+
+CHECK: Alignment should match open parenthesis
+#412: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:412:
++int odp_hisi_timer_reset(struct odp_hisi_timer *tim, uint64_t ticks,
++		     enum odp_hisi_timer_type type, unsigned tim_core,
+
+CHECK: Alignment should match open parenthesis
+#433: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:433:
++void odp_hisi_timer_reset_sync(struct odp_hisi_timer *tim, uint64_t ticks,
++			   enum odp_hisi_timer_type type, unsigned tim_core,
+
+CHECK: Alignment should match open parenthesis
+#437: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:437:
++	while (odp_hisi_timer_reset(tim, ticks, type, tim_core,
++				fct, arg) != 0)
+
+CHECK: Alignment should match open parenthesis
+#578: FILE: ./platform/linux-hisilicon/timer/odp_hisi_timer.c:578:
++			__odp_hisi_timer_reset(tim, cur_time + tim->period,
++				tim->period, core_id, tim->f, tim->arg, 1);
+
+total: 0 errors, 0 warnings, 12 checks, 616 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/timer/odp_hisi_timer.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.
+CHECK: Please don't use multiple blank lines
+#34: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:34:
++
++
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#55: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:55:
++		/* 匹配长度 */
+ 		     ^
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#59: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:59:
++		/* 匹配名字 */
+ 		     ^
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#85: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:85:
++	/* 判断驱动名字是否已创建 */
+ 	   ^
+
+CHECK: Alignment should match open parenthesis
+#110: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:110:
++				TAILQ_REMOVE(&odp_uio_drv_list,
++					drv_temp, next);
+
+CHECK: Alignment should match open parenthesis
+#137: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:137:
++		if ((strncmp(file->d_name, ".", 1) == 0) ||
++			(strncmp(file->d_name, "..", 2) == 0))
+
+CHECK: Alignment should match open parenthesis
+#153: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:153:
++		ODP_PRINT("open shared lib %s, addr = 0x%lx\n",
++			file_path_name,
+
+CHECK: Please don't use multiple blank lines
+#241: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:241:
++
++
+
+CHECK: Alignment should match open parenthesis
+#360: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:360:
++			if (strncmp(uio_drv_name, drv->name,
++				strlen(drv->name)) == 0) {
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#432: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:432:
++}
++int odp_uio_term_global(void)
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#444: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:444:
++		/* 匹配长度 */
+ 		     ^
+
+CHECK: Invalid UTF-8, patch and commit message should be encoded in UTF-8
+#448: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:448:
++		/* 匹配名字 */
+ 		     ^
+
+CHECK: Alignment should match open parenthesis
+#505: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:505:
++			if (strncmp(uio_data_temp->name, name,
++				strlen(name)) == 0) {
+
+CHECK: Alignment should match open parenthesis
+#509: FILE: ./platform/linux-hisilicon/uio/odp_uio.c:509:
++				TAILQ_REMOVE(&odp_uio_data_list,
++					uio_data_temp, next);
+
+total: 0 errors, 0 warnings, 14 checks, 516 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./platform/linux-hisilicon/uio/odp_uio.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.

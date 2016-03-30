@@ -6,7 +6,7 @@
 ###################### remove odp driver ###########################
 
 echo "rmmod uio kernel driver..."
-rmmod uio_enet_drv
+rmmod pv660_hns
 
 
 echo "remove finished!"

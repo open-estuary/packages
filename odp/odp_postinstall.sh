@@ -13,7 +13,7 @@ fi
 
 echo "insmod uio kernel driver..."
 cd $WORKADDR
-insmod uio_enet_drv.ko
+insmod pv660_hns.ko
 
 cd -
 echo "install finished!"
