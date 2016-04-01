@@ -878,13 +878,6 @@ install_armor_tools_debian()
                 ;;
                 "pidstat")
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/cron_3.0pl1-127+deb8u1_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libsensors4_1%3a3.3.5-2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-config_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-base_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-daemon-light_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/bsd-mailx_8.1.2-0.20141216cvs-2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/sysstat_11.0.1-1_arm64.deb >> $LOG_FILE 2>&1 
                     popd
                 ;;

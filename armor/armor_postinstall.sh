@@ -195,6 +195,8 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             ln -s /bin/kmod /sbin/depmod
             ln -s /bin/kmod /sbin/modprobe
             
+            apt-get -f -y install
+
             # temporary workaround for modules are not getting installed.
             depmod -a
             modprobe lttng-probe-kvm
