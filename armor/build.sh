@@ -166,11 +166,19 @@ install_armor_tools_ubuntu()
                     popd
                 ;;
                 "perf")
+                    # copy prebuilt perf and dependent binaries to the rootfs and extract
+                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
                     pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libdw1_0.160-0ubuntu3_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libunwind8_1.1-3.2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/linux-tools-common_3.19.0-39.44_all.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb >> $LOG_FILE 2>&1
+                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
+                    sudo tar xvf libbz2*.gz -C $ROOTFS/
+                    sudo tar xvf libdw1*.gz -C $ROOTFS/
+                    sudo tar xvf libperl*.gz -C $ROOTFS/
+                    sudo tar xvf perf*.gz -C $ROOTFS/
+                    sudo rm binutils_linaro*.gz 
+                    sudo rm libbz2*.gz 
+                    sudo rm libdw1*.gz 
+                    sudo rm libperl*.gz 
+                    sudo rm perf*.gz 
                     popd
                 ;;
                 "pidstat")
@@ -363,7 +371,12 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "lttng")
-                    #supported run time installation on board. 
+                    # build lttng kernel module and lttng uspace test code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    cd -
+                    popd
                 ;;
                 "memwatch")
                     #memwatch to be integrated to the code to be tested. 
@@ -392,10 +405,19 @@ install_armor_tools_fedora()
                     popd
                 ;;
                 "perf")
+                    # copy prebuilt perf and dependent binaries to the rootfs and extract
+                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
                     pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/numactl-libs-2.0.10-2.fc22.aarch64.rpm >> $LOG_FILE 2>&1
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/numactl-2.0.10-2.fc22.aarch64.rpm >> $LOG_FILE 2>&1
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/perf-4.3.4-200.fc22.aarch64.rpm >> $LOG_FILE 2>&1
+                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
+                    sudo tar xvf libbz2*.gz -C $ROOTFS/
+                    sudo tar xvf libdw1*.gz -C $ROOTFS/
+                    sudo tar xvf libperl*.gz -C $ROOTFS/
+                    sudo tar xvf perf*.gz -C $ROOTFS/
+                    sudo rm binutils_linaro*.gz
+                    sudo rm libbz2*.gz
+                    sudo rm libdw1*.gz
+                    sudo rm libperl*.gz
+                    sudo rm perf*.gz
                     popd
                 ;;
                 "pidstat")
@@ -593,7 +615,12 @@ install_armor_tools_opensuse()
                     popd
                 ;;
                 "lttng")
-                    #TBD. 
+                    # build lttng kernel module and lttng uspace test code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    cd -
+                    popd
                 ;;
                 "memwatch")
                     #memwatch to be integrated to the code to be tested. 
@@ -624,11 +651,19 @@ install_armor_tools_opensuse()
                     popd
                 ;;
                 "perf")
+                    # copy prebuilt perf and dependent binaries to the rootfs and extract
+                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
                     pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libslang2-2.3.0-1.2.aarch64.rpm >> $LOG_FILE 2>&1
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libnuma1-2.0.10-5.1.aarch64.rpm >> $LOG_FILE 2>&1
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/libunwind-1.1-14.1.aarch64.rpm >> $LOG_FILE 2>&1
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/perf-4.4.0-44.1.aarch64.rpm >> $LOG_FILE 2>&1
+                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
+                    sudo tar xvf libbz2*.gz -C $ROOTFS/
+                    sudo tar xvf libdw1*.gz -C $ROOTFS/
+                    sudo tar xvf libperl*.gz -C $ROOTFS/
+                    sudo tar xvf perf*.gz -C $ROOTFS/
+                    sudo rm binutils_linaro*.gz
+                    sudo rm libbz2*.gz
+                    sudo rm libdw1*.gz
+                    sudo rm libperl*.gz
+                    sudo rm perf*.gz
                     popd
                 ;;
                 "pidstat")
@@ -871,13 +906,30 @@ install_armor_tools_debian()
                     popd
                 ;;
                 "perf")
+                    # copy prebuilt perf and dependent binaries to the rootfs and extract
+                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
                     pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/linux-tools-common_3.19.0-39.44_all.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/linux-tools-3.19.0-23_3.19.0-23.24_arm64.deb >> $LOG_FILE 2>&1
-                    popd                     
-                ;;
+                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
+                    sudo tar xvf libbz2*.gz -C $ROOTFS/
+                    sudo tar xvf libdw1*.gz -C $ROOTFS/
+                    sudo tar xvf libperl*.gz -C $ROOTFS/
+                    sudo tar xvf perf*.gz -C $ROOTFS/
+                    sudo rm binutils_linaro*.gz
+                    sudo rm libbz2*.gz
+                    sudo rm libdw1*.gz
+                    sudo rm libperl*.gz
+                    sudo rm perf*.gz
+                    popd
+                    ;;
                 "pidstat")
                     pushd $ROOTFS
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/cron_3.0pl1-127+deb8u1_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libsensors4_1%3a3.3.5-2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-config_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-base_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-daemon-light_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/bsd-mailx_8.1.2-0.20141216cvs-2_arm64.deb >> $LOG_FILE 2>&1
+                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
                     sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/sysstat_11.0.1-1_arm64.deb >> $LOG_FILE 2>&1 
                     popd
                 ;;
@@ -1068,7 +1120,12 @@ install_armor_tools_centos()
                     #default installed. 
                 ;;
                 "lttng")
-                    #supported run time installation on board. 
+                    # build lttng kernel module and lttng uspace test code
+                    pushd $armor_build_dir
+                    cd build_scripts/
+                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    cd -
+                    popd
                 ;;
                 "memwatch")
                     #memwatch to be integrated to the code to be tested. 
@@ -1099,8 +1156,19 @@ install_armor_tools_centos()
                     popd
                 ;;
                 "perf")
+                    # copy prebuilt perf and dependent binaries to the rootfs and extract
+                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
                     pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/perf-4.2.0-0.26.el7.1.aarch64.rpm >> $LOG_FILE 2>&1
+                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
+                    sudo tar xvf libbz2*.gz -C $ROOTFS/
+                    sudo tar xvf libdw1*.gz -C $ROOTFS/
+                    sudo tar xvf libperl*.gz -C $ROOTFS/
+                    sudo tar xvf perf*.gz -C $ROOTFS/
+                    sudo rm binutils_linaro*.gz
+                    sudo rm libbz2*.gz
+                    sudo rm libdw1*.gz
+                    sudo rm libperl*.gz
+                    sudo rm perf*.gz
                     popd
                 ;;
                 "pidstat")

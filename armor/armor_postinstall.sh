@@ -29,12 +29,12 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             #echo "Ubuntu Distribution"
 
             #add path for the perf binary 
-            echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
-            echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
+            #echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
+            #echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
             # Fix for Bug ID Mantis-40: sudo perf is not working
-            OLD_STR="secure_path\=\""
-            NEW_STR="secure_path\=\"\/usr\/lib\/linux\-tools\-3\.19\.0\-23\:"
-            sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
+            #OLD_STR="secure_path\=\""
+            #NEW_STR="secure_path\=\"\/usr\/lib\/linux\-tools\-3\.19\.0\-23\:"
+            #sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
 
             # temporary workaround for modules are not getting installed.
             depmod -a
@@ -185,18 +185,16 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
         Debian)
             #echo "Debian Distribution"
             #add path for the perf binary 
-            echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
-            echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
+            #echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> ~/.bashrc
+            #echo "export PATH=/usr/lib/linux-tools-3.19.0-23:\$PATH" >> /etc/profile
             # Fix for Bug ID Mantis-40: sudo perf is not working
-            OLD_STR="secure_path\=\""
-            NEW_STR="secure_path\=\"\/usr\/lib\/linux\-tools\-3\.19\.0\-23\:"
-            sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
+            #OLD_STR="secure_path\=\""
+            #NEW_STR="secure_path\=\"\/usr\/lib\/linux\-tools\-3\.19\.0\-23\:"
+            #sed -i -e "s/$OLD_STR/$NEW_STR/g" /etc/sudoers
 
             ln -s /bin/kmod /sbin/depmod
             ln -s /bin/kmod /sbin/modprobe
             
-            apt-get -f -y install
-
             # temporary workaround for modules are not getting installed.
             depmod -a
             modprobe lttng-probe-kvm
