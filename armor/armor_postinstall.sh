@@ -39,6 +39,8 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
             
         Debian)
             #echo "Debian Distribution"
+            #fix to resolve dependency packages. 
+            apt-get -f -y install
 
             ln -s /bin/kmod /sbin/depmod
             ln -s /bin/kmod /sbin/modprobe
