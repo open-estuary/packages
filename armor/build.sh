@@ -1318,18 +1318,21 @@ sudo mkdir $ROOTFS/lib/modules/$kernel_version/armor
 
 case $DISTRO in
     Ubuntu)
+        sudo apt-get install -y dpkg
         sudo cp $armor_dir/binary/ubuntu/*.deb   $ROOTFS/usr/local/armor/binary
         sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_ubuntu.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_ubuntu.json
         install_armor_tools_ubuntu
         ;;
     Fedora)
+        sudo apt-get install -y rpm
         sudo cp $armor_dir/binary/fedora/*.rpm   $ROOTFS/usr/local/armor/binary
         sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_fedora.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_fedora.json
         install_armor_tools_fedora
         ;;
     OpenSuse)
+        sudo apt-get install -y rpm
         sudo cp $armor_dir/binary/opensuse/*.rpm   $ROOTFS/usr/local/armor/binary
         # copy build scripts to the rootfs
         sudo cp $armor_dir/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
@@ -1338,6 +1341,7 @@ case $DISTRO in
         install_armor_tools_opensuse
         ;;
     Debian)
+        sudo apt-get install -y dpkg
         sudo cp $armor_dir/binary/debian/*.deb   $ROOTFS/usr/local/armor/binary
         # copy prebuilt binarieis(not supported in the distribution) to the rootfs
         sudo cp $armor_dir/binary/ltrace   $ROOTFS/usr/bin
@@ -1350,6 +1354,7 @@ case $DISTRO in
         install_armor_tools_debian
     ;;
     CentOS)
+        sudo apt-get install -y rpm
         sudo cp $armor_dir/binary/centos/*.rpm   $ROOTFS/usr/local/armor/binary
         sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_centos.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_centos.json
