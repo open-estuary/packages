@@ -178,6 +178,7 @@ install_armor_tools_ubuntu()
                     sudo rm libbz2*.gz 
                     sudo rm libdw1*.gz 
                     sudo rm libperl*.gz 
+                    sudo rm libelf1*.gz
                     sudo rm perf*.gz 
                     popd
                 ;;
@@ -417,6 +418,7 @@ install_armor_tools_fedora()
                     sudo rm libbz2*.gz
                     sudo rm libdw1*.gz
                     sudo rm libperl*.gz
+                    sudo rm libelf1*.gz
                     sudo rm perf*.gz
                     popd
                 ;;
@@ -663,6 +665,7 @@ install_armor_tools_opensuse()
                     sudo rm libbz2*.gz
                     sudo rm libdw1*.gz
                     sudo rm libperl*.gz
+                    sudo rm libelf1*.gz
                     sudo rm perf*.gz
                     popd
                 ;;
@@ -913,11 +916,13 @@ install_armor_tools_debian()
                     sudo tar xvf libbz2*.gz -C $ROOTFS/
                     sudo tar xvf libdw1*.gz -C $ROOTFS/
                     sudo tar xvf libperl*.gz -C $ROOTFS/
+                    sudo tar xvf libelf1*.gz -C $ROOTFS/
                     sudo tar xvf perf*.gz -C $ROOTFS/
                     sudo rm binutils_linaro*.gz
                     sudo rm libbz2*.gz
                     sudo rm libdw1*.gz
                     sudo rm libperl*.gz
+                    sudo rm libelf1*.gz
                     sudo rm perf*.gz
                     popd
                     ;;
@@ -1168,6 +1173,7 @@ install_armor_tools_centos()
                     sudo rm libbz2*.gz
                     sudo rm libdw1*.gz
                     sudo rm libperl*.gz
+                    sudo rm libelf1*.gz
                     sudo rm perf*.gz
                     popd
                 ;;
