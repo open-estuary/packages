@@ -10,8 +10,8 @@ rmmod pv660_hns
 
 HUGE_PATH="/mnt/huge/"
 if [ -d "$HUGE_PATH" ]; then
-echo "unmount /mnt/huge"
-unmount /mnt/huge
+echo "umount /mnt/huge"
+umount /mnt/huge
 fi
 
 echo "remove finished!"
