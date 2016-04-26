@@ -11,18 +11,18 @@ if [ ! -d "$WORKADDR" ]; then
 	exit -1
 fi
 
-echo "init huge tables..."
-HUGE_PATH="/mnt/huge/"
-if [ ! -d "$HUGE_PATH" ]; then
-sudo mkdir "$HUGE_PATH"
-fi
-sudo mount none $ROOTFS/mnt/huge -t hugetlbfs
-echo 400 > $ROOTFS/proc/sys/vm/nr_hugepages
-echo 0 > /proc/sys/kernel/randomize_va_space
+#echo "init huge tables..."
+#HUGE_PATH="/mnt/huge/"
+#if [ ! -d "$HUGE_PATH" ]; then
+#sudo mkdir "$HUGE_PATH"
+#fi
+#sudo mount none $ROOTFS/mnt/huge -t hugetlbfs
+#echo 400 > $ROOTFS/proc/sys/vm/nr_hugepages
+#echo 0 > /proc/sys/kernel/randomize_va_space
 
-echo "insmod uio kernel driver..."
-cd $WORKADDR
-insmod pv660_hns.ko
+#echo "insmod uio kernel driver..."
+#cd $WORKADDR
+#insmod pv660_hns.ko
 
-cd -
+#cd -
 echo "install finished!"

@@ -5,13 +5,13 @@
 
 ###################### remove odp driver ###########################
 
-echo "rmmod uio kernel driver..."
-rmmod pv660_hns
+#echo "rmmod uio kernel driver..."
+#rmmod pv660_hns
 
-HUGE_PATH="/mnt/huge/"
-if [ -d "$HUGE_PATH" ]; then
-echo "umount /mnt/huge"
-umount /mnt/huge
-fi
+#HUGE_PATH="/mnt/huge/"
+#if [ -d "$HUGE_PATH" ]; then
+#echo "umount /mnt/huge"
+#umount /mnt/huge
+#fi
 
 echo "remove finished!"
