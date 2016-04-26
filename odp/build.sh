@@ -27,14 +27,14 @@ ODP_ADDR=`pwd`/packages/odp
 
 ############################# build odp  #####################
 
-echo "init huge tables..."
-HUGE_PATH="$ROOTFS/mnt/huge/"
-if [ ! -d "$HUGE_PATH" ]; then
-sudo mkdir "$HUGE_PATH"
-fi
-sudo mount none $ROOTFS/mnt/huge -t hugetlbfs
-echo 400 > $ROOTFS/proc/sys/vm/nr_hugepages
-echo 0 > /proc/sys/kernel/randomize_va_space
+#echo "init huge tables..."
+#HUGE_PATH="$ROOTFS/mnt/huge/"
+#if [ ! -d "$HUGE_PATH" ]; then
+#sudo mkdir "$HUGE_PATH"
+#fi
+#sudo mount none $ROOTFS/mnt/huge -t hugetlbfs
+#echo 400 > $ROOTFS/proc/sys/vm/nr_hugepages
+#echo 0 > /proc/sys/kernel/randomize_va_space
 
 LOCALARCH=`uname -m`
 if [[ x"$LOCALARCH" =~ x"x86" ]]; then

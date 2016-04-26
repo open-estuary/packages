@@ -8,5 +8,10 @@
 echo "rmmod uio kernel driver..."
 rmmod pv660_hns
 
+HUGE_PATH="/mnt/huge/"
+if [ -d "$HUGE_PATH" ]; then
+echo "unmount /mnt/huge"
+unmount /mnt/huge
+fi
 
 echo "remove finished!"
