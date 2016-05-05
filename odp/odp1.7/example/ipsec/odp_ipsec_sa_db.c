@@ -255,7 +255,6 @@ void dump_sa_db(void)
 		char dst_ip_str[MAX_STRING];
 		uint8_t *p = entry->key.data;
 
-
 		printf(" %s %s %s %X %d ",
 		       entry->alg.cipher ? "esp" : "ah ",
 		       ipv4_addr_str(src_ip_str, entry->src_ip),

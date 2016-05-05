@@ -90,7 +90,7 @@ int setup_pkt_kni(struct odp_kni *pkt_kni, const char *netdev,
 	memset(&info, 0, sizeof(info));
 	ret = odp_pool_info(pool, &info);
 	if (ret < 0) {
-		ODP_ERR("netdev %s, odp_pool_info failed!\n");
+		ODP_ERR("netdev odp_pool_info failed!\n");
 		return -1;
 	}
 
@@ -103,7 +103,7 @@ int setup_pkt_kni(struct odp_kni *pkt_kni, const char *netdev,
 	case ODP_POOL_BUFFER:
 	case ODP_POOL_TIMEOUT:
 	default:
-		ODP_ERR("netdev %s, pool type err!\n");
+		ODP_ERR("netdev pool type err!\n");
 		return -1;
 	}
 

@@ -17,11 +17,12 @@ int _odp_packet_cls_enq(pktio_entry_t *pktio_entry,
 	odp_packet_hdr_t pkt_hdr;
 	int ret;
 	odp_pool_t pool;
+	int id = 0;
 
 	packet_parse_reset(&pkt_hdr);
 
 	_odp_cls_parse(&pkt_hdr, base);
-	cos = pktio_select_cos(pktio_entry, base, &pkt_hdr);
+	cos = pktio_select_cos(pktio_entry, id, base, &pkt_hdr);
 
 	/* if No CoS found then drop the packet */
 	if (cos == NULL || cos->s.queue == NULL || cos->s.pool == NULL)

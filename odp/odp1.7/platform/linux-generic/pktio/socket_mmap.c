@@ -122,6 +122,7 @@ static inline unsigned pkt_mmap_v2_rx(pktio_entry_t *pktio_entry,
 	struct ethhdr *eth_hdr;
 	unsigned i = 0;
 	uint8_t nb_rx = 0;
+	int id = 0;
 	struct ring *ring;
 	int ret;
 
@@ -147,7 +148,7 @@ static inline unsigned pkt_mmap_v2_rx(pktio_entry_t *pktio_entry,
 			continue;
 		}
 
-		if (pktio_cls_enabled(pktio_entry)) {
+		if (pktio_cls_enabled(pktio_entry, id)) {
 			ret = _odp_packet_cls_enq(pktio_entry, pkt_buf,
 						  pkt_len, &pkt_table[nb_rx]);
 			if (ret)

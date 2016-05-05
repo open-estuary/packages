@@ -1,0 +1,20 @@
+WARNING: line over 80 characters
+#33: FILE: ./example/classifier_direct/odp_classifier_direct.c:33:
++#define PRINT(fmt, ...)    printf(" [Func: %s. Line: %d] " fmt, __func__, __LINE__, ##__VA_ARGS__)
+
+CHECK: Avoid CamelCase: <SCNx16>
+#292: FILE: ./example/classifier_direct/odp_classifier_direct.c:292:
++	ret = sscanf(ipport, "%" SCNx16, &port);
+
+WARNING: unnecessary whitespace before a quoted newline
+#2135: FILE: ./example/classifier_direct/odp_classifier_direct.c:2135:
++			printf("cpu idx : %d, pktio idx : %d, pktio in : %d, pktio out : %d \n",
+
+total: 0 errors, 2 warnings, 1 checks, 2165 lines checked
+
+NOTE: Ignored message types: BIT_MACRO COMPARISON_TO_NULL DEPRECATED_VARIABLE NEW_TYPEDEFS SPLIT_STRING
+
+./example/classifier_direct/odp_classifier_direct.c has style problems, please review.
+
+If any of these errors are false positives, please report
+them to the maintainer, see CHECKPATCH in MAINTAINERS.

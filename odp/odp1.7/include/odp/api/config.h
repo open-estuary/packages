@@ -17,6 +17,10 @@
 extern "C" {
 #endif
 
+#ifndef HNS_PRINT
+#define HNS_PRINT(fmt, ...) printf("¡¾Func: %s. Line: %d¡¿" fmt, __func__, __LINE__, \
+			       ## __VA_ARGS__)
+#endif
 
 /** @defgroup odp_config ODP CONFIG
  *  Platform-specific configuration limits.

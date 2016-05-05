@@ -32,17 +32,17 @@ static pmr_tbl_t	*pmr_tbl;
 
 cos_t *get_cos_entry_internal(odp_cos_t cos_id)
 {
-	return &(cos_tbl->cos_entry[_odp_typeval(cos_id)]);
+	return &cos_tbl->cos_entry[_odp_typeval(cos_id)];
 }
 
 pmr_set_t *get_pmr_set_entry_internal(odp_pmr_set_t pmr_set_id)
 {
-	return &(pmr_set_tbl->pmr_set[_odp_typeval(pmr_set_id)]);
+	return &pmr_set_tbl->pmr_set[_odp_typeval(pmr_set_id)];
 }
 
 pmr_t *get_pmr_entry_internal(odp_pmr_t pmr_id)
 {
-	return &(pmr_tbl->pmr[_odp_typeval(pmr_id)]);
+	return &pmr_tbl->pmr[_odp_typeval(pmr_id)];
 }
 
 int odp_classification_init_global(void)
@@ -74,8 +74,8 @@ int odp_classification_init_global(void)
 	}
 
 	pmr_shm = odp_shm_reserve("shm_odp_pmr_tbl",
-			sizeof(pmr_tbl_t),
-			sizeof(pmr_t), 0);
+				  sizeof(pmr_tbl_t),
+				  sizeof(pmr_t), 0);
 
 	if (pmr_shm == ODP_SHM_INVALID) {
 		ODP_ERR("shm allocation failed for shm_odp_pmr_tbl");
@@ -95,8 +95,8 @@ int odp_classification_init_global(void)
 	}
 
 	pmr_set_shm = odp_shm_reserve("shm_odp_pmr_set_tbl",
-			sizeof(pmr_set_tbl_t),
-			sizeof(pmr_set_t), 0);
+				      sizeof(pmr_set_tbl_t),
+				      sizeof(pmr_set_t), 0);
 
 	if (pmr_set_shm == ODP_SHM_INVALID) {
 		ODP_ERR("shm allocation failed for shm_odp_pmr_set_tbl");
@@ -246,7 +246,6 @@ odp_pmr_t alloc_pmr(pmr_t **pmr)
 	return ODP_PMR_INVAL;
 }
 
-
 cos_t *get_cos_entry(odp_cos_t cos_id)
 {
 	if (_odp_typeval(cos_id) >= ODP_COS_MAX_ENTRY ||
@@ -254,7 +253,7 @@ cos_t *get_cos_entry(odp_cos_t cos_id)
 		return NULL;
 	if (cos_tbl->cos_entry[_odp_typeval(cos_id)].s.valid == 0)
 		return NULL;
-	return &(cos_tbl->cos_entry[_odp_typeval(cos_id)]);
+	return &cos_tbl->cos_entry[_odp_typeval(cos_id)];
 }
 
 
@@ -265,7 +264,7 @@ pmr_set_t *get_pmr_set_entry(odp_pmr_set_t pmr_set_id)
 		return NULL;
 	if (pmr_set_tbl->pmr_set[_odp_typeval(pmr_set_id)].s.pmr.s.valid == 0)
 		return NULL;
-	return &(pmr_set_tbl->pmr_set[_odp_typeval(pmr_set_id)]);
+	return &pmr_set_tbl->pmr_set[_odp_typeval(pmr_set_id)];
 }
 
 pmr_t *get_pmr_entry(odp_pmr_t pmr_id)
@@ -275,12 +274,13 @@ pmr_t *get_pmr_entry(odp_pmr_t pmr_id)
 		return NULL;
 	if (pmr_tbl->pmr[_odp_typeval(pmr_id)].s.valid == 0)
 		return NULL;
-	return &(pmr_tbl->pmr[_odp_typeval(pmr_id)]);
+	return &pmr_tbl->pmr[_odp_typeval(pmr_id)];
 }
 
 int odp_cos_destroy(odp_cos_t cos_id)
 {
 	cos_t *cos = get_cos_entry(cos_id);
+
 	if (NULL == cos) {
 		ODP_ERR("Invalid odp_cos_t handle");
 		return -1;
@@ -293,16 +293,19 @@ int odp_cos_destroy(odp_cos_t cos_id)
 int odp_cos_queue_set(odp_cos_t cos_id, odp_queue_t queue_id)
 {
 	cos_t *cos = get_cos_entry(cos_id);
+
 	if (cos == NULL) {
 		ODP_ERR("Invalid odp_cos_t handle");
 		return -1;
 	}
+
 	/* Locking is not required as intermittent stale
 	data during CoS modification is acceptable*/
 	if (queue_id == ODP_QUEUE_INVALID)
 		cos->s.queue = NULL;
 	else
 		cos->s.queue = queue_to_qentry(queue_id);
+
 	return 0;
 }
 
@@ -351,6 +354,8 @@ int odp_pktio_default_cos_set(odp_pktio_t pktio_in, odp_cos_t default_cos)
 {
 	pktio_entry_t *entry;
 	cos_t *cos;
+	pktio_entry_t *pktio_entry;
+	int id = 0;
 
 	entry = get_pktio_entry(pktio_in);
 	if (entry == NULL) {
@@ -363,8 +368,12 @@ int odp_pktio_default_cos_set(odp_pktio_t pktio_in, odp_cos_t default_cos)
 		return -1;
 	}
 
-	entry->s.cls.default_cos = cos;
-	pktio_cls_enabled_set(entry, 1);
+	/* temporary Solutions */
+	pktio_entry = get_pktio_entry(pktio_in);
+	id = pktio_entry->s.in_queue[PKTIO_MAX_QUEUES - 1].pktin.index;
+
+	entry->s.cls[id].default_cos = cos;
+	pktio_cls_enabled_set(entry, id);
 	return 0;
 }
 
@@ -372,6 +381,7 @@ int odp_pktio_error_cos_set(odp_pktio_t pktio_in, odp_cos_t error_cos)
 {
 	pktio_entry_t *entry;
 	cos_t *cos;
+	int id = 0;
 
 	entry = get_pktio_entry(pktio_in);
 	if (entry == NULL) {
@@ -385,30 +395,34 @@ int odp_pktio_error_cos_set(odp_pktio_t pktio_in, odp_cos_t error_cos)
 		return -1;
 	}
 
-	entry->s.cls.error_cos = cos;
+	entry->s.cls[id].error_cos = cos;
 	return 0;
 }
 
 int odp_pktio_skip_set(odp_pktio_t pktio_in, uint32_t offset)
 {
+	int id = 0;
 	pktio_entry_t *entry = get_pktio_entry(pktio_in);
+
 	if (entry == NULL) {
 		ODP_ERR("Invalid odp_cos_t handle");
 		return -1;
 	}
 
-	entry->s.cls.skip = offset;
+	entry->s.cls[id].skip = offset;
 	return 0;
 }
 
 int odp_pktio_headroom_set(odp_pktio_t pktio_in, uint32_t headroom)
 {
+	int id = 0;
 	pktio_entry_t *entry = get_pktio_entry(pktio_in);
+
 	if (entry == NULL) {
 		ODP_ERR("Invalid odp_pktio_t handle");
 		return -1;
 	}
-	entry->s.cls.headroom = headroom;
+	entry->s.cls[id].headroom = headroom;
 	return 0;
 }
 
@@ -420,12 +434,14 @@ int odp_cos_with_l2_priority(odp_pktio_t pktio_in,
 	pmr_l2_cos_t *l2_cos;
 	uint32_t i;
 	cos_t *cos;
+	int id = 0;
 	pktio_entry_t *entry = get_pktio_entry(pktio_in);
+
 	if (entry == NULL) {
 		ODP_ERR("Invalid odp_pktio_t handle");
 		return -1;
 	}
-	l2_cos = &entry->s.cls.l2_cos_table;
+	l2_cos = &entry->s.cls[id].l2_cos_table;
 
 	LOCK(&l2_cos->lock);
 	/* Update the L2 QoS table*/
@@ -436,7 +452,7 @@ int odp_cos_with_l2_priority(odp_pktio_t pktio_in,
 				l2_cos->cos[qos_table[i]] = cos;
 		}
 	}
-	pktio_cls_enabled_set(entry, 1);
+	pktio_cls_enabled_set(entry, id);
 	UNLOCK(&l2_cos->lock);
 	return 0;
 }
@@ -451,14 +467,15 @@ int odp_cos_with_l3_qos(odp_pktio_t pktio_in,
 	uint32_t i;
 	pktio_entry_t *entry = get_pktio_entry(pktio_in);
 	cos_t *cos;
+	int id = 0;
 
 	if (entry == NULL) {
 		ODP_ERR("Invalid odp_pktio_t handle");
 		return -1;
 	}
 
-	entry->s.cls.l3_precedence = l3_preference;
-	l3_cos = &entry->s.cls.l3_cos_table;
+	entry->s.cls[id].l3_precedence = l3_preference;
+	l3_cos = &entry->s.cls[id].l3_cos_table;
 
 	LOCK(&l3_cos->lock);
 	/* Update the L3 QoS table*/
@@ -469,7 +486,7 @@ int odp_cos_with_l3_qos(odp_pktio_t pktio_in,
 				l3_cos->cos[qos_table[i]] = cos;
 		}
 	}
-	pktio_cls_enabled_set(entry, 1);
+	pktio_cls_enabled_set(entry, id);
 	UNLOCK(&l3_cos->lock);
 	return 0;
 }
@@ -491,6 +508,7 @@ odp_pmr_t odp_pmr_create(const odp_pmr_match_t *match)
 {
 	pmr_t *pmr;
 	odp_pmr_t id;
+
 	if (match->val_sz > ODP_PMR_TERM_BYTES_MAX) {
 		ODP_ERR("val_sz greater than max supported limit");
 		return ODP_PMR_INVAL;
@@ -525,6 +543,7 @@ int odp_pktio_pmr_cos(odp_pmr_t pmr_id,
 	pktio_entry_t *pktio_entry;
 	pmr_t *pmr;
 	cos_t *cos;
+	int id = 0;
 
 	pktio_entry = get_pktio_entry(src_pktio);
 	if (pktio_entry == NULL) {
@@ -544,19 +563,19 @@ int odp_pktio_pmr_cos(odp_pmr_t pmr_id,
 		return -1;
 	}
 
-	LOCK(&pktio_entry->s.cls.lock);
-	num_pmr = pktio_entry->s.cls.num_pmr;
+	LOCK(&pktio_entry->s.cls[id].lock);
+	num_pmr = pktio_entry->s.cls[id].num_pmr;
 	if (num_pmr >= ODP_PKTIO_MAX_PMR) {
 		ODP_ERR("ODP_PKTIO_MAX_PMR reached");
-		UNLOCK(&pktio_entry->s.cls.lock);
+		UNLOCK(&pktio_entry->s.cls[id].lock);
 		return -1;
 	}
 
-	pktio_entry->s.cls.pmr[num_pmr] = pmr;
-	pktio_entry->s.cls.cos[num_pmr] = cos;
-	pktio_entry->s.cls.num_pmr++;
-	pktio_cls_enabled_set(pktio_entry, 1);
-	UNLOCK(&pktio_entry->s.cls.lock);
+	pktio_entry->s.cls[id].pmr[num_pmr] = pmr;
+	pktio_entry->s.cls[id].cos[num_pmr] = cos;
+	pktio_entry->s.cls[id].num_pmr++;
+	pktio_cls_enabled_set(pktio_entry, id);
+	UNLOCK(&pktio_entry->s.cls[id].lock);
 
 	return 0;
 }
@@ -566,6 +585,7 @@ int odp_cos_pmr_cos(odp_pmr_t pmr_id, odp_cos_t src_cos, odp_cos_t dst_cos)
 	cos_t *cos_src = get_cos_entry(src_cos);
 	cos_t *cos_dst = get_cos_entry(dst_cos);
 	pmr_t *pmr = get_pmr_entry(pmr_id);
+
 	if (NULL == cos_src || NULL == cos_dst || NULL == pmr) {
 		ODP_ERR("Invalid input handle");
 		return -1;
@@ -641,6 +661,7 @@ int odp_pmr_match_set_create(int num_terms, const odp_pmr_match_t *terms,
 int odp_pmr_match_set_destroy(odp_pmr_set_t pmr_set_id)
 {
 	pmr_set_t *pmr_set = get_pmr_set_entry(pmr_set_id);
+
 	if (pmr_set == NULL)
 		return -1;
 
@@ -648,13 +669,15 @@ int odp_pmr_match_set_destroy(odp_pmr_set_t pmr_set_id)
 	return 0;
 }
 
-int odp_pktio_pmr_match_set_cos(odp_pmr_set_t pmr_set_id, odp_pktio_t src_pktio,
-		odp_cos_t dst_cos)
+int odp_pktio_pmr_match_set_cos(odp_pmr_set_t pmr_set_id,
+				odp_pktio_t src_pktio,
+				odp_cos_t dst_cos)
 {
 	uint8_t num_pmr;
 	pktio_entry_t *pktio_entry;
 	pmr_t *pmr;
 	cos_t *cos;
+	int phyq_id;
 
 	pktio_entry = get_pktio_entry(src_pktio);
 	if (pktio_entry == NULL) {
@@ -674,19 +697,22 @@ int odp_pktio_pmr_match_set_cos(odp_pmr_set_t pmr_set_id, odp_pktio_t src_pktio,
 		return -1;
 	}
 
-	LOCK(&pktio_entry->s.cls.lock);
-	num_pmr = pktio_entry->s.cls.num_pmr;
+	phyq_id = pktio_entry->s.in_queue[PKTIO_MAX_QUEUES - 1].pktin.index;
+
+	LOCK(&pktio_entry->s.cls[phyq_id].lock);
+	num_pmr = pktio_entry->s.cls[phyq_id].num_pmr;
 	if (num_pmr >= ODP_PKTIO_MAX_PMR) {
 		ODP_ERR("ODP_PKTIO_MAX_PMR reached");
-		UNLOCK(&pktio_entry->s.cls.lock);
+		UNLOCK(&pktio_entry->s.cls[phyq_id].lock);
 		return -1;
 	}
 
-	pktio_entry->s.cls.pmr[num_pmr] = pmr;
-	pktio_entry->s.cls.cos[num_pmr] = cos;
-	pktio_entry->s.cls.num_pmr++;
-	pktio_cls_enabled_set(pktio_entry, 1);
-	UNLOCK(&pktio_entry->s.cls.lock);
+	pktio_entry->s.cls[phyq_id].pmr[num_pmr] = pmr;
+	pktio_entry->s.cls[phyq_id].cos[num_pmr] = cos;
+	pktio_entry->s.cls[phyq_id].num_pmr++;
+
+	pktio_cls_enabled_set(pktio_entry, phyq_id);
+	UNLOCK(&pktio_entry->s.cls[phyq_id].lock);
 
 	return 0;
 }
@@ -869,26 +895,31 @@ int pktio_classifier_init(pktio_entry_t *entry)
 {
 	classifier_t *cls;
 	int i;
+	int id;
+
 	/* classifier lock should be acquired by the calling function */
 	if (entry == NULL)
 		return -1;
-	cls = &entry->s.cls;
-	cls->num_pmr = 0;
-	cls->flow_set = 0;
-	cls->error_cos = NULL;
-	cls->default_cos = NULL;
-	cls->headroom = 0;
-	cls->skip = 0;
 
-	for (i = 0; i < ODP_PKTIO_MAX_PMR; i++) {
-		cls->pmr[i] = NULL;
-		cls->cos[i] = NULL;
+	for (id = 0; id < MAX_CLS_SUPPORT; id++) {
+		cls = &entry->s.cls[id];
+		cls->num_pmr = 0;
+		cls->flow_set = 0;
+		cls->error_cos = NULL;
+		cls->default_cos = NULL;
+		cls->headroom = 0;
+		cls->skip = 0;
+
+		for (i = 0; i < ODP_PKTIO_MAX_PMR; i++) {
+			cls->pmr[i] = NULL;
+			cls->cos[i] = NULL;
+		}
 	}
 
 	return 0;
 }
 
-int _odp_packet_classifier(pktio_entry_t *entry, odp_packet_t pkt)
+int _odp_packet_classifier(pktio_entry_t *entry, int queue_id, odp_packet_t pkt)
 {
 	queue_entry_t *queue;
 	cos_t *cos;
@@ -903,7 +934,7 @@ int _odp_packet_classifier(pktio_entry_t *entry, odp_packet_t pkt)
 	pkt_addr = odp_packet_data(pkt);
 
 	/* Matching PMR and selecting the CoS for the packet*/
-	cos = pktio_select_cos(entry, pkt_addr, pkt_hdr);
+	cos = pktio_select_cos(entry, queue_id, pkt_addr, pkt_hdr);
 	if (cos == NULL)
 		return -1;
 
@@ -919,9 +950,9 @@ int _odp_packet_classifier(pktio_entry_t *entry, odp_packet_t pkt)
 
 	if (odp_packet_pool(pkt) != cos->s.pool->s.pool_hdl) {
 		new_pkt = odp_packet_copy(pkt, cos->s.pool->s.pool_hdl);
-		odp_packet_free(pkt);
 		if (new_pkt == ODP_PACKET_INVALID)
 			return -1;
+		odp_packet_free(pkt);
 	} else {
 		new_pkt = pkt;
 	}
@@ -934,14 +965,16 @@ int _odp_packet_classifier(pktio_entry_t *entry, odp_packet_t pkt)
 int packet_classifier(odp_pktio_t pktio, odp_packet_t pkt)
 {
 	pktio_entry_t *entry;
+	int id = 0;
 
 	entry = get_pktio_entry(pktio);
 	if (entry == NULL)
 		return -1;
-	return _odp_packet_classifier(entry, pkt);
+	return _odp_packet_classifier(entry, id, pkt);
 }
 
-cos_t *pktio_select_cos(pktio_entry_t *entry, const uint8_t *pkt_addr,
+cos_t *pktio_select_cos(pktio_entry_t *entry, int queue_id,
+			const uint8_t *pkt_addr,
 			odp_packet_hdr_t *pkt_hdr)
 {
 	pmr_t *pmr;
@@ -949,19 +982,31 @@ cos_t *pktio_select_cos(pktio_entry_t *entry, const uint8_t *pkt_addr,
 	uint32_t i;
 	classifier_t *cls;
 
-	cls = &entry->s.cls;
-
 	/* Check for lazy parse needed */
 	if (packet_parse_not_complete(pkt_hdr))
 		packet_parse_full(pkt_hdr);
 
 	/* Return error cos for error packet */
 	if (pkt_hdr->error_flags.all)
-		return cls->error_cos;
+		return NULL;
+
+	/* global rule check */
+	cls = &entry->s.cls[GLOBAL_CLS_ID];
 	/* Calls all the PMRs attached at the PKTIO level*/
 	for (i = 0; i < cls->num_pmr; i++) {
-		pmr = entry->s.cls.pmr[i];
-		cos = entry->s.cls.cos[i];
+		pmr = cls->pmr[i];
+		cos = cls->cos[i];
+		cos = match_pmr_cos(cos, pkt_addr, pmr, pkt_hdr);
+		if (cos)
+			return cos;
+	}
+
+	/* phy queue rule check */
+	cls = &entry->s.cls[queue_id];
+	/* Calls all the PMRs attached at the PKTIO level*/
+	for (i = 0; i < cls->num_pmr; i++) {
+		pmr = cls->pmr[i];
+		cos = cls->cos[i];
 		cos = match_pmr_cos(cos, pkt_addr, pmr, pkt_hdr);
 		if (cos)
 			return cos;
@@ -1017,7 +1062,8 @@ cos_t *match_qos_l2_cos(pmr_l2_cos_t *l2_cos, const uint8_t *pkt_addr,
 cos_t *match_qos_cos(pktio_entry_t *entry, const uint8_t *pkt_addr,
 		     odp_packet_hdr_t *hdr)
 {
-	classifier_t *cls = &entry->s.cls;
+	int id = 0;
+	classifier_t *cls = &entry->s.cls[id];
 	pmr_l2_cos_t *l2_cos;
 	pmr_l3_cos_t *l3_cos;
 	cos_t *cos;

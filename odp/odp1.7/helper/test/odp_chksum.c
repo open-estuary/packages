@@ -64,9 +64,9 @@ static int scan_ip(const char *buf, unsigned int *paddr)
 		if (paddr)
 			*paddr = part1 << 24 | part2 << 16 | part3 << 8 | part4;
 		return 1;
-	} else {
-		printf("not good ip %d:%d:%d:%d/n", part1, part2, part3, part4);
 	}
+
+	printf("not good ip %d:%d:%d:%d/n", part1, part2, part3, part4);
 
 	return 0;
 }

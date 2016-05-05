@@ -56,18 +56,19 @@ static int loopback_recv(pktio_entry_t *pktio_entry, odp_packet_t pkts[],
 	queue_entry_t *qentry;
 	odp_packet_hdr_t *pkt_hdr;
 	odp_packet_t pkt;
+	int id = 0;
 
 	qentry = queue_to_qentry(pktio_entry->s.pkt_loop.loopq);
 	nbr = queue_deq_multi(qentry, hdr_tbl, len);
 
-	if (pktio_cls_enabled(pktio_entry)) {
+	if (pktio_cls_enabled(pktio_entry, id)) {
 		for (i = 0, j = 0; i < nbr; i++) {
 			pkt = _odp_packet_from_buffer(odp_hdr_to_buf
 						      (hdr_tbl[i]));
 			pkt_hdr = odp_packet_hdr(pkt);
 			packet_parse_reset(pkt_hdr);
 			packet_parse_l2(pkt_hdr);
-			if (0 > _odp_packet_classifier(pktio_entry, pkt)) {
+			if (0 > _odp_packet_classifier(pktio_entry, id, pkt)) {
 				pkts[j++] = pkt;
 				pktio_entry->s.stats.in_octets +=
 					odp_packet_len(pkts[i]);

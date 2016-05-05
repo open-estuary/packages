@@ -712,12 +712,14 @@ static void swap_pkt_addrs(odp_packet_t pkt_tbl[], unsigned len)
 static int convert_str_to_pmr_enum(char *token, odp_pmr_term_t *term,
 				   uint32_t *offset)
 {
+	int ret = -1;
+
 	if (NULL == token)
 		return -1;
 
 	if (!strcasecmp(token, "ODP_PMR_SIP_ADDR")) {
 		*term = ODP_PMR_SIP_ADDR;
-		return 0;
+		ret = 0;
 	} else {
 		errno = 0;
 		*offset = strtoul(token, NULL, 0);
@@ -725,10 +727,10 @@ static int convert_str_to_pmr_enum(char *token, odp_pmr_term_t *term,
 			return -1;
 
 		*term = ODP_PMR_CUSTOM_FRAME;
-		return 0;
+		ret = 0;
 	}
 
-	return -1;
+	return ret;
 }
 
 static int parse_pmr_policy(appl_args_t *appl_args, char *argv[], char *optarg)

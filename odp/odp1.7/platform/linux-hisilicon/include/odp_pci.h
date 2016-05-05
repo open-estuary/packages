@@ -184,17 +184,18 @@ enum odp_kernel_driver {
  * A structure describing a PCI device.
  */
 struct odp_pci_device {
-	TAILQ_ENTRY(odp_pci_device) next;                       /**< Next probed PCI device. */
+	TAILQ_ENTRY(odp_pci_device) next; /**< Next probed PCI device. */
 
-	struct odp_pci_addr	addr;                           /**< PCI location. */
-	struct odp_pci_id	id;                             /**< PCI ID. */
-	struct odp_pci_resource mem_resource[PCI_MAX_RESOURCE]; /**< PCI Memory Resource */
-	struct odp_intr_handle	intr_handle;                    /**< Interrupt handle */
-	struct odp_pci_driver  *driver;                         /**< Associated driver */
-	uint16_t		max_vfs;                        /**< sriov enable if not zero */
-	int			numa_node;                      /**< NUMA node connection */
-	struct odp_devargs     *devargs;                        /**< Device user arguments */
-	enum odp_kernel_driver	kdrv;                           /**< Kernel driver passthrough */
+	struct odp_pci_addr	addr;     /**< PCI location. */
+	struct odp_pci_id	id;       /**< PCI ID. */
+	/**< PCI Memory Resource */
+	struct odp_pci_resource mem_resource[PCI_MAX_RESOURCE];
+	struct odp_intr_handle	intr_handle; /**< Interrupt handle */
+	struct odp_pci_driver  *driver;      /**< Associated driver */
+	uint16_t		max_vfs;     /**< sriov enable if not zero */
+	int			numa_node;   /**< NUMA node connection */
+	struct odp_devargs     *devargs;     /**< Device user arguments */
+	enum odp_kernel_driver	kdrv;        /**< Kernel driver passthrough */
 };
 
 /** Any PCI device identifier (vendor, device, ...) */

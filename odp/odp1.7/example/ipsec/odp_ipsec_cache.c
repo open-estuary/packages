@@ -78,7 +78,6 @@ int create_ipsec_cache_entry(sa_db_entry_t *cipher_sa,
 	else
 		entry->in_place = TRUE;
 
-
 	/* Cipher */
 	if (cipher_sa) {
 		params.cipher_alg  = cipher_sa->alg.u.cipher;
@@ -108,6 +107,7 @@ int create_ipsec_cache_entry(sa_db_entry_t *cipher_sa,
 		int32_t size = params.iv.length;
 
 		int32_t ret = odp_random_data(params.iv.data, size, 1);
+
 		if (ret != size)
 			return -1;
 	}

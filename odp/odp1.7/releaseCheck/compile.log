@@ -1,0 +1,351 @@
+Step 1: Select the ODP build 
+  [1] build pv660 odp
+  [2] build pv660 drive
+
+Step 2: Setup linuxapp environment 
+
+Step 3: build test application 
+  [3] build test application
+  [4] build test validation
+
+Step 4: Other tools 
+  [5] Copy files to a board
+
+Step 5: Uninstall and system cleanup 
+
+  [6] Exit Script
+
+Option: 1
+
+CC  odp_atomic.o
+CC  odp_barrier.o
+CC  odp_buffer.o
+CC  odp_cpu.o
+CC  odp_classification.o
+CC  odp_cpumask.o
+CC  odp_cpumask_task.o
+CC  odp_crypto.o
+CC  odp_errno.o
+CC  odp_event.o
+CC  odp_hash.o
+CC  odp_impl.o
+CC  odp_packet.o
+CC  odp_init.o
+CC  odp_packet_flags.o
+CC  odp_packet_io.o
+CC  odp_pool.o
+CC  odp_queue.o
+CC  odp_rwlock.o
+CC  odp_rwlock_recursive.o
+CC  odp_schedule.o
+CC  odp_shared_memory.o
+CC  odp_spinlock.o
+CC  odp_spinlock_recursive.o
+CC  odp_system_info.o
+CC  odp_thread.o
+CC  odp_thrmask.o
+CC  odp_ticketlock.o
+CC  odp_time.o
+CC  odp_timer.o
+CC  odp_version.o
+CC  odp_weak.o
+CC  ethtool.o
+CC  hns_net.o
+CC  io_ops.o
+CC  kni.o
+CC  loop.o
+CC  netmap.o
+CC  pktio_common.o
+CC  socket.o
+CC  socket_mmap.o
+CC  sysfs.o
+CC  tap.o
+CC  odp_cpu_arch.o
+CC  odp_sysinfo_parse.o
+CC  hashtable.o
+CC  lineartable.o
+CC  linux.o
+CC  ring.o
+LD  odp.o
+CC  odp_common.o
+CC  odp_common_devargs.o
+CC  odp_common_dev.o
+CC  odp_tailqs.o
+CC  odp_core.o
+CC  odp_ethdev.o
+CC  odp_swab.o
+CC  odp_hugepage.o
+CC  odp_memops.o
+CC  odp_memory.o
+CC  odp_mmdistrict.o
+CC  odp_common_pci.o
+CC  odp_pci_vfio_mp_sync.o
+CC  odp_pci.o
+CC  odp_pci_uio.o
+CC  odp_pci_vfio.o
+CC  odp_ring.o
+CC  odp_hisi_timer.o
+CC  odp_uio.o
+CC  odp_kni.o
+LD  hisi.o
+AR  libodp.a
+LD  libodp.so
+
+----------------------------------------------------------
+Step 1: Select the ODP build 
+  [1] build pv660 odp
+  [2] build pv660 drive
+
+Step 2: Setup linuxapp environment 
+
+Step 3: build test application 
+  [3] build test application
+  [4] build test validation
+
+Step 4: Other tools 
+  [5] Copy files to a board
+
+Step 5: Uninstall and system cleanup 
+
+  [6] Exit Script
+
+Option: 2
+
+CC  pv660_net.o
+LD  pv660_net.so
+CC  ixgbe_82598.o
+CC  ixgbe_82599_bypass.o
+CC  ixgbe_82599.o
+CC  ixgbe_api.o
+CC  ixgbe_bypass.o
+CC  ixgbe_common.o
+CC  ixgbe_dcb_82598.o
+CC  ixgbe_dcb_82599.o
+CC  ixgbe_dcb.o
+CC  ixgbe_ethdev.o
+CC  ixgbe_fdir.o
+CC  ixgbe_interrupts.o
+CC  ixgbe_mbx.o
+CC  ixgbe_pf.o
+CC  ixgbe_phy.o
+CC  ixgbe_rxtx.o
+CC  ixgbe_vf.o
+CC  ixgbe_x540.o
+CC  ixgbe_x550.o
+LD  ixgbe.so
+
+----------------------------------------------------------
+Step 1: Select the ODP build 
+  [1] build pv660 odp
+  [2] build pv660 drive
+
+Step 2: Setup linuxapp environment 
+
+Step 3: build test application 
+  [3] build test application
+  [4] build test validation
+
+Step 4: Other tools 
+  [5] Copy files to a board
+
+Step 5: Uninstall and system cleanup 
+
+  [6] Exit Script
+
+Option: 3
+
+CC  odp_l2fwd.o
+LD  l2fwd_app
+CC  odp_l2fwd_rss.o
+LD  l2fwd_rss_app
+CC  odp_classifier.o
+LD  classifier_app
+CC  odp_classifier_direct.o
+LD  classifier_direct_app
+CC  odp_generator.o
+LD  generator_app
+CC  odp_ipsec_cache.o
+CC  odp_ipsec.o
+CC  odp_ipsec_fwd_db.o
+CC  odp_ipsec_loop_db.o
+CC  odp_ipsec_sa_db.o
+CC  odp_ipsec_sp_db.o
+CC  odp_ipsec_stream.o
+LD  ipsec_app
+CC  odp_pktio.o
+LD  packet_app
+CC  time_global_test.o
+LD  time_app
+CC  odp_timer_test.o
+LD  timer_app
+
+----------------------------------------------------------
+Step 1: Select the ODP build 
+  [1] build pv660 odp
+  [2] build pv660 drive
+
+Step 2: Setup linuxapp environment 
+
+Step 3: build test application 
+  [3] build test application
+  [4] build test validation
+
+Step 4: Other tools 
+  [5] Copy files to a board
+
+Step 5: Uninstall and system cleanup 
+
+  [6] Exit Script
+
+Option: 4
+
+CC  shmem.o
+CC  mask_common.o
+CC  shmem_main.o
+CC  odp_cunit_common.o
+LD  odp_shmem
+CC  errno.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  errno_main.o
+LD  odp_errno
+CC  time.o
+CC  mask_common.o
+CC  time_main.o
+CC  odp_cunit_common.o
+LD  odp_time
+CC  scheduler.o
+CC  scheduler_main.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+LD  odp_scheduler
+CC  crypto.o
+CC  odp_crypto_test_inp.o
+CC  crypto_main.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+LD  odp_crypto
+CC  cpumask.o
+CC  mask_common.o
+CC  cpumask_main.o
+CC  odp_cunit_common.o
+LD  odp_cpumask
+CC  buffer.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  buffer_main.o
+LD  odp_buffer
+CC  hash.o
+CC  mask_common.o
+CC  hash_main.o
+CC  odp_cunit_common.o
+LD  odp_hash
+CC  config.o
+CC  mask_common.o
+CC  config_main.o
+CC  odp_cunit_common.o
+LD  odp_config
+CC  pool.o
+CC  mask_common.o
+CC  pool_main.o
+CC  odp_cunit_common.o
+LD  odp_pool
+CC  queue.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  queue_main.o
+LD  odp_queue
+CC  barrier.o
+CC  mask_common.o
+CC  barrier_main.o
+CC  odp_cunit_common.o
+LD  odp_barrier
+CC  timer.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  timer_main.o
+LD  odp_timer
+CC  pktio.o
+CC  pktio_main.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+LD  odp_pktio
+CC  classification.o
+CC  odp_classification_basic.o
+CC  odp_classification_common.o
+CC  classification_main.o
+CC  odp_classification_test_pmr.o
+CC  odp_classification_tests.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+LD  odp_classification
+CC  random.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  random_main.o
+LD  odp_random
+CC  std_clib.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  std_clib_main.o
+LD  odp_std_clib
+CC  system_main.o
+CC  odp_cunit_common.o
+CC  system.o
+CC  mask_common.o
+LD  odp_system
+CC  packet.o
+CC  mask_common.o
+CC  packet_main.o
+CC  odp_cunit_common.o
+LD  odp_packet
+CC  atomic.o
+CC  mask_common.o
+CC  atomic_main.o
+CC  odp_cunit_common.o
+LD  odp_atomic
+CC  lock.o
+CC  mask_common.o
+CC  odp_cunit_common.o
+CC  lock_main.o
+LD  odp_lock
+CC  thread.o
+CC  mask_common.o
+CC  thread_main.o
+CC  odp_cunit_common.o
+LD  odp_thread
+CC  init_main_abort.o
+CC  mask_common.o
+CC  init.o
+CC  odp_cunit_common.o
+LD  odp_init_abort
+CC  init.o
+CC  init_main_log.o
+CC  odp_cunit_common.o
+CC  mask_common.o
+LD  odp_init_log
+CC  init.o
+CC  mask_common.o
+CC  init_main_ok.o
+CC  odp_cunit_common.o
+LD  odp_init_ok
+
+----------------------------------------------------------
+Step 1: Select the ODP build 
+  [1] build pv660 odp
+  [2] build pv660 drive
+
+Step 2: Setup linuxapp environment 
+
+Step 3: build test application 
+  [3] build test application
+  [4] build test validation
+
+Step 4: Other tools 
+  [5] Copy files to a board
+
+Step 5: Uninstall and system cleanup 
+
+  [6] Exit Script
+
+Option: 

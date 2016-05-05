@@ -259,7 +259,7 @@ odp_queue_t polled_odp_queue_create(const char *name,
 
 	if ((ODP_QUEUE_TYPE_SCHED == type) || (ODP_QUEUE_TYPE_PKTIN == type)) {
 		poll_queues[num_polled_queues++] = my_queue;
-		printf("%s: adding %"PRIu64"\n", __func__,
+		printf("%s : adding %"PRIu64"\n", __func__,
 		       odp_queue_to_u64(my_queue));
 	}
 
@@ -1193,7 +1193,6 @@ void *pktio_thread(void *arg EXAMPLE_UNUSED)
 		if ((PKT_DROP == rc) || (PKT_DONE == rc))
 			free_pkt_ctx(ctx);
 
-
 		/* Check for drop */
 		if (PKT_DROP == rc)
 			odp_packet_free(pkt);
@@ -1346,6 +1345,7 @@ main(int argc, char *argv[])
 	 */
 	if (stream_count) {
 		odp_bool_t done;
+
 		do {
 			done = verify_stream_db_outputs();
 			sleep(1);

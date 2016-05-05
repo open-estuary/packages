@@ -29,7 +29,7 @@ extern "C" {
 
 /** The thread starting arguments */
 typedef struct {
-	void *(*start_routine) (void *); /**< The function to run */
+	void *(*start_routine)(void *); /**< The function to run */
 	void *arg; /**< The functions arguemnts */
 	odp_thread_type_t thr_type; /**< The thread type */
 } odp_start_args_t;

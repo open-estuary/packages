@@ -52,14 +52,14 @@ extern "C" {
 #include <odp/hints.h>
 #include <odp/byteorder.h>
 
-#define ODP_ETHER_ADDR_LEN 6                    /**< Length of Ethernet address. */
-#define ODP_ETHER_TYPE_LEN 2                    /**< Length of Ethernet type field. */
-#define ODP_ETHER_CRC_LEN  4                    /**< Length of Ethernet CRC. */
+#define ODP_ETHER_ADDR_LEN 6  /**< Length of Ethernet address. */
+#define ODP_ETHER_TYPE_LEN 2  /**< Length of Ethernet type field. */
+#define ODP_ETHER_CRC_LEN  4  /**< Length of Ethernet CRC. */
 #define ODP_ETHER_HDR_LEN   \
 	(ODP_ETHER_ADDR_LEN * 2 + \
-	 ODP_ETHER_TYPE_LEN)                    /**< Length of Ethernet header. */
-#define ODP_ETHER_MIN_LEN 64                    /**< Minimum frame len, including CRC. */
-#define ODP_ETHER_MAX_LEN 1518                  /**< Maximum frame len, including CRC. */
+	 ODP_ETHER_TYPE_LEN)  /**< Length of Ethernet header. */
+#define ODP_ETHER_MIN_LEN 64  /**< Minimum frame len, including CRC. */
+#define ODP_ETHER_MAX_LEN 1518 /**< Maximum frame len, including CRC. */
 #define ODP_ETHER_MTU       \
 	(ODP_ETHER_MAX_LEN - \
 	 ODP_ETHER_HDR_LEN - ODP_ETHER_CRC_LEN) /**< Ethernet MTU. */
@@ -69,11 +69,12 @@ extern "C" {
 	(ODP_ETHER_MAX_LEN + 4)
 
 #define ODP_ETHER_MAX_JUMBO_FRAME_LEN \
-	0x3F00                     /**< Maximum Jumbo frame length, including CRC. */
+	0x3F00         /**< Maximum Jumbo frame length, including CRC. */
 
 #define ODP_ETHER_MAX_VLAN_ID 4095 /**< Maximum VLAN ID. */
 
-#define ODP_ETHER_MIN_MTU 68       /**< Minimum MTU for IPv4 packets, see RFC 791. */
+/**< Minimum MTU for IPv4 packets, see RFC 791. */
+#define ODP_ETHER_MIN_MTU 68
 
 /**
  * Ethernet address:

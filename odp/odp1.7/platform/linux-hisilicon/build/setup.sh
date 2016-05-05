@@ -52,6 +52,8 @@ step3_func()
 step4_func()
 {
 	TITLE="Other tools"
+	TEXT[1]="Copy files to a board"
+	FUNC[1]="./copy.sh"
 }
 
 

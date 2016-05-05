@@ -23,7 +23,7 @@ extern "C" {
 
 #ifdef __GNUC__
 
-#define ODP_ALIGNED(x) __attribute__((__aligned__(x)))
+#define ODP_ALIGNED(x) __attribute__((aligned(x)))
 
 #define ODP_PACKED __attribute__((__packed__))
 

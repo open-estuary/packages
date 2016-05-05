@@ -1,27 +1,11 @@
-/*******************************************************************************
-
-   Hisilicon network interface controller driver
-   Copyright(c) 2014 - 2019 Huawei Corporation.
-
-   This program is free software; you can redistribute it and/or modify it
-   under the terms and conditions of the GNU General Public License,
-   version 2, as published by the Free Software Foundation.
-
-   This program is distributed in the hope it will be useful, but WITHOUT
-   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-   more details.
-
-   You should have received a copy of the GNU General Public License along with
-   this program; if not, write to the Free Software Foundation, Inc.
-   51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
-
-   The full GNU General Public License is included in this distribution in
-   the file called "COPYING".
-
-   Contact Information:TBD
-
-*******************************************************************************/
+/*
+ * Copyright (c) 2014-2015 Hisilicon Limited.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ */
 
 #include <linux/cdev.h>
 #include <linux/module.h>
@@ -45,7 +29,6 @@
 #include <linux/slab.h>
 #include <linux/iommu.h>
 
-
 #include <linux/of_net.h>
 #include <linux/of_mdio.h>
 #include "pv660_hns_drv.h"
@@ -62,7 +45,8 @@
 #define UIO_ERROR -1
 
 #ifndef PRINT
-#define PRINT(fmt, ...) printk(KERN_ERR "[Func: %s. Line: %d] " fmt, __func__, __LINE__, ## __VA_ARGS__)
+#define PRINT(LOGLEVEL, fmt, ...) printk(LOGLEVEL "[Func: %s. Line: %d] " fmt, \
+					 __func__, __LINE__, ## __VA_ARGS__)
 #endif
 
 struct hns_uio_ioctrl_para {
@@ -72,17 +56,128 @@ struct hns_uio_ioctrl_para {
 	unsigned char	   data[40];
 };
 
-#define hns_setbit(x, y) (x) |= (1 << (y))  /* 将X的第Y位置1 */
-#define hns_clrbit(x, y) (x) &= ~(1 << (y)) /* 将X的第Y位清0 */
-
-static int uio_index;
-struct nic_uio_device *uio_dev_info[HNS_UIO_DEV_MAX] = {0};
+/*#define hns_setbit(x, y) (x) |= (1 << (y))
+ #define hns_clrbit(x, y) (x) &= ~(1 << (y))*/
 
 static int char_dev_flag;
+static int uio_index;
+struct nic_uio_device *uio_dev_info[HNS_UIO_DEV_MAX] = {
+	0
+};
+
 struct char_device char_dev;
 
 struct task_struct *ring_task;
 unsigned int kthread_stop_flag;
+
+static int   port_vf[] = {
+	0, 0, 0, 8, 16, 32, 128, 0, 0, 8, 16, 64, 1, 2, 4, 16
+};
+
+/**
+ * dummy function whenever a device is `opened'
+ */
+static int netdev_open(struct net_device *netdev)
+{
+	(void)netdev;
+	return 0;
+}
+
+/**
+ * dummy function for retrieving net stats
+ */
+static struct net_device_stats *netdev_stats(struct net_device *netdev)
+{
+	struct nic_uio_device *adapter;
+	int ifdx;
+
+	adapter = netdev_priv(netdev);
+	ifdx = adapter->bd_number;
+
+	adapter->nstats.rx_packets = 0;
+	adapter->nstats.tx_packets = 0;
+	adapter->nstats.rx_bytes = 0;
+	adapter->nstats.tx_bytes = 0;
+
+	return &adapter->nstats;
+}
+
+/**
+ * dummy function for setting features
+ */
+static int netdev_set_features(struct net_device *netdev,
+			       netdev_features_t  features)
+{
+	(void)netdev;
+	(void)features;
+	return 0;
+}
+
+/**
+ * dummy function for fixing features
+ */
+static netdev_features_t netdev_fix_features(struct net_device *netdev,
+					     netdev_features_t	features)
+{
+	(void)netdev;
+	(void)features;
+	return 0;
+}
+
+/**
+ * dummy function that returns void
+ */
+static void netdev_no_ret(struct net_device *netdev)
+{
+	(void)netdev;
+}
+
+/**
+ * dummy tx function
+ */
+static int netdev_xmit(struct sk_buff *skb, struct net_device *netdev)
+{
+	(void)netdev;
+	(void)skb;
+	return 0;
+}
+
+/**
+ * A naive net_device_ops struct to get the interface visible to the OS
+ */
+static const struct net_device_ops netdev_ops = {
+	.ndo_open = netdev_open,
+	.ndo_stop = netdev_open,
+	.ndo_start_xmit	 = netdev_xmit,
+	.ndo_set_rx_mode = netdev_no_ret,
+	.ndo_validate_addr    = netdev_open,
+	.ndo_set_mac_address  = NULL,
+	.ndo_change_mtu = NULL,
+	.ndo_tx_timeout = netdev_no_ret,
+	.ndo_vlan_rx_add_vid  = NULL,
+	.ndo_vlan_rx_kill_vid = NULL,
+	.ndo_do_ioctl	     = NULL,
+	.ndo_set_vf_mac	     = NULL,
+	.ndo_set_vf_vlan     = NULL,
+	.ndo_set_vf_rate     = NULL,
+	.ndo_set_vf_spoofchk = NULL,
+	.ndo_get_vf_config = NULL,
+	.ndo_get_stats = netdev_stats,
+	.ndo_setup_tc  = NULL,
+
+	/* .ndo_poll_controller    = netdev_no_ret, */
+	.ndo_set_features = netdev_set_features,
+	.ndo_fix_features = netdev_fix_features,
+	.ndo_fdb_add	      = NULL,
+};
+
+/**
+ * assignment function
+ */
+void netdev_assign_netdev_ops(struct net_device *dev)
+{
+	dev->netdev_ops = &netdev_ops;
+}
 
 static ssize_t hns_cdev_read(
 	struct file *file,
@@ -94,7 +189,8 @@ static ssize_t hns_cdev_read(
 }
 
 static ssize_t hns_cdev_write(struct file *file,
-			      const char __user *buffer, size_t length, loff_t *offset)
+			      const char __user *buffer, size_t length,
+			      loff_t *offset)
 {
 	return UIO_OK;
 }
@@ -131,7 +227,8 @@ static int hns_uio_change_mtu(struct nic_uio_device *priv, int new_mtu)
 	return ret;
 }
 
-void hns_uio_get_stats(struct nic_uio_device *priv, unsigned long long *data)
+void hns_uio_get_stats(struct nic_uio_device *priv,
+		       unsigned long long    *data)
 {
 	unsigned long long *p = data;
 	struct hnae_handle *h = priv->ae_handle;
@@ -139,7 +236,8 @@ void hns_uio_get_stats(struct nic_uio_device *priv, unsigned long long *data)
 	struct rtnl_link_stats64 temp;
 
 	if (!h->dev->ops->get_stats || !h->dev->ops->update_stats) {
-		netdev_err(priv->netdev, "get_stats or update_stats is null!\n");
+		netdev_err(priv->netdev,
+			   "get_stats or update_stats is null!\n");
 		return;
 	}
 
@@ -190,7 +288,8 @@ void hns_uio_pausefrm_cfg(void *mac_drv, u32 rx_en, u32 tx_en)
 	writel(origin, base);
 }
 
-void hns_uio_set_iommu(struct nic_uio_device *priv, unsigned long iova, unsigned long paddr, int gfp_order)
+void hns_uio_set_iommu(struct nic_uio_device *priv, unsigned long iova,
+		       unsigned long paddr, int gfp_order)
 {
 	struct iommu_domain *domain;
 	int ret = 0;
@@ -198,13 +297,15 @@ void hns_uio_set_iommu(struct nic_uio_device *priv, unsigned long iova, unsigned
 	domain = iommu_domain_alloc(priv->dev->bus);
 
 	if (!domain)
-		PRINT("domain is null\n");
+		PRINT(KERN_ERR, "domain is null\n");
 
 	ret = iommu_attach_device(domain, priv->dev);
-	PRINT("domain is null = %d\n", ret);
+	PRINT(KERN_ERR, "domain is null = %d\n", ret);
 
-	ret = iommu_map(domain, iova, (phys_addr_t)paddr, gfp_order, (IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE));
-	PRINT("domain is null = %d\n", ret);
+	ret =
+		iommu_map(domain, iova, (phys_addr_t)paddr, gfp_order,
+			  (IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE));
+	PRINT(KERN_ERR, "domain is null = %d\n", ret);
 }
 
 long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
@@ -213,74 +314,61 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	int index = 0;
 	void __user *parg;
 	struct hns_uio_ioctrl_para uio_para;
-	struct nic_uio_device *priv = NULL;
+	struct nic_uio_device	  *priv = NULL;
 	struct hnae_handle *handle;
 
 	/* unsigned long long data[128] = {0}; */
 
 	parg = (void __user *)arg;
 
-	if (copy_from_user(&uio_para, parg, sizeof(struct hns_uio_ioctrl_para))) {
-		PRINT("copy_from_user error.\n");
+	if (copy_from_user(&uio_para, parg,
+			   sizeof(struct hns_uio_ioctrl_para))) {
+		PRINT(KERN_ERR, "copy_from_user error.\n");
 		return UIO_ERROR;
 	}
 
 	if (uio_para.index >= uio_index) {
-		PRINT("Device index is out of range (%d).\n", uio_index);
+		PRINT(KERN_ERR, "Device index is out of range (%d).\n",
+		      uio_index);
 		return UIO_ERROR;
 	}
 
 	priv = uio_dev_info[uio_para.index];
 	if (!priv) {
-		PRINT("nic_uio_dev is null!\n");
+		PRINT(KERN_ERR, "nic_uio_dev is null!\n");
 		return UIO_ERROR;
 	}
 
 	handle = priv->ae_handle;
-	index  = uio_para.index - priv->q_num_start;
+	index  = uio_para.index;
 
 	switch (cmd) {
 	case HNS_UIO_IOCTL_MAC:
 	{
-		PRINT("index = %d, %d, 0x%llx", index, uio_para.data[5], priv->cfg_status[HNS_UIO_IOCTL_MAC]);
-		if (priv->cfg_status[HNS_UIO_IOCTL_MAC] > 0) {
-			hns_setbit(priv->cfg_status[HNS_UIO_IOCTL_MAC], index);
-			break;
-		}
-
-		memcpy((void *)priv->netdev->dev_addr, (void *)&uio_para.data[0], 6);
-		ret = handle->dev->ops->set_mac_addr(handle, priv->netdev->dev_addr);
+		memcpy((void *)priv->netdev->dev_addr,
+		       (void *)&uio_para.data[0], 6);
+		ret = handle->dev->ops->set_mac_addr(handle,
+						     priv->netdev->dev_addr);
 		if (ret) {
-			PRINT("set_mac_addr faill, ret = %d\n", ret);
+			PRINT(KERN_ERR, "set_mac_addr fail, ret = %d\n", ret);
 			return UIO_ERROR;
 		}
-		PRINT("index = %d, %d, 0x%llx", index, uio_para.data[5], priv->cfg_status[HNS_UIO_IOCTL_MAC]);
-		hns_setbit(priv->cfg_status[HNS_UIO_IOCTL_MAC], index);
+
 		break;
 	}
 	case HNS_UIO_IOCTL_UP:
 	{
-		if (priv->cfg_status[HNS_UIO_IOCTL_UP] > 0) {
-			hns_setbit(priv->cfg_status[HNS_UIO_IOCTL_UP], index);
-			break;
-		}
-
-		ret = handle->dev->ops->start ? handle->dev->ops->start(handle) : 0;
-		if (ret != 0) {
-			PRINT("set_mac_addr faill, ret = %d.\n", ret);
+		ret = handle->dev->ops->start ? handle->dev->ops->start(handle)
+		      : 0;
+		if (ret) {
+			PRINT(KERN_ERR, "set_mac_addr fail, ret = %d.\n", ret);
 			return UIO_ERROR;
 		}
 
-		hns_setbit(priv->cfg_status[HNS_UIO_IOCTL_UP], index);
 		break;
 	}
 	case HNS_UIO_IOCTL_DOWN:
 	{
-		hns_clrbit(priv->cfg_status[HNS_UIO_IOCTL_DOWN], index);
-
-		if (priv->cfg_status[HNS_UIO_IOCTL_DOWN] > 0)
-			break;
-
 		if (handle->dev->ops->stop)
 			handle->dev->ops->stop(priv->ae_handle);
 
@@ -289,47 +377,44 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	case HNS_UIO_IOCTL_PORT:
 	{
 		uio_para.value = priv->port;
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
 	}
 	case HNS_UIO_IOCTL_VF_MAX:
 	{
-		uio_para.value = priv->vf_max;
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		uio_para.value = priv->vf_sum;
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
 	}
 	case HNS_UIO_IOCTL_VF_ID:
 	{
-		uio_para.value = priv->vf_id[index];
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		uio_para.value = priv->vf_id;
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
 	}
 	case HNS_UIO_IOCTL_QNUM:
 	{
-		uio_para.value = priv->q_num[index];
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		uio_para.value = priv->q_num;
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
 	}
-	case HNS_UIO_IOCTL_QNUM_MAX:
+	case HNS_UIO_IOCTL_VF_START:
 	{
-		uio_para.value = priv->q_num_max;
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
-			return UIO_ERROR;
-
-		break;
-	}
-	case HNS_UIO_IOCTL_QNUM_START:
-	{
-		uio_para.value = priv->q_num_start;
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		uio_para.value = priv->uio_start;
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
@@ -341,7 +426,8 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	}
 	case HNS_UIO_IOCTL_GET_STAT:
 	{
-		unsigned long long *data = kzalloc(sizeof(unsigned long long) * 256, GFP_KERNEL);
+		unsigned long long *data = kzalloc(
+			sizeof(unsigned long long) * 256, GFP_KERNEL);
 
 		hns_uio_get_stats(priv, data);
 		if (copy_to_user((void __user *)arg, data, sizeof(data)) != 0)
@@ -350,8 +436,11 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		break;
 	}
 	case HNS_UIO_IOCTL_GET_LINK:
-		uio_para.value = handle->dev->ops->get_status ? handle->dev->ops->get_status(handle) : 0;
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		uio_para.value =
+			handle->dev->ops->get_status ? handle->dev->ops->
+			get_status(handle) : 0;
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
@@ -362,7 +451,8 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
 		queue = handle->qs[0];
 		uio_para.value = dsaf_read_reg(queue->io_base, uio_para.cmd);
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
@@ -374,7 +464,8 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		queue = handle->qs[0];
 		dsaf_write_reg(queue->io_base, uio_para.cmd, uio_para.value);
 		uio_para.value = dsaf_read_reg(queue->io_base, uio_para.cmd);
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
+		if (copy_to_user((void __user *)arg, &uio_para,
+				 sizeof(struct hns_uio_ioctrl_para)) != 0)
 			return UIO_ERROR;
 
 		break;
@@ -384,17 +475,10 @@ long hns_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		hns_uio_pausefrm_cfg(priv->vf_cb->mac_cb, 0, uio_para.value);
 		break;
 	}
-	case HNS_UIO_IOCTL_GET_TYPE:
-	{
-		uio_para.value = priv->vf_type[index];
-		if (copy_to_user((void __user *)arg, &uio_para, sizeof(struct hns_uio_ioctrl_para)) != 0)
-			return UIO_ERROR;
-
-		break;
-	}
 
 	default:
-		PRINT("uio ioctl cmd(%d) illegal! range:0-%d.\n", cmd, HNS_UIO_IOCTL_NUM - 1);
+		PRINT(KERN_ERR, "uio ioctl cmd(%d) illegal! range:0-%d.\n", cmd,
+		      HNS_UIO_IOCTL_NUM - 1);
 		return UIO_ERROR;
 	}
 
@@ -414,7 +498,7 @@ int hns_uio_register_cdev(void)
 	struct device *aeclassdev;
 	struct char_device *priv = &char_dev;
 
-	if (char_dev_flag != 0)
+	if (char_dev_flag++ != 0)
 		return UIO_OK;
 
 	(void)strncpy(priv->name, "nic_uio", strlen("nic_uio"));
@@ -422,20 +506,22 @@ int hns_uio_register_cdev(void)
 	(void)strncpy(priv->class_name, "nic_uio", strlen("nic_uio"));
 	priv->dev_class = class_create(THIS_MODULE, priv->class_name);
 	if (IS_ERR(priv->dev_class)) {
-		PRINT("Class_create device %s failed!\n", priv->class_name);
+		PRINT(KERN_ERR, "Class_create device %s failed!\n",
+		      priv->class_name);
 		(void)unregister_chrdev(priv->major, priv->name);
 		return PTR_ERR(priv->dev_class);
 	}
 
-	aeclassdev = device_create(priv->dev_class, NULL, MKDEV(priv->major, 0), NULL, priv->name);
+	aeclassdev = device_create(priv->dev_class, NULL, MKDEV(priv->major,
+								0), NULL,
+				   priv->name);
 	if (IS_ERR(aeclassdev)) {
-		PRINT("Class_device_create device %s failed!\n", priv->class_name);
+		PRINT(KERN_ERR, "Class_device_create device %s failed!\n",
+		      priv->class_name);
 		(void)unregister_chrdev(priv->major, priv->name);
 		class_destroy((void *)priv->dev_class);
 		return PTR_ERR(aeclassdev);
 	}
-
-	char_dev_flag = 1;
 
 	return UIO_OK;
 }
@@ -444,13 +530,16 @@ void hns_uio_unregister_cdev(void)
 {
 	struct char_device *priv = &char_dev;
 
-	if (char_dev_flag != 0) {
+	if (char_dev_flag == 0)
+		return;
+
+	if (char_dev_flag == 1) {
 		unregister_chrdev(priv->major, priv->name);
 		device_destroy(priv->dev_class, MKDEV(priv->major, 0));
 		class_destroy(priv->dev_class);
 	}
 
-	char_dev_flag = 0;
+	char_dev_flag--;
 }
 
 static int hns_uio_nic_open(struct uio_info *dev_info, struct inode *node)
@@ -459,24 +548,26 @@ static int hns_uio_nic_open(struct uio_info *dev_info, struct inode *node)
 	return UIO_OK;
 }
 
-static int hns_uio_nic_release(struct uio_info *dev_info, struct inode *inode)
+static int hns_uio_nic_release(struct uio_info *dev_info,
+			       struct inode    *inode)
 {
 	return UIO_OK;
 }
 
 static int hns_uio_nic_irqcontrol(struct uio_info *dev_info, s32 irq_state)
 {
-	PRINT("hns_uio_nic_open = %d\n", irq_state);
+	PRINT(KERN_ERR, "hns_uio_nic_open = %d\n", irq_state);
 	return UIO_OK;
 }
 
-static irqreturn_t hns_uio_nic_irqhandler(int irq, struct uio_info *dev_info)
+static irqreturn_t hns_uio_nic_irqhandler(int		   irq,
+					  struct uio_info *dev_info)
 {
 	struct nic_uio_device *priv = NULL;
 
 	priv = uio_dev_info[dev_info->mem[3].addr];
-	uio_event_notify(&priv->uinfo[0]);
-	PRINT("hns_uio_nic_open = %d\n", irq);
+	uio_event_notify(&priv->uinfo);
+	PRINT(KERN_ERR, "hns_uio_nic_open = %d\n", irq);
 	return IRQ_HANDLED;
 }
 
@@ -505,63 +596,260 @@ static struct hnae_buf_ops hns_uio_nic_bops = {
 	.unmap_buffer = hns_uio_unmap,
 };
 
-static inline int hns_uio_get_port(const char *ops)
+void hns_free_buffers(struct hnae_ring *ring)
 {
-	return ops[0] - '0';
+	int i;
+
+	for (i = 0; i < ring->desc_num; i++)
+		hnae_free_buffer_detach(ring, i);
+}
+
+/* free desc along with its attached buffer */
+void hns_free_desc(struct hnae_ring *ring)
+{
+	hns_free_buffers(ring);
+	dma_unmap_single(ring_to_dev(ring), ring->desc_dma_addr,
+			 ring->desc_num * sizeof(ring->desc[0]),
+			 ring_to_dma_dir(ring));
+	ring->desc_dma_addr = 0;
+	kfree(ring->desc);
+	ring->desc = NULL;
+}
+
+/* fini ring, also free the buffer for the ring */
+void hns_fini_ring(struct hnae_ring *ring)
+{
+	hns_free_desc(ring);
+	kfree(ring->desc_cb);
+	ring->desc_cb = NULL;
+	ring->next_to_clean = 0;
+	ring->next_to_use = 0;
+}
+
+void hns_kernel_queue_free(struct hnae_handle *h)
+{
+	int i;
+	struct hnae_queue *q;
+
+	for (i = 0; i < h->q_num; i++) {
+		q = h->qs[i];
+
+		if (q->dev->ops->fini_queue)
+			q->dev->ops->fini_queue(q);
+
+		hns_fini_ring(&q->tx_ring);
+		hns_fini_ring(&q->rx_ring);
+	}
+}
+
+int hns_user_queue_malloc(struct hnae_handle *handle)
+{
+	int i;
+	struct hnae_ring *tx_ring;
+	struct hnae_ring *rx_ring;
+	unsigned char	 *base_tx_cb;
+	unsigned char	 *base_rx_cb;
+	unsigned char	 *base_tx_desc;
+	unsigned char	 *base_rx_desc;
+	dma_addr_t base_tx_dma;
+	dma_addr_t base_rx_dma;
+	int cb_size;
+	int desc_size;
+
+	tx_ring = (struct hnae_ring *)&handle->qs[0]->tx_ring;
+	rx_ring = (struct hnae_ring *)&handle->qs[0]->rx_ring;
+
+	cb_size = tx_ring->desc_num * sizeof(tx_ring->desc_cb[0]);
+	desc_size = tx_ring->desc_num * sizeof(tx_ring->desc[0]);
+
+	base_tx_cb = kcalloc(handle->q_num, cb_size, GFP_KERNEL);
+	if (!base_tx_cb)
+		return UIO_ERROR;
+
+	base_rx_cb = kcalloc(handle->q_num, cb_size, GFP_KERNEL);
+	if (!base_rx_cb) {
+		kfree(base_tx_cb);
+		return UIO_ERROR;
+	}
+
+	base_tx_desc = kzalloc(desc_size * handle->q_num, GFP_KERNEL);
+	if (!base_tx_desc) {
+		kfree(base_tx_cb);
+		kfree(base_rx_cb);
+		return UIO_ERROR;
+	}
+
+	base_tx_dma = dma_map_single(ring_to_dev(tx_ring), base_tx_desc,
+				     desc_size * handle->q_num,
+				     ring_to_dma_dir(tx_ring));
+	if (dma_mapping_error(ring_to_dev(tx_ring), base_tx_dma)) {
+		kfree(base_tx_cb);
+		kfree(base_rx_cb);
+		kfree(base_tx_desc);
+		PRINT(KERN_ERR, "dma_mapping_error is fail!\n");
+		return UIO_ERROR;
+	}
+
+	base_rx_desc = kzalloc(desc_size * handle->q_num, GFP_KERNEL);
+	if (!base_rx_desc) {
+		kfree(base_tx_cb);
+		kfree(base_rx_cb);
+		kfree(base_tx_desc);
+
+		return UIO_ERROR;
+	}
+
+	base_rx_dma = dma_map_single(ring_to_dev(rx_ring), base_rx_desc,
+				     desc_size * handle->q_num,
+				     ring_to_dma_dir(rx_ring));
+	if (dma_mapping_error(ring_to_dev(rx_ring), base_rx_dma)) {
+		kfree(base_tx_cb);
+		kfree(base_rx_cb);
+		kfree(base_tx_desc);
+		kfree(base_rx_desc);
+		dma_unmap_single(ring_to_dev(tx_ring), base_tx_dma,
+				 desc_size * handle->q_num,
+				 ring_to_dma_dir(tx_ring));
+		PRINT(KERN_ERR, "dma_mapping_error is fail!\n");
+		return UIO_ERROR;
+	}
+
+	for (i = 0; i < handle->q_num; i++) {
+		tx_ring = (struct hnae_ring *)&handle->qs[i]->tx_ring;
+		rx_ring = (struct hnae_ring *)&handle->qs[i]->rx_ring;
+		tx_ring->q = handle->qs[i];
+		tx_ring->flags = 1;
+		rx_ring->q = handle->qs[i];
+		rx_ring->flags = 0;
+
+		tx_ring->desc_cb =
+			(struct hnae_desc_cb *)(base_tx_cb + cb_size * i);
+		rx_ring->desc_cb =
+			(struct hnae_desc_cb *)(base_rx_cb + cb_size * i);
+		tx_ring->desc =
+			(struct hnae_desc *)(base_tx_desc + desc_size * i);
+		rx_ring->desc =
+			(struct hnae_desc *)(base_rx_desc + desc_size * i);
+		tx_ring->desc_dma_addr = base_tx_dma + desc_size * i;
+		rx_ring->desc_dma_addr = base_rx_dma + desc_size * i;
+
+		if (handle->dev->ops->init_queue)
+			handle->dev->ops->init_queue(handle->qs[i]);
+	}
+
+	return UIO_OK;
+}
+
+int hns_user_queue_free(struct hnae_handle *handle)
+{
+	int i;
+	struct hnae_ring *tx_ring;
+	struct hnae_ring *rx_ring;
+
+	tx_ring = (struct hnae_ring *)&handle->qs[0]->tx_ring;
+	rx_ring = (struct hnae_ring *)&handle->qs[0]->rx_ring;
+
+	kfree(rx_ring->desc);
+	kfree(tx_ring->desc);
+	kfree(rx_ring->desc_cb);
+	kfree(tx_ring->desc_cb);
+
+	dma_unmap_single(ring_to_dev(tx_ring), tx_ring->desc_dma_addr,
+			 tx_ring->desc_num *
+			 sizeof(tx_ring->desc[0]) * handle->q_num,
+			 ring_to_dma_dir(tx_ring));
+
+	dma_unmap_single(ring_to_dev(rx_ring), rx_ring->desc_dma_addr,
+			 rx_ring->desc_num *
+			 sizeof(rx_ring->desc[0]) * handle->q_num,
+			 ring_to_dma_dir(rx_ring));
+
+	for (i = 0; i < handle->q_num; i++) {
+		tx_ring = (struct hnae_ring *)&handle->qs[i]->tx_ring;
+		rx_ring = (struct hnae_ring *)&handle->qs[i]->rx_ring;
+		tx_ring->desc_cb = NULL;
+		rx_ring->desc_cb = NULL;
+		tx_ring->desc = NULL;
+		rx_ring->desc = NULL;
+		tx_ring->desc_dma_addr = 0;
+		rx_ring->desc_dma_addr = 0;
+	}
+
+	return UIO_OK;
+}
+
+void hnae_list_del(spinlock_t	    *lock,
+		   struct list_head *node)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(lock, flags);
+	list_del_rcu(node);
+	spin_unlock_irqrestore(lock, flags);
+}
+
+void hns_user_put_handle(struct hnae_handle *h)
+{
+	struct hnae_ae_dev *dev = h->dev;
+
+	hns_user_queue_free(h);
+
+	if (h->dev->ops->reset)
+		h->dev->ops->reset(h);
+
+	hnae_list_del(&dev->lock, &h->node);
+
+	if (dev->ops->put_handle)
+		dev->ops->put_handle(h);
+
+	module_put(dev->owner);
 }
 
 int hns_uio_probe(struct platform_device *pdev)
 {
 	struct nic_uio_device *priv = NULL;
-	struct hnae_handle *handle;
+	struct hnae_handle    *handle;
 	struct device *dev = &pdev->dev;
-	struct device_node *node = dev->of_node;
-	struct net_device  *netdev;
-	struct hnae_queue  *queue;
-	struct device_node *ae_node;
-	struct hnae_vf_cb  *vf_cb;
+	struct device_node    *node = dev->of_node;
+	struct net_device     *netdev;
+	struct hnae_queue     *queue;
+	struct hnae_vf_cb     *vf_cb;
 	int ret;
 	int port = 0;
-	int port_start = 0;
+	int uio_start = 0;
 	int i = 0;
-	int j = 0;
-	int vf_max = 0;
+	static int cards_found;
+	const char *ae_name;
 
-	if (!dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
-		PRINT("set mask to 64bit.\n");
-	else
-		PRINT("set mask to 32bit.\n");
-
-	ae_node = (void *)of_parse_phandle(node, "ae-handle", 0);
-	if (IS_ERR_OR_NULL(ae_node)) {
-		ret = PTR_ERR(ae_node);
-		PRINT("not find ae-handle\n");
+	ret = of_property_read_string(node, "ae-name", &ae_name);
+	if (ret)
 		return UIO_ERROR;
-	}
 
 	ret = of_property_read_u32(node, "port-id", &port);
 	if (ret)
 		return UIO_ERROR;
 
-	PRINT("uio_index = %d, name = %s, port = %d\n", uio_index, ae_node->name, port);
+	uio_start = uio_index;
+	do {
+		handle = hnae_get_handle(dev, ae_name, port, &hns_uio_nic_bops);
+		if (IS_ERR_OR_NULL(handle)) {
+			PRINT(KERN_ERR, "hnae_get_handle fail. port=%d\n",
+			      port);
+			goto err_uio_dev_free;
+		}
 
-	handle = hnae_get_handle(dev, ae_node, port, &hns_uio_nic_bops);
-	if (IS_ERR_OR_NULL(handle)) {
-		ret = PTR_ERR(handle);
-		PRINT("hnae_get_handle fail. (port=%d)\n", port);
-		return UIO_ERROR;
-	}
-	
-	
-	port_start = uio_index;
-	while (handle->vf_id == vf_max++) {
-		vf_cb = (struct hnae_vf_cb *)container_of(handle, struct hnae_vf_cb, ae_handle);
+		hns_kernel_queue_free(handle);
+		hns_user_queue_malloc(handle);
 
-		netdev = alloc_etherdev_mq(sizeof(struct nic_uio_device), handle->q_num);
+		vf_cb = (struct hnae_vf_cb *)container_of(
+			handle, struct hnae_vf_cb, ae_handle);
+
+		netdev = alloc_etherdev_mq(sizeof(struct nic_uio_device),
+					   handle->q_num);
 		if (!netdev) {
-			PRINT("alloc_etherdev_mq fail. (name=%s, port=%d).\n", ae_node->name, port);
-			hnae_put_handle(priv->ae_handle);
-			return UIO_ERROR;
+			PRINT(KERN_ERR, "alloc_etherdev_mq fail. port=%d\n",
+			      port);
+			goto err_get_handle;
 		}
 
 		priv = netdev_priv(netdev);
@@ -570,96 +858,99 @@ int hns_uio_probe(struct platform_device *pdev)
 		priv->ae_handle = handle;
 		priv->vf_cb  = vf_cb;
 		priv->port   = port;
-		priv->vf_max = vf_max;
-		priv->q_num_max = handle->q_num;
-		priv->q_num_start = uio_index;
-		priv->q_num_end = uio_index + handle->q_num;
-		memset(priv->cfg_status, 0, sizeof(unsigned long long) * HNS_UIO_IOCTL_NUM);
+		priv->vf_sum = port_vf[vf_cb->dsaf_dev->dsaf_mode];
+		priv->vf_id  = handle->vf_id;
+		priv->q_num  = handle->q_num;
+		priv->uio_start = uio_start;
 
-		for (i = 0; i < handle->q_num; i++) {
-			priv->uio_index[i] = uio_index;
-			priv->vf_id[i] = handle->vf_id;
-			priv->q_num[i] = i;
-			priv->vf_type[i] = 0;
+		queue = handle->qs[0];
+		priv->uinfo.name = DRIVER_UIO_NAME;
+		priv->uinfo.version = "1";
+		priv->uinfo.priv = (void *)priv;
+		priv->uinfo.mem[0].name = "rcb ring";
+		priv->uinfo.mem[0].addr = (unsigned long)queue->phy_base;
+		priv->uinfo.mem[0].size = NIC_UIO_SIZE * handle->q_num;
+		priv->uinfo.mem[0].memtype = UIO_MEM_PHYS;
 
-			queue = handle->qs[i];
-			priv->uinfo[i].name = DRIVER_UIO_NAME;
-			priv->uinfo[i].version = "1";
-			priv->uinfo[i].priv = (void *)priv;
-			priv->uinfo[i].mem[0].name = "rcb ring";
-			priv->uinfo[i].mem[0].addr = (unsigned long)queue->phy_base;
-			priv->uinfo[i].mem[0].size = NIC_UIO_SIZE;
-			priv->uinfo[i].mem[0].memtype = UIO_MEM_PHYS;
+		priv->uinfo.mem[1].name = "tx_bd";
+		priv->uinfo.mem[1].addr = (unsigned long)queue->tx_ring.desc;
+		priv->uinfo.mem[1].size = queue->tx_ring.desc_num *
+					  sizeof(queue->tx_ring.desc[0]) *
+					  handle->q_num;
+		priv->uinfo.mem[1].memtype = UIO_MEM_LOGICAL;
 
-			priv->uinfo[i].mem[1].name = "tx_bd";
-			priv->uinfo[i].mem[1].addr = (unsigned long)queue->tx_ring.desc;
-			priv->uinfo[i].mem[1].size = queue->tx_ring.desc_num * sizeof(queue->tx_ring.desc[0]);
-			priv->uinfo[i].mem[1].memtype = UIO_MEM_LOGICAL;
+		priv->uinfo.mem[2].name = "rx_bd";
+		priv->uinfo.mem[2].addr = (unsigned long)queue->rx_ring.desc;
+		priv->uinfo.mem[2].size = queue->rx_ring.desc_num *
+					  sizeof(queue->rx_ring.desc[0]) *
+					  handle->q_num;
+		priv->uinfo.mem[2].memtype = UIO_MEM_LOGICAL;
 
-			priv->uinfo[i].mem[2].name = "rx_bd";
-			priv->uinfo[i].mem[2].addr = (unsigned long)queue->rx_ring.desc;
-			priv->uinfo[i].mem[2].size = queue->rx_ring.desc_num * sizeof(queue->rx_ring.desc[0]);
-			priv->uinfo[i].mem[2].memtype = UIO_MEM_LOGICAL;
+		priv->uinfo.mem[3].name = "nic_uio_device";
+		priv->uinfo.mem[3].addr = (unsigned long)(uio_index);
+		priv->uinfo.mem[3].size = sizeof(unsigned long);
+		priv->uinfo.mem[3].memtype = UIO_MEM_LOGICAL;
 
-			priv->uinfo[i].mem[3].name = "nic_uio_device";
-			priv->uinfo[i].mem[3].addr = (unsigned long)(uio_index);
-			priv->uinfo[i].mem[3].size = sizeof(unsigned long);
-			priv->uinfo[i].mem[3].memtype = UIO_MEM_LOGICAL;
+		/* priv->uinfo.irq = queue->rx_ring->irq; */
+		priv->uinfo.irq_flags = UIO_IRQ_CUSTOM;
+		priv->uinfo.handler = hns_uio_nic_irqhandler;
+		priv->uinfo.irqcontrol = hns_uio_nic_irqcontrol;
+		priv->uinfo.open = hns_uio_nic_open;
+		priv->uinfo.release = hns_uio_nic_release;
 
-			/* priv->uinfo.irq = queue->rx_ring.irq; */
-			priv->uinfo[i].irq = UIO_IRQ_NONE;
-			priv->uinfo[i].irq_flags = UIO_IRQ_CUSTOM;
-			priv->uinfo[i].handler = hns_uio_nic_irqhandler;
-			priv->uinfo[i].irqcontrol = hns_uio_nic_irqcontrol;
-			priv->uinfo[i].open = hns_uio_nic_open;
-			priv->uinfo[i].release = hns_uio_nic_release;
-
-			ret = uio_register_device(dev, &priv->uinfo[i]);
-			if (ret) {
-				dev_err(dev, "uio_register_device failed!\n");
-				goto err_unregister_uio;
-			}
-
-			/*PRINT("q_num: %d, vf_id: %d, uio_index: %d, irq: %d, phy: 0x%llx\n", handle->q_num,
-			      handle->vf_id, uio_index, queue->rx_ring.irq, queue->phy_base);*/
-
-			uio_dev_info[uio_index] = priv;
-			uio_index++;
+		ret = uio_register_device(dev, &priv->uinfo);
+		if (ret) {
+			PRINT(KERN_ERR, "uio_register_device failed!\n");
+			goto err_unregister_uio;
 		}
 
-		priv->vf_type[0] = 1;
 		platform_set_drvdata(pdev, netdev);
+		uio_dev_info[uio_index] = priv;
 
-		handle = hnae_get_handle(dev, ae_node, port, &hns_uio_nic_bops);
-		if (IS_ERR_OR_NULL(handle))
-			break;
-	}
+		netdev_assign_netdev_ops(netdev);
+		hns_ethtool_set_ops(netdev);
+		SET_NETDEV_DEV(netdev, dev);
+
+		strcpy(netdev->name, "odp%d");
+		priv->bd_number = cards_found;
+		netdev->ifindex = cards_found;
+		ret = register_netdev(netdev);
+		if (ret)
+			goto err_unregister_uio;
+
+		/* reset nstats */
+		memset(&priv->nstats, 0, sizeof(struct net_device_stats));
+		priv->netdev_registered = true;
+
+		uio_index++;
+	} while (handle->vf_id < (port_vf[vf_cb->dsaf_dev->dsaf_mode] - 1));
+
+	PRINT(KERN_ERR, "uio_start = %d, port = %d, vf = %d\n",
+	      uio_start, port, port_vf[vf_cb->dsaf_dev->dsaf_mode]);
 
 	ret = hns_uio_register_cdev();
+
 	if (ret) {
-		PRINT("registering the character device failed! ret = %d\n", ret);
+		PRINT(KERN_ERR,
+		      "registering the character device failed! ret=%d\n", ret);
 		goto err_uio_dev_free;
 	}
 
 	return UIO_OK;
 
 err_unregister_uio:
-	kfree(uio_dev_info);
+	free_netdev(priv->netdev);
+err_get_handle:
+	hns_user_put_handle(handle);
 err_uio_dev_free:
-
-	for (i = 0; i < vf_max; i++) {
-		priv = uio_dev_info[port_start];
-
-		for (j = port_start; j < uio_index; j++) {
-			uio_unregister_device(&priv->uinfo[j - port_start]);
-			uio_dev_info[j] = NULL;
+	for (i = 0; i < uio_index; i++) {
+		priv = uio_dev_info[i];
+		if (!priv) {
+			uio_unregister_device(&priv->uinfo);
+			free_netdev(priv->netdev);
+			hns_user_put_handle(priv->ae_handle);
+			uio_dev_info[i] = NULL;
 		}
-
-		if (priv->ae_handle->dev->ops->stop)
-			priv->ae_handle->dev->ops->stop(priv->ae_handle);
-
-		free_netdev(priv->netdev);
-		hnae_put_handle(priv->ae_handle);
 	}
 
 	return ret;
@@ -674,32 +965,38 @@ err_uio_dev_free:
 int hns_uio_remove(struct platform_device *pdev)
 {
 	int i = 0;
-	int j = 0;
+	int vf_max = 0;
 	struct net_device *ndev = platform_get_drvdata(pdev);
 	struct nic_uio_device *nic_uio_dev = netdev_priv(ndev);
 	struct nic_uio_device *priv;
 
 	hns_uio_unregister_cdev();
 
-	PRINT("vf_max = %d, q_num_start = %d, q_num_end = %d\n", nic_uio_dev->vf_max, nic_uio_dev->q_num_start,
-	      nic_uio_dev->q_num_end);
+	PRINT(KERN_ERR, "vf_sum = %d, uio_start = %d, q_num = %d\n",
+	      nic_uio_dev->vf_sum, nic_uio_dev->uio_start, nic_uio_dev->q_num);
 
-	for (i = 0; i < nic_uio_dev->vf_max; i++) {
-		priv = uio_dev_info[nic_uio_dev->q_num_start];
+	vf_max = nic_uio_dev->uio_start + nic_uio_dev->vf_sum;
+	for (i = nic_uio_dev->uio_start; i < vf_max; i++) {
+		priv = uio_dev_info[i];
+		if (!priv)
+			continue;
 
-		for (j = 0; j < nic_uio_dev->q_num_max; j++) {
-			uio_unregister_device(&priv->uinfo[j]);
-			uio_dev_info[j + nic_uio_dev->q_num_start] = NULL;
+		uio_unregister_device(&priv->uinfo);
+
+		if (priv->netdev_registered) {
+			unregister_netdev(priv->netdev);
+			priv->netdev_registered = false;
 		}
 
 		if (priv->ae_handle->dev->ops->stop)
 			priv->ae_handle->dev->ops->stop(priv->ae_handle);
 
 		free_netdev(priv->netdev);
-		hnae_put_handle(priv->ae_handle);
+		hns_user_put_handle(priv->ae_handle);
+		uio_dev_info[i] = NULL;
 	}
 
-	PRINT("Uninstall UIO driver successfully.\n\n");
+	PRINT(KERN_ERR, "Uninstall UIO driver successfully.\n\n");
 	return UIO_OK;
 }
 
@@ -710,7 +1007,8 @@ int hns_uio_remove(struct platform_device *pdev)
  *
  * Return 0 on success, negative on failure
  */
-int hns_uio_suspend(struct platform_device *pdev, pm_message_t state)
+int hns_uio_suspend(struct platform_device *pdev,
+		    pm_message_t	    state)
 {
 	return UIO_OK;
 }
@@ -727,22 +1025,24 @@ int hns_uio_resume(struct platform_device *pdev)
 }
 
 /*for dts*/
-static const struct of_device_id hns_uio_enet_match[] = {
-	{.compatible = "hisilicon,hns-nic-v0"},
+static const struct of_device_id hns_uio_enet_match[]
+	= {
+	{.compatible = "hisilicon,hns-nic-v1"},
 	{}
-};
+	};
 
 MODULE_DEVICE_TABLE(of, hns_uio_enet_match);
 
 static struct platform_driver hns_uio_driver = {
-	.probe	 = hns_uio_probe,
+	.probe			     = hns_uio_probe,
 	.remove	 = hns_uio_remove,
 	.suspend = hns_uio_suspend,
 	.resume	 = hns_uio_resume,
 	.driver	 = {
 		.name  = DRIVER_UIO_NAME,
 		.owner = THIS_MODULE,
-		.of_match_table = hns_uio_enet_match,
+		.of_match_table	     = hns_uio_enet_match,
+		.suppress_bind_attrs = false,
 	},
 };
 
@@ -752,7 +1052,8 @@ int __init hns_uio_module_init(void)
 
 	ret = platform_driver_register(&hns_uio_driver);
 	if (ret) {
-		PRINT("platform_driver_register fail, ret = %d\n", ret);
+		PRINT(KERN_ERR, "platform_driver_register fail, ret = %d\n",
+		      ret);
 		return ret;
 	}
 

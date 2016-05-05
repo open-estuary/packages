@@ -708,6 +708,72 @@ int odp_pktio_link_status(odp_pktio_t pktio);
 /**
  * @}
  */
+enum odp_pktio_dev_type
+{
+    ODP_PKITIO_DEV_TYPE_PCI = 0x1,
+    ODP_PKITIO_DEV_TYPE_SOC,
+};
+
+struct odp_pktio_pci_id {
+	uint16_t vendor_id;	      /**< Vendor ID or PCI_ANY_ID. */
+	uint16_t device_id;	      /**< Device ID or PCI_ANY_ID. */
+	uint16_t subsystem_vendor_id; /**< Subsystem vendor ID or PCI_ANY_ID. */
+	uint16_t subsystem_device_id; /**< Subsystem device ID or PCI_ANY_ID. */
+};
+
+/**
+ * A structure describing the location of a PCI device.
+ */
+struct odp_pktio_pci_addr {
+	uint16_t domain;		/**< Device domain */
+	uint8_t bus;			/**< Device bus */
+	uint8_t devid;			/**< Device ID */
+	uint8_t function;		/**< Device function. */
+};
+
+struct odp_pktio_dev_pci_info {
+	struct odp_pktio_pci_addr addr;       /**< PCI location. */
+	struct odp_pktio_pci_id id;	      /**< PCI ID. */
+    int numa_node;		    /**< NUMA node connection */
+};
+
+struct odp_pktio_dev_soc_info {
+    int  if_idx;		    /*soc pktio网口范围内的编号*/
+    int  numa_node;		    /**< NUMA node connection */
+};
+
+union odp_pktio_dev_info {
+	struct odp_pktio_dev_soc_info soc_info; /**< soc info */
+	struct odp_pktio_dev_pci_info pci_info; /**< pci info */
+};
+
+#define PACKET_IO_NAME_LENGTH_MAX 16
+struct odp_pktio_info
+{
+    char name[PACKET_IO_NAME_LENGTH_MAX];    /**< Packet IO device name */
+    enum odp_pktio_dev_type if_type;	     /**< Packet IO device type */
+    union odp_pktio_dev_info info;	     /**< Packet IO device info */
+};
+
+/** 获取ODP所有packet IO实例的信息
+ *
+ *  该函数用于获取当前系统中所有packet IO实例的信息
+ *
+ *  @param[out]  pktio_info	ODP packet IO实例的相关信息
+ *  @param[out]  num		ODP packet IO实例的个数
+ *
+ *  @return :: 0 成功
+ *  @return :: <0, 执行错误
+ *
+ *  @attention 该API是在linaro odp pktio API基础上新增的接口
+ */
+int odp_pktio_dev_get(struct odp_pktio_info *pktio_info, uint8_t * num);
+
+
+
+
+
+
 
 #ifdef __cplusplus
 }

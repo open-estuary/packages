@@ -114,7 +114,8 @@ struct odp_kni_fifo {
 struct odp_kni_mbuf {
 	void	*buf_addr ODP_ALIGNED(ODP_CACHE_LINE_SIZE);
 	char		  pad0[10];
-	uint16_t	  data_off; /**< Start address of data in segment buffer. */
+	/**< Start address of data in segment buffer. */
+	uint16_t	  data_off;
 	char		  pad1[4];
 	uint64_t	  ol_flags; /**< Offload features. */
 

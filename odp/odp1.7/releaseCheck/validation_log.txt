@@ -1,0 +1,1644 @@
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+Requested num of threads is too large
+reducing from 32 to 16
+Num of threads used = 16
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: atomic
+  Test: atomic_test_atomic_inc_dec ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: classification basic
+  Test: classification_test_create_cos ...passed
+  Test: classification_test_destroy_cos ...[Func: odp_cos_destroy. Line: 285]Invalid odp_cos_t handlepassed
+  Test: classification_test_create_pmr_match ...passed
+  Test: classification_test_destroy_pmr ...passed
+  Test: classification_test_cos_set_queue ...passed
+  Test: classification_test_cos_set_drop ...passed
+  Test: classification_test_cos_set_pool ...passed
+  Test: classification_test_pmr_match_set_create ...passed
+  Test: classification_test_pmr_match_set_destroy ...passed
+Suite: classification pmr tests
+  Test: classification_test_pmr_term_tcp_dport ...passed
+  Test: classification_test_pmr_term_tcp_sport ...passed
+  Test: classification_test_pmr_term_udp_dport ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+Requested num of threads is too large
+reducing from 32 to 16
+Num of threads used = 16
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: barrier
+  Test: barrier_test_memory_barrier ...passed
+  Test: barrier_test_no_barrier_functional ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: buffer tests
+  Test: buffer_test_pool_alloc ...[Func: odp_pool_print. Line: 668]Pool info
+[Func: odp_pool_print. Line: 669]---------
+[Func: odp_pool_print. Line: 671] pool            2
+[Func: odp_pool_print. Line: 673] name            buffer_pool_alloc
+[Func: odp_pool_print. Line: 678] pool type       buffer
+[Func: odp_pool_print. Line: 680] pool storage    ODP managed shm handle 12
+[Func: odp_pool_print. Line: 682] pool status     active
+[Func: odp_pool_print. Line: 686] pool opts       unsegmented, non-zeroized, created
+[Func: odp_pool_print. Line: 687] pool base       0x7fa7900000
+[Func: odp_pool_print. Line: 689] pool size       8192 (2 pages)
+[Func: odp_pool_print. Line: 690] pool mdata base 0x7fa79012c0
+[Func: odp_pool_print. Line: 691] udata size      0
+[Func: odp_pool_print. Line: 692] headroom        0
+[Func: odp_pool_print. Line: 693] tailroom        0
+[Func: odp_pool_print. Line: 695] buf size        1500
+[Func: odp_pool_print. Line: 697] buf align       64 requested, 64 used
+[Func: odp_pool_print. Line: 704] num bufs        3
+[Func: odp_pool_print. Line: 706] bufs available  3 
+[Func: odp_pool_print. Line: 707] bufs in use     0
+[Func: odp_pool_print. Line: 708] buf allocs      0
+[Func: odp_pool_print. Line: 709] buf frees       0
+[Func: odp_pool_print. Line: 710] buf empty       0
+[Func: odp_pool_print. Line: 712] blk size        1536
+[Func: odp_pool_print. Line: 713] blks available  3
+[Func: odp_pool_print. Line: 714] blk allocs      0
+[Func: odp_pool_print. Line: 715] blk frees       0
+[Func: odp_pool_print. Line: 716] blk empty       0
+[Func: odp_pool_print. Line: 717] high wm value   1
+[Func: odp_pool_print. Line: 718] high wm count   0
+[Func: odp_pool_print. Line: 719] low wm value    0
+[Func: odp_pool_print. Line: 720] low wm count    0
+passed
+  Test: buffer_test_pool_free ...passed
+  Test: buffer_test_pool_alloc_multi ...[Func: odp_pool_print. Line: 668]Pool info
+[Func: odp_pool_print. Line: 669]---------
+[Func: odp_pool_print. Line: 671] pool            2
+[Func: odp_pool_print. Line: 673] name            buffer_pool_alloc_multi
+[Func: odp_pool_print. Line: 678] pool type       buffer
+[Func: odp_pool_print. Line: 680] pool storage    ODP managed shm handle 12
+[Func: odp_pool_print. Line: 682] pool status     active
+[Func: odp_pool_print. Line: 686] pool opts       unsegmented, non-zeroized, created
+[Func: odp_pool_print. Line: 687] pool base       0x7fa7900000
+[Func: odp_pool_print. Line: 689] pool size       8192 (2 pages)
+[Func: odp_pool_print. Line: 690] pool mdata base 0x7fa79012c0
+[Func: odp_pool_print. Line: 691] udata size      0
+[Func: odp_pool_print. Line: 692] headroom        0
+[Func: odp_pool_print. Line: 693] tailroom        0
+[Func: odp_pool_print. Line: 695] buf size        1500
+[Func: odp_pool_print. Line: 697] buf align       64 requested, 64 used
+[Func: odp_pool_print. Line: 704] num bufs        3
+[Func: odp_pool_print. Line: 706] bufs available  3 
+[Func: odp_pool_print. Line: 707] bufs in use     0
+[Func: odp_pool_print. Line: 708] buf allocs      0
+[Func: odp_pool_print. Line: 709] buf frees       0
+[Func: odp_pool_print. Line: 710] buf empty       0
+[Func: odp_pool_print. Line: 712] blk size        1536
+[Func: odp_pool_print. Line: 713] blks available  3
+[Func: odp_pool_print. Line: 714] blk allocs      0
+[Func: odp_pool_print. Line: 715] blk frees       0
+[Func: odp_pool_print. Line: 716] blk empty       0
+[Func: odp_pool_print. Line: 717] high wm value   1
+[Func: odp_pool_print. Line: 718] high wm count   0
+[Func: odp_pool_print. Line: 719] low wm value    0
+[Func: odp_pool_print. Line: 720] low wm count    0
+passed
+  Test: buffer_test_pool_free_multi ...passed
+  Test: buffer_test_management_basic ...[Func: odp_buffer_print. Line: 88]
+Buffer
+  pool         1
+  addr         0x7fa78fa158
+  size         1536
+  ref_count    0
+  type         1
+
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      5      5      5      0        0
+             asserts     42     42     42      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: config tests
+  Test: config_test ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts     14     14     14      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Cpumask
+  Test: cpumask_test_odp_cpumask_to_from_str ...passed
+  Test: cpumask_test_odp_cpumask_equal ...passed
+  Test: cpumask_test_odp_cpumask_zero ...passed
+  Test: cpumask_test_odp_cpumask_set ...passed
+  Test: cpumask_test_odp_cpumask_clr ...passed
+  Test: cpumask_test_odp_cpumask_isset ...passed
+  Test: cpumask_test_odp_cpumask_count ...passed
+  Test: cpumask_test_odp_cpumask_and ...passed
+  Test: cpumask_test_odp_cpumask_or ...passed
+  Test: cpumask_test_odp_cpumask_xor ...passed
+  Test: cpumask_test_odp_cpumask_copy ...passed
+  Test: cpumask_test_odp_cpumask_first ...passed
+  Test: cpumask_test_odp_cpumask_last ...passed
+  Test: cpumask_test_odp_cpumask_next ...passed
+  Test: cpumask_test_odp_cpumask_setall ...passed
+  Test: cpumask_test_odp_cpumask_def_control ...passed
+  Test: cpumask_test_odp_cpumask_def_worker ...[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+passed
+  Test: cpumask_test_odp_cpumask_def ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     18     18     18      0        0
+             asserts   3416   3416   3416      0      n/a
+
+Elapsed time =    0.012 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: odp_crypto_sync_inp
+  Test: crypto_test_enc_alg_3des_cbc ...passed
+  Test: crypto_test_dec_alg_3des_cbc ...passed
+  Test: crypto_test_enc_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes128_cbc ...passed
+  Test: crypto_test_dec_alg_aes128_cbc ...passed
+  Test: crypto_test_enc_alg_aes128_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes128_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes128_gcm ...passed
+  Test: crypto_test_enc_alg_aes128_gcm_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes128_gcm ...passed
+  Test: crypto_test_dec_alg_aes128_gcm_ovr_iv ...passed
+  Test: crypto_test_alg_hmac_md5 ...passed
+  Test: crypto_test_alg_hmac_sha256 ...passed
+Suite: odp_crypto_async_inp
+  Test: crypto_test_enc_alg_3des_cbc ...passed
+  Test: crypto_test_dec_alg_3des_cbc ...passed
+  Test: crypto_test_enc_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_3des_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes128_cbc ...passed
+  Test: crypto_test_dec_alg_aes128_cbc ...passed
+  Test: crypto_test_enc_alg_aes128_cbc_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes128_cbc_ovr_iv ...passed
+  Test: crypto_test_enc_alg_aes128_gcm ...passed
+  Test: crypto_test_enc_alg_aes128_gcm_ovr_iv ...passed
+  Test: crypto_test_dec_alg_aes128_gcm ...passed
+  Test: crypto_test_dec_alg_aes128_gcm_ovr_iv ...passed
+  Test: crypto_test_alg_hmac_md5 ...passed
+  Test: crypto_test_alg_hmac_sha256 ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      2      2    n/a      0        0
+               tests     28     28     28      0        0
+             asserts    890    890    890      0      n/a
+
+Elapsed time =    0.001 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Errno
+  Test: errno_test_odp_errno_sunny_day ...odp_errno [Func: odp_errno_print. Line: 30]Success
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Hash
+  Test: hash_test_crc32c ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      3      3      3      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+Requested num of threads is too large
+reducing from 32 to 16
+Num of threads used = 16
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: nolocking
+  Test: lock_test_no_lock_functional ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+[Func: odp_pool_print. Line: 668]Pool info
+[Func: odp_pool_print. Line: 669]---------
+[Func: odp_pool_print. Line: 671] pool            1
+[Func: odp_pool_print. Line: 673] name            packet_pool
+[Func: odp_pool_print. Line: 678] pool type       packet
+[Func: odp_pool_print. Line: 680] pool storage    ODP managed shm handle 11
+[Func: odp_pool_print. Line: 682] pool status     active
+[Func: odp_pool_print. Line: 686] pool opts       segmented, non-zeroized, created
+[Func: odp_pool_print. Line: 687] pool base       0x7fa78d3000
+[Func: odp_pool_print. Line: 689] pool size       225280 (55 pages)
+[Func: odp_pool_print. Line: 690] pool mdata base 0x7fa7900c40
+[Func: odp_pool_print. Line: 691] udata size      24
+[Func: odp_pool_print. Line: 692] headroom        128
+[Func: odp_pool_print. Line: 693] tailroom        64
+[Func: odp_pool_print. Line: 700] seg length      1598 requested, 1792 used
+[Func: odp_pool_print. Line: 702] pkt length      1598 requested, 1792 used
+[Func: odp_pool_print. Line: 704] num bufs        100
+[Func: odp_pool_print. Line: 706] bufs available  98 
+[Func: odp_pool_print. Line: 707] bufs in use     2
+[Func: odp_pool_print. Line: 708] buf allocs      2
+[Func: odp_pool_print. Line: 709] buf frees       0
+[Func: odp_pool_print. Line: 710] buf empty       0
+[Func: odp_pool_print. Line: 712] blk size        1792
+[Func: odp_pool_print. Line: 713] blks available  94
+[Func: odp_pool_print. Line: 714] blk allocs      7
+[Func: odp_pool_print. Line: 715] blk frees       0
+[Func: odp_pool_print. Line: 716] blk empty       0
+[Func: odp_pool_print. Line: 717] high wm value   50
+[Func: odp_pool_print. Line: 718] high wm count   0
+[Func: odp_pool_print. Line: 719] low wm value    25
+[Func: odp_pool_print. Line: 720] low wm count    0
+
+Suite: packet tests
+  Test: packet_test_alloc_free ...passed
+  Test: packet_test_alloc_free_multi ...passed
+  Test: packet_test_alloc_segmented ...passed
+  Test: packet_test_basic_metadata ...passed
+  Test: packet_test_debug ...[Func: odp_packet_print. Line: 722]
+Packet Buffer
+  pool         1
+  addr         0x7fa7900dd8
+  size         1792
+  ref_count    0
+  type         2
+  input_flags  0x3
+  error_flags  0x0
+  output_flags 0x0
+  l2_offset    0
+  l3_offset    268435455
+  l4_offset    268435455
+  frame_len    1594
+  input        0
+
+passed
+  Test: packet_test_length ...passed
+  Test: packet_test_headroom ...passed
+  Test: packet_test_tailroom ...passed
+  Test: packet_test_context ...passed
+  Test: packet_test_event_conversion ...passed
+  Test: packet_test_layer_offsets ...passed
+  Test: packet_test_segments ...passed
+  Test: packet_test_segment_last ...passed
+  Test: packet_test_in_flags ...passed
+  Test: packet_test_error_flags ...passed
+  Test: packet_test_add_rem_data ...passed
+  Test: packet_test_copy ...passed
+  Test: packet_test_copydata ...passed
+  Test: packet_test_offset ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     19     19     19      0        0
+             asserts    316    316    316      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+No interfaces specified, using default "loop".
+
+Suite: Packet I/O Unsegmented
+  Test: pktio_test_open ...[Func: setup_pkt_odp. Line: 119]netdev nothere, format err! should be pktio_x! x is digital number
+[Func: setup_pktio_entry. Line: 241]Unable to init any I/O type.
+passed
+  Test: pktio_test_lookup ...passed
+  Test: pktio_test_print ...[Func: odp_pktio_print. Line: 905]
+pktio
+  handle       1
+  name         loop
+  type         loop
+  state        stop
+  mac          02:e9:34:80:73:01
+  mtu          2147483647
+  promisc      yes
+
+passed
+  Test: pktio_test_pktin_queue_config_direct ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Pool tests
+  Test: pool_test_create_destroy_buffer ...passed
+  Test: pool_test_create_destroy_packet ...passed
+  Test: pool_test_create_destroy_timeout ...passed
+  Test: pool_test_lookup_info_print ...[Func: odp_pool_print. Line: 668]Pool info
+[Func: odp_pool_print. Line: 669]---------
+[Func: odp_pool_print. Line: 671] pool            1
+[Func: odp_pool_print. Line: 673] name            pool_for_lookup_test
+[Func: odp_pool_print. Line: 678] pool type       buffer
+[Func: odp_pool_print. Line: 680] pool storage    ODP managed shm handle 11
+[Func: odp_pool_print. Line: 682] pool status     active
+[Func: odp_pool_print. Line: 686] pool opts       unsegmented, non-zeroized, created
+[Func: odp_pool_print. Line: 687] pool base       0x7fa7400000
+[Func: odp_pool_print. Line: 689] pool size       1794048 (438 pages)
+[Func: odp_pool_print. Line: 690] pool mdata base 0x7fa7586a00
+[Func: odp_pool_print. Line: 691] udata size      0
+[Func: odp_pool_print. Line: 692] headroom        0
+[Func: odp_pool_print. Line: 693] tailroom        0
+[Func: odp_pool_print. Line: 695] buf size        1500
+[Func: odp_pool_print. Line: 697] buf align       64 requested, 64 used
+[Func: odp_pool_print. Line: 704] num bufs        1000
+[Func: odp_pool_print. Line: 706] bufs available  1000 
+[Func: odp_pool_print. Line: 707] bufs in use     0
+[Func: odp_pool_print. Line: 708] buf allocs      0
+[Func: odp_pool_print. Line: 709] buf frees       0
+[Func: odp_pool_print. Line: 710] buf empty       0
+[Func: odp_pool_print. Line: 712] blk size        1536
+[Func: odp_pool_print. Line: 713] blks available  1000
+[Func: odp_pool_print. Line: 714] blk allocs      0
+[Func: odp_pool_print. Line: 715] blk frees       0
+[Func: odp_pool_print. Line: 716] blk empty       0
+[Func: odp_pool_print. Line: 717] high wm value   500
+[Func: odp_pool_print. Line: 718] high wm count   0
+[Func: odp_pool_print. Line: 719] low wm value    250
+[Func: odp_pool_print. Line: 720] low wm count    0
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      4      4      4      0        0
+             asserts     18     18     18      0      n/a
+
+Elapsed time =    0.001 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Queue
+  Test: queue_test_sunnydays ...passed
+  Test: queue_test_info ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      2      2      2      0        0
+             asserts     45     45     45      0      n/a
+
+Elapsed time =    0.003 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Random
+  Test: random_test_get_size ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      1      1      1      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+
+Suite: Scheduler
+  Test: scheduler_test_wait_time ...1..2..3..4..5..passed
+  Test: scheduler_test_num_prio ...passed
+  Test: scheduler_test_queue_destroy ...passed
+  Test: scheduler_test_groups ...passed
+  Test: scheduler_test_parallel ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Shared Memory
+  Test: shmem_test_odp_shm_sunnyday ...[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+Thread 12 starts
+Thread 1 starts
+Thread 13 starts
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 419]--------------
+Thread 8 starts
+Thread 6 starts
+Thread 11 starts
+Thread 2 starts
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 419]--------------
+Thread 15 starts
+Thread 5 starts
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+Thread 10 starts
+Thread 16 starts
+Thread 4 starts
+Thread 9 starts
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+Thread 14 starts
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+Thread 7 starts
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+Thread 3 starts
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 418]
+Shared memory
+[Func: odp_shm_print_all. Line: 419]--------------
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 421]  page size:      4 kB
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 423]  huge page size: 2048 kB
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 424]
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 426]  id name                       kB align huge addr
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   0 odp_thread_globals         33    64      0x7fb7c5f000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   1 odp_buffer_pools          134  8576      0x7fb7c0cb80
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   2 odp_queues                320   320      0x7fa7b61080
+[Func: odp_shm_print_all. Line: 441]   3 odp_scheduler              10    64      0x7fb7ff2000
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   4 odp_sched_pool            340  4096  *   0x7fa7800000
+[Func: odp_shm_print_all. Line: 441]   5 odp_pktio_entries        3580  57280      0x7f78479300
+[Func: odp_shm_print_all. Line: 445]
+[Func: odp_shm_print_all. Line: 441]   6 crypto_pool                27    64      0x7fb7c58000
+[Func: odp_shm_print_all. Line: 441]   7 shm_odp_cos_tbl             8   128      0x7fb7fef000
+[Func: odp_shm_print_all. Line: 441]   8 shm_odp_pmr_tbl             4    64      0x7fb7c56000
+[Func: odp_shm_print_all. Line: 441]   9 shm_odp_pmr_set_tbl        20   320      0x7fb7c060c0
+[Func: odp_shm_print_all. Line: 441]  10 cunit_test_shared_data      0   128      0x7fb7c96000
+[Func: odp_shm_print_all. Line: 445]
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts    147    147    147      0      n/a
+
+Elapsed time =    0.007 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Std C library
+  Test: std_clib_test_memcpy ...passed
+  Test: std_clib_test_memset ...passed
+  Test: std_clib_test_memcmp ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      3      3      3      0        0
+             asserts     59     59     59      0      n/a
+
+Elapsed time =    0.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+[Func: odp_cpumask_default_worker. Line: 48]
+	CPU0 will be used for both control and worker threads,
+	this will likely have a performance impact on the worker thread.
+
+Suite: System Info
+  Test: system_test_odp_version_numbers ...passed
+  Test: system_test_odp_cpu_count ...passed
+  Test: system_test_odp_sys_cache_line_size ...passed
+  Test: system_test_odp_cpu_model_str ...passed
+  Test: system_test_odp_cpu_model_str_id ...passed
+  Test: system_test_odp_sys_page_size ...passed
+  Test: system_test_odp_sys_huge_page_size ...passed
+  Test: system_test_odp_cpu_hz_max ...passed
+  Test: system_test_odp_cpu_hz_max_id ...passed
+  Test: system_test_odp_cpu_cycles ...passed
+  Test: system_test_odp_cpu_cycles_max ...passed
+  Test: system_test_odp_cpu_cycles_resolution ...passed
+  Test: system_test_odp_cpu_cycles_diff ...wrap was not detected...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     15     13     13      0        2
+             asserts   1006   1006   1006      0      n/a
+
+Elapsed time =   17.000 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: thread
+  Test: thread_test_odp_cpu_id ...passed
+  Test: thread_test_odp_thread_id ...passed
+  Test: thread_test_odp_thread_count ...passed
+  Test: thread_test_odp_thrmask_to_from_str ...passed
+  Test: thread_test_odp_thrmask_equal ...passed
+  Test: thread_test_odp_thrmask_zero ...passed
+  Test: thread_test_odp_thrmask_set ...passed
+  Test: thread_test_odp_thrmask_clr ...passed
+  Test: thread_test_odp_thrmask_isset ...passed
+  Test: thread_test_odp_thrmask_count ...passed
+  Test: thread_test_odp_thrmask_and ...passed
+  Test: thread_test_odp_thrmask_or ...passed
+  Test: thread_test_odp_thrmask_xor ...passed
+  Test: thread_test_odp_thrmask_copy ...passed
+  Test: thread_test_odp_thrmask_first ...passed
+  Test: thread_test_odp_thrmask_last ...passed
+  Test: thread_test_odp_thrmask_next ...passed
+  Test: thread_test_odp_thrmask_worker ...passed
+  Test: thread_test_odp_thrmask_control ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     19     19     19      0        0
+             asserts   3416   3416   3416      0      n/a
+
+Elapsed time =    0.012 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Time
+  Test: time_test_constants ...passed
+  Test: time_test_local_res ...passed
+  Test: time_test_local_conversion ...passed
+  Test: time_test_local_monotony ...passed
+  Test: time_test_local_cmp ...passed
+  Test: time_test_local_diff ...passed
+  Test: time_test_local_sum ...passed
+  Test: time_test_local_wait_until ...1..2..3..4..5..passed
+  Test: time_test_wait_ns ...1..2..3..4..5..passed
+  Test: time_test_local_to_u64 ...passed
+  Test: time_test_global_res ...passed
+  Test: time_test_global_conversion ...passed
+  Test: time_test_global_monotony ...passed
+  Test: time_test_global_cmp ...passed
+  Test: time_test_global_diff ...passed
+  Test: time_test_global_sum ...passed
+  Test: time_test_global_wait_until ...1..2..3..4..5..passed
+  Test: time_test_global_to_u64 ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests     18     18     18      0        0
+             asserts     82     82     82      0      n/a
+
+Elapsed time =  128.597 seconds
+[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c68000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Timer
+  Test: timer_test_timeout_pool_alloc ...[Func: odp_pool_print. Line: 668]Pool info
+[Func: odp_pool_print. Line: 669]---------
+[Func: odp_pool_print. Line: 671] pool            1
+[Func: odp_pool_print. Line: 673] name            timeout_pool_alloc
+[Func: odp_pool_print. Line: 678] pool type       timeout
+[Func: odp_pool_print. Line: 680] pool storage    ODP managed shm handle 11
+[Func: odp_pool_print. Line: 682] pool status     active
+[Func: odp_pool_print. Line: 686] pool opts       unsegmented, non-zeroized, created
+[Func: odp_pool_print. Line: 687] pool base       0x7fa78d3000
+[Func: odp_pool_print. Line: 689] pool size       4096 (1 pages)
+[Func: odp_pool_print. Line: 690] pool mdata base 0x7fa78d3000
+[Func: odp_pool_print. Line: 691] udata size      0
+[Func: odp_pool_print. Line: 692] headroom        0
+[Func: odp_pool_print. Line: 693] tailroom        0
+[Func: odp_pool_print. Line: 704] num bufs        3
+[Func: odp_pool_print. Line: 706] bufs available  3 
+[Func: odp_pool_print. Line: 707] bufs in use     0
+[Func: odp_pool_print. Line: 708] buf allocs      0
+[Func: odp_pool_print. Line: 709] buf frees       0
+[Func: odp_pool_print. Line: 710] buf empty       0
+[Func: odp_pool_print. Line: 712] blk size        0
+[Func: odp_pool_print. Line: 713] blks available  0
+[Func: odp_pool_print. Line: 714] blk allocs      0
+[Func: odp_pool_print. Line: 715] blk frees       0
+[Func: odp_pool_print. Line: 716] blk empty       0
+[Func: odp_pool_print. Line: 717] high wm value   1
+[Func: odp_pool_print. Line: 718] high wm count   0
+[Func: odp_pool_print. Line: 719] low wm value    0
+[Func: odp_pool_print. Line: 720] low wm count    0
+passed
+  Test: timer_test_timeout_pool_free ...[Func: odp_pool_print. Line: 668]Pool info
+[Func: odp_pool_print. Line: 669]---------
+[Func: odp_pool_print. Line: 671] pool            1
+[Func: odp_pool_print. Line: 673] name            timeout_pool_free
+[Func: odp_pool_print. Line: 678] pool type       timeout
+[Func: odp_pool_print. Line: 680] pool storage    ODP managed shm handle 11
+[Func: odp_pool_print. Line: 682] pool status     active
+[Func: odp_pool_print. Line: 686] pool opts       unsegmented, non-zeroized, created
+[Func: odp_pool_print. Line: 687] pool base       0x7fa78d3000
+[Func: odp_pool_print. Line: 689] pool size       4096 (1 pages)
+[Func: odp_pool_print. Line: 690] pool mdata base 0x7fa78d3000
+[Func: odp_pool_print. Line: 691] udata size      0
+[Func: odp_pool_print. Line: 692] headroom        0
+[Func: odp_pool_print. Line: 693] tailroom        0
+[Func: odp_pool_print. Line: 704] num bufs        1
+[Func: odp_pool_print. Line: 706] bufs available  1 
+[Func: odp_pool_print. Line: 707] bufs in use     0
+[Func: odp_pool_print. Line: 708] buf allocs      0
+[Func: odp_pool_print. Line: 709] buf frees       0
+[Func: odp_pool_print. Line: 710] buf empty       0
+[Func: odp_pool_print. Line: 712] blk size        0
+[Func: odp_pool_print. Line: 713] blks available  0
+[Func: odp_pool_print. Line: 714] blk allocs      0
+[Func: odp_pool_print. Line: 715] blk frees       0
+[Func: odp_pool_print. Line: 716] blk empty       0
+[Func: odp_pool_print. Line: 717] high wm value   0
+[Func: odp_pool_print. Line: 718] high wm count   0
+[Func: odp_pool_print. Line: 719] low wm value    0
+[Func: odp_pool_print. Line: 720] low wm count    0
+passed
+  Test: timer_test_odp_timer_cancel ...[Func: itimer_init. Line: 747]Creating POSIX timer for timer pool timer_pool0, period 100000000 ns
+[Func: stop_timer_thread. Line: 289]stop
+passed
+  Test: timer_test_odp_timer_all ...[Func: itimer_init. Line: 747]Creating POSIX timer for timer pool timer_pool, period 3333333 ns
+[Func: stop_timer_thread. Line: 289]stop
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      4      4      4      0        0
+             asserts  34316  34316  34316      0      n/a
+
+Elapsed time =    0.673 seconds
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Init
+  Test: init_test_odp_init_global_replace_log ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c78000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.446 seconds
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Init
+  Test: init_test_odp_init_global_replace_abort ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c78000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.446 seconds
+	ODP API version: 1.7.0
+	ODP implementation version: PLATFORM 1.7.0-0 (v1.7.0) May  4 2016 09:56:54 GIT_HASH
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: Init
+  Test: init_test_odp_init_global ...[Func: systemcpu. Line: 175]Warning: use dummy values for freq and model string
+[Func: systemcpu. Line: 176]Refer to https://bugs.linaro.org/show_bug.cgi?id=1870
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_proc_type_detect. Line: 301]Auto-detected process type: PRIMARY
+[Func: odp_arch_pv660_init. Line: 612]system memory=1024000 (k), current system pagesize=2048 (k), dirent=/mnt/huge, number=500
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/pv660_net.so, addr = 0x7fb7c78000
+[Func: odp_uio_drv_load_pro. Line: 152]open shared lib /usr/lib64/odp/ixgbe.so, addr = 0x7fa7bb2000
+[Func: odp_shm_init_global. Line: 86]NOTE: mmap does not support huge pages
+[Func: odp_pool_init_global. Line: 105]
+Pool init global
+[Func: odp_pool_init_global. Line: 106]  pool_entry_s size     8576
+[Func: odp_pool_init_global. Line: 107]  pool_entry_t size     8576
+[Func: odp_pool_init_global. Line: 108]  odp_buffer_hdr_t size 168
+[Func: odp_pool_init_global. Line: 109]
+[Func: odp_queue_init_global. Line: 150]Queue init ...
+[Func: odp_queue_init_global. Line: 174]done
+[Func: odp_queue_init_global. Line: 175]Queue init global
+[Func: odp_queue_init_global. Line: 177]  struct queue_entry_s size 320
+[Func: odp_queue_init_global. Line: 179]  queue_entry_t size        320
+[Func: odp_queue_init_global. Line: 180]
+[Func: odp_schedule_init_global. Line: 138]Schedule init ...
+[Func: odp_schedule_init_global. Line: 219]done
+passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      1      1    n/a      0        0
+               tests      1      1      1      0        0
+             asserts      2      2      2      0      n/a
+
+Elapsed time =    0.446 seconds

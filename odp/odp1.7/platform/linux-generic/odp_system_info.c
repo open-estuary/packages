@@ -68,11 +68,13 @@ static int systemcpu_cache_line_size(void)
 
 	if (fgets(str, sizeof(str), file) != NULL) {
 		/* Read cache line size */
-		sscanf(str, "%i", &size);
+		if (sscanf(str, "%i", &size) == EOF) {
+			ODP_ERR("read cache line size failed\n");
+			size = 0;
+		}
 	}
 
 	fclose(file);
-
 	return size;
 }
 #endif
@@ -93,7 +95,8 @@ static int huge_page_size(void)
 	while ((dirent = readdir(dir)) != NULL) {
 		int temp = 0;
 
-		sscanf(dirent->d_name, "hugepages-%i", &temp);
+		if (sscanf(dirent->d_name, "hugepages-%i", &temp) == EOF)
+			continue;
 
 		if (temp > size)
 			size = temp;
@@ -104,7 +107,7 @@ static int huge_page_size(void)
 		return 0;
 	}
 
-	return size*1024;
+	return size * 1024;
 }
 
 

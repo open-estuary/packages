@@ -47,6 +47,7 @@ static inline int verify_pmr_ip_proto(const uint8_t *pkt_addr,
 {
 	const odph_ipv4hdr_t *ip;
 	uint8_t proto;
+
 	if (!pkt_hdr->input_flags.ipv4)
 		return 0;
 	ip = (const odph_ipv4hdr_t *)(pkt_addr + pkt_hdr->l3_offset);
@@ -63,6 +64,7 @@ static inline int verify_pmr_ipv4_saddr(const uint8_t *pkt_addr,
 {
 	const odph_ipv4hdr_t *ip;
 	uint32_t ipaddr;
+
 	if (!pkt_hdr->input_flags.ipv4)
 		return 0;
 	ip = (const odph_ipv4hdr_t *)(pkt_addr + pkt_hdr->l3_offset);
@@ -79,6 +81,7 @@ static inline int verify_pmr_ipv4_daddr(const uint8_t *pkt_addr,
 {
 	const odph_ipv4hdr_t *ip;
 	uint32_t ipaddr;
+
 	if (!pkt_hdr->input_flags.ipv4)
 		return 0;
 	ip = (const odph_ipv4hdr_t *)(pkt_addr + pkt_hdr->l3_offset);
@@ -95,6 +98,7 @@ static inline int verify_pmr_tcp_sport(const uint8_t *pkt_addr,
 {
 	uint16_t sport;
 	const odph_tcphdr_t *tcp;
+
 	if (!pkt_hdr->input_flags.tcp)
 		return 0;
 	tcp = (const odph_tcphdr_t *)(pkt_addr + pkt_hdr->l4_offset);
@@ -111,6 +115,7 @@ static inline int verify_pmr_tcp_dport(const uint8_t *pkt_addr,
 {
 	uint16_t dport;
 	const odph_tcphdr_t *tcp;
+
 	if (!pkt_hdr->input_flags.tcp)
 		return 0;
 	tcp = (const odph_tcphdr_t *)(pkt_addr + pkt_hdr->l4_offset);
@@ -127,6 +132,7 @@ static inline int verify_pmr_udp_dport(const uint8_t *pkt_addr,
 {
 	uint16_t dport;
 	const odph_udphdr_t *udp;
+
 	if (!pkt_hdr->input_flags.udp)
 		return 0;
 	udp = (const odph_udphdr_t *)(pkt_addr + pkt_hdr->l4_offset);

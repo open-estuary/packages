@@ -73,6 +73,7 @@ static void remove_prescheduled_events(void)
 {
 	odp_event_t ev;
 	odp_queue_t queue;
+
 	odp_schedule_pause();
 	while ((ev = odp_schedule(&queue, ODP_SCHED_NO_WAIT)) !=
 			ODP_EVENT_INVALID) {
@@ -159,13 +160,14 @@ static void test_abs_timeouts(int thr, test_globals_t *gbls)
 				      odp_event_type(ev));
 		}
 		odp_timeout_t tmo = odp_timeout_from_event(ev);
+
 		tick = odp_timeout_tick(tmo);
 		ttp = odp_timeout_user_ptr(tmo);
 		ttp->ev = ev;
 		if (!odp_timeout_fresh(tmo)) {
 			/* Not the expected expiration tick, timer has
 			 * been reset or cancelled or freed */
-			EXAMPLE_ABORT("Unexpected timeout received (timer %" PRIx32 ", tick %" PRIu64 ")\n",
+			EXAMPLE_ABORT("Unexpected timeout received (timer %d, tick %lld)\n",
 				      ttp->tim, tick);
 		}
 		EXAMPLE_DBG("  [%i] timeout, tick %"PRIu64"\n", thr, tick);
@@ -173,7 +175,7 @@ static void test_abs_timeouts(int thr, test_globals_t *gbls)
 		uint32_t rx_num = odp_atomic_fetch_dec_u32(&gbls->remain);
 
 		if (!rx_num)
-			EXAMPLE_ABORT("Unexpected timeout received (timer %x, tick %"PRIu64")\n",
+			EXAMPLE_ABORT("Unexpected timeout received (timer %d, tick %lld)\n",
 				      ttp->tim, tick);
 		else if (rx_num > num_workers)
 			continue;

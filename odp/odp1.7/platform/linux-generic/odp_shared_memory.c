@@ -26,6 +26,11 @@
 #include <string.h>
 #include <errno.h>
 
+
+#ifdef MAP_HUGETLB
+#undef MAP_HUGETLB
+#endif
+
 _ODP_STATIC_ASSERT(ODP_CONFIG_SHM_BLOCKS >= ODP_CONFIG_POOLS,
 		   "ODP_CONFIG_SHM_BLOCKS < ODP_CONFIG_POOLS");
 
@@ -201,8 +206,9 @@ odp_shm_t odp_shm_reserve(const char *name, uint64_t size, uint64_t align,
 	/* If already exists: O_EXCL: error, O_TRUNC: truncate to zero */
 	int oflag = O_RDWR | O_CREAT | O_TRUNC;
 	uint64_t alloc_size;
-	uint64_t page_sz, huge_sz;
+	uint64_t page_sz;
 #ifdef MAP_HUGETLB
+	uint64_t huge_sz;
 	int need_huge_page = 0;
 	uint64_t alloc_hp_size;
 #endif
@@ -247,7 +253,7 @@ odp_shm_t odp_shm_reserve(const char *name, uint64_t size, uint64_t align,
 	if (find_block(name, NULL)) {
 		/* Found a block with the same name */
 		odp_spinlock_unlock(&odp_shm_tbl->lock);
-		ODP_DBG("name \"%s\" already used.\n", name);
+		ODP_DBG("name %s already used.\n", name);
 		return ODP_SHM_INVALID;
 	}
 
@@ -283,9 +289,8 @@ odp_shm_t odp_shm_reserve(const char *name, uint64_t size, uint64_t align,
 		addr = mmap(NULL, alloc_hp_size, PROT_READ | PROT_WRITE,
 				map_flag | MAP_HUGETLB, fd, 0);
 		if (addr == MAP_FAILED) {
-			ODP_DBG(" %s:\n"
-				"\tNo huge pages, fall back to normal pages,\n"
-				"\tcheck: /proc/sys/vm/nr_hugepages.\n", name);
+			ODP_DBG("%s: No huge pages, fall back to normal pages, check: /proc/sys/vm/nr_hugepages.\n",
+				name);
 		} else {
 			block->alloc_size = alloc_hp_size;
 			block->huge = 1;
@@ -293,6 +298,7 @@ odp_shm_t odp_shm_reserve(const char *name, uint64_t size, uint64_t align,
 		}
 	}
 #endif
+
 	if (flags & ODP_SHM_CNTNUS_PHY)
 		addr = zone->addr;
 
@@ -316,6 +322,7 @@ odp_shm_t odp_shm_reserve(const char *name, uint64_t size, uint64_t align,
 		block->huge = 0;
 		block->page_sz = page_sz;
 	}
+
 	if (flags & ODP_SHM_CNTNUS_PHY) {
 		block->alloc_size = alloc_size;
 		block->huge = 1;
@@ -381,7 +388,6 @@ void *odp_shm_addr(odp_shm_t shm)
 
 	return odp_shm_tbl->block[i].addr;
 }
-
 
 int odp_shm_info(odp_shm_t shm, odp_shm_info_t *info)
 {

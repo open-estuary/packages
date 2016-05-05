@@ -421,7 +421,7 @@ int main(int argc, char *argv[])
 	cpu = odp_cpumask_first(&cpumask);
 	for (i = 0; i < num_workers; ++i) {
 		odp_cpumask_t thd_mask;
-		void *(*thr_run_func) (void *);
+		void *(*thr_run_func)(void *);
 		int if_idx;
 
 		if_idx = i % args->appl.if_count;
