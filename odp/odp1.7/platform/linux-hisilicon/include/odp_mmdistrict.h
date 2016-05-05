@@ -70,11 +70,13 @@ extern "C" {
  * physical memory identified by a name.
  */
 struct odp_mm_district {
-#define ODP_MEMZONE_NAMESIZE 32                          /**< Maximum length of memory district name.*/
-
-	char	    name[ODP_MEMZONE_NAMESIZE];          /**< Name of the memory district. */
-	char	    orig_name[ODP_MEMZONE_NAMESIZE - 8]; /**< original name of the memory district. */
-	phys_addr_t phys_addr;                           /**< Start physical address. */
+#define ODP_MEMZONE_NAMESIZE 32  /**< Maximum length of memory district name.*/
+	/**< Name of the memory district. */
+	char	    name[ODP_MEMZONE_NAMESIZE];
+	/**< original name of the memory district. */
+	char	    orig_name[ODP_MEMZONE_NAMESIZE - 8];
+	/**< Start physical address. */
+	phys_addr_t phys_addr;
 	phys_addr_t phys_addr_end;
 	void	   *excursion_addr;
 

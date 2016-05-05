@@ -651,7 +651,7 @@ void odp_pool_print(odp_pool_t pool_hdl)
 
 	pool_id = pool_handle_to_index(pool_hdl);
 	pool    = get_pool_entry(pool_id);
-#ifdef ODP_DEBUG_PRINT
+
 	uint32_t bufcount  = odp_atomic_load_u32(&pool->s.bufcount);
 	uint32_t blkcount  = odp_atomic_load_u32(&pool->s.blkcount);
 	uint64_t bufallocs = odp_atomic_load_u64(&pool->s.poolstats.bufallocs);
@@ -664,7 +664,7 @@ void odp_pool_print(odp_pool_t pool_hdl)
 		odp_atomic_load_u64(&pool->s.poolstats.high_wm_count);
 	uint64_t lowmct    =
 		odp_atomic_load_u64(&pool->s.poolstats.low_wm_count);
-#endif
+
 	ODP_DBG("Pool info\n");
 	ODP_DBG("---------\n");
 	ODP_DBG(" pool            %" PRIu64 "\n",
@@ -685,14 +685,14 @@ void odp_pool_print(odp_pool_t pool_hdl)
 		pool->s.flags.zeroized ? "zeroized" : "non-zeroized",
 		pool->s.flags.predefined  ? "predefined" : "created");
 	ODP_DBG(" pool base       %p\n",  pool->s.pool_base_addr);
-	ODP_DBG(" pool size       %zu (%zu pages)\n",
+	ODP_DBG(" pool size       %lu (%lu pages)\n",
 		pool->s.pool_size, pool->s.pool_size / ODP_PAGE_SIZE);
 	ODP_DBG(" pool mdata base %p\n",  pool->s.pool_mdata_addr);
-	ODP_DBG(" udata size      %zu\n", pool->s.udata_size);
+	ODP_DBG(" udata size      %u\n", pool->s.udata_size);
 	ODP_DBG(" headroom        %u\n",  pool->s.headroom);
 	ODP_DBG(" tailroom        %u\n",  pool->s.tailroom);
 	if (pool->s.params.type == ODP_POOL_BUFFER) {
-		ODP_DBG(" buf size        %zu\n", pool->s.params.buf.size);
+		ODP_DBG(" buf size        %1u\n", pool->s.params.buf.size);
 		ODP_DBG(" buf align       %u requested, %u used\n",
 			pool->s.params.buf.align, pool->s.buf_align);
 	} else if (pool->s.params.type == ODP_POOL_PACKET) {
@@ -708,15 +708,15 @@ void odp_pool_print(odp_pool_t pool_hdl)
 	ODP_DBG(" buf allocs      %lu\n", bufallocs);
 	ODP_DBG(" buf frees       %lu\n", buffrees);
 	ODP_DBG(" buf empty       %lu\n", bufempty);
-	ODP_DBG(" blk size        %zu\n",
+	ODP_DBG(" blk size        %1u\n",
 		pool->s.seg_size > ODP_MAX_INLINE_BUF ? pool->s.seg_size : 0);
 	ODP_DBG(" blks available  %u\n",  blkcount);
 	ODP_DBG(" blk allocs      %lu\n", blkallocs);
 	ODP_DBG(" blk frees       %lu\n", blkfrees);
 	ODP_DBG(" blk empty       %lu\n", blkempty);
-	ODP_DBG(" high wm value   %lu\n", pool->s.high_wm);
+	ODP_DBG(" high wm value   %u\n", pool->s.high_wm);
 	ODP_DBG(" high wm count   %lu\n", hiwmct);
-	ODP_DBG(" low wm value    %lu\n", pool->s.low_wm);
+	ODP_DBG(" low wm value    %u\n", pool->s.low_wm);
 	ODP_DBG(" low wm count    %lu\n", lowmct);
 }
 

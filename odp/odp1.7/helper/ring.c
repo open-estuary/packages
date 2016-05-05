@@ -158,8 +158,8 @@ odph_ring_create(const char *name, unsigned count, unsigned flags)
 
 	/* count must be a power of 2 */
 	if (!RING_VAL_IS_POWER_2(count) || (count > ODPH_RING_SZ_MASK)) {
-		ODPH_ERR("Requested size is invalid, must be power of 2, and do not exceed the size limit %u\n",
-			 ODPH_RING_SZ_MASK);
+		printf("Requested size is invalid, must be power of 2, and do not exceed the size limit %u\n",
+			ODPH_RING_SZ_MASK);
 		return NULL;
 	}
 
@@ -243,15 +243,14 @@ int __odph_ring_mp_do_enqueue(odph_ring_t *r, void * const *obj_table,
 
 		/* check that we have enough room in ring */
 		if (odp_unlikely(n > free_entries)) {
-			if (behavior == ODPH_RING_QUEUE_FIXED) {
+			if (behavior == ODPH_RING_QUEUE_FIXED)
 				return -ENOBUFS;
-			} else {
-				/* No free entry available */
-				if (odp_unlikely(free_entries == 0))
-					return 0;
 
-				n = free_entries;
-			}
+			/* No free entry available */
+			if (odp_unlikely(free_entries == 0))
+				return 0;
+
+			n = free_entries;
 		}
 
 		prod_next = prod_head + n;
@@ -309,15 +308,14 @@ int __odph_ring_sp_do_enqueue(odph_ring_t *r, void * const *obj_table,
 
 	/* check that we have enough room in ring */
 	if (odp_unlikely(n > free_entries)) {
-		if (behavior == ODPH_RING_QUEUE_FIXED) {
+		if (behavior == ODPH_RING_QUEUE_FIXED)
 			return -ENOBUFS;
-		} else {
-			/* No free entry available */
-			if (odp_unlikely(free_entries == 0))
-				return 0;
 
-			n = free_entries;
-		}
+		/* No free entry available */
+		if (odp_unlikely(free_entries == 0))
+			return 0;
+
+		n = free_entries;
 	}
 
 	prod_next = prod_head + n;
@@ -369,14 +367,13 @@ int __odph_ring_mc_do_dequeue(odph_ring_t *r, void **obj_table,
 
 		/* Set the actual entries for dequeue */
 		if (n > entries) {
-			if (behavior == ODPH_RING_QUEUE_FIXED) {
+			if (behavior == ODPH_RING_QUEUE_FIXED)
 				return -ENOENT;
-			} else {
-				if (odp_unlikely(entries == 0))
-					return 0;
 
-				n = entries;
-			}
+			if (odp_unlikely(entries == 0))
+				return 0;
+
+			n = entries;
 		}
 
 		cons_next = cons_head + n;
@@ -425,14 +422,13 @@ int __odph_ring_sc_do_dequeue(odph_ring_t *r, void **obj_table,
 	entries = prod_tail - cons_head;
 
 	if (n > entries) {
-		if (behavior == ODPH_RING_QUEUE_FIXED) {
+		if (behavior == ODPH_RING_QUEUE_FIXED)
 			return -ENOENT;
-		} else {
-			if (odp_unlikely(entries == 0))
-				return 0;
 
-			n = entries;
-		}
+		if (odp_unlikely(entries == 0))
+			return 0;
+
+		n = entries;
 	}
 
 	cons_next = cons_head + n;
@@ -492,6 +488,7 @@ int odph_ring_full(const odph_ring_t *r)
 {
 	uint32_t prod_tail = r->prod.tail;
 	uint32_t cons_tail = r->cons.tail;
+
 	return (((cons_tail - prod_tail - 1) & r->prod.mask) == 0);
 }
 
@@ -502,6 +499,7 @@ int odph_ring_empty(const odph_ring_t *r)
 {
 	uint32_t prod_tail = r->prod.tail;
 	uint32_t cons_tail = r->cons.tail;
+
 	return !!(cons_tail == prod_tail);
 }
 
@@ -512,6 +510,7 @@ unsigned odph_ring_count(const odph_ring_t *r)
 {
 	uint32_t prod_tail = r->prod.tail;
 	uint32_t cons_tail = r->cons.tail;
+
 	return (prod_tail - cons_tail) & r->prod.mask;
 }
 
@@ -522,6 +521,7 @@ unsigned odph_ring_free_count(const odph_ring_t *r)
 {
 	uint32_t prod_tail = r->prod.tail;
 	uint32_t cons_tail = r->cons.tail;
+
 	return (cons_tail - prod_tail - 1) & r->prod.mask;
 }
 

@@ -40,7 +40,8 @@ with the PKTIO interface.
 Returns the default cos if the packet does not match any PMR
 Returns the error_cos if the packet has an error
 **/
-cos_t *pktio_select_cos(pktio_entry_t *pktio, const uint8_t *pkt_addr,
+cos_t *pktio_select_cos(pktio_entry_t *pktio, int queue_id,
+			const uint8_t *pkt_addr,
 			odp_packet_hdr_t *pkt_hdr);
 
 /**
@@ -68,7 +69,8 @@ int packet_classifier(odp_pktio_t pktio, odp_packet_t pkt);
 
 Same as packet classifier uses linux-generic internal pktio struct
 **/
-int _odp_packet_classifier(pktio_entry_t *entry, odp_packet_t pkt);
+int _odp_packet_classifier(pktio_entry_t *entry, int queue_id,
+			   odp_packet_t pkt);
 
 /**
 Packet IO classifier init

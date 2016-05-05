@@ -38,9 +38,7 @@ extern "C" {
 		odp_global_data.abort_fn(); } \
 	} while (0)
 #else
-#define ODP_ASSERT(cond) \
-	do { \
-	} while (0)
+#define ODP_ASSERT(cond)
 #endif
 
 /**
@@ -53,7 +51,7 @@ extern "C" {
 /**
  * Log debug message if ODP_DEBUG_PRINT flag is set.
  */
-#ifdef ODP_DEBUG_PRINT
+/*#ifdef ODP_DEBUG_PRINT
 #define ODP_DBG(fmt, ...) \
 	do { \
 		if (ODP_DEBUG_PRINT == 1) \
@@ -63,12 +61,18 @@ extern "C" {
 #define ODP_DBG(fmt, ...)\
 	do {\
 	} while (0)
-#endif
+#endif*/
+
+#define ODP_DBG(fmt, ...)	\
+	printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, ## __VA_ARGS__)
 /**
  * Log error message.
  */
-#define ODP_ERR(fmt, ...) \
-		ODP_LOG(ODP_LOG_ERR, fmt, ##__VA_ARGS__)
+/*#define ODP_ERR(fmt, ...) \
+		ODP_LOG(ODP_LOG_ERR, fmt, ##__VA_ARGS__)*/
+
+#define ODP_ERR(fmt, ...)	\
+	printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, ## __VA_ARGS__)
 
 /**
  * Log abort message and then stop execution (by default call abort()).
@@ -91,13 +95,12 @@ extern "C" {
  * Log print message when the application calls one of the ODP APIs
  * specifically for dumping internal data.
  */
-#define ODP_PRINT(fmt, ...) \
-	odp_global_data.log_fn(ODP_LOG_PRINT, " " fmt, ##__VA_ARGS__)
+/*#define ODP_PRINT(fmt, ...) \
+	odp_global_data.log_fn(ODP_LOG_PRINT, " " fmt, ##__VA_ARGS__)*/
 
-#ifndef HNS_PRINT
-#define HNS_PRINT(fmt, ...) printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, \
-                               ## __VA_ARGS__)
-#endif
+#define ODP_PRINT(fmt, ...)	\
+	printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, ## __VA_ARGS__)
+
 #ifdef __cplusplus
 }
 #endif

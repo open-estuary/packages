@@ -135,8 +135,7 @@ int odp_schedule_init_global(void)
 	int i, j;
 	odp_pool_param_t params;
 
-	ODP_DBG("Schedule init ... ");
-
+	ODP_DBG("Schedule init ...\n");
 	shm = odp_shm_reserve("odp_scheduler",
 			      sizeof(sched_t),
 			      ODP_CACHE_LINE_SIZE, 0);

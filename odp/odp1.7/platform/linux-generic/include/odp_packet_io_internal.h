@@ -53,21 +53,6 @@ typedef struct {
 	odp_bool_t promisc;		/**< promiscuous mode state */
 } pkt_loop_t;
 
-#define MAX_POOL_NUM  16
-#define MAX_QUE_NUM   128
-
-
-typedef struct {
-	odp_pool_t pool;
-
-	/********************************/
-	char	 ifname[32];
-	uint8_t	 portid;
-	uint16_t queueid;
-	uint8_t	 queue_num;
-
-} pkt_82599_t;
-
 
 #ifdef HAVE_PCAP
 typedef struct {
@@ -105,13 +90,13 @@ struct pktio_entry {
 		pkt_odp_t pkt_odp;
 		pkt_tap_t pkt_tap;		/**< using TAP for IO */
 		pkt_kni_t  pkt_kni;
-		pkt_82599_t pkt_82599;
 	};
 	enum {
 		STATE_START = 0,
 		STATE_STOP
 	} state;
-	classifier_t cls;		/**< classifier linked with this pktio*/
+	classifier_t cls[MAX_CLS_SUPPORT];	/**< classifier linked */
+						/**< with this pktio */
 	odp_pktio_stats_t stats;	/**< statistic counters for pktio */
 	enum {
 		STATS_SYSFS = 0,
@@ -211,14 +196,19 @@ static inline pktio_entry_t *get_pktio_entry(odp_pktio_t pktio)
 	return pktio_entry_ptr[pktio_to_id(pktio)];
 }
 
-static inline int pktio_cls_enabled(pktio_entry_t *entry)
+static inline int pktio_cls_enabled(pktio_entry_t *entry, int index)
 {
-	return entry->s.cls_enabled;
+	return entry->s.cls_enabled & (1 << index);
 }
 
-static inline void pktio_cls_enabled_set(pktio_entry_t *entry, int ena)
+static inline void pktio_cls_enabled_set(pktio_entry_t *entry, int index)
 {
-	entry->s.cls_enabled = ena;
+	entry->s.cls_enabled |= (1 << index);
+}
+
+static inline void pktio_cls_enabled_init(pktio_entry_t *entry)
+{
+	entry->s.cls_enabled = 0;
 }
 
 int pktin_poll(pktio_entry_t *entry, int num_queue, int index[]);

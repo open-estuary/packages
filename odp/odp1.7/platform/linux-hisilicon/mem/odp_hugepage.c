@@ -312,7 +312,7 @@ int odp_hugepage_info_init(void)
 				num_pages = get_num_hugepages(dirent->d_name);
 				if (num_pages > 0) {
 					ODP_PRINT("%d hugepages of"
-						  " size %llu reserved, ",
+						  " size %lu reserved, ",
 						  num_pages,
 						  hpt->hugepage_sz);
 					ODP_PRINT("but no mounted hugetlbfs"

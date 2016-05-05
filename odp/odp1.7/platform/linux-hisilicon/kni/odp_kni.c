@@ -109,7 +109,7 @@ struct odp_kni_mm_district_pool {
 static void kni_free_mbufs(struct odp_kni *kni);
 static void kni_allocate_mbufs(struct odp_kni *kni);
 
-static volatile int kni_fd = -1;
+static int kni_fd = -1;
 static struct odp_kni_mm_district_pool kni_mm_district_pool = {
 	.initialized = 0,
 };

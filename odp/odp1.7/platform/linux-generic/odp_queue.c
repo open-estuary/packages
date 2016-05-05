@@ -51,7 +51,6 @@ typedef struct queue_table_t {
 
 static queue_table_t *queue_tbl;
 
-
 static inline void get_qe_locks(queue_entry_t *qe1, queue_entry_t *qe2)
 {
 	/* Special case: enq to self */
@@ -143,14 +142,12 @@ static int queue_init(queue_entry_t *queue, const char *name,
 	return 0;
 }
 
-
 int odp_queue_init_global(void)
 {
 	uint32_t i, j;
 	odp_shm_t shm;
 
-	ODP_DBG("Queue init ... ");
-
+	ODP_DBG("Queue init ...\n");
 	shm = odp_shm_reserve("odp_queues",
 			      sizeof(queue_table_t),
 			      sizeof(queue_entry_t), 0);
@@ -690,7 +687,6 @@ odp_buffer_hdr_t *queue_deq(queue_entry_t *queue)
 	return buf_hdr;
 }
 
-
 int queue_deq_multi(queue_entry_t *queue, odp_buffer_hdr_t *buf_hdr[], int num)
 {
 	odp_buffer_hdr_t *hdr;
@@ -757,7 +753,6 @@ int odp_queue_deq_multi(odp_queue_t handle, odp_event_t events[], int num)
 
 	return queue->s.dequeue_multi(queue, (odp_buffer_hdr_t **)events, num);
 }
-
 
 odp_event_t odp_queue_deq(odp_queue_t handle)
 {
@@ -929,7 +924,6 @@ void queue_lock(queue_entry_t *queue)
 {
 	LOCK(&queue->s.lock);
 }
-
 
 void queue_unlock(queue_entry_t *queue)
 {

@@ -21,7 +21,7 @@
 #include <odp/debug.h>
 #include <odp/align.h>
 #include <odp/shared_memory.h>
-#include <odp_crypto_internal.h>
+/*#include <odp_crypto_internal.h>*/
 #include <odp_debug_internal.h>
 #include <odp/hints.h>
 #include <odp/random.h>

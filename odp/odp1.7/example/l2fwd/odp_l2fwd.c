@@ -27,7 +27,6 @@
 #include <odp/helper/eth.h>
 #include <odp/helper/ip.h>
 
-
 #define HIGH_PERF_MODE
 
 /** @def MAX_WORKERS
@@ -38,7 +37,7 @@
 /** @def SHM_PKT_POOL_SIZE
  * @brief Size of the shared memory block
  */
-#define SHM_PKT_POOL_SIZE      8192
+#define SHM_PKT_POOL_SIZE      96000
 
 /** @def SHM_PKT_POOL_BUF_SIZE
  * @brief Buffer size of the packet pool buffer
@@ -285,7 +284,7 @@ static void *run_worker_sched_mode(void *arg)
 			LOG_ABORT("Bad number of output queues %i\n", i);
 	}
 
-	printf("[%02i] SCHEDULED QUEUE mode\n", thr);
+	HNS_PRINT("[%02i] SCHEDULED_QUEUE mode\n", thr);
 	odp_barrier_wait(&barrier);
 
 	wait = odp_schedule_wait_time(ODP_TIME_MSEC_IN_NS * 100);
@@ -367,7 +366,7 @@ static void *run_worker_plain_queue_mode(void *arg)
 	queue     = thr_args->pktio[pktio].rx_queue;
 	pktout    = thr_args->pktio[pktio].pktout;
 
-	printf("[%02i] num pktios %i, PLAIN QUEUE mode\n", thr, num_pktio);
+	HNS_PRINT("[%02i] num pktios %i, PLAIN_QUEUE mode\n", thr, num_pktio);
 	odp_barrier_wait(&barrier);
 
 	/* Loop packets */
@@ -433,6 +432,7 @@ static void *run_worker_plain_queue_mode(void *arg)
 
 	return NULL;
 }
+
 static inline void odp_atomic_init_u32_a64(uint32_t *atom, uint32_t val)
 {
 	uint32_t *val_addr = &val;
@@ -445,6 +445,7 @@ static inline void odp_atomic_init_u32_a64(uint32_t *atom, uint32_t val)
 		    :
 		    : "memory", "w1", "w2", "x0", "x1");
 }
+
 /**
  * Packet IO worker thread accessing IO resources directly
  *
@@ -469,7 +470,8 @@ static void *run_worker_direct_mode(void *arg)
 	pktin     = thr_args->pktio[pktio].pktin;
 	pktout    = thr_args->pktio[pktio].pktout;
 
-	printf("[%02i] num pktios %i, DIRECT RECV mode\n", thr, num_pktio);
+	HNS_PRINT("[%02i] num pktios %i, DIRECT_RECV mode, pktin = %d\n",
+				thr, num_pktio, pktin.index);
 	odp_barrier_wait(&barrier);
 
 	/* Loop packets */
@@ -485,6 +487,9 @@ static void *run_worker_direct_mode(void *arg)
 			if (pktio == num_pktio)
 				pktio = 0;
 		}
+		pktin.index++;
+		if (pktin.index >= 16)
+			pktin.index = 0;
 
 		pkts = odp_pktio_recv_queue(pktin, pkt_tbl, MAX_PKT_BURST);
 		if (odp_unlikely(pkts <= 0))
@@ -516,7 +521,7 @@ static void *run_worker_direct_mode(void *arg)
 			int i;
 
 			stats->s.tx_drops += tx_drops;
-			printf("%d packet drops!\r\n", tx_drops);
+			/*printf("%d packet drops!\r\n", tx_drops);*/
 
 			/* Drop rejected packets */
 			for (i = sent; i < pkts; i++)
@@ -573,8 +578,8 @@ static int create_pktio(const char *dev, int idx, int num_rx, int num_tx,
 		return -1;
 	}
 
-	printf("created pktio %" PRIu64 " (%s)\n",
-	       odp_pktio_to_u64(pktio), dev);
+	/*printf("created pktio %" PRIu64 " (%s)\n",
+	       odp_pktio_to_u64(pktio), dev);*/
 
 	if (odp_pktio_capability(pktio, &capa)) {
 		LOG_ERR("Error: capability query failed %s\n", dev);
@@ -593,7 +598,6 @@ static int create_pktio(const char *dev, int idx, int num_rx, int num_tx,
 
 	if (gbl_args->appl.mode == DIRECT_RECV ||
 	    gbl_args->appl.mode == PLAIN_QUEUE) {
-
 		if (num_tx > (int)capa.max_output_queues) {
 			printf("Sharing %i output queues between %i workers\n",
 			       capa.max_output_queues, num_tx);
@@ -642,8 +646,8 @@ static int create_pktio(const char *dev, int idx, int num_rx, int num_tx,
 			return -1;
 		}
 
-		printf("created %i input and %i output queues on (%s)\n",
-		       num_rx, num_tx, dev);
+		/*printf("created %i input and %i output queues on (%s)\n",
+		       num_rx, num_tx, dev);*/
 
 		gbl_args->pktios[idx].num_rx_queue = num_rx;
 		gbl_args->pktios[idx].num_tx_queue = num_tx;
@@ -692,8 +696,8 @@ static int create_pktio(const char *dev, int idx, int num_rx, int num_tx,
 		return -1;
 	}
 
-	printf("created %i input and %i output queues on (%s)\n",
-	       num_rx, num_tx, dev);
+	/*printf("created %i input and %i output queues on (%s)\n",
+	       num_rx, num_tx, dev);*/
 
 	gbl_args->pktios[idx].num_rx_queue = num_rx;
 	gbl_args->pktios[idx].num_tx_queue = num_tx;
@@ -747,10 +751,10 @@ static int print_speed_stats(int num_workers, stats_t *thr_stats,
 			if (pps > maximum_pps)
 				maximum_pps = pps;
 			printf("%" PRIu64 " pps, %" PRIu64 " max pps, ",  pps,
-			       maximum_pps);
+			    maximum_pps);
 
 			printf(" %" PRIu64 " rx drops, %" PRIu64 " tx drops\n",
-			       rx_drops, tx_drops);
+			    rx_drops, tx_drops);
 
 			pkts_prev = pkts;
 		}
@@ -1180,6 +1184,7 @@ static void gbl_args_init(args_t *args)
 			args->pktios[pktio].rx_q[queue] = ODP_QUEUE_INVALID;
 	}
 }
+
 int main(int argc, char *argv[])
 {
 	odph_linux_pthread_t thread_tbl[MAX_WORKERS];
@@ -1307,9 +1312,9 @@ int main(int argc, char *argv[])
 
 	bind_queues();
 
-	if (gbl_args->appl.mode == DIRECT_RECV ||
+	/*if (gbl_args->appl.mode == DIRECT_RECV ||
 	    gbl_args->appl.mode == PLAIN_QUEUE)
-		print_port_mapping();
+		print_port_mapping();*/
 
 	memset(thread_tbl, 0, sizeof(thread_tbl));
 

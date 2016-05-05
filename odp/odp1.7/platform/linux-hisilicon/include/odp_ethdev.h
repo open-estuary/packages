@@ -190,7 +190,8 @@ struct odp_eth_stats {
 
 	/**< Total number of successfully received bytes. */
 	uint64_t ibytes;
-	uint64_t obytes;  /**< Total number of successfully transmitted bytes. */
+	/**< Total number of successfully transmitted bytes. */
+	uint64_t obytes;
 	uint64_t imissed; /**< Total of RX missed packets (e.g full FIFO). */
 	uint64_t ibadcrc; /**< Total of RX packets with CRC error. */
 	uint64_t ibadlen; /**< Total of RX packets with bad length. */
@@ -243,10 +244,13 @@ struct odp_eth_stats {
  * A structure used to retrieve link-level information of an Ethernet port.
  */
 struct odp_eth_link {
-	uint16_t link_speed;         /**< ETH_LINK_SPEED_[10, 100, 1000, 10000] */
-	uint16_t link_duplex;        /**< ETH_LINK_[HALF_DUPLEX, FULL_DUPLEX] */
-	uint8_t	 link_status : 1;    /**< 1 -> link up, 0 -> link down */
-} ODP_ALIGNED(8);                    /**< aligned for atomic64 read/write */
+	/**< ETH_LINK_SPEED_[10, 100, 1000, 10000] */
+	uint16_t link_speed;
+	/**< ETH_LINK_[HALF_DUPLEX, FULL_DUPLEX] */
+	uint16_t link_duplex;
+	/**< 1 -> link up, 0 -> link down */
+	uint8_t	 link_status : 1;
+} ODP_ALIGNED(8); /**< aligned for atomic64 read/write */
 
 #define ETH_LINK_SPEED_AUTONEG 0     /**< Auto-negotiate link speed. */
 #define ETH_LINK_SPEED_10      10    /**< 10 megabits/second. */
@@ -340,8 +344,10 @@ enum odp_eth_tx_mq_mode {
 struct odp_eth_rxmode {
 	/** The multi-queue packet distribution mode to be used, e.g. RSS. */
 	enum odp_eth_rx_mq_mode mq_mode;
-	uint32_t		max_rx_pkt_len;     /**< Only used if jumbo_frame enabled. */
-	uint16_t		split_hdr_size;     /**< hdr buf size (header_split enabled).*/
+	/**< Only used if jumbo_frame enabled. */
+	uint32_t		max_rx_pkt_len;
+	/**< hdr buf size (header_split enabled).*/
+	uint16_t		split_hdr_size;
 	uint16_t		header_split   : 1, /**< Header Split enable. */
 				hw_ip_checksum : 1, /**< IP/UDP/TCP checksum offload enable. */
 				hw_vlan_filter : 1, /**< VLAN filter enable. */
@@ -456,10 +462,14 @@ struct odp_eth_rss_conf {
 #define ODP_RETA_GROUP_SIZE   64
 
 /* Definitions used for VMDQ and DCB functionality */
-#define ETH_VMDQ_MAX_VLAN_FILTERS   64   /**< Maximum nb. of VMDQ vlan filters. */
-#define ETH_DCB_NUM_USER_PRIORITIES 8    /**< Maximum nb. of DCB priorities. */
-#define ETH_VMDQ_DCB_NUM_QUEUES	    128  /**< Maximum nb. of VMDQ DCB queues. */
-#define ETH_DCB_NUM_QUEUES	    128  /**< Maximum nb. of DCB queues. */
+/**< Maximum nb. of VMDQ vlan filters. */
+#define ETH_VMDQ_MAX_VLAN_FILTERS   64
+/**< Maximum nb. of DCB priorities. */
+#define ETH_DCB_NUM_USER_PRIORITIES 8
+/**< Maximum nb. of VMDQ DCB queues. */
+#define ETH_VMDQ_DCB_NUM_QUEUES	    128
+/**< Maximum nb. of DCB queues. */
+#define ETH_DCB_NUM_QUEUES	    128
 
 /* DCB capability defines */
 #define ETH_DCB_PG_SUPPORT  0x00000001   /**< Priority Group(ETS) support. */
@@ -477,7 +487,8 @@ struct odp_eth_rss_conf {
 #define ETH_VLAN_ID_MAX	     0x0FFF      /**< VLAN ID is in lower 12 bits*/
 
 /* Definitions used for receive MAC address   */
-#define ETH_NUM_RECEIVE_MAC_ADDR 128     /**< Maximum nb. of receive mac addr. */
+/**< Maximum nb. of receive mac addr. */
+#define ETH_NUM_RECEIVE_MAC_ADDR 128
 
 /* Definitions used for unicast hash  */
 #define ETH_VMDQ_NUM_UC_HASH_ARRAY 128   /**< Maximum nb. of UC hash array. */
@@ -592,15 +603,21 @@ struct odp_eth_vmdq_tx_conf {
  * does not match the vlan filter rules.
  */
 struct odp_eth_vmdq_dcb_conf {
-	enum odp_eth_nb_pools nb_queue_pools;      /**< With DCB, 16 or 32 pools */
-	uint8_t		      enable_default_pool; /**< If non-zero, use a default pool */
-	uint8_t		      default_pool;        /**< The default pool, if applicable */
-	uint8_t		      nb_pool_maps;        /**< We can have up to 64 filters/mappings */
+	/**< With DCB, 16 or 32 pools */
+	enum odp_eth_nb_pools nb_queue_pools;
+	/**< If non-zero, use a default pool */
+	uint8_t		      enable_default_pool;
+	/**< The default pool, if applicable */
+	uint8_t		      default_pool;
+	/**< We can have up to 64 filters/mappings */
+	uint8_t		      nb_pool_maps;
 
 	struct {
-		uint16_t vlan_id;                  /**< The vlan id of the received frame */
-		uint64_t pools;                    /**< Bitmask of pools for packet rx */
-	} pool_map[ETH_VMDQ_MAX_VLAN_FILTERS];     /**< VMDq vlan pool maps. */
+	/**< The vlan id of the received frame */
+		uint16_t vlan_id;
+	/**< Bitmask of pools for packet rx */
+		uint64_t pools;
+	} pool_map[ETH_VMDQ_MAX_VLAN_FILTERS];/**< VMDq vlan pool maps. */
 
 	uint8_t dcb_queue[ETH_DCB_NUM_USER_PRIORITIES];
 
@@ -610,16 +627,23 @@ struct odp_eth_vmdq_dcb_conf {
 struct odp_eth_vmdq_rx_conf {
 	/**< VMDq only mode, 8 or 64 pools */
 	enum odp_eth_nb_pools nb_queue_pools;
-	uint8_t		      enable_default_pool; /**< If non-zero, use a default pool */
-	uint8_t		      default_pool;        /**< The default pool, if applicable */
-	uint8_t		      enable_loop_back;    /**< Enable VT loop back */
-	uint8_t		      nb_pool_maps;        /**< We can have up to 64 filters/mappings */
-	uint32_t	      rx_mode;             /**< Flags from ETH_VMDQ_ACCEPT_* */
+	/**< If non-zero, use a default pool */
+	uint8_t		      enable_default_pool;
+	/**< The default pool, if applicable */
+	uint8_t		      default_pool;
+	/**< Enable VT loop back */
+	uint8_t		      enable_loop_back;
+	/**< We can have up to 64 filters/mappings */
+	uint8_t		      nb_pool_maps;
+	/**< Flags from ETH_VMDQ_ACCEPT_* */
+	uint32_t	      rx_mode;
 
 	struct {
-		uint16_t vlan_id;                  /**< The vlan id of the received frame */
-		uint64_t pools;                    /**< Bitmask of pools for packet rx */
-	} pool_map[ETH_VMDQ_MAX_VLAN_FILTERS];     /**< VMDq vlan pool maps. */
+	/**< The vlan id of the received frame */
+		uint16_t vlan_id;
+	/**< Bitmask of pools for packet rx */
+		uint64_t pools;
+	} pool_map[ETH_VMDQ_MAX_VLAN_FILTERS];/**< VMDq vlan pool maps. */
 };
 
 /**
@@ -645,9 +669,12 @@ struct odp_eth_txmode {
  * A structure used to configure an RX ring of an Ethernet port.
  */
 struct odp_eth_rxconf {
-	struct odp_eth_thresh rx_thresh;      /**< RX ring threshold registers. */
-	uint16_t	      rx_free_thresh; /**< Drives the freeing of RX descriptors. */
-	uint8_t		      rx_drop_en;     /**< Drop packets if no descriptors are available. */
+	/**< RX ring threshold registers. */
+	struct odp_eth_thresh rx_thresh;
+	/**< Drives the freeing of RX descriptors. */
+	uint16_t	      rx_free_thresh;
+	/**< Drop packets if no descriptors are available. */
+	uint8_t		      rx_drop_en;
 
 	/**< Do not start queue with odp_eth_dev_start(). */
 	uint8_t rx_deferred_start;
@@ -671,10 +698,14 @@ struct odp_eth_rxconf {
  * A structure used to configure a TX ring of an Ethernet port.
  */
 struct odp_eth_txconf {
-	struct odp_eth_thresh tx_thresh;      /**< TX ring threshold registers. */
-	uint16_t	      tx_rs_thresh;   /**< Drives the setting of RS bit on TXDs. */
-	uint16_t	      tx_free_thresh; /**< Drives the freeing of TX buffers. */
-	uint32_t	      txq_flags;      /**< Set flags for the Tx queue */
+	/**< TX ring threshold registers. */
+	struct odp_eth_thresh tx_thresh;
+	/**< Drives the setting of RS bit on TXDs. */
+	uint16_t	      tx_rs_thresh;
+	/**< Drives the freeing of TX buffers. */
+	uint16_t	      tx_free_thresh;
+	/**< Set flags for the Tx queue */
+	uint32_t	      txq_flags;
 
 	/**< Do not start queue with odp_eth_dev_start(). */
 	uint8_t tx_deferred_start;
@@ -696,13 +727,20 @@ enum odp_eth_fc_mode {
  * Please refer to the corresponding data sheet for proper value.
  */
 struct odp_eth_fc_conf {
-	uint32_t	     high_water;         /**< High threshold value to trigger XOFF */
-	uint32_t	     low_water;          /**< Low threshold value to trigger XON */
-	uint16_t	     pause_time;         /**< Pause quota in the Pause frame */
-	uint16_t	     send_xon;           /**< Is XON frame need be sent */
-	enum odp_eth_fc_mode mode;               /**< Link flow control mode */
-	uint8_t		     mac_ctrl_frame_fwd; /**< Forward MAC control frames */
-	uint8_t		     autoneg;            /**< Use Pause autoneg */
+	/**< High threshold value to trigger XOFF */
+	uint32_t	     high_water;
+	/**< Low threshold value to trigger XON */
+	uint32_t	     low_water;
+	/**< Pause quota in the Pause frame */
+	uint16_t	     pause_time;
+	/**< Is XON frame need be sent */
+	uint16_t	     send_xon;
+	/**< Link flow control mode */
+	enum odp_eth_fc_mode mode;
+	/**< Forward MAC control frames */
+	uint8_t		     mac_ctrl_frame_fwd;
+	/**< Use Pause autoneg */
+	uint8_t		     autoneg;
 };
 
 /**
@@ -797,12 +835,15 @@ struct odp_fdir_filter {
 
 	/**< IPv4/IPv6 destination address to match (union of above). */
 	union {
-		uint32_t ipv4_addr;    /**< IPv4 destination address to match. */
-		uint32_t ipv6_addr[4]; /**< IPv6 destination address to match */
+	/**< IPv4 destination address to match. */
+		uint32_t ipv4_addr;
+	/**< IPv6 destination address to match */
+		uint32_t ipv6_addr[4];
 	} ip_dst;
-
-	enum odp_l4type l4type;        /**< l4type to match: NONE/UDP/TCP/SCTP. */
-	enum odp_iptype iptype;        /**< IP packet type to match: IPv4 or IPv6. */
+	/**< l4type to match: NONE/UDP/TCP/SCTP. */
+	enum odp_l4type l4type;
+	/**< IP packet type to match: IPv4 or IPv6. */
+	enum odp_iptype iptype;
 };
 
 /**
@@ -924,7 +965,8 @@ struct odp_eth_conf {
 	uint32_t lpbk_mode;
 
 	struct {
-		struct odp_eth_rss_conf	     rss_conf;/**< Port RSS configuration */
+		/**< Port RSS configuration */
+		struct odp_eth_rss_conf	     rss_conf;
 		struct odp_eth_vmdq_dcb_conf vmdq_dcb_conf;
 
 		/**< Port vmdq+dcb configuration. */
@@ -1533,7 +1575,8 @@ struct eth_dev_ops {
 
 	/**< Set Unicast hash bitmap */
 	eth_uc_all_hash_table_set_t uc_all_hash_table_set;
-	eth_mirror_rule_set_t	    mirror_rule_set;/**< Add a traffic mirror rule.*/
+	/**< Add a traffic mirror rule.*/
+	eth_mirror_rule_set_t	    mirror_rule_set;
 
 	/**< reset a traffic mirror rule.*/
 	eth_mirror_rule_reset_t	 mirror_rule_reset;
@@ -1705,7 +1748,19 @@ enum odp_eth_dev_type {
 
 	/**< Physical function and Virtual function of PCI devices */
 	ODP_ETH_DEV_VIRTUAL, /**< non hardware device */
+	ODP_ETH_DEV_SOC,
 	ODP_ETH_DEV_MAX      /**< max value of this enum */
+};
+
+/*
+ * The eth device type
+ */
+enum odp_eth_nic_type {
+	ODP_ETH_NIC_UNKNOWN, /**< unknown device type */
+	ODP_ETH_NIC_SOC,
+	ODP_ETH_NIC_IXGBE, /**< non hardware device */
+	ODP_ETH_NIC_MLX,
+	ODP_ETH_NIC_MAX      /**< max value of this enum */
 };
 
 /**
@@ -1719,8 +1774,10 @@ enum odp_eth_dev_type {
  * process, while the actual configuration data for the device is shared.
  */
 struct odp_eth_dev {
-	eth_rx_burst_t		 rx_pkt_burst; /**< Pointer to UMD receive function. */
-	eth_tx_burst_t		 tx_pkt_burst; /**< Pointer to UMD transmit function. */
+	/**< Pointer to UMD receive function. */
+	eth_rx_burst_t		 rx_pkt_burst;
+	/**< Pointer to UMD transmit function. */
+	eth_tx_burst_t		 tx_pkt_burst;
 	struct odp_eth_dev_data *data;         /**< Pointer to device data */
 	const struct eth_driver *driver;       /**< Driver for this device */
 	struct eth_dev_ops	*dev_ops;      /**< Functions exported by UMD */
@@ -1740,8 +1797,11 @@ struct odp_eth_dev {
 	 * received packets before passing them to the driver for transmission.
 	 */
 	struct odp_eth_rxtx_callback *pre_tx_burst_cbs[ODP_MAX_QUEUES_PER_PORT];
-	uint8_t			      attached; /**< Flag indicating the port is attached */
-	enum odp_eth_dev_type	      dev_type; /**< Flag indicating the device type */
+	/**< Flag indicating the port is attached */
+	uint8_t			      attached;
+	/**< Flag indicating the device type */
+	enum odp_eth_dev_type	      dev_type;
+	uint16_t                      q_num;
 };
 
 struct odp_eth_dev_sriov {
@@ -1831,6 +1891,7 @@ uint8_t odp_eth_dev_count(void);
  *   - The pointer to the ethdev slot, on success. NULL on error
  */
 struct odp_eth_dev *odp_eth_dev_allocated(const char *name);
+struct odp_eth_dev *odp_eth_dev_allocated_id(int portid);
 
 /**
  * Function for internal use by dummy drivers primarily, e.g. ring-based
@@ -1844,7 +1905,7 @@ struct odp_eth_dev *odp_eth_dev_allocated(const char *name);
  *   - Slot in the odp_dev_devices array for a new device;
  */
 struct odp_eth_dev *odp_eth_dev_allocate(const char	      *name,
-					 enum odp_eth_dev_type type);
+					 enum odp_eth_nic_type type);
 
 /**
  * Function for internal use by dummy drivers primarily, e.g. ring-based
@@ -1951,7 +2012,8 @@ typedef int (*eth_dev_uninit_t)(struct odp_eth_dev *eth_dev);
  * - The size of the private data to allocate for each matching device.
  */
 struct eth_driver {
-	struct odp_pci_driver pci_drv;          /**< The UMD is also a PCI driver. */
+	/**< The UMD is also a PCI driver. */
+	struct odp_pci_driver pci_drv;
 	eth_dev_init_t	      eth_dev_init;     /**< Device init function. */
 	eth_dev_uninit_t      eth_dev_uninit;   /**< Device uninit function. */
 	unsigned int	      dev_private_size; /**< Size of device private data. */

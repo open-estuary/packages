@@ -1,27 +1,11 @@
-/*******************************************************************************
-
-   Hisilicon network interface controller driver
-   Copyright(c) 2014 - 2019 Huawei Corporation.
-
-   This program is free software; you can redistribute it and/or modify it
-   under the terms and conditions of the GNU General Public License,
-   version 2, as published by the Free Software Foundation.
-
-   This program is distributed in the hope it will be useful, but WITHOUT
-   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-   more details.
-
-   You should have received a copy of the GNU General Public License along with
-   this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
-
-   The full GNU General Public License is included in this distribution in
-   the file called "COPYING".
-
-   Contact Information:TBD
-
-*******************************************************************************/
+/*
+ * Copyright (c) 2014-2015 Hisilicon Limited.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ */
 
 #ifndef _HNS_UIO_ENET_H
 #define _HNS_UIO_ENET_H
@@ -31,7 +15,7 @@
 #include "hns_dsaf_main.h"
 
 #define NIC_MOD_VERSION "iWareV2R2C00B961"
-#define DRIVER_UIO_NAME "hns-nic-uio"
+#define DRIVER_UIO_NAME "pv660_hns"
 #define NIC_UIO_SIZE	0x10000
 #define NUM_MAX		64
 
@@ -42,6 +26,7 @@ enum  {
 	HNS_UIO_IOCTL_PORT,
 	HNS_UIO_IOCTL_VF_MAX,
 	HNS_UIO_IOCTL_VF_ID,
+	HNS_UIO_IOCTL_VF_START,
 	HNS_UIO_IOCTL_QNUM,
 	HNS_UIO_IOCTL_MTU,
 	HNS_UIO_IOCTL_GET_STAT,
@@ -49,16 +34,13 @@ enum  {
 	HNS_UIO_IOCTL_REG_READ,
 	HNS_UIO_IOCTL_REG_WRITE,
 	HNS_UIO_IOCTL_SET_PAUSE,
-	HNS_UIO_IOCTL_GET_TYPE,
-	HNS_UIO_IOCTL_QNUM_MAX,
-	HNS_UIO_IOCTL_QNUM_START,
 	HNS_UIO_IOCTL_NUM
 };
 
 struct char_device {
-	unsigned int major;          /*设备的主设备号*/
-	char	     class_name[64]; /*设备类型的名称*/
-	char	     name[64];       /*设备文件名称(包括路径)*/
+	unsigned int major;
+	char	     class_name[64];
+	char	     name[64];
 	struct	     class *dev_class;
 };
 
@@ -68,17 +50,18 @@ struct nic_uio_device {
 	struct net_device  *netdev;
 	struct device_node *ae_node;
 	struct hnae_vf_cb  *vf_cb;
-	char		    mac_addr[8];
-	unsigned int	    port;
-	unsigned int	    vf_max;
-	unsigned int	    q_num_start;
-	unsigned int	    q_num_end;
-	unsigned int	    q_num_max;
-	unsigned int	    uio_index[NUM_MAX];
-	unsigned int	    vf_type[NUM_MAX];
-	unsigned int	    vf_id[NUM_MAX];
-	unsigned int	    q_num[NUM_MAX];
-	struct uio_info	    uinfo[NUM_MAX];
-	unsigned long long  cfg_status[HNS_UIO_IOCTL_NUM];
+	struct uio_info	    uinfo;
+
+	unsigned int		port;
+	unsigned int		vf_sum;
+	unsigned int		vf_id;
+	unsigned int		uio_start;
+	unsigned int		q_num;
+	unsigned long long	cfg_status[HNS_UIO_IOCTL_NUM];
+	char			netdev_registered;
+	uint16_t		bd_number;
+	struct net_device_stats nstats;
 };
+
+void hns_ethtool_set_ops(struct net_device *ndev);
 #endif /*#ifndef _HNS_UIO_ENET_H*/

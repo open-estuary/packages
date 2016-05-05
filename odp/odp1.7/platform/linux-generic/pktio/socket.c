@@ -108,8 +108,8 @@ int mac_addr_get_fd(int fd, const char *name, unsigned char mac_dst[])
 	ret = ioctl(fd, SIOCGIFHWADDR, &ethreq);
 	if (ret != 0) {
 		__odp_errno = errno;
-		/*ODP_ERR("ioctl(SIOCGIFHWADDR): %s: \"%s\".\n", strerror(errno),
-			ethreq.ifr_name);*/
+		/*ODP_ERR("ioctl(SIOCGIFHWADDR): %s: \"%s\".\n",
+			  strerror(errno), ethreq.ifr_name);*/
 		return -1;
 	}
 
@@ -450,6 +450,7 @@ void rss_conf_print(const odp_pktin_hash_proto_t *hash_proto)
 static int sock_close(pktio_entry_t *pktio_entry)
 {
 	pkt_sock_t *pkt_sock = &pktio_entry->s.pkt_sock;
+
 	if (pkt_sock->sockfd != -1 && close(pkt_sock->sockfd) != 0) {
 		__odp_errno = errno;
 		ODP_ERR("close(sockfd): %s\n", strerror(errno));
@@ -615,6 +616,7 @@ static int sock_mmsg_recv(pktio_entry_t *pktio_entry,
 	struct mmsghdr msgvec[ODP_PACKET_SOCKET_MAX_BURST_RX];
 	int nb_rx = 0;
 	int recv_msgs;
+	int id = 0;
 	int ret;
 	uint8_t **recv_cache;
 	int i;
@@ -625,7 +627,7 @@ static int sock_mmsg_recv(pktio_entry_t *pktio_entry,
 	memset(msgvec, 0, sizeof(msgvec));
 	recv_cache = pkt_sock->cache_ptr;
 
-	if (pktio_cls_enabled(pktio_entry)) {
+	if (pktio_cls_enabled(pktio_entry, id)) {
 		struct iovec iovecs[ODP_PACKET_SOCKET_MAX_BURST_RX];
 
 		for (i = 0; i < (int)len; i++) {

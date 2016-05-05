@@ -40,7 +40,7 @@ vpath %.c $(SRCDIR)
 
 $(OBJ_A) : $(OBJ_FILE)
 	$(ECHO) "AR " $@;\
-	$(AR) rcs $@ $^ 
+	$(AR) rcs $@ $^
 
 
 $(OBJ_SO) : $(OBJ_FILE)

@@ -550,9 +550,8 @@ const struct odp_mm_district
 
 	odp_rwlock_write_lock(&mcfg->mlock);
 
-	mz =
-		mm_district_reserve_aligned(name, orig_name,
-					    len, socket_id, flags, align, 0);
+	mz = mm_district_reserve_aligned(name, orig_name,
+					 len, socket_id, flags, align, 0);
 
 	odp_rwlock_write_unlock(&mcfg->mlock);
 

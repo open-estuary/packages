@@ -77,7 +77,6 @@
 #define TX_HTHRESH 0     /**< Default values of TX host threshold reg. */
 #define TX_WTHRESH 0     /**< Default values of TX write-back threshold reg. */
 
-#define MAX_PKT_BURST		 16
 #define BURST_TX_DRAIN_US	 100 /* TX drain every ~100us */
 #define ODP_TEST_RX_DESC_DEFAULT 128
 #define ODP_TEST_TX_DESC_DEFAULT 512

@@ -22,7 +22,6 @@ const pktio_if_ops_t * const pktio_if_ops[]  = {
 	&sock_mmap_pktio_ops,
 	&sock_mmsg_pktio_ops,
 	&hns_eth_pktio_ops,
-	//&kni_pktio_ops,
-	//&ixgbe_eth_pktio_ops,
+	/* &kni_pktio_ops, */
 	NULL
 };
