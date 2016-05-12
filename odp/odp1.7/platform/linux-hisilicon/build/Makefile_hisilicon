@@ -17,7 +17,6 @@ SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/pci/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/ring/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/timer/*.c)
 SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/uio/*.c)
-SRCS      += $(wildcard $(ROOT)/platform/linux-hisilicon/kni/*.c)
 
 CLEAN_DIR := $(ROOT)/platform/linux-hisilicon
 OBJS      := $(SRCS:.c=.o)
