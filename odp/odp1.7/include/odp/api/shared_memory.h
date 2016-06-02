@@ -49,7 +49,8 @@ extern "C" {
 /* Share level */
 #define ODP_SHM_SW_ONLY 0x1 /**< Application SW only, no HW access */
 #define ODP_SHM_PROC    0x2 /**< Share with external processes */
-#define ODP_SHM_CNTNUS_PHY    0x4 /**< Make sure the block's physical address is continuous */
+#define ODP_SHM_MONOPOLIZE_CNTNUS_PHY 0x4 /**< Make sure the monopolize block's physical address is continuous */
+#define ODP_SHM_SHARE_CNTNUS_PHY      0x8 /**< Make sure the share block's physical address is continuous */
 
 /**
  * Shared memory block info

@@ -1,3 +1,13 @@
+/*
+ * Copyright(c) 2010-2015 Intel Corporation.
+ * Copyright(c) 2014-2015 Hisilicon Limited.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the BSD-3-Clause License as published by
+ * the Free Software Foundation.
+ *
+ */
+
 #ifndef __ODP_CONFIG_H
 #define __ODP_CONFIG_H
 #define ODP_LIBODP_XEN_DOM0 1

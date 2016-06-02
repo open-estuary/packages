@@ -4,11 +4,11 @@ export ROOT_DIR=$BUILD_PATH/../../..
 export BUILD_DIR=$BUILD_PATH
 
 export pv660_hns_32=no
-export pv660_hns_64=yes
+export pv660_hns_64=no
 export pv660_sec_32=no
 export pv660_sec_64=no
 export ixgbe_32=no
-export ixgbe_64=yes
+export ixgbe_64=no
 
 rm  -f $BUILD_DIR/objs/drv/*
 

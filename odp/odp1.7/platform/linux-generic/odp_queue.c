@@ -171,11 +171,11 @@ int odp_queue_init_global(void)
 		queue->s.handle = queue_from_id(i);
 	}
 
-	ODP_DBG("done\n");
-	ODP_DBG("Queue init global\n");
-	ODP_DBG("  struct queue_entry_s size %zu\n",
+	ODP_DBG(" done\n");
+	ODP_DBG(" Queue init global\n");
+	ODP_DBG(" struct queue_entry_s size %zu\n",
 		sizeof(struct queue_entry_s));
-	ODP_DBG("  queue_entry_t size        %zu\n",
+	ODP_DBG(" queue_entry_t size        %zu\n",
 		sizeof(queue_entry_t));
 	ODP_DBG("\n");
 

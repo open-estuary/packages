@@ -4,9 +4,10 @@ ROOT            = ../$(TARGET)
 
 
 GNU_PREFIX        := aarch64-linux-gnu-
-CC                := $(GNU_PREFIX)gcc
-LD                := $(GNU_PREFIX)ld
-AR                := $(GNU_PREFIX)ar
+CC                := $(AARCH64_CC)
+LD                := $(AARCH64_LD)
+AR		  := $(AARCH64_AR)
+OBJDUMP           := $(AARCH64_OBJDUMP)
 ECHO              := @echo
 
 

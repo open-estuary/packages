@@ -6,20 +6,23 @@ ROOT            = $(SRC_DIR)../..
 
 
 ifeq ("$(BUILD_TYPE)", "build_32")
-	GNU_PREFIX=arm-linux-gnueabi-
+	CC                := $(AARCH32_CC)
+	LD                := $(AARCH32_LD)
+	AR		  := $(AARCH32_AR)
+	OBJDUMP           := $(AARCH32_OBJDUMP)
 	LIB_ODP=odp32
 	APP_OUT=$(FILE_NAME)_app
 	CFLAGS= -O3 -D_GNU_SOURCE -mlittle-endian -lpthread -march=armv7-a  -D__arm32__
 else
-	GNU_PREFIX = aarch64-linux-gnu-
+	CC                := $(AARCH64_CC)
+	LD                := $(AARCH64_LD)
+	AR		  := $(AARCH64_AR)
+	OBJDUMP           := $(AARCH64_OBJDUMP)
 	LIB_ODP=odp
 	APP_OUT=$(FILE_NAME)_app
 	CFLAGS= -O3 -D_GNU_SOURCE -mlittle-endian -lpthread -march=armv8-a -mtune=cortex-a57 -mcpu=cortex-a57
 endif
 
-CC                := $(GNU_PREFIX)gcc
-LD                := $(GNU_PREFIX)ld
-OBJDUMP           := $(GNU_PREFIX)objdump
 ECHO              := @echo
 
 SRCS          := $(wildcard $(SRC_DIR)*.c)
@@ -41,7 +44,7 @@ INCLUDE_FILES      := -I$(SRC_DIR) \
                      -I$(ROOT)/test \
                      -I$(ROOT)/platform/linux-hisilicon/example \
                      -I$(BUILD_DIR) \
-		     		 -I$(ROOT)/example \
+		     -I$(ROOT)/example \
                      -I$(ROOT)/platform/linux-hisilicon/include
 
 $(APP_OUT) : $(OBJ_FILE)
