@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef _ODP_COMMON_H_
-#define _ODP_COMMON_H_
+#ifndef _ODP_BASE_H_
+#define _ODP_BASE_H_
 
 /**
  * @file
