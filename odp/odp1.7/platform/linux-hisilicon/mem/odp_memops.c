@@ -252,7 +252,7 @@ static int map_hpt_hugepages(struct hugepage_file *hugepg_tbl,
 				vma_len = hugepage_sz;
 
 			HNS_PRINT(
-				"vma_addr = 0x%lx, num_pages = %04d, vma_len = %u(m)\n",
+				"vma_addr = 0x%lx, num_pages = %04d, vma_len = %lu(m)\n",
 				(unsigned long)vma_addr, num_pages,
 				(unsigned long)vma_len / 1024 / 1024);
 		}
