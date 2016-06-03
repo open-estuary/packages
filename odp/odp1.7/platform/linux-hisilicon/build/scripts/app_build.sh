@@ -8,14 +8,14 @@ export l2fwd_hns_64=no
 export l2fwd_32=no
 export l2fwd_64=yes
 export l2fwd_rss_32=no
-export l2fwd_rss_64=yes
-export classifier_64=yes
-export classifier_direct_64=yes
-export generator_64=yes
-export ipsec_64=yes
-export packet_64=yes
-export time_64=yes
-export timer_64=yes
+export l2fwd_rss_64=no
+export classifier_64=no
+export classifier_direct_64=no
+export generator_64=no
+export ipsec_64=no
+export packet_64=no
+export time_64=no
+export timer_64=no
 
 
 rm  -f $BUILD_DIR/objs/examples/*

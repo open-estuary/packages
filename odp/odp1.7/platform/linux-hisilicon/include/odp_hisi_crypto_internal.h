@@ -1,7 +1,11 @@
-/* Copyright (c) 2014, Linaro Limited
- * All rights reserved.
+/*
+ * Copyright(c) 2010-2015 Intel Corporation.
+ * Copyright(c) 2014-2015 Hisilicon Limited.
  *
- * SPDX-License-Identifier:     BSD-3-Clause
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the BSD-3-Clause License as published by
+ * the Free Software Foundation.
+ *
  */
 
 #ifndef ODP_HIS_CRYPTO_INTERNAL_H_

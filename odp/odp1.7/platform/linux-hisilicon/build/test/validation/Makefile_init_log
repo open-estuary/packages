@@ -6,22 +6,25 @@ ROOT            = $(SRC_DIR)../../..
 
 #32位应用程序
 ifeq ("$(BUILD_TYPE)", "build_32") 
-	GNU_PREFIX=arm-linux-gnueabi-
+	CC                := $(AARCH32_CC)
+	LD                := $(AARCH32_LD)
+	AR		  := $(AARCH32_AR)
+	OBJDUMP           := $(AARCH32_OBJDUMP)
 	LIB_ODP=odp32
 	LIB_CUNIT=cunit32
 	APP_OUT=odp_$(FILE_NAME)_32
 	CFLAGS=-O3 -D_GNU_SOURCE -mlittle-endian -lpthread -march=armv7-a  -D__arm32__ -DODP_DEBUG_PRINT
 else    
-	GNU_PREFIX = aarch64-linux-gnu-
+	CC                := $(AARCH64_CC)
+	LD                := $(AARCH64_LD)
+	AR		  := $(AARCH64_AR)
+	OBJDUMP           := $(AARCH64_OBJDUMP)
 	LIB_ODP=odp
 	LIB_CUNIT=cunit
 	APP_OUT=odp_$(FILE_NAME)
 	CFLAGS=-O3 -D_GNU_SOURCE -mlittle-endian -lpthread -march=armv8-a -mtune=cortex-a57 -mcpu=cortex-a57 -DODP_DEBUG_PRINT
 endif
 
-CC                := $(GNU_PREFIX)gcc
-LD                := $(GNU_PREFIX)ld
-OBJDUMP           := $(GNU_PREFIX)objdump
 ECHO              := @echo
 
 

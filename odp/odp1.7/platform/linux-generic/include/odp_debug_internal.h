@@ -64,7 +64,7 @@ extern "C" {
 #endif*/
 
 #define ODP_DBG(fmt, ...)	\
-	printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, ## __VA_ARGS__)
+	printf("[Func: %s. Line: %d] " fmt, __func__, __LINE__, ## __VA_ARGS__)
 /**
  * Log error message.
  */
@@ -72,7 +72,7 @@ extern "C" {
 		ODP_LOG(ODP_LOG_ERR, fmt, ##__VA_ARGS__)*/
 
 #define ODP_ERR(fmt, ...)	\
-	printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, ## __VA_ARGS__)
+	printf("[Func: %s. Line: %d] " fmt, __func__, __LINE__, ## __VA_ARGS__)
 
 /**
  * Log abort message and then stop execution (by default call abort()).
@@ -99,7 +99,7 @@ extern "C" {
 	odp_global_data.log_fn(ODP_LOG_PRINT, " " fmt, ##__VA_ARGS__)*/
 
 #define ODP_PRINT(fmt, ...)	\
-	printf("[Func: %s. Line: %d]" fmt, __func__, __LINE__, ## __VA_ARGS__)
+	printf("[Func: %s. Line: %d] " fmt, __func__, __LINE__, ## __VA_ARGS__)
 
 #ifdef __cplusplus
 }

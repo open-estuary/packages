@@ -103,9 +103,9 @@ int odp_pool_init_global(void)
 	}
 
 	ODP_DBG("\nPool init global\n");
-	ODP_DBG("  pool_entry_s size     %zu\n", sizeof(struct pool_entry_s));
-	ODP_DBG("  pool_entry_t size     %zu\n", sizeof(pool_entry_t));
-	ODP_DBG("  odp_buffer_hdr_t size %zu\n", sizeof(odp_buffer_hdr_t));
+	ODP_DBG(" pool_entry_s size     %zu\n", sizeof(struct pool_entry_s));
+	ODP_DBG(" pool_entry_t size     %zu\n", sizeof(pool_entry_t));
+	ODP_DBG(" odp_buffer_hdr_t size %zu\n", sizeof(odp_buffer_hdr_t));
 	ODP_DBG("\n");
 	return 0;
 }
@@ -301,8 +301,8 @@ odp_pool_t odp_pool_create(const char *name, odp_pool_param_t *params)
 							  mdata_size +
 							  udata_size);
 
-		shm = odp_shm_reserve(pool->s.name,
-			pool->s.pool_size, ODP_PAGE_SIZE, ODP_SHM_CNTNUS_PHY);
+		shm = odp_shm_reserve(pool->s.name, pool->s.pool_size,
+			ODP_PAGE_SIZE, ODP_SHM_MONOPOLIZE_CNTNUS_PHY);
 		if (shm == ODP_SHM_INVALID) {
 			POOL_UNLOCK(&pool->s.lock);
 			return ODP_POOL_INVALID;
@@ -685,8 +685,8 @@ void odp_pool_print(odp_pool_t pool_hdl)
 		pool->s.flags.zeroized ? "zeroized" : "non-zeroized",
 		pool->s.flags.predefined  ? "predefined" : "created");
 	ODP_DBG(" pool base       %p\n",  pool->s.pool_base_addr);
-	ODP_DBG(" pool size       %lu (%lu pages)\n",
-		pool->s.pool_size, pool->s.pool_size / ODP_PAGE_SIZE);
+	ODP_DBG(" pool size       %lu(k)\n",
+		pool->s.pool_size / 1024);
 	ODP_DBG(" pool mdata base %p\n",  pool->s.pool_mdata_addr);
 	ODP_DBG(" udata size      %u\n", pool->s.udata_size);
 	ODP_DBG(" headroom        %u\n",  pool->s.headroom);
