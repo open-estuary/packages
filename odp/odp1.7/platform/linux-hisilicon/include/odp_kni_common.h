@@ -1,54 +1,10 @@
-/*-
- *   This file is provided under a dual BSD/LGPLv2 license.  When using or
- *   redistributing this file, you may do so under either license.
+/*
+ * Copyright(c) 2010-2015 Intel Corporation.
+ * Copyright(c) 2014-2015 Hisilicon Limited.
  *
- *   GNU LESSER GENERAL PUBLIC LICENSE
- *
- *   Copyright(c) 2007-2014 Intel Corporation. All rights reserved.
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of version 2.1 of the GNU Lesser General Public License
- *   as published by the Free Software Foundation.
- *
- *   This program is distributed in the hope that it will be useful, but
- *   WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *   Lesser General Public License for more details.
- *
- *   Contact Information:
- *   Intel Corporation
- *
- *
- *   BSD LICENSE
- *
- *   Copyright(c) 2010-2014 Intel Corporation. All rights reserved.
- *   All rights reserved.
- *
- *   Redistribution and use in source and binary forms, with or without
- *   modification, are permitted provided that the following conditions
- *   are met:
- *
- *   * Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
- *   * Neither the name of Intel Corporation nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- *    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- *    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- *    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- *    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- *    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- *    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- *    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the BSD-3-Clause License as published by
+ * the Free Software Foundation.
  *
  */
 
@@ -61,18 +17,12 @@
 
 #include <odp/align.h>
 
-/**
- * KNI name is part of mm_district name.
- */
 #define ODP_KNI_NAMESIZE 32
 
 #ifndef ODP_CACHE_LINE_SIZE
-#define ODP_CACHE_LINE_SIZE 64       /**< Cache line size. */
+#define ODP_CACHE_LINE_SIZE 64
 #endif
 
-/*
- * Request id.
- */
 enum odp_kni_req_id {
 	ODP_KNI_REQ_UNKNOWN = 0,
 	ODP_KNI_REQ_CHANGE_MTU,
@@ -80,97 +30,71 @@ enum odp_kni_req_id {
 	ODP_KNI_REQ_MAX,
 };
 
-/*
- * Structure for KNI request.
- */
 struct odp_kni_request {
-	uint32_t req_id;             /**< Request id */
+	uint32_t req_id;
 
 	union {
-		uint32_t new_mtu;    /**< New MTU */
-		uint8_t	 if_up;      /**< 1: interface up, 0: interface down */
+		uint32_t new_mtu;
+		uint8_t	 if_up;
 	};
-
-	int32_t result;              /**< Result for processing request */
+	int32_t result;
 } __attribute__((__packed__));
 
-/*
- * Fifo struct mapped in a shared memory. It describes a circular buffer FIFO
- * Write and read should wrap around. Fifo is empty when write == read
- * Writing should never overwrite the read position
- */
 struct odp_kni_fifo {
-	unsigned write;     /**< Next position to be written*/
-	unsigned read;      /**< Next position to be read */
-	unsigned len;       /**< Circular buffer length */
-	unsigned elem_size; /**< Pointer size - for 32/64 bit OS */
-	void	*buffer[0]; /**< The buffer contains mbuf pointers */
+	unsigned write;
+	unsigned read;
+	unsigned len;
+	unsigned elem_size;
+	void	*buffer[0];
 };
 
-/*
- * The kernel image of the rte_mbuf struct, with only the relevant fields.
- * Padding is necessary to assure the offsets of these fields
- */
 struct odp_kni_mbuf {
 	void	*buf_addr ODP_ALIGNED(ODP_CACHE_LINE_SIZE);
 	char		  pad0[10];
-	/**< Start address of data in segment buffer. */
 	uint16_t	  data_off;
 	char		  pad1[4];
-	uint64_t	  ol_flags; /**< Offload features. */
+	uint64_t	  ol_flags;
 
 #ifdef RTE_NEXT_ABI
 	char	 pad2[4];
-	uint32_t pkt_len;   /**< Total pkt len: sum of all segment data_len. */
-	uint16_t data_len;  /**< Amount of data in segment buffer. */
+	uint32_t pkt_len;
+	uint16_t data_len;
 
 #else
 	char	 pad2[2];
-	uint16_t data_len;  /**< Amount of data in segment buffer. */
-	uint32_t pkt_len;   /**< Total pkt len: sum of all segment data_len. */
+	uint16_t data_len;
+	uint32_t pkt_len;
 #endif
-
-	/* fields on second cache line */
 	char  pad3[8] ODP_ALIGNED(ODP_CACHE_LINE_SIZE);
 	void *pool;
 	void *next;
 };
 
-/*
- * Struct used to create a KNI device. Passed to the kernel in IOCTL call
- */
-
 struct odp_kni_device_info {
-	char name[ODP_KNI_NAMESIZE];  /**< Network device name for KNI */
+	char name[ODP_KNI_NAMESIZE];
 
 	phys_addr_t tx_phys;
 	phys_addr_t rx_phys;
 	phys_addr_t alloc_phys;
 	phys_addr_t free_phys;
-
-	/* Used by Ethtool */
 	phys_addr_t req_phys;
 	phys_addr_t resp_phys;
 	phys_addr_t sync_phys;
 	void	   *sync_va;
 
-	/* mbuf mempool */
 	void	   *mbuf_va;
 	phys_addr_t mbuf_phys;
 
-	/* PCI info */
-	uint16_t vendor_id;           /**< Vendor ID or PCI_ANY_ID. */
-	uint16_t device_id;           /**< Device ID or PCI_ANY_ID. */
-	uint8_t	 bus;                 /**< Device bus */
-	uint8_t	 devid;               /**< Device ID */
-	uint8_t	 function;            /**< Device function. */
+	uint16_t vendor_id;
+	uint16_t device_id;
+	uint8_t	 bus;
+	uint8_t	 devid;
+	uint8_t	 function;
 
-	uint16_t group_id;            /**< Group ID */
-	uint32_t core_id;             /**< core ID to bind for kernel thread */
+	uint16_t group_id;
+	uint32_t core_id;
 
-	uint8_t force_bind : 1;       /**< Flag for kernel thread binding */
-
-	/* mbuf size */
+	uint8_t force_bind : 1;
 	unsigned mbuf_size;
 };
 

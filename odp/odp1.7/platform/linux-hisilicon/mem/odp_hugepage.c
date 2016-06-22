@@ -1,35 +1,13 @@
-/*-
- *   BSD LICENSE
+/*
+ * Copyright(c) 2010-2015 Intel Corporation.
+ * Copyright(c) 2014-2015 Hisilicon Limited.
  *
- *   Copyright(c) 2010-2014 Huawei Corporation. All rights reserved.
- *   All rights reserved.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the BSD-3-Clause License as published by
+ * the Free Software Foundation.
  *
- *   Redistribution and use in source and binary forms, with or without
- *   modification, are permitted provided that the following conditions
- *   are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in
- *       the documentation and/or other materials provided with the
- *       distribution.
- *     * Neither the name of Huawei Corporation nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
- *
- *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- *   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- *   OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- *   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- *   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 #include <string.h>
 #include <sys/types.h>
@@ -50,15 +28,8 @@
 #include <odp_base.h>
 #include <odp/config.h>
 
-/* #include <odp_launch.h>
- #include <odp_per_core.h> */
 #include <odp_core.h>
-
-/* #include <odp_debug.h>
- #include <odp_log.h> */
 #include <odp_common.h>
-
-/* #include "odp_string_fns.h" */
 #include "odp_local_cfg.h"
 #include "odp_hugepage.h"
 #include "odp_filesystem.h"
@@ -72,15 +43,12 @@ static int get_num_hugepages(const char *subdir)
 	unsigned long resv_pages, num_pages = 0;
 	const char   *nr_hp_file;
 
-	/* first, check how many reserved pages kernel reports */
 	snprintf(path, sizeof(path), "%s/%s/%s",
 		 sys_dir_path, subdir, "resv_hugepages");
 	resv_pages = odp_parse_sysfs_value(path);
 	if (resv_pages < 0)
 		return 0;
 
-	/* if secondary process, just look at the number of hugepages,
-	 * otherwise look at number of free hugepages */
 	if (local_config.process_type == ODP_PROC_SECONDARY)
 		nr_hp_file = "nr_hugepages";
 	else
@@ -95,7 +63,6 @@ static int get_num_hugepages(const char *subdir)
 	if (num_pages == 0)
 		ODP_PRINT("No free hugepages repohodpd in %s\n", subdir);
 
-	/* adjust num_pages in case of primary process */
 	if ((num_pages > 0) && (local_config.process_type == ODP_PROC_PRIMARY))
 		num_pages -= resv_pages;
 
@@ -168,8 +135,6 @@ static const char *get_hugepage_dir(uint64_t hugepage_sz)
 			const char *pagesz_str = strstr(splitstr[OPTIONS],
 							HUGEPAGE_SIZE_DESC);
 
-			/* if no explicit page size, the
-			 * default page size is compared */
 			if (!pagesz_str) {
 				if (hugepage_sz == default_size) {
 					retval = strdup(splitstr[MOUNTPT]);
@@ -177,7 +142,6 @@ static const char *get_hugepage_dir(uint64_t hugepage_sz)
 				}
 			}
 
-			/* there is an explicit page size, so check it */
 			else {
 				uint64_t pagesz =
 					odp_str_to_size(
@@ -188,8 +152,8 @@ static const char *get_hugepage_dir(uint64_t hugepage_sz)
 					break;
 				}
 			}
-		} /* end if strncmp hugetlbfs */
-	}   /* end while fgets */
+		}
+	}
 
 	fclose(fd);
 	return retval;
@@ -205,19 +169,13 @@ static inline void swap_hpt(struct odp_hugepage_type *a,
 	memcpy(b, buf, sizeof(buf));
 }
 
-/*
- * Clear the hugepage directory of whatever hugepage files
- * there are. Checks if the file is locked (i.e.
- * if it's in use by another ODP process).
- */
 static int clear_hugedir(const char *hugedir)
 {
 	DIR *dir;
 	struct dirent *dirent;
 	int  dir_fd, fd, lck_result;
-	const char filter[] = "*map_*"; /* matches hugepage files */
+	const char filter[] = "*map_*";
 
-	/* open directory */
 	dir = opendir(hugedir);
 	if (!dir) {
 		ODP_PRINT("Unable to open hugepage directory %s\n", hugedir);
@@ -233,25 +191,20 @@ static int clear_hugedir(const char *hugedir)
 	}
 
 	while (dirent) {
-		/* skip files that don't match the hugepage pattern */
 		if (fnmatch(filter, dirent->d_name, 0) > 0) {
 			dirent = readdir(dir);
 			continue;
 		}
 
-		/* try and lock the file */
 		fd = openat(dir_fd, dirent->d_name, O_RDONLY);
 
-		/* skip to next file */
 		if (fd == -1) {
 			dirent = readdir(dir);
 			continue;
 		}
 
-		/* non-blocking lock */
 		lck_result = flock(fd, LOCK_EX | LOCK_NB);
 
-		/* if lock succeeds, unlock and remove the file */
 		if (lck_result != -1) {
 			flock(fd, LOCK_UN);
 			unlinkat(dir_fd, dirent->d_name, 0);
@@ -273,11 +226,6 @@ error:
 	return -1;
 }
 
-/*
- * when we initialize the hugepage info, everything goes
- * to socket 0 by default. it will later get sohodpd by memory
- * initialization procedure.
- */
 #define ODP_SYS_HGPG_STR_LEN 10
 int odp_hugepage_info_init(void)
 {
@@ -293,8 +241,6 @@ int odp_hugepage_info_init(void)
 
 	dirent = readdir(dir);
 
-	/* loop get different kinds of hugepages in
-	 * the system hugepage directory */
 	while (dirent) {
 		if (strncmp(dirent->d_name, "hugepages-",
 			    ODP_SYS_HGPG_STR_LEN) == 0) {
@@ -305,7 +251,6 @@ int odp_hugepage_info_init(void)
 							ODP_SYS_HGPG_STR_LEN]);
 			hpt->hugedir = get_hugepage_dir(hpt->hugepage_sz);
 
-			/* first, check if we have a mountpoint */
 			if (!hpt->hugedir) {
 				int32_t num_pages;
 
@@ -319,11 +264,9 @@ int odp_hugepage_info_init(void)
 						  " found for that size\n");
 				}
 			} else {
-				/* try to obtain a writelock */
 				hpt->lock_descriptor = open(hpt->hugedir,
 							    O_RDONLY);
 
-				/* if blocking lock failed */
 				if (flock(hpt->lock_descriptor,
 					  LOCK_EX) == -1) {
 					ODP_ERR("Failed to lock hugepage"
@@ -332,15 +275,11 @@ int odp_hugepage_info_init(void)
 					return -1;
 				}
 
-				/* clear out the hugepages
-				* dir from unused pages */
 				if (clear_hugedir(hpt->hugedir) == -1) {
 					closedir(dir);
 					return -1;
 				}
 
-				/* for now, put all pages into socket 0,
-				 * later they will be sohodpd */
 				hpt->num_pages[0] =
 					get_num_hugepages(dirent->d_name);
 				hpt->num_pages[0] =
@@ -357,7 +296,6 @@ int odp_hugepage_info_init(void)
 	closedir(dir);
 	local_config.num_hugepage_types = num_sizes;
 
-	/* sort the page directory entries by size, largest to smallest */
 	for (i = 0; i < num_sizes; i++) {
 		unsigned int j;
 
@@ -369,12 +307,10 @@ int odp_hugepage_info_init(void)
 					&local_config.odp_hugepage_type[j]);
 	}
 
-	/* now we have all info, check we have at least one valid size */
 	for (i = 0; i < num_sizes; i++)
 		if (local_config.odp_hugepage_type[i].hugedir &&
 		    (local_config.odp_hugepage_type[i].num_pages[0] > 0))
 			return 0;
 
-	/* no valid hugepage mounts available, return error */
 	return -1;
 }

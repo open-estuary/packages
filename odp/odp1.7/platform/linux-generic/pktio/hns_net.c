@@ -127,16 +127,16 @@ int setup_pkt_odp(odp_pktio_t id ODP_UNUSED, pktio_entry_t *pktio_entry,
 
 	/* On init set it up only to 1 rx and tx queue.*/
 
-	dev = odp_eth_dev_allocated_id(portid);
+	dev = odp_eth_allocated_id(portid);
 	if (!dev) {
-		ODP_ERR("netdev %s, odp_eth_dev_allocated_id err!\n", netdev);
+		ODP_ERR("netdev %s, odp_eth_allocated_id err!\n", netdev);
 		return -1;
 	}
 
 	nbtxq = dev->q_num;
 	nbrxq = dev->q_num;
 
-	ret = odp_eth_dev_configure(portid, nbrxq, nbtxq, &port_conf);
+	ret = odp_eth_configure(portid, nbrxq, nbtxq, &port_conf);
 	if (ret < 0) {
 		ODP_ERR("Cannot configure device: err=%d, port=%u\n",
 			ret, (unsigned int)portid);
@@ -166,9 +166,9 @@ int setup_pkt_odp(odp_pktio_t id ODP_UNUSED, pktio_entry_t *pktio_entry,
 	}
 
 	/* Start device */
-	ret = odp_eth_dev_start(portid);
+	ret = odp_eth_start(portid);
 	if (ret < 0) {
-		ODP_ERR("odp_eth_dev_start:err=%d, port=%u\n",
+		ODP_ERR("odp_eth_start:err=%d, port=%u\n",
 			ret, (unsigned int)portid);
 		return -1;
 	}
@@ -193,39 +193,8 @@ int odp_eth_rx_burst(pktio_entry_t *pktio_entry, odp_packet_t *rx_pkts,
 
 	dev = &odp_eth_devices[port_id];
 
-	if (pktio_cls_enabled(pktio_entry, queue_id)) {
-		odp_packet_t tmpbuf[64];
-		odp_packet_t onepkt;
-		odp_packet_hdr_t *pkt_hdr;
-		odp_pktio_t id;
-		int i, j;
-
-		if (nb_pkts > 64)
-			nb_pkts = 64;
-
-		nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[queue_id],
-					     (void **)tmpbuf, nb_pkts);
-		if (odp_unlikely(nb_rx <= 0))
-			return nb_rx;
-
-		id = pktio_entry->s.handle;
-		for (i = 0, j = 0; i < nb_rx; i++) {
-			onepkt = tmpbuf[i];
-			pkt_hdr = odp_packet_hdr(onepkt);
-			pkt_hdr->input = id;
-			packet_parse_reset(pkt_hdr);
-			packet_parse_l2(pkt_hdr);
-			if (0 > _odp_packet_classifier(pktio_entry,
-						       queue_id, onepkt)) {
-				rx_pkts[j++] = onepkt;
-			}
-		}
-
-		nb_rx = j;
-	} else {
-		nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[queue_id],
-					     (void **)rx_pkts, nb_pkts);
-	}
+	nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[queue_id],
+				     (void **)rx_pkts, nb_pkts);
 
 #ifdef ODP_ETHDEV_RXTX_CALLBACKS
 	struct odp_eth_rxtx_callback *cb = dev->post_rx_burst_cbs[queue_id];
@@ -277,39 +246,8 @@ int odp_queue_rx_burst(pktio_entry_t *pktio_entry, int q_index,
 
 	dev = &odp_eth_devices[port_id];
 
-	if (pktio_cls_enabled(pktio_entry, q_index)) {
-		odp_packet_t tmpbuf[64];
-		odp_packet_t onepkt;
-		odp_packet_hdr_t *pkt_hdr;
-		odp_pktio_t id;
-		int i, j;
-
-		if (nb_pkts > 64)
-			nb_pkts = 64;
-
-		nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[q_index],
-						(void **)tmpbuf, nb_pkts);
-		if (odp_unlikely(nb_rx <= 0))
-			return nb_rx;
-
-		id = pktio_entry->s.handle;
-		for (i = 0, j = 0; i < nb_rx; i++) {
-			onepkt = tmpbuf[i];
-			pkt_hdr = odp_packet_hdr(onepkt);
-			pkt_hdr->input = id;
-			packet_parse_reset(pkt_hdr);
-			packet_parse_l2(pkt_hdr);
-			if (0 > _odp_packet_classifier(pktio_entry,
-						       q_index, onepkt)) {
-				rx_pkts[j++] = onepkt;
-			}
-		}
-
-		nb_rx = j;
-	} else {
-		nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[q_index],
-					     (void **)rx_pkts, nb_pkts);
-	}
+	nb_rx = (*dev->rx_pkt_burst)(dev->data->rx_queues[q_index],
+				     (void **)rx_pkts, nb_pkts);
 
 #ifdef ODP_ETHDEV_RXTX_CALLBACKS
 	struct odp_eth_rxtx_callback *cb = dev->post_rx_burst_cbs[q_index];
@@ -357,10 +295,10 @@ int odp_eth_mtu_get(pktio_entry_t *pktio_entry)
 	uint16_t mtu;
 	int ret;
 
-	if (!odp_eth_dev_is_valid_port(port_id))
+	if (!odp_eth_is_valid_port(port_id))
 		return -1;
 
-	ret = odp_eth_dev_get_mtu(port_id, &mtu);
+	ret = odp_eth_get_mtu(port_id, &mtu);
 	if (ret) {
 		ODP_DBG("port_id %d get mtu failed!\n", port_id);
 		return -1;
@@ -373,7 +311,7 @@ int odp_eth_mac_get(pktio_entry_t *pktio_entry, void *mac_addr)
 {
 	uint8_t port_id = pktio_entry->s.pkt_odp.portid;
 
-	if (!odp_eth_dev_is_valid_port(port_id))
+	if (!odp_eth_is_valid_port(port_id))
 		return -1;
 
 	(void)odp_eth_get_macaddr(port_id, mac_addr);
@@ -384,7 +322,7 @@ int odp_eth_promisc_mode_set(pktio_entry_t *pktio_entry, int enable)
 {
 	uint8_t port_id = pktio_entry->s.pkt_odp.portid;
 
-	if (!odp_eth_dev_is_valid_port(port_id))
+	if (!odp_eth_is_valid_port(port_id))
 		return -1;
 
 	if (enable)
@@ -399,7 +337,7 @@ int odp_eth_promisc_mode_get(pktio_entry_t *pktio_entry)
 {
 	uint8_t port_id = pktio_entry->s.pkt_odp.portid;
 
-	if (!odp_eth_dev_is_valid_port(port_id))
+	if (!odp_eth_is_valid_port(port_id))
 		return -1;
 
 	return odp_eth_promiscuous_get(port_id);
@@ -432,12 +370,12 @@ int odp_pktio_dev_get(struct odp_pktio_info *pktio_info, uint8_t *num)
 	}
 
 	for (i = 0; i < ODP_MAX_ETHPORTS; i++) {
-		if (odp_eth_dev_is_valid_port(i)) {
+		if (odp_eth_is_valid_port(i)) {
 			memset(pktio_info[i].name, 0,
 			       sizeof(PACKET_IO_NAME_LENGTH_MAX));
 			(void)sprintf(pktio_info[i].name, "pktio_%d", i);
 
-			odp_eth_dev_info_get(i, &dev_info);
+			odp_eth_info_get(i, &dev_info);
 			if (dev_info.pci_dev) { /* pci netif */
 				pktio_info[port_num].if_type
 					= ODP_PKITIO_DEV_TYPE_PCI;
@@ -510,19 +448,19 @@ int odp_pktio_restart(odp_pktio_t id)
 
 	port_id = entry->s.pkt_odp.portid;
 
-	if (!odp_eth_dev_is_valid_port(port_id)) {
+	if (!odp_eth_is_valid_port(port_id)) {
 		ODP_DBG("pktio entry %d ODP UMD Invalid port_id=%d\n",
 			id->unused_dummy_var, port_id);
 		return -1;
 	}
 
 	/* Stop device */
-	odp_eth_dev_stop(port_id);
+	odp_eth_stop(port_id);
 
 	/* Start device */
-	ret = odp_eth_dev_start(port_id);
+	ret = odp_eth_start(port_id);
 	if (ret < 0) {
-		ODP_ERR("odp_eth_dev_start:err=%d, port=%u\n",
+		ODP_ERR("odp_eth_start:err=%d, port=%u\n",
 			ret, (unsigned)port_id);
 		return -1;
 	}

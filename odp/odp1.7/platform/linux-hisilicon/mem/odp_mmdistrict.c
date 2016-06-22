@@ -1,34 +1,11 @@
-/*-
- *   BSD LICENSE
+/*
+ * Copyright(c) 2010-2015 Intel Corporation.
+ * Copyright(c) 2014-2015 Hisilicon Limited.
  *
- *   Copyright(c) 2010-2014 Huawei Corporation. All rights reserved.
- *   All rights reserved.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the BSD-3-Clause License as published by
+ * the Free Software Foundation.
  *
- *   Redistribution and use in source and binary forms, with or without
- *   modification, are permitted provided that the following conditions
- *   are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in
- *       the documentation and/or other materials provided with the
- *       distribution.
- *     * Neither the name of Huawei Corporation nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
- *
- *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- *   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- *   OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- *   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- *   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdlib.h>
@@ -52,21 +29,15 @@
 #include "odp_private.h"
 #include "odp_debug_internal.h"
 
-/* internal copy of free memory segments */
 static struct odp_mmfrag *free_mmfrag;
 
-static inline const struct odp_mm_district *mm_district_lookup(const char *name)
+static inline struct odp_mm_district *mm_district_lookup(const char *name)
 {
-	const struct odp_sys_layout *mcfg;
+	struct odp_sys_layout *mcfg;
 	unsigned i = 0;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
-	/*
-	 * the algorithm is not optimal (linear), but there are few
-	 * zones and this function should be called at init only
-	 */
 	for (i = 0; i < ODP_MAX_MM_DISTRICT && mcfg->mm_district[i].addr; i++)
 		if (!strncmp(name, mcfg->mm_district[i].name,
 			     ODP_MEMZONE_NAMESIZE))
@@ -79,15 +50,10 @@ static inline struct odp_mm_district *free_mm_district_lookup(
 	const char *orig_name)
 {
 	struct odp_sys_layout *mcfg;
-	unsigned i = 0;
+	unsigned int i = 0;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
-	/*
-	 * the algorithm is not optimal (linear), but there are few
-	 * districts and this function should be called at init only
-	 */
 	for (i = 0; i < ODP_MAX_MM_DISTRICT && mcfg->free_mm_district[i].addr;
 	     i++)
 		if (!strncmp(orig_name, mcfg->free_mm_district[i].orig_name,
@@ -102,16 +68,11 @@ static inline void free_mm_district_fetch(struct odp_mm_district *md)
 	struct odp_sys_layout *mcfg;
 	unsigned i = 0;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 	mcfg->mm_district_idx++;
 	memcpy(&mcfg->mm_district[mcfg->mm_district_idx], md,
 	       sizeof(struct odp_mm_district));
 
-	/*
-	 * the algorithm is not optimal (linear), but there are few
-	 * districts and this function should be called at init only
-	 */
 	for (i = 0; i < mcfg->free_district_idx && md->addr; i++) {
 		memcpy(md, md + 1, sizeof(struct odp_mm_district));
 		md++;
@@ -128,13 +89,8 @@ static inline const struct odp_mm_district *get_mm_district_by_vaddress(
 	const struct odp_sys_layout *mcfg;
 	unsigned i = 0;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
-	/*
-	 * the algorithm is not optimal (linear), but there are few
-	 * zones and this function should be called at init only
-	 */
 	for (i = 0; i < ODP_MAX_MM_DISTRICT && mcfg->mm_district[i].addr; i++)
 		if ((((unsigned long)addr) >=
 		     (unsigned long)(mcfg->mm_district[i].addr)) &&
@@ -208,10 +164,6 @@ inline void *odp_p2v(const unsigned long long phyaddr)
 	return NULL;
 }
 
-/*
- * Return a pointer to a correctly filled mm_district descriptor. If the
- * allocation cannot be done, return NULL.
- */
 const struct odp_mm_district *odp_mm_district_reserve(const char *name,
 						      const char *orig_name,
 						      size_t len, int socket_id,
@@ -222,12 +174,6 @@ const struct odp_mm_district *odp_mm_district_reserve(const char *name,
 					       ODP_CACHE_LINE_SIZE);
 }
 
-/*
- * Helper function for mm_district_reserve_aligned().
- * Calculate address offset from the start of the segment.
- * Align offset in that way that it satisfy istart alignmnet and
- * buffer of the  requested length would not cross specified boundary.
- */
 static inline phys_addr_t align_phys_boundary(const struct odp_mmfrag *ms,
 					      size_t len, size_t align,
 					      size_t bound)
@@ -238,17 +184,14 @@ static inline phys_addr_t align_phys_boundary(const struct odp_mmfrag *ms,
 	step  = ODP_MAX(align, bound);
 	bmask = ~((phys_addr_t)bound - 1);
 
-	/* calculate offset to closest alignment */
 	start = ODP_ALIGN_CEIL(ms->phys_addr, align);
 	addr_offset = start - ms->phys_addr;
 
 	while (addr_offset + len < ms->len) {
-		/* check, do we meet boundary condition */
 		end = start + len - (len != 0);
 		if ((start & bmask) == (end & bmask))
 			break;
 
-		/* calculate next offset */
 		start = ODP_ALIGN_CEIL(start + 1, step);
 		addr_offset = start - ms->phys_addr;
 	}
@@ -259,9 +202,9 @@ static inline phys_addr_t align_phys_boundary(const struct odp_mmfrag *ms,
 static const struct odp_mm_district *mm_district_reserve_aligned(
 	const char *name, const char *orig_name,
 	size_t len,
-	int socket_id, unsigned flags,
-	unsigned align,
-	unsigned bound)
+	int socket_id, unsigned int flags,
+	unsigned int align,
+	unsigned int bound)
 {
 	struct odp_sys_layout *mcfg;
 	unsigned i = 0;
@@ -271,96 +214,63 @@ static const struct odp_mm_district *mm_district_reserve_aligned(
 	size_t	 mmfrag_len = 0;
 	phys_addr_t mmfrag_physaddr;
 	void *mmfrag_addr;
-	struct odp_mm_district *md = NULL;
+	struct odp_mm_district *mm_district = NULL;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
-	/* no more room in config */
 	if (mcfg->mm_district_idx >= ODP_MAX_MM_DISTRICT) {
 		ODP_ERR("%s: No more room in config\n", name);
 		odp_err = ENOSPC;
 		return NULL;
 	}
 
-	/* zone already exist */
-	if (mm_district_lookup(name)) {
-		ODP_ERR("mm_district <%s> already exists\n", name);
-		odp_err = EEXIST;
-		return NULL;
-	}
+	mm_district = mm_district_lookup(name);
+	if (mm_district)
+		return mm_district;
 
-	if (!orig_name) {
-		ODP_ERR("Invalid param: orig_name\n");
-		odp_err = EINVAL;
-		return NULL;
-	}
-
-	md = free_mm_district_lookup(orig_name);
-	if (md)
-		if (len <= md->len) {
-			free_mm_district_fetch(md);
-			return md;
-		}
-
-	/* if alignment is not a power of two */
 	if (align && !odp_is_power_of_2(align)) {
 		ODP_ERR("Invalid alignment: %u\n", align);
 		odp_err = EINVAL;
 		return NULL;
 	}
 
-	/* alignment less than cache size is not allowed */
 	if (align < ODP_CACHE_LINE_SIZE)
 		align = ODP_CACHE_LINE_SIZE;
 
-	/* align length on cache boundary. Check for overflow before doing so */
 	if (len > MEM_SIZE_MAX - ODP_CACHE_LINE_MASK) {
-		odp_err = EINVAL; /* requested size too big */
+		odp_err = EINVAL;
 		return NULL;
 	}
 
 	len += ODP_CACHE_LINE_MASK;
 	len &= ~((size_t)ODP_CACHE_LINE_MASK);
 
-	/* save minimal requested  length */
 	requested_len = ODP_MAX((size_t)ODP_CACHE_LINE_SIZE, len);
 
-	/* check that boundary condition is valid */
 	if ((bound != 0) && ((requested_len > bound) ||
 			     !odp_is_power_of_2(bound))) {
 		odp_err = EINVAL;
 		return NULL;
 	}
 
-	/* find the smallest segment matching requirements */
 	for (i = 0; i < ODP_MAX_MMFRAG; i++) {
-		/* last segment */
 		if (!free_mmfrag[i].addr)
 			break;
 
-		/* empty segment, skip it */
 		if (free_mmfrag[i].len == 0)
 			continue;
 
-		/* bad socket ID */
 		if ((socket_id != SOCKET_ID_ANY) &&
 		    (free_mmfrag[i].socket_id != SOCKET_ID_ANY) &&
 		    (socket_id != free_mmfrag[i].socket_id))
 			continue;
 
-		/*
-		 * calculate offset to closest alignment that
-		 * meets boundary conditions.
-		 */
 		addr_offset = align_phys_boundary(free_mmfrag + i,
 						  requested_len, align, bound);
 
-		/* check len */
 		if ((requested_len + addr_offset) > free_mmfrag[i].len)
 			continue;
 
-		/* check flags for hugepage sizes */
 		if ((flags & ODP_MEMZONE_2MB) &&
 		    (free_mmfrag[i].hugepage_sz == ODP_PGSIZE_1G))
 			continue;
@@ -377,14 +287,12 @@ static const struct odp_mm_district *mm_district_reserve_aligned(
 		    (free_mmfrag[i].hugepage_sz == ODP_PGSIZE_16M))
 			continue;
 
-		/* this segment is the best until now */
 		if (mmfrag_idx == -1) {
 			mmfrag_idx = i;
 			mmfrag_len = free_mmfrag[i].len;
 			seg_offset = addr_offset;
 		}
 
-		/* find the biggest contiguous zone */
 		else if (len == 0) {
 			if (free_mmfrag[i].len > mmfrag_len) {
 				mmfrag_idx = i;
@@ -393,10 +301,6 @@ static const struct odp_mm_district *mm_district_reserve_aligned(
 			}
 		}
 
-		/*
-		 * find the smallest (we already checked that current
-		 * zone length is > len
-		 */
 		else if ((free_mmfrag[i].len + align < mmfrag_len) ||
 			 ((free_mmfrag[i].len <= mmfrag_len + align) &&
 			  (addr_offset < seg_offset))) {
@@ -406,13 +310,8 @@ static const struct odp_mm_district *mm_district_reserve_aligned(
 		}
 	}
 
-	/* no segment found */
 	if (mmfrag_idx == -1) {
-		/*
-		 * If ODP_MEMZONE_SIZE_HINT_ONLY flag is specified,
-		 * try allocating again without the size parameter
-		 * otherwise -fail.
-		 */
+
 		if ((flags & ODP_MEMZONE_SIZE_HINT_ONLY) &&
 		    ((flags & ODP_MEMZONE_1GB) ||
 		     (flags & ODP_MEMZONE_2MB) ||
@@ -426,12 +325,10 @@ static const struct odp_mm_district *mm_district_reserve_aligned(
 		return NULL;
 	}
 
-	/* save aligned physical and virtual addresses */
 	mmfrag_physaddr = free_mmfrag[mmfrag_idx].phys_addr + seg_offset;
 	mmfrag_addr = ODP_PTR_ADD(free_mmfrag[mmfrag_idx].addr,
 				  (uintptr_t)seg_offset);
 
-	/* if we are looking for a biggest mm_district */
 	if (len == 0) {
 		if (bound == 0)
 			requested_len = mmfrag_len - seg_offset;
@@ -441,16 +338,13 @@ static const struct odp_mm_district *mm_district_reserve_aligned(
 				- mmfrag_physaddr;
 	}
 
-	/* set length to correct value */
 	len = (size_t)seg_offset + requested_len;
 
-	/* update our internal state */
 	free_mmfrag[mmfrag_idx].len -= len;
 	free_mmfrag[mmfrag_idx].phys_addr += len;
 	free_mmfrag[mmfrag_idx].addr =
 		(char *)free_mmfrag[mmfrag_idx].addr + len;
 
-	/* fill the zone in config */
 	struct odp_mm_district *mz =
 		&mcfg->mm_district[mcfg->mm_district_idx++];
 
@@ -506,7 +400,6 @@ static const uint32_t mm_district_unreserve(const char *name)
 	     mcfg->mm_district[index].addr; index++)
 		if (!strncmp(name, mcfg->mm_district[index].name,
 			     ODP_MEMZONE_NAMESIZE)) {
-			/* replace the zone in config */
 			struct odp_mm_district *md_t =
 				&mcfg->mm_district[index];
 
@@ -525,27 +418,21 @@ static const uint32_t mm_district_unreserve(const char *name)
 	return -1;
 }
 
-/*
- * Return a pointer to a correctly filled mm_district descriptor (with a
- * specified alignment). If the allocation cannot be done, return NULL.
- */
 const struct odp_mm_district
 *odp_mm_district_reserve_aligned(const char *name,
 				 const char *orig_name, size_t len,
-				 int socket_id, unsigned flags,
-				 unsigned align)
+				 int socket_id, unsigned int flags,
+				 unsigned int align)
 {
 	struct odp_sys_layout *mcfg;
 	const struct odp_mm_district *mz = NULL;
 
-	/* both sizes cannot be explicitly called for */
 	if (((flags & ODP_MEMZONE_1GB) && (flags & ODP_MEMZONE_2MB)) ||
 	    ((flags & ODP_MEMZONE_16MB) && (flags & ODP_MEMZONE_16GB))) {
 		odp_err = EINVAL;
 		return NULL;
 	}
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
 	odp_rwlock_write_lock(&mcfg->mlock);
@@ -558,11 +445,6 @@ const struct odp_mm_district
 	return mz;
 }
 
-/*
- * Return a pointer to a correctly filled mm_district descriptor (with a
- * specified alignment and boundary).
- * If the allocation cannot be done, return NULL.
- */
 const struct odp_mm_district
 *odp_mm_district_reserve_bounded(const char *name,
 				 const char *orig_name,
@@ -573,14 +455,12 @@ const struct odp_mm_district
 	struct odp_sys_layout *mcfg;
 	const struct odp_mm_district *mz = NULL;
 
-	/* both sizes cannot be explicitly called for */
 	if (((flags & ODP_MEMZONE_1GB) && (flags & ODP_MEMZONE_2MB)) ||
 	    ((flags & ODP_MEMZONE_16MB) && (flags & ODP_MEMZONE_16GB))) {
 		odp_err = EINVAL;
 		return NULL;
 	}
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
 	odp_rwlock_write_lock(&mcfg->mlock);
@@ -598,7 +478,6 @@ const uint32_t odp_mm_district_unreserve(const char *name)
 	struct odp_sys_layout *mcfg;
 	uint32_t ret;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
 	odp_rwlock_write_lock(&mcfg->mlock);
@@ -610,9 +489,6 @@ const uint32_t odp_mm_district_unreserve(const char *name)
 	return ret;
 }
 
-/*
- * Lookup for the mm_district identified by the given name
- */
 const struct odp_mm_district *odp_mm_district_lookup(const char *name)
 {
 	struct odp_sys_layout *mcfg;
@@ -629,18 +505,15 @@ const struct odp_mm_district *odp_mm_district_lookup(const char *name)
 	return mm_district;
 }
 
-/* Dump all reserved memory zones on console */
 void odp_mm_district_dump(FILE *f)
 {
 	struct odp_sys_layout *mcfg;
 	unsigned i = 0;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
 	odp_rwlock_read_lock(&mcfg->mlock);
 
-	/* dump all zones */
 	for (i = 0; i < ODP_MAX_MM_DISTRICT; i++) {
 		if (!mcfg->mm_district[i].addr)
 			break;
@@ -658,10 +531,6 @@ void odp_mm_district_dump(FILE *f)
 	odp_rwlock_read_unlock(&mcfg->mlock);
 }
 
-/*
- * called by init: modify the free mmfrag list to have cache-aligned
- * addresses and cache-aligned lengths
- */
 static int mmfrag_sanitize(struct odp_mmfrag *mmfrag)
 {
 	unsigned phys_align;
@@ -671,47 +540,34 @@ static int mmfrag_sanitize(struct odp_mmfrag *mmfrag)
 	phys_align = mmfrag->phys_addr & ODP_CACHE_LINE_MASK;
 	virt_align = (unsigned long)mmfrag->addr & ODP_CACHE_LINE_MASK;
 
-	/*
-	 * sanity check: phys_addr and addr must have the same
-	 * alignment
-	 */
 	if (phys_align != virt_align)
 		return -1;
 
-	/* mmfrag is really too small, don't bother with it */
 	if (mmfrag->len < (2 * ODP_CACHE_LINE_SIZE)) {
 		mmfrag->len = 0;
 		return 0;
 	}
 
-	/* align start address */
 	off = (ODP_CACHE_LINE_SIZE - phys_align) & ODP_CACHE_LINE_MASK;
 	mmfrag->phys_addr += off;
 	mmfrag->addr = (char *)mmfrag->addr + off;
 	mmfrag->len -= off;
 
-	/* align end address */
 	mmfrag->len &= ~((uint64_t)ODP_CACHE_LINE_MASK);
 
 	return 0;
 }
 
-/*
- * Init the mm_district subsystem
- */
 int odp_mm_district_init(void)
 {
 	struct odp_sys_layout *mcfg;
 	const struct odp_mmfrag *mmfrag;
 	unsigned i = 0;
 
-	/* get pointer to global configuration */
 	mcfg = odp_get_configuration()->sys_layout;
 
-	/* mirror the runtime mmfrags from config */
 	free_mmfrag = mcfg->free_mmfrag;
 
-	/* secondary processes don't need to initialise anything */
 	if (odp_process_type() == ODP_PROC_SECONDARY)
 		return 0;
 
@@ -723,7 +579,6 @@ int odp_mm_district_init(void)
 
 	odp_rwlock_write_lock(&mcfg->mlock);
 
-	/* fill in uninitialized free_mmfrags */
 	for (i = 0; i < ODP_MAX_MMFRAG; i++) {
 		if (!mmfrag[i].addr)
 			break;
@@ -736,7 +591,6 @@ int odp_mm_district_init(void)
 
 	mcfg->free_frag_idx = i - 1;
 
-	/* make all fragments cache-aligned */
 	for (i = 0; i < ODP_MAX_MMFRAG; i++) {
 		if (!free_mmfrag[i].addr)
 			break;
@@ -748,7 +602,6 @@ int odp_mm_district_init(void)
 		}
 	}
 
-	/* delete all fragments */
 	mcfg->mm_district_idx = 0;
 	memset(mcfg->mm_district, 0, sizeof(mcfg->mm_district));
 
@@ -757,7 +610,6 @@ int odp_mm_district_init(void)
 	return 0;
 }
 
-/* Walk all reserved memory fragments */
 void odp_mm_district_walk(void (*func)(const struct odp_mm_district *, void *),
 			  void *arg)
 {

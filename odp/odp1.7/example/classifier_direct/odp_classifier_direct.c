@@ -26,7 +26,6 @@
 #include <odp/helper/ip.h>
 
 #include "test_debug.h"
-#include "odp_packet_internal.h"
 #include "odp_packet_io_internal.h"
 
 #ifndef PRINT
@@ -84,6 +83,10 @@
 #define PHY_QUEUE_MASK		0x0000FFFF
 
 #define THREAD_PRINT_INFO	32
+
+/* physical queue 0 used as global and default queue */
+#define DEFAULT_OUT_QUEUE	0
+#define GLOBAL_OUT_QUEUE	0
 
 /**
  * Packet input mode
@@ -229,6 +232,8 @@ typedef struct {
 static args_t *gbl_args;
 /** Global barrier to synchronize main and workers */
 static odp_barrier_t barrier;
+
+odp_ticketlock_t clslock;
 
 static void usage(char *progname);
 
@@ -716,6 +721,32 @@ static void configure_cos(odp_pktio_t pktio,
 	}
 }
 
+static inline int packet_classifier_multi(pktio_entry_t *pktio_entry,
+						int queueid,
+						odp_packet_t pkt[], int num,
+						odp_packet_t droped[])
+{
+	odp_packet_hdr_t *pkt_hdr;
+	int i, j;
+
+	if (!pktio_cls_enabled(pktio_entry, queueid)) {
+		PRINT("cls is not create on %dth queue!\n");
+		exit(-1);
+	}
+
+	for (i = 0, j = 0; i < num; i++) {
+		pkt_hdr = odp_packet_hdr(pkt[i]);
+		packet_parse_reset(pkt_hdr);
+		packet_parse_l2(pkt_hdr);
+		if (0 > _odp_packet_classifier(pktio_entry,
+					       queueid, pkt[i])) {
+			droped[j++] = pkt[i];
+		}
+	}
+
+	return j;
+}
+
 /**
  * Swap eth src<->dst and IP src<->dst addresses
  *
@@ -953,6 +984,85 @@ static inline void fill_eth_addrs(odp_packet_t pkt_tbl[],
 	}
 }
 
+int cls_send_queue_lock(odp_pktout_queue_t queue, odp_packet_t packets[],
+			 int num)
+{
+	int pkts;
+
+	odp_ticketlock_lock(&clslock);
+	pkts = odp_pktio_send_queue(queue, packets, num);
+	odp_ticketlock_unlock(&clslock);
+	return pkts;
+}
+
+static void *worker_thread_lock(void *arg)
+{
+	int thr;
+	odp_packet_t pkt_tbl[MAX_CACHE_PKT_BURST];
+	odp_queue_t q_handle;
+	odp_event_t event_tbl[MAX_PKT_BURST];
+	global_statistics *stats;
+	odp_pktout_queue_t pktout;
+	thread_args_t *thr_args = arg;
+	int phyid = thr_args->phy_queue_id;
+	int sftid = thr_args->sft_queue_id;
+	int events;
+	int idxb;
+
+	thr = odp_thread_id();
+
+	stats = &gbl_args->appl.stats[phyid][sftid];
+	q_handle = stats->queue;
+
+	phyid = (phyid == GLOBAL_CLS_ID) ?
+		(thr_args->global_queue_id) : (phyid);
+	pktout.pktio = gbl_args->pktios[0].pktio;
+	pktout.index = phyid;
+
+	printf("thread[%02i] phy que[%i], sft que[%i], %s.\n",
+	       thr, phyid, sftid, thr_args->threadinfo);
+	odp_barrier_wait(&barrier);
+
+	/* Loop packets */
+	while (!exit_threads) {
+		int sent;
+		unsigned tx_drops;
+		int i;
+
+		events = odp_queue_deq_multi(q_handle,
+					     event_tbl, MAX_PKT_BURST);
+		if (odp_unlikely(events <= 0))
+			continue;
+
+		for (i = 0; i < events; ++i) {
+			if (odp_event_type(event_tbl[i]) == ODP_EVENT_PACKET) {
+				pkt_tbl[i] =
+					odp_packet_from_event(event_tbl[i]);
+			}
+		}
+
+		swap_pkt_addrs(pkt_tbl, events);
+		stats->queue_pkt_count += events;
+
+		sent = cls_send_queue_lock(pktout, pkt_tbl, events);
+		sent = odp_unlikely(sent < 0) ? 0 : sent;
+		tx_drops = events - sent;
+
+		if (odp_unlikely(tx_drops)) {
+			/* Drop rejected packets */
+			stats->queue_drop_count += tx_drops;
+			odp_packet_free_multi(&pkt_tbl[sent], tx_drops);
+		}
+	}
+
+	/* Make sure that latest stat writes are visible to other threads */
+	odp_mb_full();
+
+	return NULL;
+}
+
+
+
 /**
  * Packet IO worker thread accessing IO resources directly
  *
@@ -1013,6 +1123,7 @@ static void *worker_thread(void *arg)
 
 		if (odp_unlikely(tx_drops)) {
 			/* Drop rejected packets */
+			stats->queue_drop_count += tx_drops;
 			odp_packet_free_multi(&pkt_tbl[sent], tx_drops);
 		}
 	}
@@ -1027,11 +1138,13 @@ static void *classifier_thread(void *arg)
 {
 	int thr;
 	odp_packet_t pkt_tbl[MAX_PKT_BURST];
+	odp_packet_t pkt_drp[MAX_PKT_BURST];
 	odp_pktin_queue_t pktin;
 	int pkts;
 	global_statistics *stats;
 	thread_args_t *thr_args = arg;
 	int phyid = thr_args->phy_queue_id;
+	 pktio_entry_t *entry;
 
 	stats = &gbl_args->appl.stats[phyid][0];
 	thr = odp_thread_id();
@@ -1041,6 +1154,7 @@ static void *classifier_thread(void *arg)
 
 	pktin.pktio = gbl_args->pktios[0].pktio;
 	pktin.index = phyid;
+	entry = get_pktio_entry(pktin.pktio);
 
 	/* Loop packets and classify */
 	while (!exit_threads) {
@@ -1048,9 +1162,14 @@ static void *classifier_thread(void *arg)
 		if (odp_unlikely(pkts <= 0))
 			continue;
 
+		pkts = packet_classifier_multi(entry, phyid,
+					       pkt_tbl, pkts, pkt_drp);
+
 		/* classify failed */
-		stats->queue_drop_count += pkts;
-		odp_packet_free_multi(pkt_tbl, pkts);
+		if (pkts) {
+			stats->queue_drop_count += pkts;
+			odp_packet_free_multi(pkt_drp, pkts);
+		}
 	}
 }
 
@@ -1068,10 +1187,6 @@ static void *queue_run_derict_mode(void *arg)
 	appl_args_t *app;
 	int i;
 
-	thr = odp_thread_id();
-	printf("thread[%02i] %s.\n", thr, thr_args->threadinfo);
-	odp_barrier_wait(&barrier);
-
 	own_queue_count = bit_count(queue_mask);
 	if ((own_queue_count > MAX_PHY_QUEUE) || (own_queue_count == 0)) {
 		LOG_ERR("physical queue mask invalid! bit count = %d\n",
@@ -1082,6 +1197,15 @@ static void *queue_run_derict_mode(void *arg)
 	memset(queue_id, 0, sizeof(int) * MAX_PHY_QUEUE);
 	for (i = 0; i < own_queue_count; i++)
 		queue_id[i] = bit_offset(queue_mask, i + 1);
+
+	printf("print direct queue\n");
+	for (i = 0; i < own_queue_count; i++)
+		printf(" %d,", queue_id[i]);
+	printf("\n");
+
+	thr = odp_thread_id();
+	printf("thread[%02i] %s.\n", thr, thr_args->threadinfo);
+	odp_barrier_wait(&barrier);
 
 	pktin.pktio = gbl_args->pktios[0].pktio;
 	pktin.index = queue_id[0];
@@ -1968,7 +2092,7 @@ int main(int argc, char *argv[])
 
 	/* configure default Cos */
 	/* the first phy queue used for default queue */
-	phyqidx = bit_offset(~phyq_mask & PHY_QUEUE_MASK, 1);
+	phyqidx = DEFAULT_OUT_QUEUE;
 	configure_default_cos(pktio, &gbl_args->appl, phyqidx, pool);
 	bind_queues();
 
@@ -2076,7 +2200,7 @@ int main(int argc, char *argv[])
 				odp_cpumask_set(&thd_mask, cpu);
 				odph_linux_pthread_create(&thread_tbl[i],
 							  &thd_mask,
-							  worker_thread,
+							  worker_thread_lock,
 							  &gbl_args->thread[i],
 							  ODP_THREAD_WORKER);
 				cpu = odp_cpumask_next(&cpumask, cpu);
@@ -2099,14 +2223,13 @@ int main(int argc, char *argv[])
 
 			gbl_args->thread[i].phy_queue_id = phyid;
 			gbl_args->thread[i].sft_queue_id = sftid++;
-			gbl_args->thread[i].global_queue_id =
-				bit_offset(~phyq_mask & PHY_QUEUE_MASK, 3);
+			gbl_args->thread[i].global_queue_id = GLOBAL_OUT_QUEUE;
 			strcpy(gbl_args->thread[i].threadinfo,
 			       "global queue rx thread");
 			odp_cpumask_zero(&thd_mask);
 			odp_cpumask_set(&thd_mask, cpu);
 			odph_linux_pthread_create(&thread_tbl[i], &thd_mask,
-						  worker_thread,
+						  worker_thread_lock,
 						  &gbl_args->thread[i],
 						  ODP_THREAD_WORKER);
 			cpu = odp_cpumask_next(&cpumask, cpu);
@@ -2117,25 +2240,6 @@ int main(int argc, char *argv[])
 		LOG_ERR("created thread %d,num_workers = %d!\n",
 			i, num_workers);
 		exit(-1);
-	}
-
-	for (i = 0; i < num_workers; ++i) {
-		int dst_idx, num_pktio;
-		odp_pktin_queue_t pktin;
-		odp_pktout_queue_t pktout;
-		thread_args_t *thr_args = &gbl_args->thread[i];
-		int k;
-
-		num_pktio = thr_args->num_pktio;
-
-		for (k = 0; k < num_pktio; k++) {
-			dst_idx   = thr_args->pktio[k].tx_idx;
-			pktin     = thr_args->pktio[k].pktin;
-			pktout    = thr_args->pktio[k].pktout;
-
-			printf("cpu idx : %d, pktio idx : %d, pktio in : %d, pktio out : %d\n",
-			       i, k, pktin.pktio, pktout.pktio);
-		}
 	}
 
 	/* Start packet receive and transmit */
