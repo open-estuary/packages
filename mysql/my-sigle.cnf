@@ -35,7 +35,7 @@ binlog_stmt_cache_size=32768
 #innodb
 innodb_data_home_dir=/u01/my3306/data
 innodb_log_group_home_dir=/u01/my3306/data
-innodb_data_file_path = ibdata1:4G;ibdata2:16M:autoextend
+innodb_data_file_path = ibdata1:100M;ibdata2:16M:autoextend
 #innodb_data_file_path = ibdata1:5G;ibdata2:5G:autoextend
 innodb_buffer_pool_instances=4
 innodb_log_files_in_group=2
