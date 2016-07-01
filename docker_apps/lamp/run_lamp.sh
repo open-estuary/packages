@@ -18,8 +18,8 @@ done;
 
 tar -zxf Discuz.tgz
 sed -i "s/192.168.1.246/$ip_addr/g" `grep 192.168.1.246 -rl ./Discuz`
-docker run -d -p 32768:80 -v /usr/local/sbin/lamp/Discuz:/var/www/html openestuary/apache
-docker run -d -p 32769:3306 -v /usr/local/sbin/lamp/mysql_data:/u01/my3306/data openestuary/mysql
+docker run -d -p 32768:80 -v /home/docker_apps/lamp/Discuz:/var/www/html openestuary/apache
+docker run -d -p 32769:3306 -v /home/docker_apps/lamp/mysql_data:/u01/my3306/data openestuary/mysql
 
 sleep 10
 echo "************** Now you can enjoy the web service offered by Docker! **************"

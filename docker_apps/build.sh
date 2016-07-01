@@ -28,8 +28,9 @@ echo "---- $current_dir ----"
 ################################### Add Docker Apps ###############################
 ###################################################################################
 
-sudo cp -rf $current_dir/lamp $ROOTFS/usr/local/sbin
-    
+sudo mkdir -p $ROOTFS/home/docker_apps
+sudo cp -rf $current_dir/lamp $ROOTFS/home/docker_apps
+   
 case $DISTRO in
     Fedora)
         ;;
