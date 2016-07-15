@@ -2,7 +2,7 @@
 #author: fajun yang
 #date: 5/2/2016
 #description: odp-hisi build & install script
-#$1: target platform name
+#$1: target output directory
 #$2: target distributions name
 #$3: target rootfs directory(absolutely)
 #$4: kernel build directory(absolutely)
@@ -10,16 +10,16 @@
 
 ###################### Initialise variables ####################
 
-echo "/packages/docker/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
+echo "/packages/docker/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
 
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
-    echo "Invalid parameter passed. Usage ./docker/build.sh <platform> <distrib> <rootfs> <kernal>"
+    echo "Invalid parameter passed. Usage ./docker/build.sh <outputdir> <distrib> <rootfs> <kernal>"
     exit
 fi
 
 echo "Installing odp package..."
 
-PLATFORM=$1
+OUTPUT_DIR=$1
 DISTRO=$2
 ROOTFS=$3
 KERNEL_BUILD_DIR=$4
@@ -47,28 +47,15 @@ fi
 
 echo "building the odp project..."
 
-if [ x"$PLATFORM" = x"D01" ]; then
-	TARGETARCH="ARM32"
-	BUILDADDR=$ODP_ADDR/odp1.7/platform/linux-hisilicon/build    
-else
-	TARGETARCH="ARM64"
-	BUILDADDR=$ODP_ADDR/odp1.7/platform/linux-hisilicon/build
-fi
+TARGETARCH="ARM64"
+BUILDADDR=$ODP_ADDR/odp1.7/platform/linux-hisilicon/build
 
 if [ x"BUILDTYPE" = x"cross" ]; then
-
-	if [ x"$TARGETARCH" = x"ARM32" ]; then
-		GNU_PREFIX=arm-linux-gnueabi-
-	else
-		GNU_PREFIX=aarch64-linux-gnu-
-	fi
-
+	GNU_PREFIX=aarch64-linux-gnu-
 	echo "when build type is cross, we copy the files to use directly..."
 	# as the cross enviroment is not ok, we do so.
 else
-
 	GNU_PREFIX=
-
 	echo "when build type is native, we copy the files to use directly..."
 	# add the build scriptes to build odp project in later version
 fi

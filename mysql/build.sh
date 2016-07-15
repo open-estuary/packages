@@ -3,7 +3,7 @@
 #date: 30/01/2016
 
 #description: MySQL build & install script
-#$1: target platform name
+#$1: target output directory
 #$2: target distributions name
 #$3: target rootfs directory(absolutely)
 #$4: kernel build directory(absolutely)
@@ -13,10 +13,10 @@
 ###################### Initialise variables ####################
 ###################################################################################
 
-echo "/packages/mysql/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
+echo "/packages/mysql/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
 
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
-    echo "Invalid parameter passed. Usage ./mysql/build.sh <platform> <distrib> <rootfs> <kernal>" 
+    echo "Invalid parameter passed. Usage ./mysql/build.sh <outputdir> <distrib> <rootfs> <kernal>" 
     exit
 fi
 

@@ -2,7 +2,7 @@
 #author: Shameer
 #date: 21/01/2016
 #description: Docker install script
-#$1: target platform name
+#$1: target output directory
 #$2: target distributions name
 #$3: target rootfs directory(absolutely)
 #$4: kernel build directory(absolutely)
@@ -14,14 +14,14 @@
 
 echo "Installing docker package..."
 
-echo "/packages/docker/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
+echo "/packages/docker/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
 
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
-    echo "Invalid parameter passed. Usage ./docker/build.sh <platform> <distrib> <rootfs> <kernal>"
+    echo "Invalid parameter passed. Usage ./docker/build.sh <outputdir> <distrib> <rootfs> <kernal>"
     exit
 fi
 
-PLATFORM=$1
+OUTPUT_DIR=$1
 DISTRO=$2
 ROOTFS=$3
 KERNEL_BUILD_DIR=$4
