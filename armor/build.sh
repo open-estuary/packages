@@ -4,7 +4,7 @@
 #author: Shiju Jose
 #date: 05/11/2015
 #description: Armor build & install script
-#$1: target platform name
+#$1: target output directory
 #$2: target distributions name
 #$3: target rootfs directory(absolutely)
 #$4: kernel build directory(absolutely)
@@ -1260,19 +1260,19 @@ popd
 ###################### Initialise variables ####################
 ###################################################################################
 
-echo "/packages/armor/build.sh: Platform=$1, distro=$2, rootfs=$3, kernel=$4"
+echo "/packages/armor/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
 
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
-    echo "Invalid parameter passed. Usage ./armor/build.sh <platform> <distrib> <rootfs> <kernal>" 
+    echo "Invalid parameter passed. Usage ./armor/build.sh <outputdir> <distrib> <rootfs> <kernal>" 
     exit
 fi
 
-PLATFORM=$1
+OUTPUT_DIR=$1
 DISTRO=$2
 ROOTFS=$3
 
 armor_dir=armor
-build_dir=`pwd`/build/$PLATFORM
+build_dir=`cd $OUTPUT_DIR; pwd`
 armor_build_dir=$build_dir/$armor_dir
 kernel_build_dir=$4
 pkg_dir=`pwd`/packages
@@ -1286,19 +1286,9 @@ LOG_FILE=$armor_build_dir"/armor_build_log"
 ###################################################################################
 # Detect and dertermine some environment variables
 LOCALARCH=`uname -m`
-if [ x"$PLATFORM" = x"D01" ]; then
-    TARGETARCH="ARM32"
-else
-    TARGETARCH="ARM64"
-fi
 
-if [ x"$TARGETARCH" = x"ARM32" ]; then
-    cross_gcc=arm-linux-gnueabihf-gcc
-    cross_prefix=arm-linux-gnueabihf
-else
-    cross_gcc=aarch64-linux-gnu-gcc
-    cross_prefix=aarch64-linux-gnu
-fi
+cross_gcc=aarch64-linux-gnu-gcc
+cross_prefix=aarch64-linux-gnu
 
 ###################################################################################
 ############################# Build Armor Tools #############################
