@@ -16,8 +16,6 @@ install_armor_tools_ubuntu()
     idx=0
     install=`jq -r ".tools[$idx].install" $CFGFILE`
     #echo "install= $install" 
-    # Fix for dpkg -i ... error - syntax error: unknown group 'landscape' in statoverride file
-    sudo sed -i '/landscape/d' $ROOTFS/var/lib/dpkg/statoverride
 
     while [ x"$install" != x"null" ];
     do
@@ -258,8 +256,6 @@ sh build_armor_utility.sh $ROOTFS
 
 cd -
 popd
-    # revert the previously deleted line for landscape user/group in $ROOTFS/var/lib/dpkg/statoverride file
-    sudo sed -i -e "\$aroot landscape 4754 /usr/lib/landscape/apt-update" $ROOTFS/var/lib/dpkg/statoverride
 } #install_armor_tools_ubuntu
 
 install_armor_tools_fedora()
