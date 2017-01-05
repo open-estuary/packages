@@ -1283,8 +1283,12 @@ LOG_FILE=$armor_build_dir"/armor_build_log"
 # Detect and dertermine some environment variables
 LOCALARCH=`uname -m`
 
-cross_gcc=aarch64-linux-gnu-gcc
-cross_prefix=aarch64-linux-gnu
+if [ x"$LOCALARCH" != x"aarch64" ]; then
+	cross_gcc=aarch64-linux-gnu-gcc
+	cross_prefix=aarch64-linux-gnu
+else
+	cross_gcc=gcc
+fi
 
 ###################################################################################
 ############################# Build Armor Tools #############################
