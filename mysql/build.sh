@@ -28,37 +28,7 @@ echo "---- $current_dir ----"
 ###################################################################################
 ################################### Build MySQL ###################################
 ###################################################################################
-LOCALARCH=`uname -m`
-if [ x"$LOCALARCH" = x"x86_64" ]; then
-    exit 1
-fi
 
-if [ x"$LOCALARCH" = x"aarch64" ]; then
-    echo "Installing mysql ..."
-    cd $current_dir/percona-server-5.6.22-72.0
-    cd BUILD
-    sh autorun.sh
-    cd ..
-    sudo apt-get install -y cmake g++
-    echo "finish install cmake"
-    cmake -DCMAKE_INSTALL_PREFIX=/u01/my3306 -DMYSQL_DATADIR=/u01/my3306/data -DMYSQL_USER=mysql -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/u01/my3306/run/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
-    make -j${corenum}
-    sudo make DESTDIR=$ROOTFS install
-    sudo cp $current_dir/my-sigle.cnf  $ROOTFS/etc/my.cnf
-    sudo cp $current_dir/mysql $ROOTFS/etc/init.d
-    
-case $DISTRO in
-    Fedora)
-        ;;
-    OpenSuse)
-        ;;
-    Ubuntu)
-        ;;
-    Debian)
-    ;;
-    esac
-
-    echo "mysql make install finished"
-    exit 0
-fi
+#Not necessary to build MySQL so far because it will be installed from docker images
+echo "MySQL will be installed through docker image later"
 

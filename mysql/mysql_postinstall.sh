@@ -1,6 +1,6 @@
 #!/bin/bash
-#author: Bowen Liu
-#date: 14/02/2016
+#author: Huang Jinhua
+#date: 01/05/2017
 #description: postinstall scripts for mysql
 
 Distribution=`sed -n 1p /etc/issue| cut -d' ' -f 1`
@@ -11,37 +11,28 @@ if [ "$Distribution1" = 'openSUSE' ]; then
 fi
 
 echo "Installing Mysql on $Distribution..."
-    
-case "$Distribution" in
-    Fedora)
-        ;;
-    openSUSE)
-        ;;
-    Ubuntu)
-        ;;
-    Debian)
-    ;;
-    esac
-    
-mysql_path="/u01"
-if [ -d "$mysql_path" ]; then
-    groupadd mysql
-    useradd -g mysql mysql
-    cd ..
-    mkdir /u01/mysql
-    cp -rf /u01/my3306/share /u01/mysql
-    mkdir /u01/my3306/tmp
-    mkdir /u01/my3306/log
-    mkdir /u01/my3306/run
-    cd /u01
-    chown -R mysql.root ./
-    cd /u01/my3306
-    scripts/mysql_install_db --basedir=/u01/my3306 --datadir=/u01/my3306/data --user=mysql
-    /u01/my3306/bin/mysqld_safe --defaults-file=/etc/my.cnf --basedir=/u01/my3306 --datadir=/u01/my3306/data &
-    export PATH=/u01/my3306/bin:$PATH
-    echo "export PATH=/u01/my3306/bin:$PATH">>/etc/profile
-    systemctl enable mysql
-    echo "mysql install finished successfully"
-else
-    echo "WARNING:mysql should be made from aarch64!"
+
+#Step 1: Install docker firstly
+if [ -z "$(which docker > /dev/null)" ]; then
+    INSTALL_CMD=""
+    if [ ! -z "$(which yum > /dev/null)" ] ; then
+        INSTALL_CMD="yum"
+    elif [ ! -z "$(which apt-get > /dev/null)" ] ; then
+        INSTALL_CMD="apt-get"
+    else 
+        echo "Not know how to install docker ..."
+        exit 0
+    fi
+    ${INSTALL_CMD} install -y -q docker
 fi
+
+#Step 2: Start docker service
+if [ -z "$(ps -aux | grep docker | grep -v grep)" ] ; then
+    service docker start
+fi
+
+#Step 3: Try to pull latest mysql docker image
+if [ -z "$(docker images | grep openestuary/mysql | grep -v grep)"] ; then
+    docker pull openestuary/mysql
+fi
+
