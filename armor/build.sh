@@ -98,7 +98,7 @@ install_armor_tools_ubuntu()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir
+                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -337,7 +337,7 @@ install_armor_tools_fedora()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir
+                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -578,7 +578,7 @@ install_armor_tools_opensuse()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir
+                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -830,7 +830,7 @@ install_armor_tools_debian()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir
+                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -1090,7 +1090,7 @@ install_armor_tools_centos()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir
+                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
