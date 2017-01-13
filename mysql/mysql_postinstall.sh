@@ -14,7 +14,7 @@ if [ -z "$(which docker 2>/dev/null)" ]; then
         echo "Not know how to install docker ..."
         exit 0
     fi
-    ${INSTALL_CMD} install -y -q docker
+    ${INSTALL_CMD} install -y -q docker docker.io
 fi
 
 #Step 2: Start docker service
