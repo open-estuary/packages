@@ -3,6 +3,10 @@
 #date: 01/05/2017
 #description: postinstall scripts for mysql
 
+#In the future, it is not necessary to install docker images automatically 
+#So just return zero directly 
+exit 0
+
 #Step 1: Install docker firstly
 if [ -z "$(which docker 2>/dev/null)" ]; then
     INSTALL_CMD=""
