@@ -12,53 +12,38 @@
 ###################### Initialise variables ####################
 ###################################################################################
 
-echo "Installing docker package..."
-
-echo "/packages/docker/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
-
-if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
-    echo "Invalid parameter passed. Usage ./docker/build.sh <outputdir> <distrib> <rootfs> <kernal>"
-    exit
-fi
-
-OUTPUT_DIR=$1
-DISTRO=$2
-ROOTFS=$3
-KERNEL_BUILD_DIR=$4
 docker_dir=`pwd`/packages/docker
+
+BUILDDIR=$(cd $1; pwd)
+DISTRO=$2
+ROOTFS=$(cd $3; pwd)
+KERNEL_DIR=$(cd $4; pwd)
+CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform   
+PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
+PACK_SAVE_DIR=$(cd $7; pwd) #
+INSTALL_DIR=$(cd $8; pwd)
 
 ###################################################################################
 ############################# Install Docker #############################
 ###################################################################################
+if [ ! -d ${BUILDDIR}/tar ] ; then
+    sudo mkdir ${BUILDDIR}/tar
+fi
 
+pushd ${BUILDDIR}/tar
+sudo cp ${docker_dir}/setup.sh ./
+sudo cp ${docker_dir}/start.sh ./
+if [ "${DISTRO}" == "Debian" ] ; then
+    sudo cp ${docker_dir}/binary/*.gz ./
+    sudo tar -zcf ${BUILDDIR}/docker.tar.gz ./
+else 
+#It could use apt-get/yum to install docker directly on other platforms
+#So just pack its setup.sh 
+    
+    sudo tar -zcf ${BUILDDIR}/docker.tar.gz setup.sh start.sh
+fi
+popd > /dev/null
 
-# copy prebuilt binaries to the rootfs and untar
-
-sudo cp $docker_dir/binary/*.gz   $ROOTFS/
-pushd $ROOTFS/
-sudo tar xvf docker*.gz -C $ROOTFS/
-sudo rm docker*.gz
-
-#Create the libdevmapper sym link used by docker for distros
-case $DISTRO in
-    Fedora)
-        cd lib64
-        sudo ln -s libdevmapper.so.1.02 libdevmapper.so.1.02.1
-        cd -
-        ;;
-    CentOS|OpenSuse)
-        cd lib64
-        sudo ln -s libdevmapper.so.1.02 libdevmapper.so.1.02.1
-        cd -
-        ;;
-    Ubuntu)
-        ;;
-    Debian)
-    ;;
-    esac
-
-popd
-
-echo "Installing docker package done."
-
+sudo cp ${BUILDDIR}/docker.tar.gz ${PACK_SAVE_DIR}/
 exit 0
+

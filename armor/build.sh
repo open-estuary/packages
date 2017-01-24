@@ -1267,10 +1267,16 @@ OUTPUT_DIR=$1
 DISTRO=$2
 ROOTFS=$3
 
+KERNEL_DIR=$(cd $4; pwd)
+CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform
+PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
+PACK_SAVE_DIR=$(cd $7; pwd) #
+INSTALL_DIR=$(cd $8; pwd)
+
 armor_dir=armor
 build_dir=`cd $OUTPUT_DIR; pwd`
-armor_build_dir=$build_dir/$armor_dir
-kernel_build_dir=$4
+armor_build_dir=$build_dir
+kernel_build_dir=${KERNEL_DIR}
 pkg_dir=`pwd`/packages
 LOG_FILE=$armor_build_dir"/armor_build_log"
 
@@ -1360,6 +1366,14 @@ case $DISTRO in
     esac
 
 sudo cp -rf $armor_dir/testing/test_scripts   $ROOTFS/usr/local/armor/
+
+if [ x"${PACK_TYPE}" == x"tar" ] || [ x"${PACK_TYPE}" == x"all" ] ; then
+    #Generate the corresponding files under the specifed directory
+    pushd ${pkg_dir}/armor
+    sudo tar -czvf ${build_dir}/armor.tar.gz setup.sh remove.sh
+    popd > /dev/null
+    sudo cp ${build_dir}/armor.tar.gz ${PACK_SAVE_DIR}/
+fi
 
 exit 0
 

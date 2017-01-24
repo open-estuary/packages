@@ -12,7 +12,7 @@
 
 echo "/packages/docker/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
 
-if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
+if [ "$1" = OUTPUT_DIR'' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
     echo "Invalid parameter passed. Usage ./docker/build.sh <outputdir> <distrib> <rootfs> <kernal>"
     exit
 fi
@@ -23,6 +23,11 @@ OUTPUT_DIR=$1
 DISTRO=$2
 ROOTFS=$3
 KERNEL_BUILD_DIR=$4
+CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform
+PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
+PACK_SAVE_DIR=$(cd $7; pwd) #
+INSTALL_DIR=$(cd $8; pwd)
+
 ODP_ADDR=`pwd`/packages/odp
 
 ############################# build odp  #####################
@@ -76,6 +81,14 @@ fi
 sudo cp $BUILDADDR/objs/drv/*.so $ROOTFS/usr/lib/odp
 echo "copy odp libs to $ROOTFS/usr/lib/..."
 sudo cp $BUILDADDR/objs/lib/*.so $ROOTFS/usr/lib/
+
+if [ x"${PACK_TYPE}" == x"tar" ] || [ x"${PACK_TYPE}" == x"all" ] ; then
+    #Generate the corresponding files under the specifed directory
+    pushd ${ODP_ADDR}
+    sudo tar -czvf ${OUTPUT_DIR}/odp.tar.gz setup.sh remove.sh
+    popd > /dev/null
+    sudo cp ${OUTPUT_DIR}/odp.tar.gz ${PACK_SAVE_DIR}/
+fi
 
 echo "odp drive and app copy finished!"
 echo "odp build finished!"

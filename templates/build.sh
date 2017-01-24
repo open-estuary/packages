@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #################################################################################
-# Comment: Estuary Docker APP Application Build.sh 
+# Comment: Estuary Application Build.sh Template
 # Author: Huang Jinhua
 # Date : 2017/01/22
 #################################################################################
@@ -17,8 +17,8 @@ PACK_SAVE_DIR=$(cd $7; pwd) #
 INSTALL_DIR=$(cd $8; pwd) 
 
 
-PACKAGE_DIR=`pwd`/packages/
-CUR_PKG="docker_apps"
+PACKAGE_DIR=`pwd`/packages
+CUR_PKG="template"
 VERSION="1.0"
 
 #
@@ -48,9 +48,9 @@ fi
 
 if [ x"${PACK_TYPE}" == x"all" ] || [ x"${PACK_TYPE}" == x"tar" ] ; then
     pushd ${BUILDDIR}/tar
-    sudo cp ${PACKAGE_DIR}/${CUR_PKG}/setup.sh ./
-    sudo cp ${PACKAGE_DIR}/${CUR_PKG}/remove.sh ./
-    sudo cp -fr ${PACKAGE_DIR}/${CUR_PKG}/lamp ./
+    cp ${PACKAGE_DIR}/${CUR_PKG}/setup.sh ./
+    cp ${PACKAGE_DIR}/${CUR_PKG}/remove.sh ./
+    #cp other files to ./
     tar -czvf ../${CUR_PKG}-${VERSION}.tar.gz ./
     popd > /dev/null
     
