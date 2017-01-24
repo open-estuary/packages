@@ -12,7 +12,6 @@ docker run -p 3306:3306 --name mysql -d openestuary/mysql:latest
 #docker port mysql
 #
 
-
 #
 #Mode 2: Use host's directory, whichi is speicifed by "/host/datadir", to store data
 #docker run -p 3306:3306 -v /host/datadir:/u01/my3306/data -d openestuary/mysql:latest

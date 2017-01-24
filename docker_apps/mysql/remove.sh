@@ -1,7 +1,7 @@
 #!/bin/bash
 #author: Huang Jinhua
 #date: 01/05/2017
-#description: To start remove docker container and images
+#description: To remove docker container and images
 
 #Step 1: Make sure docker has started 
 if [ -z "$(ps -aux | grep docker | grep -v grep)" ] ; then
