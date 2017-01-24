@@ -58,10 +58,9 @@ export PATH=$TOPDIR:$TOPDIR/include:$TOPDIR/submodules:$TOPDIR/deploy:$PATH
 # Define necessary variables
 #################################################################################
 PACKAGE_DIR=$(cd ./packages; pwd)
-BUILDDIR="./workspace"
 DISTRO="CentOS"
-ROOTFS="./workspace/distro/CentOS"
-KERNEL_DIR="./workspace/kernel"
+ROOTFS=
+KERNEL_DIR=
 CROSS="aarch64-linux-gnu-"
 CFG_FILE=""
 DEBUG_ON=0
@@ -74,16 +73,17 @@ while test $# != 0
 do
     case $1 in
         --*=*) ac_option=`expr "X$1" : 'X\([^=]*\)='` ; ac_optarg=`expr "X$1" : 'X[^=]*=\(.*\)'` ;;
+        -*) ac_option=$1 ; ac_optarg=$2; ac_shift=shift ;;
         *) ac_option=$1 ;;
     esac
     case $ac_option in
-        --output) BUILDDIR=$ac_optarg ;;
-        --builddir) BUILDDIR=$ac_optarg ;;
-        --distro) DISTRO=$ac_optarg ;;
-        --rootfs) ROOTFS=$ac_optarg ;;
-        --kernel) KERNEL_DIR=$ac_optarg ;;
-        --cross) CROSS=$ac_optarg ;;
-        --file) CFG_FILE=$ac_optarg ;;
+        -o | --output) BUILDDIR=$ac_optarg ;;
+        -b | --builddir) BUILDDIR=$ac_optarg ;;
+        -d | --distro) DISTRO=$ac_optarg ;;
+        -r | --rootfs) ROOTFS=$ac_optarg ;;
+        -k | --kernel) KERNEL_DIR=$ac_optarg ;;
+        -c | --cross) CROSS=$ac_optarg ;;
+        -f | --file) CFG_FILE=$ac_optarg ;;
         --debug) DEBUG_ON=1 ;;
         --help) build_packages_usage; exit 1 ;;
     esac
@@ -91,9 +91,7 @@ do
     shift
 done
 
-if [ -z "${BUILDDIR}" ] ; then
-    BUILDDIR="./workspace"
-fi  
+BUILDDIR=${BUILDDIR:-build}  
 
 if [ -z "${DISTRO}" ] ; then
     DISTRO="CentOS"
