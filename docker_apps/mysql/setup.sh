@@ -2,7 +2,7 @@
 #author: Huang Jinhua
 #date: 01/05/2017
 
-echo "Try to install Percona Server docker image ..."
+echo "Try to pull Percona Server docker image ..."
 
 #Step 1: Install docker firstly
 if [ -z "$(which docker 2>/dev/null)" ]; then
