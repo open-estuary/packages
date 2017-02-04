@@ -25,7 +25,7 @@ fi
 
 #Step 3: Try to pull latest mysql docker image
 if [ -z "$(docker images | grep 'openestuary/mysql' | grep -v grep)" ]  ; then
-    docker pull openestuary/mysql
+    docker pull openestuary/mysql:5.6.22
 else 
     echo "MySql docker image has been pulled"
 fi
