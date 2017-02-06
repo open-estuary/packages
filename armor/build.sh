@@ -3,14 +3,16 @@
 #date: 31/10/2015
 #author: Shiju Jose
 #date: 05/11/2015
-#description: Armor build & install script
+#author: Huang Jinhua
+#date: 02/04/2017
+#description: Armor build script
 #$1: target output directory
 #$2: target distributions name
 #$3: target rootfs directory(absolutely)
 #$4: kernel build directory(absolutely)
 #return: 0: build success, other: failed
 
-install_armor_tools_ubuntu()
+build_armor_tools_ubuntu()
 {
     echo "CFGFILE = $CFGFILE"
     idx=0
@@ -29,7 +31,7 @@ install_armor_tools_ubuntu()
                     #supported run time installation on board. 
                 ;;
                 "crash")
-                    sudo cp $armor_dir/binary/crash   $ROOTFS/usr/bin
+                    sudo cp $armor_dir/binary/crash   $armor_result_dir/bin/
                     #default installed. 
                 ;;
                 "dmidecode")
@@ -37,11 +39,11 @@ install_armor_tools_ubuntu()
                     # build demidecode
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_dmidecode.sh $cross_gcc $ROOTFS
+                    sh build_dmidecode.sh $cross_gcc $armor_result_dir
                     cd -
                     popd
                     # copy demidecode to rootfs
-                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
+                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $armor_result_dir/bin
                 ;;
                 "dstat")
                     #supported run time installation on board. 
@@ -56,20 +58,14 @@ install_armor_tools_ubuntu()
                     #default installed. 
                 ;;
                 "gdb")
-                    pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libpython3.4_3.4.3-3_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libc6-dbg_2.21-0ubuntu4_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libc6-dev_2.21-0ubuntu4_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/gdbserver_7.9-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/gdb_7.9-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    popd     
+                    #could be installed via apt-get  
                 ;;
                 "gprof")
                     #default installed. 
                     # build gprof test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_gprof_test.sh $ROOTFS
+                    sh build_gprof_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -77,10 +73,7 @@ install_armor_tools_ubuntu()
                     #default installed. 
                 ;;
                 "iostat")
-                    pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libsensors4_1%3a3.3.5-2_arm64.deb >> $LOG_FILE 2>&1   
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/sysstat_11.0.1-1_arm64.deb >> $LOG_FILE 2>&1
-                    popd     
+                    #could be installed via 'apt-get install sysstat' 
                 ;;
                 "iotop")
                     #supported run time installation on board. 
@@ -98,18 +91,18 @@ install_armor_tools_ubuntu()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
+                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $armor_result_dir/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $armor_result_dir/test_scripts
                 ;;
                 "ktap")
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $ROOTFS
+                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -133,7 +126,7 @@ install_armor_tools_ubuntu()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -159,32 +152,16 @@ install_armor_tools_ubuntu()
                     # build packeth cli(command line) tool code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_packETHcli.sh $ROOTFS
+                    sh build_packETHcli.sh $armor_result_dir
                     cd -
                     popd
                 ;;
                 "perf")
                     # copy prebuilt perf and dependent binaries to the rootfs and extract
-                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
-                    pushd $ROOTFS
-                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
-                    sudo tar xvf libbz2*.gz -C $ROOTFS/
-                    sudo tar xvf libdw1*.gz -C $ROOTFS/
-                    sudo tar xvf libperl*.gz -C $ROOTFS/
-                    sudo tar xvf perf*.gz -C $ROOTFS/
-                    sudo rm binutils_linaro*.gz 
-                    sudo rm libbz2*.gz 
-                    sudo rm libdw1*.gz 
-                    sudo rm libperl*.gz 
-                    sudo rm libelf1*.gz
-                    sudo rm perf*.gz 
-                    popd
+                    sudo cp $armor_build_dir/binary/perf/*.gz   ${armor_result_dir}/packages/
                 ;;
                 "pidstat")
-                    pushd $ROOTFS
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/libsensors4_1%3a3.3.5-2_arm64.deb >> $LOG_FILE 2>&1   
-                    sudo dpkg --force-all --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/sysstat_11.0.1-1_arm64.deb >> $LOG_FILE 2>&1 
-                    popd     
+                    # could be installed via "apt-get install sysstat"
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -220,9 +197,7 @@ install_armor_tools_ubuntu()
                     #default installed. 
                 ;;
                 "tiptop")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/ubuntu/tiptop-2.3_arm64.deb >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "apt-get install tiptop"
                 ;;
                 "top")
                     #default installed. 
@@ -232,7 +207,7 @@ install_armor_tools_ubuntu()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $ROOTFS
+                    sh build_valgrind_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -252,13 +227,13 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $ROOTFS
+sh build_armor_utility.sh $armor_result_dir
 
 cd -
 popd
-} #install_armor_tools_ubuntu
+} #build_armor_tools_ubuntu
 
-install_armor_tools_fedora()
+build_armor_tools_fedora()
 {
     #echo "CFGFILE = $CFGFILE"
     idx=0
@@ -283,11 +258,11 @@ install_armor_tools_fedora()
                     # build demidecode
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_dmidecode.sh $cross_gcc $ROOTFS
+                    sh build_dmidecode.sh $cross_gcc $armor_result_dir
                     cd -
                     popd
                     # copy demidecode to rootfs
-                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
+                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $armor_result_dir/bin
                 ;;
                 "dstat")
                     #supported run time installation on board. 
@@ -296,9 +271,8 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "ethtool")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/ethtool-3.18-1.fc22.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #Ethtool need to be improved later
+                    #sudo cp $armor_dir/binary/fedora/ethtool*.rpm ${armor_result_dir}/packages
                 ;;
                 "ftrace")
                     #default installed. 
@@ -316,9 +290,7 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "iostat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/sysstat-11.1.2-3.fc22.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install sysstat" 
                 ;;
                 "iotop")
                     #supported run time installation on board. 
@@ -337,18 +309,18 @@ install_armor_tools_fedora()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
+                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $armor_result_dir/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $armor_result_dir/test_scripts
                 ;;
                 "ktap")
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $ROOTFS
+                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -371,7 +343,7 @@ install_armor_tools_fedora()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -397,31 +369,16 @@ install_armor_tools_fedora()
                     # build packeth cli(command line) tool code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_packETHcli.sh $ROOTFS
+                    sh build_packETHcli.sh $armor_result_dir
                     cd -
                     popd
                 ;;
                 "perf")
                     # copy prebuilt perf and dependent binaries to the rootfs and extract
-                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
-                    pushd $ROOTFS
-                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
-                    sudo tar xvf libbz2*.gz -C $ROOTFS/
-                    sudo tar xvf libdw1*.gz -C $ROOTFS/
-                    sudo tar xvf libperl*.gz -C $ROOTFS/
-                    sudo tar xvf perf*.gz -C $ROOTFS/
-                    sudo rm binutils_linaro*.gz
-                    sudo rm libbz2*.gz
-                    sudo rm libdw1*.gz
-                    sudo rm libperl*.gz
-                    sudo rm libelf1*.gz
-                    sudo rm perf*.gz
-                    popd
+                    sudo cp $armor_dir/binary/perf/*.gz   $armor_result_dir/packages
                 ;;
                 "pidstat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/sysstat-11.1.2-3.fc22.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    # could be installed via "yum install sysstat" 
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -454,9 +411,7 @@ install_armor_tools_fedora()
                     #default installed. 
                 ;;
                 "tcpdump")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/fedora/tcpdump-4.7.4-2.fc22.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install" directly 
                 ;;
                 "tiptop")
                     #supported run time installation on board. 
@@ -469,7 +424,7 @@ install_armor_tools_fedora()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $ROOTFS
+                    sh build_valgrind_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -488,13 +443,13 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $ROOTFS
+sh build_armor_utility.sh $armor_result_dir
 
 cd -
 popd
-} #install_armor_tools_fedora
+} #build_armor_tools_fedora
 
-install_armor_tools_opensuse()
+build_armor_tools_opensuse()
 {
     #echo "CFGFILE = $CFGFILE"
     idx=0
@@ -512,7 +467,7 @@ install_armor_tools_opensuse()
                     #supported run time installation on board. 
                 ;;
                 "crash")
-                    sudo cp $armor_dir/binary/crash   $ROOTFS/usr/bin
+                    sudo cp $armor_dir/binary/crash   $armor_result_dir/bin
                     #default installed. 
                 ;;
                 "dmidecode")
@@ -520,11 +475,11 @@ install_armor_tools_opensuse()
                     # build demidecode
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_dmidecode.sh $cross_gcc $ROOTFS
+                    sh build_dmidecode.sh $cross_gcc $armor_result_dir
                     cd -
                     popd
                     # copy demidecode to rootfs
-                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
+                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $armor_result_dir/bin
                 ;;
                 "dstat")
                     #supported run time installation on board. 
@@ -549,7 +504,7 @@ install_armor_tools_opensuse()
                     # build gprof test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_gprof_test.sh $ROOTFS
+                    sh build_gprof_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -557,9 +512,7 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "iostat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/pcp-import-iostat2pcp-3.10.4-1.8.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed directly via "yum instal pcp-import-iostat"
                 ;;
                 "iotop")
                     #supported run time installation on board. 
@@ -578,18 +531,18 @@ install_armor_tools_opensuse()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
+                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $armor_result_dir/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $armor_result_dir/test_scripts
                 ;;
                 "ktap")
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $ROOTFS
+                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -597,9 +550,7 @@ install_armor_tools_opensuse()
                     #supported run time installation on board. 
                 ;;
                 "lldptool")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/lldpad-1.0.1-0.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install" directly
                 ;;
                 "lscpu")
                     #default installed. 
@@ -608,15 +559,13 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "ltrace")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/ltrace-0.7.91-1.3.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install" directly
                 ;;
                 "lttng")
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -630,9 +579,7 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "netstat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/nicstat-1.95-0.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install nicstat" directly 
                 ;;
                 "nicstat")
                     #supported run time installation on board.    
@@ -644,31 +591,16 @@ install_armor_tools_opensuse()
                     # build packeth cli(command line) tool code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_packETHcli.sh $ROOTFS
+                    sh build_packETHcli.sh $armor_result_dir
                     cd -
                     popd
                 ;;
                 "perf")
                     # copy prebuilt perf and dependent binaries to the rootfs and extract
-                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
-                    pushd $ROOTFS
-                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
-                    sudo tar xvf libbz2*.gz -C $ROOTFS/
-                    sudo tar xvf libdw1*.gz -C $ROOTFS/
-                    sudo tar xvf libperl*.gz -C $ROOTFS/
-                    sudo tar xvf perf*.gz -C $ROOTFS/
-                    sudo rm binutils_linaro*.gz
-                    sudo rm libbz2*.gz
-                    sudo rm libdw1*.gz
-                    sudo rm libperl*.gz
-                    sudo rm libelf1*.gz
-                    sudo rm perf*.gz
-                    popd
+                    sudo cp $armor_dir/binary/perf/*.gz   $armor_result_dir/packages
                 ;;
                 "pidstat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/sysstat-11.0.8-1.1.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    # could be installed via "yum install" directly
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -689,9 +621,7 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "strace")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/strace-4.11-1.1.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install" directly
                 ;;
                 "swapon")
                     #default installed. 
@@ -706,9 +636,7 @@ install_armor_tools_opensuse()
                     #default installed. 
                 ;;
                 "tiptop")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/opensuse/tiptop-2.3-0.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install" directly 
                 ;;
                 "top")
                     #default installed. 
@@ -718,7 +646,7 @@ install_armor_tools_opensuse()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $ROOTFS
+                    sh build_valgrind_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -737,14 +665,14 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $ROOTFS
+sh build_armor_utility.sh $armor_result_dir
 
 cd -
 popd
-} #install_armor_tools_opensuse
+} #build_armor_tools_opensuse
 
 
-install_armor_tools_debian()
+build_armor_tools_debian()
 {
     #echo "CFGFILE = $CFGFILE"
     idx=0
@@ -762,7 +690,7 @@ install_armor_tools_debian()
                     #supported run time installation on board. 
                 ;;
                 "crash")
-                    sudo cp $armor_dir/binary/crash   $ROOTFS/usr/bin
+                    sudo cp $armor_dir/binary/crash   $armor_result_dir/bin
                     #default installed. 
                 ;;
                 "dmidecode")
@@ -770,11 +698,11 @@ install_armor_tools_debian()
                     # build demidecode
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_dmidecode.sh $cross_gcc $ROOTFS
+                    sh build_dmidecode.sh $cross_gcc $armor_result_dir
                     cd -
                     popd
                     # copy demidecode to rootfs
-                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
+                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $armor_result_dir/bin
                 ;;
                 "dstat")
                     #supported run time installation on board. 
@@ -783,9 +711,7 @@ install_armor_tools_debian()
                     #default installed. 
                 ;;                
                 "ethtool")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/ethtool_1%3a3.16-1_arm64.deb  >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "apt-get install" directly
                 ;;
                 "ftrace")
                     #default installed. 
@@ -801,7 +727,7 @@ install_armor_tools_debian()
                     # build gprof test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_gprof_test.sh $ROOTFS
+                    sh build_gprof_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -815,9 +741,7 @@ install_armor_tools_debian()
                     #supported run time installation on board. 
                 ;;
                 "iptables")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/iptables_1.4.21-2+b1_arm64.deb >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "apt-get install" directly
                 ;;
                 "kdb")
                     #default installed. 
@@ -830,18 +754,18 @@ install_armor_tools_debian()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
+                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $armor_result_dir/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $armor_result_dir/test_scripts
                 ;;
                 "ktap")
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $ROOTFS
+                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -855,25 +779,19 @@ install_armor_tools_debian()
                     #default installed. 
                 ;;
                 "lspci")
-                    #default installed. 
+                    #default installed.
+                    sudo cp $armor_dir/binary/lspci    ${armor_result_dir}/bin
                 ;;
                 "ltrace")
-                    #default installed.    
+                    sudo cp $armor_dir/binary/ltrace   ${armor_result_dir}/bin
                 ;;
                 "lttng")
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
-                    #pushd $ROOTFS
-                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liburcu2_0.8.5-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ctl0_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust-ctl2_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
-                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/lttng-tools_2.5.2-1ubuntu1_arm64.deb >> $LOG_FILE 2>&1
-                    #sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/liblttng-ust0_2.5.1-1ubuntu2_arm64.deb >> $LOG_FILE 2>&1
-                    #popd
                 ;;
                 "memwatch")
                     #memwatch to be integrated to the code to be tested. 
@@ -891,48 +809,22 @@ install_armor_tools_debian()
                     #supported run time installation on board. 
                 ;;
                 "oprofile")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libopagent1_1.0.0-0ubuntu9_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/oprofile_1.0.0-0ubuntu9_arm64.deb >> $LOG_FILE 2>&1 
-                    popd
+                    #could be installed via "apt-get install" directly
                 ;;
                 "packETHcli")
                     # build packeth cli(command line) tool code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_packETHcli.sh $ROOTFS
+                    sh build_packETHcli.sh $armor_result_dir
                     cd -
                     popd
                 ;;
                 "perf")
                     # copy prebuilt perf and dependent binaries to the rootfs and extract
-                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
-                    pushd $ROOTFS
-                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
-                    sudo tar xvf libbz2*.gz -C $ROOTFS/
-                    sudo tar xvf libdw1*.gz -C $ROOTFS/
-                    sudo tar xvf libperl*.gz -C $ROOTFS/
-                    sudo tar xvf libelf1*.gz -C $ROOTFS/
-                    sudo tar xvf perf*.gz -C $ROOTFS/
-                    sudo rm binutils_linaro*.gz
-                    sudo rm libbz2*.gz
-                    sudo rm libdw1*.gz
-                    sudo rm libperl*.gz
-                    sudo rm libelf1*.gz
-                    sudo rm perf*.gz
-                    popd
+                    sudo cp $armor_dir/binary/perf/*.gz   $armor_result_dir/packages
                     ;;
                 "pidstat")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/cron_3.0pl1-127+deb8u1_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libsensors4_1%3a3.3.5-2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-config_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-base_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4-daemon-light_4.84-8+deb8u2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/bsd-mailx_8.1.2-0.20141216cvs-2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/exim4_4.84-8+deb8u2_all.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/sysstat_11.0.1-1_arm64.deb >> $LOG_FILE 2>&1 
-                    popd
+                    # could be installed via "apt-get install" directly
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -948,14 +840,13 @@ install_armor_tools_debian()
                 ;;
                 "setpci")
                     #default installed. 
+                    sudo cp $armor_dir/binary/setpci   ${armor_result_dir}/bin
                 ;;
                 "slabtop")
-                     #supported run time installation on board. 
+                    #supported run time installation on board. 
                 ;;
                 "strace")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i $armor_build_dir/binary/debian/strace_4.9-2_arm64.deb >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "apt-get install" directly
                 ;;
                 "swapon")
                     #default installed. 
@@ -970,15 +861,10 @@ install_armor_tools_debian()
                     #default installed. 
                 ;;
                 "tcpdump")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/libpcap0.8_1.6.2-2_arm64.deb >> $LOG_FILE 2>&1
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/tcpdump_4.6.2-5+deb8u1_arm64.deb >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "apt-get install" directly
                 ;;
                 "tiptop")
-                    pushd $ROOTFS
-                    sudo dpkg --force-architecture --root=$ROOTFS -i  $armor_build_dir/binary/debian/tiptop-2.3_arm64.deb >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "apt-get install" directly
                 ;;
                 "top")
                     #default installed. 
@@ -988,7 +874,7 @@ install_armor_tools_debian()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $ROOTFS
+                    sh build_valgrind_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1007,13 +893,13 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $ROOTFS
+sh build_armor_utility.sh $armor_result_dir
 
 cd -
 popd
-} #install_armor_tools_debian
+} #build_armor_tools_debian
 
-install_armor_tools_centos()
+build_armor_tools_centos()
 {
     #echo "CFGFILE = $CFGFILE"
     idx=0
@@ -1038,11 +924,11 @@ install_armor_tools_centos()
                     # build demidecode
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_dmidecode.sh $cross_gcc $ROOTFS
+                    sh build_dmidecode.sh $cross_gcc $armor_result_dir
                     cd -
                     popd
                     # copy demidecode to rootfs
-                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $ROOTFS/usr/bin
+                    sudo cp $armor_build_dir/source/dmidecode/dmidecode $armor_result_dir/bin
                 ;;
                 "dstat")
                     #supported run time installation on board. 
@@ -1069,9 +955,7 @@ install_armor_tools_centos()
                     #default installed. 
                 ;;
                 "iostat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/pcp-import-iostat2pcp-3.10.6-2.el7.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be install via "yum install pcp-import-iostat2pcp" directly
                 ;;
                 "iotop")
                     #supported run time installation on board. 
@@ -1090,18 +974,18 @@ install_armor_tools_centos()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $ROOTFS
+                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $ROOTFS/usr/local/armor/test_scripts
-                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $ROOTFS/usr/local/armor/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test  $armor_result_dir/test_scripts
+                    sudo cp $armor_build_dir/source/test_code/kprobes_test_code/kprobe_test.ko  $armor_result_dir/test_scripts
                 ;;
                 "ktap")
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $ROOTFS
+                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1124,7 +1008,7 @@ install_armor_tools_centos()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $ROOTFS
+                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1141,9 +1025,7 @@ install_armor_tools_centos()
                     #supported run time installation on board. 
                 ;;
                 "nicstat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/nicstat-1.95-0.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install nicstat" directly
                 ;;
                 "oprofile")
                     #supported run time installation on board. 
@@ -1152,31 +1034,16 @@ install_armor_tools_centos()
                     # build packeth cli(command line) tool code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_packETHcli.sh $ROOTFS
+                    sh build_packETHcli.sh $armor_result_dir
                     cd -
                     popd
                 ;;
                 "perf")
                     # copy prebuilt perf and dependent binaries to the rootfs and extract
-                    sudo cp $armor_build_dir/binary/perf/*.gz   $ROOTFS/
-                    pushd $ROOTFS
-                    sudo tar xvf binutils_linaro*.gz -C $ROOTFS/
-                    sudo tar xvf libbz2*.gz -C $ROOTFS/
-                    sudo tar xvf libdw1*.gz -C $ROOTFS/
-                    sudo tar xvf libperl*.gz -C $ROOTFS/
-                    sudo tar xvf perf*.gz -C $ROOTFS/
-                    sudo rm binutils_linaro*.gz
-                    sudo rm libbz2*.gz
-                    sudo rm libdw1*.gz
-                    sudo rm libperl*.gz
-                    sudo rm libelf1*.gz
-                    sudo rm perf*.gz
-                    popd
+                    sudo cp $armor_dir/binary/perf/*.gz   $armor_result_dir/packages
                 ;;
                 "pidstat")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/sysstat-10.1.5-7.el7.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install sysstat" directly
                 ;;
                 "powertop")
                     #supported run time installation on board. 
@@ -1209,14 +1076,10 @@ install_armor_tools_centos()
                     #default installed. 
                 ;;
                 "tcpdump")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/tcpdump-4.5.1-3.el7.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install tcpdump" directly
                 ;;
                 "tiptop")
-                    pushd $ROOTFS
-                    sudo rpm --force --nodeps --ignorearch --noscripts --nosignature --root=$ROOTFS -i $armor_build_dir/binary/centos/tiptop-2.3-0.aarch64.rpm >> $LOG_FILE 2>&1
-                    popd
+                    #could be installed via "yum install tiptop" directly
                 ;;
                 "top")
                     #default installed. 
@@ -1226,7 +1089,7 @@ install_armor_tools_centos()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $ROOTFS
+                    sh build_valgrind_test.sh $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1245,25 +1108,23 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $ROOTFS
+sh build_armor_utility.sh $armor_result_dir
 
 cd -
 popd
-} #install_armor_tools_centos
+} #build_armor_tools_centos
 
 
 ###################################################################################
 ###################### Initialise variables ####################
 ###################################################################################
 
-echo "/packages/armor/build.sh: outputdir=$1, distro=$2, rootfs=$3, kernel=$4"
-
 if [ "$1" = '' ] || [ "$2" = '' ] ||  [ "$3" = '' ]  || [ "$4" = '' ]; then
     echo "Invalid parameter passed. Usage ./armor/build.sh <outputdir> <distrib> <rootfs> <kernal>" 
     exit
 fi
 
-OUTPUT_DIR=$1
+OUTPUT_DIR=$(cd $1; pwd)
 DISTRO=$2
 ROOTFS=$3
 
@@ -1273,104 +1134,120 @@ PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
 PACK_SAVE_DIR=$(cd $7; pwd) #
 INSTALL_DIR=$(cd $8; pwd)
 
-armor_dir=armor
-build_dir=`cd $OUTPUT_DIR; pwd`
-armor_build_dir=$build_dir
+armor_dir=`pwd`/armor
+armor_build_dir=${OUTPUT_DIR}/src/
+armor_result_dir=${OUTPUT_DIR}/result
 kernel_build_dir=${KERNEL_DIR}
 pkg_dir=`pwd`/packages
 LOG_FILE=$armor_build_dir"/armor_build_log"
 
-#echo "build_dir=$build_dir"
-#echo "armor_build_dir=$armor_build_dir"
 
 ###################################################################################
 ############################# Setup host environmenta #############################
 ###################################################################################
-# Detect and dertermine some environment variables
-LOCALARCH=`uname -m`
-
-if [ x"$LOCALARCH" != x"aarch64" ]; then
-	cross_gcc=aarch64-linux-gnu-gcc
-	cross_prefix=aarch64-linux-gnu
-else
-	cross_gcc=gcc
-fi
+cross_gcc=${CROSS}gcc
+cross_prefix=${CROSS}
 
 ###################################################################################
 ############################# Build Armor Tools #############################
 ###################################################################################
-echo "Building and install Armor Tools ..."
-# copy armor folder to the build directory 
-rm -rf $armor_build_dir
-cp -rf $armor_dir $build_dir
+echo "Begin to build Armor Tools ..."
+if [ ! -z "$(ls ${PACK_SAVE_DIR}/armor*.tar.gz 2>/dev/null)" ] ; then
+    echo "Armor tools have been built successfully before"
+    exit 0
+fi
 
-# create armor folders in the rootfs    
-sudo mkdir $ROOTFS/usr/local/armor/
-sudo mkdir $ROOTFS/usr/local/armor/binary
-sudo mkdir $ROOTFS/usr/local/armor/build_scripts
-sudo mkdir $ROOTFS/usr/local/armor/config
-sudo mkdir $ROOTFS/usr/local/armor/source
-sudo mkdir $ROOTFS/usr/local/armor/test_scripts
+# copy armor folder to the build directory 
+if [ ! -d ${armor_build_dir} ] ; then
+    mkdir -p ${armor_build_dir}
+fi
+
+if [ ! -d ${armor_result_dir} ] ; then
+    mkdir -p ${armor_result_dir}
+fi
+
+cp -rf $armor_dir/* $armor_build_dir
+
+# create armor folders 
+if [ ! -d ${armor_result_dir}/packages ] ; then
+    mkdir -p ${armor_result_dir}/packages
+fi
+
+if [ ! -d ${armor_result_dir}/bin ] ; then
+    mkdir -p ${armor_result_dir}/bin
+fi
+
+if [ ! -d ${armor_result_dir}/usr/bin ] ; then
+    mkdir -p ${armor_result_dir}/usr/bin
+fi
+
+if [ ! -d ${armor_result_dir}/build_scripts ] ; then
+    mkdir -p ${armor_result_dir}/build_scripts
+fi
+
+if [ ! -d ${armor_result_dir}/config ] ; then
+    mkdir -p ${armor_result_dir}/config
+fi
+
+if [ ! -d ${armor_result_dir}/source ] ; then
+    mkdir -p ${armor_result_dir}/source
+fi
+
+if [ ! -d ${armor_result_dir}/test_scripts ] ; then
+    mkdir -p ${armor_result_dir}/test_scripts
+fi
 
 kernel_version=$(sudo cat $kernel_build_dir/include/config/kernel.release)
 echo "kernel_version=$kernel_version"
 sudo mkdir $ROOTFS/lib/modules/$kernel_version/armor
 
+if [ ! -d ${armor_result_dir}/lib/modules/$kernel_version/armor ] ; then
+    mkdir -p ${armor_result_dir}/lib/modules/$kernel_version/armor
+fi
 # copy prebuilt binaries to the rootfs
 
 case $DISTRO in
     Ubuntu)
-        sudo apt-get install -y dpkg
-        sudo cp $armor_dir/binary/ubuntu/*.deb   $ROOTFS/usr/local/armor/binary
-        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_ubuntu.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_ubuntu.cfg  ${armor_result_dir}/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_ubuntu.json
-        install_armor_tools_ubuntu
+        build_armor_tools_ubuntu
         ;;
     Fedora)
-        sudo apt-get install -y rpm
-        sudo cp $armor_dir/binary/fedora/*.rpm   $ROOTFS/usr/local/armor/binary
-        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_fedora.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_fedora.cfg  ${armor_result_dir}/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_fedora.json
-        install_armor_tools_fedora
+        build_armor_tools_fedora
         ;;
     OpenSuse)
-        sudo apt-get install -y rpm
-        sudo cp $armor_dir/binary/opensuse/*.rpm   $ROOTFS/usr/local/armor/binary
         # copy build scripts to the rootfs
-        sudo cp $armor_dir/build_scripts/build_lttng_tools_opensuse.sh   $ROOTFS/usr/local/armor/build_scripts/
-        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_opensuse.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
+        sudo cp $armor_dir/build_scripts/build_lttng_tools_opensuse.sh   ${armor_result_dir}/build_scripts/
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_opensuse.cfg  ${armor_result_dir}/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_opensuse.json
-        install_armor_tools_opensuse
+        build_armor_tools_opensuse
         ;;
     Debian)
-        sudo apt-get install -y dpkg
-        sudo cp $armor_dir/binary/debian/*.deb   $ROOTFS/usr/local/armor/binary
         # copy prebuilt binarieis(not supported in the distribution) to the rootfs
-        sudo cp $armor_dir/binary/ltrace   $ROOTFS/usr/bin
-        sudo cp $armor_dir/binary/lspci    $ROOTFS/usr/bin
-        sudo cp $armor_dir/binary/setpci   $ROOTFS/usr/bin
-        sudo cp $armor_dir/binary/lsmod    $ROOTFS/usr/bin
-        sudo cp $armor_dir/binary/kmod     $ROOTFS/bin
-        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_debian.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
+        sudo cp $armor_dir/binary/lsmod    ${armor_result_dir}/bin
+        sudo cp $armor_dir/binary/kmod     ${armor_result_dir}/bin
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_debian.cfg  ${armor_result_dir}/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_debian.json
-        install_armor_tools_debian
+        build_armor_tools_debian
     ;;
     CentOS)
-        sudo apt-get install -y rpm
-        sudo cp $armor_dir/binary/centos/*.rpm   $ROOTFS/usr/local/armor/binary
-        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_centos.cfg  $ROOTFS/usr/local/armor/config/armor_pkg_info.cfg
+        sudo cp $armor_dir/source/armor_utility/cfg/armor_pkg_info_centos.cfg  ${armor_result_dir}/config/armor_pkg_info.cfg
         CFGFILE=$pkg_dir/armor/armorcfg_centos.json
-        install_armor_tools_centos
+        build_armor_tools_centos
     ;; 
 
     esac
 
-sudo cp -rf $armor_dir/testing/test_scripts   $ROOTFS/usr/local/armor/
+sudo cp -rf $armor_dir/testing/test_scripts   $armor_result_dir/test_scripts/
 
 if [ x"${PACK_TYPE}" == x"tar" ] || [ x"${PACK_TYPE}" == x"all" ] ; then
     #Generate the corresponding files under the specifed directory
-    pushd ${pkg_dir}/armor
-    sudo tar -czvf ${build_dir}/armor.tar.gz setup.sh remove.sh
+    pushd ${armor_result_dir}
+    cp ${pkg_dir}/armor/setup.sh ${armor_result_dir}/
+    cp ${pkg_dir}/armor/remove.sh ${armor_result_dir}/
+    sudo tar -czf ${build_dir}/armor.tar.gz .
     popd > /dev/null
     sudo cp ${build_dir}/armor.tar.gz ${PACK_SAVE_DIR}/
 fi

@@ -7,6 +7,14 @@
 # Uncomment below line to install Armor tool's packages.
 INSTALL_ARMOR_TOOLS="YES"
 
+CUR_DIR=$(cd `dirname $0`; pwd)
+
+if [ ! -z "${1}" ] ; then
+    INSTALL_DIR=$(cd $1; pwd)
+else 
+    INSTALL_DIR="/usr/estuary/"
+fi
+
 if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
     Distribution=`sed -n 1p /etc/issue| cut -d' ' -f 1`
     # Temp fix for OpenSuse distribution as the format of /etc/issue in OpenSuse is different
@@ -23,6 +31,53 @@ if [ "$INSTALL_ARMOR_TOOLS" = 'YES' ]; then
     fi
 
     echo "Installing Armor tools packages on $Distribution..." 
+    
+    if [ ! -f "${CUR_DIR}/.install_status" ] ; then
+        if [ -z "$(which sudo 2>/dev/null)" ] ; then
+           if [ "$(which apt-get 2>/dev/null)" ] ; then
+               apt-get install -y sudo
+           elif [ "$(which yum 2>/dev/null)" ] ; then
+               yum install -y sudo
+           fi
+        fi
+           
+        #Step1: Install pre-built binaries to /usr/estuary/bin
+        sudo cp -fr ${CUR_DIR}/bin/* ${INSTALL_DIR}/bin/
+        sudo cp -fr ${CUR_DIR}/usr/bin/* ${INSTALL_DIR}/bin/
+        
+        kernel_version=$(uname -r)
+        if [ -d ${CUR_DIR}/lib/modules/$kernel_version/armor ] ; then
+            ARMOR_KO_DIR="/lib/modules/$kernel_version/armor"
+            if [ ! -d "${ARMOR_KO_DIR}" ] ; then
+                sudo mkdir "${ARMOR_KO_DIR}"
+            fi 
+            sudo cp -fr ${CUR_DIR}/lib/modules/$kernel_version/armor/* ${ARMOR_KO_DIR}/
+        fi
+
+        #Step2: Install packages based on their types accordingly 
+        packages_type=("*.tar.gz" "*.deb" "*.rpm")
+        packages_cmd=("tar" "dpkg" "rpm")
+        index=0
+        while [[ ${index} -lt ${#packages_type[@]} ]] ; 
+        do
+            packages_list=$(ls ${CUR_DIR}/packages/${packages_type[$index]} 2>/dev/null)
+            package_cmd=${packages_cmd[$index]}
+            for pkg_file in ${packages_list[@]}; 
+            do
+                echo "Use ${package_cmd} to install ${pkg_file} ..."
+                if [ "${package_cmd}" == "tar" ] ; then
+                    sudo tar -zxf ${pkg_file} -C ${INSTALL_DIR}
+                elif [ "${package_cmd}" == "rpm" ] ; then
+                    sudo ${package_cmd} --force --nodeps --ignorearch --noscripts --nosignature -i ${pkg_file}
+                else 
+                    sudo dpkg --force-all -i ${pkg_file}
+                fi
+            done
+            let "index++"
+        done
+
+        touch ${CUR_DIR}/.install_status
+    fi
 
     case "$Distribution" in
         Ubuntu)

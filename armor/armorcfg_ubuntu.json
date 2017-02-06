@@ -16,7 +16,7 @@
 {"name":"ethtool","install":"yes"},
 {"name":"ftrace","install":"yes"},
 {"name":"fsck","install":"yes"},
-{"name":"gdb","install":"no"},
+{"name":"gdb","install":"yes"},
 {"name":"gprof","install":"no"},
 {"name":"grep","install":"yes"},
 {"name":"iostat","install":"no"},
