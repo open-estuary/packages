@@ -59,8 +59,10 @@ if [ x"${PACK_TYPE}" == x"all" ] || [ x"${PACK_TYPE}" == x"tar" ] ; then
         fi
     fi
 
-    wget http://openjdk.linaro.org/releases/jdk8u-server-release-1609.tar.xz
-    
+    if [ ! -f jdk8u-server-release-1609.tar.xz ] ; then
+        wget http://openjdk.linaro.org/releases/jdk8u-server-release-1609.tar.xz
+    fi
+
     tar -czvf ../${CUR_PKG}-${VERSION}.tar.gz ./
     popd > /dev/null
     
