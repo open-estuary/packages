@@ -20,7 +20,7 @@ Usage: ./packages/build.sh  {packagenamelist | --distro=xxx --rootfs=xxx ...}
     --file  : estuary configuration json file
     --cross : prefix of cross-compiler tools 
     --debug : print debug information
-
+    --force : force to rebuild this package 
 Example:
     Case 1: ./packages/build.sh mysql
     Case 2: ./packages/build.sh mysql,sysbench
@@ -28,7 +28,12 @@ Example:
     Case 4: ./packages/build.sh --file=./estuary/estuarycfg.json 
                                 --builddir=./workspace
                                 --debug=on
+
     Case 5: ./packages/build.sh --file=./estuary/estuarycfg.json 
+                                --builddir=./workspace
+                                --force
+
+    Case 6: ./packages/build.sh --file=./estuary/estuarycfg.json 
                                 --builddir=./workspace 
                                 --distro=CentOS 
                                 --rootfs=./workspace/distro/CentOS 
@@ -64,6 +69,7 @@ KERNEL_DIR=
 CROSS="aarch64-linux-gnu-"
 CFG_FILE=""
 DEBUG_ON=0
+FORCE_REBUILD=0
 
 ###################################################################################
 # Get args
@@ -85,6 +91,7 @@ do
         -c | --cross) CROSS=$ac_optarg ;;
         -f | --file) CFG_FILE=$ac_optarg ;;
         --debug) DEBUG_ON=1 ;;
+        --force) FORCE_REBUILD=1 ;;
         --help) build_packages_usage; exit 1 ;;
     esac
     
@@ -152,6 +159,10 @@ if [ -z "${CFG_FILE}" ] ; then
         exit 1
     fi
 
+    if [ ${FORCE_REBUILD} -eq 1 ] ; then
+        rm -fr ${BUILDDIR}/packages/${DISTRO}/${PACKAGES}*.*
+    fi
+
     ${TOPDIR}/submodules/build-packages.sh --spec_packages=${PACKAGES} \
                                        --output=${BUILDDIR} \
                                        --cross=${CROSS} \
@@ -162,7 +173,11 @@ if [ -z "${CFG_FILE}" ] ; then
                                        --cross=${CROSS} \
                                        ${DEBUG_ARG} 
                                       
-else 
+else
+    if [ ${FORCE_REBUILD} -eq 1 ] ; then
+        rm -fr ${BUILDDIR}/packages/${DISTRO}/*
+    fi
+
     ${TOPDIR}/submodules/build-packages.sh --output=${BUILDDIR} \
                                        --cross=${CROSS} \
                                        --distro=${DISTRO} \

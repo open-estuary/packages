@@ -6,19 +6,17 @@
 # Date : 2017/01/22
 #################################################################################
 
-
-BUILDDIR=$(cd $1; pwd)
-DISTRO=$2
-ROOTFS=$(cd $3; pwd)
-KERNEL_DIR=$(cd $4; pwd)
+BUILDDIR=$(cd $1; pwd) # that is ${builddir}/packages/builddir/${packagename}/
+DISTRO=$2 # such as Ubuntu, CentOS, Debian and so on 
+ROOTFS=$(cd $3; pwd) # that is ${builddir}/distro/${DISTRO}
+KERNEL_DIR=$(cd $4; pwd) # that is ${buildir}/kernel
 CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform
 PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
-PACK_SAVE_DIR=$(cd $7; pwd) #
-INSTALL_DIR=$(cd $8; pwd) 
-
+PACK_SAVE_DIR=$(cd $7; pwd) # that is ${builddir}/packages/${DISTRO}
+INSTALL_DIR=$(cd $8; pwd) # default to "/usr/estuary/"
 
 PACKAGE_DIR=`pwd`/packages
-CUR_PKG="template"
+CUR_PKG="templates"
 VERSION="1.0"
 
 #
@@ -50,6 +48,7 @@ if [ x"${PACK_TYPE}" == x"all" ] || [ x"${PACK_TYPE}" == x"tar" ] ; then
     pushd ${BUILDDIR}/tar
     cp ${PACKAGE_DIR}/${CUR_PKG}/setup.sh ./
     cp ${PACKAGE_DIR}/${CUR_PKG}/remove.sh ./
+    cp ${PACKAGE_DIR}/${CUR_PKG}/start.sh ./
     #cp other files to ./
     tar -czvf ../${CUR_PKG}-${VERSION}.tar.gz ./
     popd > /dev/null
