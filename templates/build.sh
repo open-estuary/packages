@@ -13,7 +13,7 @@ KERNEL_DIR=$(cd $4; pwd) # that is ${buildir}/kernel
 CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform
 PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
 PACK_SAVE_DIR=$(cd $7; pwd) # that is ${builddir}/packages/${DISTRO}
-INSTALL_DIR=$(cd $8; pwd) # default to "/usr/estuary/"
+INSTALLDIR=$(cd $8; pwd) # default to "/usr/estuary/"
 
 PACKAGE_DIR=`pwd`/packages
 CUR_PKG="templates"
@@ -21,11 +21,11 @@ VERSION="1.0"
 
 #
 # Use ${CROSS}gcc to compile source codes under ${BUILDDIR}
-# In addition, use ${INSTALL_DIR}/bin, ${INSTALL_DIR}/libs, and 
-# ${INSTALL_DIR}/includes to install packages 
+# In addition, use ${INSTALLDIR}/bin, ${INSTALLDIR}/libs, and 
+# ${INSTALLDIR}/includes to install packages 
 # 
 # However if it needs to install two or more version of the same package
-# it must be installed into ${INSTALL_DIR}/${CUR_PKG}/{bin,includes,libs} accordingly 
+# it must be installed into ${INSTALLDIR}/${CUR_PKG}/{bin,includes,libs} accordingly 
 # 
 
 #

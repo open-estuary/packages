@@ -10,13 +10,13 @@
 INSTALLDIR=$(cd $1; pwd)
 
 #
-# In addition, use ${INSTALL_DIR}/bin, ${INSTALL_DIR}/libs, and 
-# ${INSTALL_DIR}/include to install packages 
+# In addition, use ${INSTALLDIR}/bin, ${INSTALLDIR}/libs, and 
+# ${INSTALLDIR}/include to install packages 
 # 
 # However if it needs to install two or more version of the same package
-# it must be installed into ${INSTALL_DIR}/${CUR_PKG}/{bin,include,libs} accordingly 
-# In addition, it should create symbol links from ${INSTALL_DIR}/{bin,libs,include} to
-# ${INSTALL_DIR}/${CUR_PKG}/{bin,libs,include}
+# it must be installed into ${INSTALLDIR}/${CUR_PKG}/{bin,include,libs} accordingly 
+# In addition, it should create symbol links from ${INSTALLDIR}/{bin,libs,include} to
+# ${INSTALLDIR}/${CUR_PKG}/{bin,libs,include}
 #
 
 #
