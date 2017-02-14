@@ -2,8 +2,6 @@
 #author: WuYanjun
 #date: 04/02/2017
 
-
-#set -x
 function get_first_machine
 {
     local xtrace
@@ -29,18 +27,10 @@ function get_first_machine
 function install_openstack
 {
     if [ -f /etc/debian_version ]; then
-    	openstack_debian_pack=$(dpkg --list | grep erp-openstack)
-	if [ x"$openstack_debian_pack" != x""  ] ; then
-		sudo apt-get remove -y ${openstack_debian_pack}
-	fi
         sudo apt-get install wget
     fi
 
     if [ -f /etc/redhat-release ]; then
-    	openstack_rpm_pack=$(rpm -qa | grep erp-openstack)
-	if [ x"$openstack_debian_pack" != x"" ] ; then
-	    sudo yum remove -y ${openstack_rpm_pack}
-	fi
         sudo yum install wget
     fi
 
@@ -145,6 +135,7 @@ export OS_INTERFACE=public
 export OS_IDENTITY_API_VERSION=3
 EOF
     cp -f ${project_name}-admin.rc ~/
+
     source ${project_name}-admin.rc
     neutron subnet-create ${DEMO_NET} --name ${DEMO_SUBNET} --gateway \
         ${demo_net_gw_addr} ${demo_net_gw_addr%.*}.0/${demo_net_bits}
@@ -185,6 +176,7 @@ function launch_an_instance
         --nic net-id=${net_id} --security-group ${DOMAIN} \
         --key-name ${key_name} ${instance_name}
     [[ $? -ne 0 ]] && die $LINENO "create an instance failed"
+    echo "sleep for 100 seconds to wait a vm to launch..."
     sleep 100
 
     instance_run=$(openstack server list | grep Running)
@@ -195,6 +187,7 @@ function launch_an_instance
             exit 1
         fi
     fi
+
     openstack server list
     [[ $? -ne 0 ]] && die $LINENO "list instances failed"
     vm_ip=`nova list | grep Running | awk -F '=| ' '{print $(NF-1)}'`
@@ -224,7 +217,9 @@ function launch_an_instance
     if [[ x"$ping_float_ip" = x"" ]]; then
         die $LINENO "The instance floating ip cannot be accessed"
     fi
+
     $xtrace
+
     echo "Please use the \"ssh cirros@${float_ip}\" to login the vm, \
         the password is \"gocubsgo\""
 }
@@ -238,13 +233,7 @@ if [ -f /etc/debian_version ]; then
 fi
 
 if [ -f /etc/redhat-release ]; then
-    CMD=yum
-
-    if [ -f /etc/fedora-release ]; then
-	CMD=dnf
-    fi
-
-    sudo $CMD install -y gcc make libyaml-devel libxml2-devel libxslt-devel \
+    sudo yum install -y gcc make libyaml-devel libxml2-devel libxslt-devel \
         mysql-devel libffi-devel openssl-devel libvirt-devel python-devel \
         pkgconfig python-virtualenv git python-setuptools python-jinja2 \
         python-yaml
@@ -262,71 +251,78 @@ pushd ${filepath}/openstack-ref-architecture
 
     export ANSIBLE_HOSTS=$install_dir/ansible/hosts
 
-	if [ -f /etc/redhat-release ] || [ -f /etc/fedora-release ]; then
-	    ansible all -a "sudo iptables -F" --sudo
-    	ansible all -a "sudo setenforce 0" --sudo
-	    ansible all -a "sudo service NetworkManager stop" --sudo
-	    #ansible all -m sudo wget http://repo.linaro.org/rpm/linaro-staging/centos-7/linaro-staging.repo \
-            #-O /etc/yum.repos.d/linaro-staging.repo
-	    ansible all -a "sudo wget http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo \
+    if [ -f /etc/redhat-release ] || [ -f /etc/fedora-release ]; then
+        ansible all -a "sudo iptables -F" --sudo
+        ansible all -a "sudo setenforce 0" --sudo
+        ansible all -a "sudo service NetworkManager stop" --sudo
+        ansible all -a "sudo wget http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo \
             -O /etc/yum.repos.d/linaro-overlay.repo" --sudo
-            [ $? -ne 0 ] || die $LINENO "The CentOS source cannot be accessed"
-	    ansible all -a "sudo yum update -y" --sudo
-            [ $? -ne 0 ] || die $LINENO "The CentOS cannot be updated"
-	fi
+        [ $? -ne 0 ] && die $LINENO "The CentOS source cannot be accessed"
+        ansible all -a "sudo yum update -y" --sudo
+        [ $? -ne 0 ] && die $LINENO "The CentOS cannot be updated"
+    fi
 
     if [ -f /etc/debian_version ]; then
-	    ansible all -a "sudo iptables -F" --sudo
-        ansible all -m shell -a "sudo echo deb http://people.linaro.org/~marcin.juszkiewicz/test/debian-venvs-packages/  ./ > /etc/apt/sources.list.d/test-sdi-venvs.list " --sudo
+        ansible all -a "sudo iptables -F" --sudo
+        ansible all -m shell -a "sudo echo deb http://people.linaro.org/~marcin.juszkiewicz/test/debian-venvs-packages/  ./ \
+            > /etc/apt/sources.list.d/test-sdi-venvs.list " --sudo
         ansible all -m shell -a 'sudo echo "APT::Get::AllowUnauthenticated 1;" >> /etc/apt/apt.conf.d/70debconf' --sudo
-        ansible all -m shell -a "sudo echo deb http://repo.linaro.org/debian/erp-16.12-stable jessie main >> /etc/apt/sources.list" --sudo
-        ansible all -m shell -a "sudo echo deb-src http://repo.linaro.org/debian/erp-16.12-stable jessie main  >> /etc/apt/sources.list" --sudo
-        ansible all -m shell -a "sudo echo deb http://ftp.debian.org/debian jessie-backports main  >> /etc/apt/sources.list" --sudo
-	ansible all -m shell -a "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E13D88F7E3C1D56C"
-        [ $? -ne 0 ] || die $LINENO "The Debian key cannot be installed"
+        ansible all -m shell -a "sudo echo deb http://repo.linaro.org/debian/erp-16.12-stable jessie main >> \
+            /etc/apt/sources.list" --sudo
+        ansible all -m shell -a "sudo echo deb-src http://repo.linaro.org/debian/erp-16.12-stable jessie main  >> \
+            /etc/apt/sources.list" --sudo
+        ansible all -m shell -a "sudo echo deb http://ftp.debian.org/debian jessie-backports main  >> \
+            /etc/apt/sources.list" --sudo
+        ansible all -m shell -a "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E13D88F7E3C1D56C"
+        [ $? -ne 0 ] && die $LINENO "The Debian key cannot be installed"
         ansible all -m shell -a "sudo apt-get update -y" --sudo
-        [ $? -ne 0 ] || die $LINENO "The Debian cannot be updated"
+        [ $? -ne 0 ] && die $LINENO "The Debian cannot be updated"
         ansible all -m shell -a "sudo apt install -t jessie-backports systemd systemd-sysv libpam-systemd -y" --sudo
-        [ $? -ne 0 ] || die $LINENO "The Debian cannot update systemd"
+        [ $? -ne 0 ] && die $LINENO "The Debian cannot update systemd"
     fi
 
   pushd ansible
-	##############################
-	# deploy the ceph mon services
-	##############################
-	ceph_mon_server=`get_first_machine ceph_monitor_servers`
-	if ! ansible-playbook -K -v -i ./hosts ./site.yml --tags ceph-mon; then
-		echo "Ceph MON installation failed"
-		exit 1
-	fi
-	ceph_mon_status=$(ssh `whoami`@$ceph_mon_server "ceph -s")
-	ceph_mon_result=$(echo $ceph_mon_status | grep -E 'health| monmap')
-	if [[ x"$ceph_mon_result" == x"" ]]; then
-		echo "Ceph MON installation failed"
-		exit 1
-	fi
+    ##############################
+    # deploy the ceph mon services
+    ##############################
+    ceph_mon_server=`get_first_machine ceph_monitor_servers`
+    echo "Begin to install Ceph Monitor"
+    if ! ansible-playbook -K -v -i ./hosts ./site.yml --tags ceph-mon; then
+        echo "Ceph MON installation failed"
+        exit 1
+    fi
+    ceph_mon_status=$(ssh `whoami`@$ceph_mon_server "ceph -s")
+    ceph_mon_result=$(echo $ceph_mon_status | grep -E 'health| monmap')
+    if [[ x"$ceph_mon_result" == x"" ]]; then
+        echo "Ceph MON installation failed"
+        exit 1
+    fi
 
-	##############################
-	# deploy the ceph osd services
-	##############################
-	ceph_osd_server=`get_first_machine ceph_osd_servers`
-	if ! ansible-playbook -K -v -i ./hosts ./site.yml --tags ceph-osd; then
-		echo "Ceph OSD installation failed"
-		exit 1
-	fi
-	sleep 60
-	ceph_osd_result=$(ssh `whoami`@${ceph_osd_server} "ceph osd tree")
-	ceph_osd_result=$(ssh `whoami`@${ceph_osd_server} "ceph -s")
-	ceph_osd_tree=$(echo ${ceph_osd_result} | grep 'HEALTH_ERR')
-	if [[ x"$ceph_osd_tree" != x"" ]]; then
-		echo "Ceph OSD installation failed"
-		exit 1
-	fi
+    ##############################
+    # deploy the ceph osd services
+    ##############################
+    ceph_osd_server=`get_first_machine ceph_osd_servers`
+    echo "Begin to install Ceph OSD"
+    if ! ansible-playbook -K -v -i ./hosts ./site.yml --tags ceph-osd; then
+        echo "Ceph OSD installation failed"
+        exit 1
+    fi
 
-	if ! ansible-playbook -K -v -i ./hosts ./site.yml; then 
-		echo "OpenStack installation failed"
-		exit 1	
-	fi
+    sleep 60
+    echo "sleep for 60 seconds to wait the cepg osds ready..."
+    ceph_osd_result=$(ssh `whoami`@${ceph_osd_server} "ceph osd tree")
+    ceph_osd_result=$(ssh `whoami`@${ceph_osd_server} "ceph -s")
+    ceph_osd_tree=$(echo ${ceph_osd_result} | grep 'HEALTH_ERR')
+    if [[ x"$ceph_osd_tree" != x"" ]]; then
+        echo "Ceph OSD installation failed"
+        exit 1
+    fi
+
+    echo "Begin to install whole OpenStack Services"
+    if ! ansible-playbook -K -v -i ./hosts ./site.yml; then
+        echo "OpenStack installation failed"
+        exit 1
+    fi
   popd
 popd
 
