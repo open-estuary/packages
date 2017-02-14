@@ -2,7 +2,7 @@
 #author: WuYanjun
 #date: 04/02/2017
 
-set -x
+set +x
 
 function delete_net
 {
@@ -11,6 +11,9 @@ function delete_net
     fi
     source ${LOCAL_DEMO}
 
+    local xtrace
+    xtrace=$(set +o | grep xtrace)
+    set -o xtrace
     openstack server list
     if [ $? -ne 0 ];then
         return
@@ -54,6 +57,8 @@ function delete_net
         openstack keypair delete ${key_name}
         [[ $? -ne 0 ]] && echo  $LINENO "delete keypair failed"
     fi
+    
+    $xtrace
 
     rm -fr ${LOCAL_DEMO}  >/dev/null
 }
@@ -74,6 +79,11 @@ function delete_openstack_other_service
     fi
 
     source ${LOCAL_ADMIN}
+
+    local xtrace
+    xtrace=$(set +o | grep xtrace)
+    set -o xtrace
+
     if [[ `neutron net-list | grep ${DEMO_NET}` ]];then
         neutron net-delete ${DEMO_NET}
         [[ $? -ne 0 ]] && echo  $LINENO "delete net ${DEMO_NET} failed"
@@ -127,6 +137,8 @@ function delete_openstack_other_service
             fi
         fi
     done
+
+    $xtrace
 
     rm -fr ${LOCAL_ADMIN} >/dev/null
 }

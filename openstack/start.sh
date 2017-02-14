@@ -3,7 +3,7 @@
 #date: 04/02/2017
 
 
-set -x
+#set -x
 function get_first_machine
 {
     local xtrace
@@ -29,8 +29,8 @@ function get_first_machine
 function install_openstack
 {
     if [ -f /etc/debian_version ]; then
-    	openstack_debian_pack=$(dkpg --list | grep erp-openstack)
-	if [ x"$openstack_debian_pack" !=x""  ] ; then
+    	openstack_debian_pack=$(dpkg --list | grep erp-openstack)
+	if [ x"$openstack_debian_pack" != x""  ] ; then
 		sudo apt-get remove -y ${openstack_debian_pack}
 	fi
         sudo apt-get install wget
@@ -46,7 +46,7 @@ function install_openstack
 
     openstack help >/dev/null 2>&1
     [[ $? -eq 0 ]] && return
-    
+
     sudo pip install python-openstackclient python-cinderclient  \
         python-keystoneclient python-neutronclient python-novaclient \
         python-glanceclient
@@ -270,8 +270,25 @@ pushd ${filepath}/openstack-ref-architecture
             #-O /etc/yum.repos.d/linaro-staging.repo
 	    ansible all -a "sudo wget http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo \
             -O /etc/yum.repos.d/linaro-overlay.repo" --sudo
+            [ $? -ne 0 ] || die $LINENO "The CentOS source cannot be accessed"
 	    ansible all -a "sudo yum update -y" --sudo
+            [ $? -ne 0 ] || die $LINENO "The CentOS cannot be updated"
 	fi
+
+    if [ -f /etc/debian_version ]; then
+	    ansible all -a "sudo iptables -F" --sudo
+        ansible all -m shell -a "sudo echo deb http://people.linaro.org/~marcin.juszkiewicz/test/debian-venvs-packages/  ./ > /etc/apt/sources.list.d/test-sdi-venvs.list " --sudo
+        ansible all -m shell -a 'sudo echo "APT::Get::AllowUnauthenticated 1;" >> /etc/apt/apt.conf.d/70debconf' --sudo
+        ansible all -m shell -a "sudo echo deb http://repo.linaro.org/debian/erp-16.12-stable jessie main >> /etc/apt/sources.list" --sudo
+        ansible all -m shell -a "sudo echo deb-src http://repo.linaro.org/debian/erp-16.12-stable jessie main  >> /etc/apt/sources.list" --sudo
+        ansible all -m shell -a "sudo echo deb http://ftp.debian.org/debian jessie-backports main  >> /etc/apt/sources.list" --sudo
+	ansible all -m shell -a "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E13D88F7E3C1D56C"
+        [ $? -ne 0 ] || die $LINENO "The Debian key cannot be installed"
+        ansible all -m shell -a "sudo apt-get update -y" --sudo
+        [ $? -ne 0 ] || die $LINENO "The Debian cannot be updated"
+        ansible all -m shell -a "sudo apt install -t jessie-backports systemd systemd-sysv libpam-systemd -y" --sudo
+        [ $? -ne 0 ] || die $LINENO "The Debian cannot update systemd"
+    fi
 
   pushd ansible
 	##############################
@@ -325,6 +342,7 @@ unset OS_REGION_NAME
 unset OS_INTERFACE
 unset OS_IDENTITY_API_VERSION
 adminrc_path=$(find $filepath -name  'nova-admin.rc')
+
 LOCAL_PATH=$PWD
 LOCAL_ADMIN=$PWD/nova-admin.rc
 cp ${adminrc_path}  ${LOCAL_PATH}
@@ -342,7 +360,7 @@ cp -f ${LOCAL_ADMIN}  ~/
 image_file="cirros-d161201-aarch64-disk.img"
 
 source $filepath/openstack_cfg.sh
-source $fielpath/common.sh
+source $filepath/common.sh
 
 install_openstack 
 openstack_services

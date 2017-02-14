@@ -33,18 +33,24 @@ For example:
 For example: `ssh-keygen; ssh-copy-id root@test1; ssh-copy-id root@test2`
 
 
-#### change the paramaters in openstack-ref-architecture
-    `cd openstack-ref-architecture
-     mv deployXXX.example secrets/deployXXXX
-     change the hosts info and url info in the secrets/deployXXXX
+#### change the paramaters in /usr/estuary/packages/openstack/openstack-ref-architecture
+    `cd openstack-ref-architecture/ansible
+
      mv hosts.example hosts
-     modify the machine name in hosts according the hostnames
-     change the ceph_host_osds and eth ports in group_vars/all
+     modify the machine name in hosts according the hostnames. The compute_servers, nova_servers and networking_servers must be different machines.
+
+     mkdir -p secrets
+     mv deployment-vars.example secrets/deployment-vars
+     change the XXXX_hosts, serial_console_public_url and public_api_host in the secrets/deployment-vars #use your url to instead "www.example.cloud"
+
+     change the ceph_host_osds and ethernet ports in group_vars/all
      delete the web frontends in the site.yaml
+
+     change the content of ./ansible/roles/nics/templates/devcloud-projects and ./ansible/roles/nics/templates/ifcfg-projects to be consistent with the network environment
      `
 
-#### After all parameters has been changed, execute `./install.sh` to install opensatck in all machines. Either we can directly refer the openstack-ref-architecture/README.md to install openstack.
-If the install.sh execute failed,  use the `./remove.sh` to delete all the services and reexecute `./install.sh` to install.
+#### After all parameters has been changed, execute `./start.sh` to install opensatck in all machines. Either we can directly refer the openstack-ref-architecture/README.md to install openstack.
+If the install.sh execute failed,  use the `./remove.sh` to delete all the services and reexecute `./start.sh` to install.
 
 ## <a name="5">Remove</a>
 -  The remove.sh can not remove all the installed softwares it only remove the openstack user, role, project, networks and other services.
