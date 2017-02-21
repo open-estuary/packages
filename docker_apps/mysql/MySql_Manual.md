@@ -28,8 +28,8 @@ There are several of ways to start MySql docker container as follows:
     - Execute `docker port mysql` to check the dynamic port
 - Start one container which uses the specified host data diretory 
   - Examples:`docker run -p 3306:3306 -v /host/datadir:/u01/my3306/data -d openestuary/mysql:latest`
-- Start one container which uses the specified configuration
-  - Examples:`docker run -p 3306:3306 -v /host/etc/my.conf:/etc/my.conf -d openestuary/mysql:latest`
+- Start one container which uses the specified configuration, that is /host/configdir/my.conf
+  - Examples:`docker run -p 3306:3306 -v /host/configdir:/usr/local/mysql/config -d openestuary/mysql:latest`
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [my.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/mysql/my.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mysql/start.sh).

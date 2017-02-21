@@ -18,6 +18,6 @@ docker run -p 6379:6379 --name redis-3.2.4 -d openestuary/redis:3.2.4
 #
 
 #
-#Mode 3: Use host's configurations which is specified by "/host/redis.conf"
-#docker run -p 6379:6379 -v /host/redis.conf:/usr/local/redis/config/redis.conf -d openestuary/redis:3.2.4
+#Mode 3: Use host's configurations which is specified by "/host/configdir/redis.conf"
+#docker run -p 6379:6379 -v /host/configdir:/usr/local/redis/config -d openestuary/redis:3.2.4
 #

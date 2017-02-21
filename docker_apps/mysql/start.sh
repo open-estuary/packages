@@ -18,6 +18,6 @@ docker run -p 3306:3306 --name mysql -d openestuary/mysql:latest
 #
 
 #
-#Mode 3: Use host's configurations which is specified by "/host/ect/my.conf"
-#docker run -p 3306:3306 -v /host/etc/my.conf:/etc/my.conf -d openestuary/mysql:latest
+#Mode 3: Use host's configurations which is specified by "/host/configdir/my.conf"
+#docker run -p 3306:3306 -v /host/configdir/my.conf:/usr/local/mysql/config -d openestuary/mysql:latest
 #

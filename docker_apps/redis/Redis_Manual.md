@@ -28,8 +28,8 @@ There are several of ways to start Redis docker container as follows:
     - Execute `docker port redis` to check the dynamic port
 - Start one container which uses the specified host data diretory 
   - Examples:`docker run -p 6379:6379 -v /host/datadir:/usr/local/redis/db -d openestuary/redis:3.2.4`
-- Start one container which uses the specified configuration
-  - Examples:`docker run -p 6379:6379 -v /host/usr/local/redis/config/redis.conf:/usr/local/redis/config/redis.conf -d openestuary/redis:3.2.4`
+- Start one container which uses the specified configuration, that is /host/configdir/redis.conf
+  - Examples:`docker run -p 6379:6379 -v /host/configdir:/usr/local/redis/config -d openestuary/redis:3.2.4`
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [redis.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/redis/redis.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/redis/start.sh).
