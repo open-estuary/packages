@@ -6,11 +6,11 @@
 
 ## <a name="1">Introduction</a>
 
-This Redis [docker image] (https://docs.docker.com/) is based on [Percona Server 5.6.22](https://www.percona.com/downloads/Percona-Server-5.6/Percona-Server-5.6.22-72.0/source/tpercona-server-5.6.22-72.0.tar.gzarball/percona-server-5.6.22-72.0.tar.gz).
+This Redis [docker image] (https://docs.docker.com/) is based on [Redis 3.2](http://download.redis.io/releases/redis-3.2.4.tar.gz).
 
 
 ## <a name="2">Build</a>
-As for how to build this docker image, please refer to [Percona Server Docker file] (https://github.com/open-estuary/dockerfiles/tree/master/redis/percona-server-5.6).
+As for how to build this docker image, please refer to [Redis Docker file] (https://github.com/open-estuary/dockerfiles/tree/master/redis).
 In addition, all docker images are stored into [OpenEstuary Docker Hub](https://cloud.docker.com/app/openestuary).
 
 ## <a name="3">Installation</a>
