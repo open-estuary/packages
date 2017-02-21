@@ -13,7 +13,7 @@ KERNEL_DIR=$(cd $4; pwd) # that is ${buildir}/kernel
 CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform
 PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
 PACK_SAVE_DIR=$(cd $7; pwd) # that is ${builddir}/packages/${DISTRO}
-INSTALL_DIR=$(cd $8; pwd) # default to "/usr/estuary/"
+INSTALL_DIR=$8  # default to "/usr/estuary/"
 
 PACKAGE_DIR=`pwd`/packages
 CUR_PKG="openjdk"

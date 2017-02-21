@@ -26,7 +26,7 @@ KERNEL_BUILD_DIR=$4
 CROSS=$5  # such as aarch64-linux-gnu- on X86 platform or "" on ARM64 platform
 PACK_TYPE=$6 # such as "tar", "rpm", "deb" or "all"
 PACK_SAVE_DIR=$(cd $7; pwd) #
-INSTALL_DIR=$(cd $8; pwd)
+INSTALL_DIR=$8
 
 ODP_ADDR=`pwd`/packages/odp
 
