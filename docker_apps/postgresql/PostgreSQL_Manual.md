@@ -28,7 +28,8 @@ There are several of ways to start PostgreSQL docker container as follows:
     - Execute `docker port postgresql` to check the dynamic port
 - Start one container which uses the specified host data diretory 
   - Examples:`docker run -p 5432:5432 -v /host/datadir:/u01/postgresql -d openestuary/postgresql:9.6`
-            In addition, the database will be stored into /host/datadir/data directory while the WAL logs will be stored into /host/datadir/log directory. 
+
+    In addition, the database will be stored into /host/datadir/data directory while the WAL logs will be stored into /host/datadir/log directory. 
 - Start one container which uses the specified configuration
   - Examples:`docker run -p 5432:5432 -v /host/configdir:/usr/local/postgresql/config -d openestuary/postgresql:9.6`
   - Examples:`docker run -p 5432:5432 -v /host/configdir:/usr/local/postgresql/config -e PGCONF=large -d openestuary/postgresql:9.6`
