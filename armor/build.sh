@@ -65,7 +65,7 @@ build_armor_tools_ubuntu()
                     # build gprof test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_gprof_test.sh $armor_result_dir
+                    sh build_gprof_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -91,7 +91,7 @@ build_armor_tools_ubuntu()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
+                    sh build_kprobes_test.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -102,7 +102,7 @@ build_armor_tools_ubuntu()
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
+                    sh build_ktap.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -126,7 +126,7 @@ build_armor_tools_ubuntu()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
+                    sh build_lttng.sh "${CROSS}"  $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -207,7 +207,7 @@ build_armor_tools_ubuntu()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $armor_result_dir
+                    sh build_valgrind_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -227,7 +227,7 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $armor_result_dir
+sh build_armor_utility.sh "${CROSS}" $armor_result_dir
 
 cd -
 popd
@@ -309,7 +309,7 @@ build_armor_tools_fedora()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
+                    sh build_kprobes_test.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -320,7 +320,7 @@ build_armor_tools_fedora()
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
+                    sh build_ktap.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -343,7 +343,7 @@ build_armor_tools_fedora()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
+                    sh build_lttng.sh "${CROSS}"  $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -424,7 +424,7 @@ build_armor_tools_fedora()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $armor_result_dir
+                    sh build_valgrind_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -443,7 +443,7 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $armor_result_dir
+sh build_armor_utility.sh "${CROSS}" $armor_result_dir
 
 cd -
 popd
@@ -504,7 +504,7 @@ build_armor_tools_opensuse()
                     # build gprof test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_gprof_test.sh $armor_result_dir
+                    sh build_gprof_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -531,7 +531,7 @@ build_armor_tools_opensuse()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
+                    sh build_kprobes_test.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -542,7 +542,7 @@ build_armor_tools_opensuse()
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
+                    sh build_ktap.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -565,7 +565,7 @@ build_armor_tools_opensuse()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
+                    sh build_lttng.sh "${CROSS}"  $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -646,7 +646,7 @@ build_armor_tools_opensuse()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $armor_result_dir
+                    sh build_valgrind_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -665,7 +665,7 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $armor_result_dir
+sh build_armor_utility.sh "${CROSS}" $armor_result_dir
 
 cd -
 popd
@@ -727,7 +727,7 @@ build_armor_tools_debian()
                     # build gprof test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_gprof_test.sh $armor_result_dir
+                    sh build_gprof_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -754,7 +754,7 @@ build_armor_tools_debian()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
+                    sh build_kprobes_test.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -765,7 +765,7 @@ build_armor_tools_debian()
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
+                    sh build_ktap.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -789,7 +789,7 @@ build_armor_tools_debian()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
+                    sh build_lttng.sh "${CROSS}"  $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -874,7 +874,7 @@ build_armor_tools_debian()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $armor_result_dir
+                    sh build_valgrind_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -893,7 +893,7 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $armor_result_dir
+sh build_armor_utility.sh "${CROSS}" $armor_result_dir
 
 cd -
 popd
@@ -974,7 +974,7 @@ build_armor_tools_centos()
                     # build kprobes test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_kprobes_test.sh $kernel_build_dir $armor_result_dir
+                    sh build_kprobes_test.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                     # copy kprobes test binaries to rootfs
@@ -985,7 +985,7 @@ build_armor_tools_centos()
                     # build  ktap code and install binaries into rootfs
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_ktap.sh $kernel_build_dir $armor_result_dir
+                    sh build_ktap.sh "${CROSS}" $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1008,7 +1008,7 @@ build_armor_tools_centos()
                     # build lttng kernel module and lttng uspace test code
                     pushd $armor_build_dir
                     cd build_scripts/
-                    sh build_lttng.sh $kernel_build_dir $armor_result_dir
+                    sh build_lttng.sh "${CROSS}"  $kernel_build_dir $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1089,7 +1089,7 @@ build_armor_tools_centos()
                     pushd $armor_build_dir
                     cd build_scripts/
                     # build valgrind test code
-                    sh build_valgrind_test.sh $armor_result_dir
+                    sh build_valgrind_test.sh "${CROSS}" $armor_result_dir
                     cd -
                     popd
                 ;;
@@ -1108,7 +1108,7 @@ pushd $armor_build_dir
 cd build_scripts/
 
 # build armor utility
-sh build_armor_utility.sh $armor_result_dir
+sh build_armor_utility.sh "${CROSS}" $armor_result_dir
 
 cd -
 popd
@@ -1145,8 +1145,8 @@ LOG_FILE=$armor_build_dir"/armor_build_log"
 ###################################################################################
 ############################# Setup host environmenta #############################
 ###################################################################################
-cross_gcc=${CROSS}gcc
-cross_prefix=${CROSS}
+cross_gcc="${CROSS}"gcc
+cross_prefix="${CROSS}"
 
 ###################################################################################
 ############################# Build Armor Tools #############################

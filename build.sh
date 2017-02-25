@@ -149,8 +149,6 @@ if [ ${DEBUG_ON} -eq 1 ] ; then
     DEBUG_ARG="--debug=on"
 fi
 
-CROSS=""
-
 #If the json file is not specified, then just build and install packages 
 #based on the first argument 
 if [ -z "${CFG_FILE}" ] ; then
