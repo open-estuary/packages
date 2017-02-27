@@ -1240,7 +1240,7 @@ case $DISTRO in
 
     esac
 
-sudo cp -rf $armor_dir/testing/test_scripts   $armor_result_dir/test_scripts/
+sudo cp -rf $armor_dir/testing/test_scripts/*   $armor_result_dir/test_scripts/
 
 if [ x"${PACK_TYPE}" == x"tar" ] || [ x"${PACK_TYPE}" == x"all" ] ; then
     #Generate the corresponding files under the specifed directory
