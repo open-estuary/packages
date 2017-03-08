@@ -35,6 +35,7 @@ There are several of ways to start PostgreSQL docker container as follows:
   - Examples:`docker run -p 5432:5432 -v /host/configdir:/usr/local/postgresql/config -e PGCONF=large -d openestuary/postgresql:9.6`
             
     In addition, it will use /host/configdir/postgresql.conf or /host/configdir/postgresql_small.conf if PGCONF is not specified. Otherwise, it will use /host/configdir/postgresql_large.conf if PGCONF=large is specified.
+- Default account: user `postgres`, password `postgres`
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [postgresql.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/postgresql/postgresql.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/postgresql/start.sh).
