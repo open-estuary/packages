@@ -14,14 +14,4 @@ Currently, we use nginx to worked as a webserver in Estuary version, and it will
 This HHVM could be installed autoamtically if the hhvm package is set to "enabled" and build command is "install" in [EstuaryCfg.json](https://github.com/open-estuary/estuary/blob/master/estuarycfg.json). 
 
 ## <a name="3">Start HHVM Service</a>
-After the hhvm installed successfully, you can start the by these commands:
-> cd /usr/estuary/packages/hhvm-3.17.3/
-> bash start.sh
-
-## <a name="3">Testing</a>
-Ater the hhvm started successfully, the root directory of webserver is /usr/share/nginx/html, you can put your html and php pages into this directory, then access at client side.
-
-## <a name="3">FAQ</a>
-If you can not access the webserve, plesae try to stop the firewall by:
-> systemctl stop firewalled.service
-From my testing, it's neccessary on CentOS system.
+You can call the start.sh script to start hhvm service

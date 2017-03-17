@@ -25,14 +25,6 @@ if [ ! -d /var/log/hhvm ];then
     mkdir -p /var/log/hhvm
 fi
 
-#start nginx service
-if [ ! -e /usr/sbin/nginx ];then
-    echo "[$PKG_NAME] nginx has not installed, please install it firtly"
-    exit 0
-else
-    /usr/sbin/nginx -c /usr/estuary/etc/nginx/nginx.conf &
-fi
-
 #start hhvm service
 if [ ! -e /usr/estuary/bin/hhvm ];then
     echo "[$PKG_NAME] hhvm has not installed ,please iinstall it firtly"

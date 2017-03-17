@@ -39,14 +39,9 @@ case $HOST in
         # install hhvm dependent packages
         yum install tbb libdwarf freetype libjpeg-turbo ImageMagick libmemcached libxslt libyaml libtiff fontconfig libXext libXt libtool-ltdl \
         libSM libICE libX11 libgomp cyrus-sasl jbigkit libxcb libXau -y
-
-        # install nginx webserver
-        #step one: install epel-release
-        #step two: install nginx
-        yum install epel-release -y
-        yum install nginx -y
     ;;
     ubuntu)
+        echo "[$PKG_NAME] install package on $HOST system"
         #update the system
         apt-get update -y
         
@@ -54,10 +49,6 @@ case $HOST in
         apt-get install libjemalloc-dev libonig-dev libcurl3 libgoogle-glog-dev libtbb-dev libfreetype6-dev libjpeg-turbo8-dev libvpx-dev libxslt1-dev \
         libmagickwand-dev libc-client2007e-dev libmemcached-dev libmcrypt-dev libpq-dev libboost-dev libboost-filesystem-dev libboost-program-options-dev \
         libboost-regex-dev libboost-system-dev libboost-thread-dev libboost-context-dev -y
-        
-        # install nginx webserver
-        apt-get install nginx -y
-        echo "[$PKG_NAME] install package on $HOST system"
     ;;
     debian)
         echo "[$PKG_NAME] Do not support install hhvm on $HOST system"
@@ -80,17 +71,16 @@ if [ ! -d ${INSTALLDIR}/bin ];then
     mkdir -p $INSTALLDIR/bin
 fi
 
-if [ ! -d ${INSTALLDIR}/etc/hhvm -o ! -d ${INSTALLDIR}/etc/nginx ];then
-    mkdir -p ${INSTALLDIR}/etc/{hhvm,nginx}
+if [ ! -d ${INSTALLDIR}/etc/hhvm ];then
+    mkdir -p ${INSTALLDIR}/etc/hhvm
 fi
 
 tar -xzf ./${PKG_NAME}-${PKG_VER}-${HOST}.aarch64.tar.gz
 cp -fr ./bin/* $INSTALLDIR/bin
-cp -fr ./nginx/nginx.conf $INSTALLDIR/etc/nginx
 cp -fr ./hhvm/config.hdf $INSTALLDIR/etc/hhvm
 cp -fr ./hhvm/php.ini $INSTALLDIR/etc/hhvm
 cp -fr ./hhvm/server.ini $INSTALLDIR/etc/hhvm
-rm -fr ./bin ./nginx ./hhvm
+rm -fr ./bin ./hhvm
 
 popd > /dev/null
 
