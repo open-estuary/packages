@@ -6,7 +6,7 @@
 
 ## <a name="1">Introduction</a>
 
-This MongoDB [docker image] (https://docs.docker.com/) is based on [MongoDB 3.4](https://github.com/mongodb/mongo).
+This MongoDB docker image is based on [MongoDB 3.4](https://github.com/mongodb/mongo).
 
 
 ## <a name="2">Build</a>
@@ -43,7 +43,7 @@ There are several of ways to start MongoDB docker container as follows:
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [mongodb.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/mongodb.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/start.sh).
-In addition, the [docker documents] (https://docs.docker.com/) will provide more docker commands.
+In addition, the [docker documents](https://docs.docker.com/) will provide more docker commands.
                                                    
 ## <a name="5">Remove</a>
 - Execute the [remove.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/remove.sh) on ARM64 to remove MongoDB docker container and images 
