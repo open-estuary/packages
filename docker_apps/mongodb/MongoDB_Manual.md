@@ -10,7 +10,7 @@ This MongoDB docker image is based on [MongoDB 3.4](https://github.com/mongodb/m
 
 
 ## <a name="2">Build</a>
-As for how to build this docker image, please refer to [MongoDB Docker file] (https://github.com/open-estuary/dockerfiles/tree/master/mongodb).
+As for how to build this docker image, please refer to [MongoDB Docker file](https://github.com/open-estuary/dockerfiles/tree/master/mongodb).
 In addition, all docker images are stored into [OpenEstuary Docker Hub](https://cloud.docker.com/app/openestuary).
 
 ## <a name="3">Installation</a>
