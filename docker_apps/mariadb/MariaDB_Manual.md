@@ -6,11 +6,11 @@
 
 ## <a name="1">Introduction</a>
 
-This MariaDB [docker image] (https://docs.docker.com/) is based on [MariaDB 10.1.20](http://sfo1.mirrors.digitalocean.com/mariadb//mariadb-10.1.21/source/mariadb-10.1.21.tar.gz).
+This MariaDB [docker image](https://docs.docker.com/) is based on [MariaDB 10.1.20](http://sfo1.mirrors.digitalocean.com/mariadb//mariadb-10.1.21/source/mariadb-10.1.21.tar.gz).
 
 
 ## <a name="2">Build</a>
-As for how to build this docker image, please refer to [MariaDB Docker file] (https://github.com/open-estuary/dockerfiles/tree/master/mariadb/mariadb).
+As for how to build this docker image, please refer to [MariaDB Docker file](https://github.com/open-estuary/dockerfiles/tree/master/mariadb/mariadb).
 In addition, all docker images are stored into [OpenEstuary Docker Hub](https://cloud.docker.com/app/openestuary).
 
 ## <a name="3">Installation</a>
@@ -35,7 +35,7 @@ There are several of ways to start MariaDB docker container as follows:
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [my.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/mariadb/my.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mariadb/start.sh).
-In addition, the [docker documents] (https://docs.docker.com/) will provide more docker commands.
+In addition, the [docker documents](https://docs.docker.com/) will provide more docker commands.
 
 ## <a name="5">Remove</a>
 - Execute the [remove.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mariadb/remove.sh) on ARM64 to remove MariaDB docker container and images 
