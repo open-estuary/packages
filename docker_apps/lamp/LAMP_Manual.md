@@ -6,11 +6,10 @@
 
 ## <a name="1">Introduction</a>
 
-This LAMP(Linux, Apache, MySQL and PHP) [docker image] (https://docs.docker.com/) is based on [Apache](https://www.apache.org) and MySQL (https://ftp.postgresql.org/pub/source/v9.6.1/postgresql-9.6.1.tar.gz).
+This LAMP(Linux, Apache, MySQL and PHP) [docker image](https://docs.docker.com/) is based on [Apache](https://www.apache.org) and [MySQL](https://github.com/open-estuary/packages/blob/master/docker_apps/mysql/MySql_Manual.md).
 
 ## <a name="2">Build</a>
 - As for how to build apache docker image, please refer to [Apache Docker file](https://github.com/open-estuary/dockerfiles/tree/master/apache).
-
 - As for how to build mysql docker image, please refer to [MySQL Docker file](https://github.com/open-estuary/dockerfiles/tree/master/mysql).
 
 ## <a name="3">Installation</a>
@@ -32,7 +31,7 @@ The whole LAMP contains Apache and mysql docker images which could be installed 
     - Examples:`docker run -p 80:80 --name lamp-apache -v /usr/local/lamp/Discuz:/var/www/html -d openestuary/apache`
     
 - Start MySql
-  - Examples: `docker run -p 3306:3306 --name lamp-mysql -d openestuary/mysql`. For more information, please refer to [MySQL Manual](https://github.com/open-estuary/packages/edit/master/docker_apps/mysql/MySQL_Manual.md)
+  - Examples: `docker run -p 3306:3306 --name lamp-mysql -d openestuary/mysql`. For more information, please refer to [MySQL Manual](https://github.com/open-estuary/packages/blob/master/docker_apps/mysql/MySql_Manual.md)
                                                         
 ## <a name="5">Remove</a>
 - Execute `docker rm <dockercontainer_id>` and `docker rmi openestuary/apache` and `docker rmi openestuary/mysql` to remove docker containers and docker images accordingly
