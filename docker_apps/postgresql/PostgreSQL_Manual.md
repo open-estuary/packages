@@ -6,11 +6,11 @@
 
 ## <a name="1">Introduction</a>
 
-This PostgreSQL [docker image] (https://docs.docker.com/) is based on [PostgreSQL 9.6](https://ftp.postgresql.org/pub/source/v9.6.1/postgresql-9.6.1.tar.gz).
+This PostgreSQL [docker image](https://docs.docker.com/) is based on [PostgreSQL 9.6](https://ftp.postgresql.org/pub/source/v9.6.1/postgresql-9.6.1.tar.gz).
 
 
 ## <a name="2">Build</a>
-As for how to build this docker image, please refer to [PostgreSQL Docker file] (https://github.com/open-estuary/dockerfiles/tree/master/postgresql).
+As for how to build this docker image, please refer to [PostgreSQL Docker file](https://github.com/open-estuary/dockerfiles/tree/master/postgresql).
 In addition, all docker images are stored into [OpenEstuary Docker Hub](https://cloud.docker.com/app/openestuary).
 
 ## <a name="3">Installation</a>
@@ -39,7 +39,7 @@ There are several of ways to start PostgreSQL docker container as follows:
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [postgresql.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/postgresql/postgresql.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/postgresql/start.sh).
-In addition, the [docker documents] (https://docs.docker.com/) will provide more docker commands.
+In addition, the [docker documents](https://docs.docker.com/) will provide more docker commands.
                                                    
 ## <a name="5">Remove</a>
 - Execute the [remove.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/postgresql/remove.sh) on ARM64 to remove PostgreSQL docker container and images 
