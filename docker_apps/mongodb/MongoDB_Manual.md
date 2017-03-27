@@ -40,6 +40,7 @@ There are several of ways to start MongoDB docker container as follows:
             
     In addition, it will use /host/configdir/mongodb.conf.
 - Default account: user `mongodb`, password `Estuary12#$`
+ > By default, it will use `admin` database as authenticationDatabase. So it could be logged in via `mongo <ip_address>:<port>/admin -u mongodb -p Estuary12#$`
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [mongodb.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/mongodb.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/start.sh).
