@@ -3,11 +3,11 @@
 * [Installation](#3)
 * [Start](#4)
 * [Remove](#5)
+* [Performance](#6)
 
 ## <a name="1">Introduction</a>
 
-This MongoDB docker image is based on [MongoDB 3.4](https://github.com/mongodb/mongo).
-
+This MongoDB docker image is based on [MongoDB 3.4](https://github.com/mongodb/mongo) and ARM64 platform.
 
 ## <a name="2">Build</a>
 As for how to build this docker image, please refer to [MongoDB Docker file](https://github.com/open-estuary/dockerfiles/tree/master/mongodb).
@@ -49,3 +49,8 @@ In addition, the [docker documents](https://docs.docker.com/) will provide more 
 ## <a name="5">Remove</a>
 - Execute the [remove.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/remove.sh) on ARM64 to remove MongoDB docker container and images 
 - Execute `docker rm <dockercontainer_id>` and `docker rmi openestuary/mongodb` to remove docker containers and MongoDB docker images accordingly
+
+## <a name="6">Performance</a>
+### Performance Optimization 
+
+### Benchmark Tests
