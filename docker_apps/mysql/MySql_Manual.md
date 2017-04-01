@@ -3,6 +3,8 @@
 * [Installation](#3)
 * [Start](#4)
 * [Remove](#5)
+* [Performance Optimization](#6)
+* [Performance Benchmark](#7)
 
 ## <a name="1">Introduction</a>
 
@@ -39,3 +41,11 @@ In addition, the [docker documents](https://docs.docker.com/) will provide more 
 ## <a name="5">Remove</a>
 - Execute the [remove.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mysql/remove.sh) on ARM64 to remove MySql docker container and images 
 - Execute `docker rm <dockercontainer_id>` and `docker rmi openestuary/mysql` to remove docker containers and MySql docker images accordingly
+
+## <a name="6">Performance Optimization</a>
+
+As for performance optimization, please refer to [MySQL Perfomrance Optimization Guide](https://github.com/sjtuhjh/perfdocs/blob/master/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.pdf)
+
+
+## <a name="7">Performance Benchmark</a>
+TBD 
