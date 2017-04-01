@@ -53,7 +53,7 @@ In addition, the [docker documents](https://docs.docker.com/) will provide more 
 
 ## <a name="6">Performance Optimization</a>
 
-As for performance optimization, please refer to [MongoDB Perfomrance Optimization Guide](https://github.com/sjtuhjh/perfdocs/blob/master/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.pdf)
+As for performance optimization, please refer to [MongoDB Perfomrance Optimization Guide](https://github.com/sjtuhjh/perfdocs/blob/master/MongoDB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.pdf)
 
 
 ## <a name="7">Performance Benchmark</a>
