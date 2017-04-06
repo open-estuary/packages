@@ -21,6 +21,10 @@ PostgreSQL docker image could be installed through one of following ways:
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/postgresql/setup.sh) on ARM64 host to setup docker and PostgreSQL docker image accordingly
 - Use docker `pull openestuary/postgresql` to install the PostgreSQL docker image  
 
+### Versions 
+- v300/9.6 : based on Open-Estuary V300 CentOS and PostgreSQL 9.6.
+- latest: currently it is the same as v300 or 9.6. 
+
 ## <a name="4">Start</a>
 There are several of ways to start PostgreSQL docker container as follows:
 - Start one container whose port 5432 is mapped to the host specific port such as 5432
