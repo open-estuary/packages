@@ -20,6 +20,10 @@ MariaDB docker image could be installed through one of following ways:
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mariadb/setup.sh) on ARM64 host to setup docker and MariaDB docker image accordingly
 - Use docker `pull openestuary/mariadb` to install the MariaDB docker image  
 
+### Versions 
+- v300/10.1.20 : based on Open-Estuary V300 CentOS and MaraiDB 10.1.20.
+- latest: currently it is the same as v300 or 10.1.20. 
+
 ## <a name="4">Start</a>
 There are several of ways to start MariaDB docker container as follows:
 - Start one container whose port 3306 is mapped to the host specific port such as 3306
