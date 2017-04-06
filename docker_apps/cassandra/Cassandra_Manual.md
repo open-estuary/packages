@@ -16,7 +16,11 @@ In addition, all docker images are stored into [OpenEstuary Docker Hub](https://
 ## <a name="3">Installation</a>
 Cassandra docker image could be installed through one of following ways:  
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/cassandra/setup.sh) on ARM64 host to setup docker and Cassandra docker image accordingly
-- Use docker `pull openestuary/cassandra` to install the Cassandra docker image  
+- Use docker `pull openestuary/cassandra` to install the Cassandra docker image
+
+### Versions 
+- v300/3.10 : based on Open-Estuary V300 CentOS and Cassandra3.10
+- latest: currently it is the same as v300 or 3.10. 
 
 ## <a name="4">Start</a>
 There are several of ways to start Cassandra docker container as follows:
