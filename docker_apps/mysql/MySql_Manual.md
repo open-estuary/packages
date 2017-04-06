@@ -20,6 +20,10 @@ MySql docker image could be installed through one of following ways:
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mysql/setup.sh) on ARM64 host to setup docker and MySql docker image accordingly
 - Use docker `pull openestuary/mysql` to install the MySql docker image  
 
+### Versions 
+- v300/5.6 : based on Open-Estuary V300 CentOS and Percona Server 5.6
+- latest: currently it is the same as v300 or 5.6. 
+
 ## <a name="4">Start</a>
 There are several of ways to start MySql docker container as follows:
 - Start one container whose port 3306 is mapped to the host specific port such as 3306
