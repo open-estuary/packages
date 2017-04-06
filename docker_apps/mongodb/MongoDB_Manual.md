@@ -19,6 +19,10 @@ MongoDB docker image could be installed through one of following ways:
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/mongodb/setup.sh) on ARM64 host to setup docker and MongoDB docker image accordingly
 - Use docker `pull openestuary/mongodb` to install the MongoDB docker image  
 
+### Versions 
+- v300/3.4 : based on Open-Estuary V300 CentOS and MongoDB3.4
+- latest: currently it is the same as v300 or 3.4. 
+
 ## <a name="4">Start</a>
 There are several of ways to start MongoDB docker container as follows:
 - Start one container whose port 27017 is mapped to the host specific port such as 27017
