@@ -18,7 +18,11 @@ In addition, all docker images are stored into [OpenEstuary Docker Hub](https://
 ## <a name="3">Installation</a>
 AliSQL docker image could be installed through one of following ways:  
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/alisql/setup.sh) on ARM64 host to setup docker and AliSQL docker image accordingly
-- Use docker `pull openestuary/alisql` to install the AliSQL docker image  
+- Use docker `pull openestuary/alisql` to install the AliSQL docker image 
+
+### Versions 
+- v300/5.6 : based on Open-Estuary V300 CentOS and AliSQL 5.6.
+- latest: currently it is the same as v300 or 5.6. 
 
 ## <a name="4">Start</a>
 There are several of ways to start AliSQL docker container as follows:
