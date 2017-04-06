@@ -18,6 +18,10 @@ Redis docker image could be installed through one of following ways:
 - Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/redis/setup.sh) on ARM64 host to setup docker and Redis docker image accordingly
 - Use docker `pull openestuary/redis` to install the Redis docker image  
 
+### Versions 
+- v300/3.2.4 : based on Open-Estuary V300 CentOS and Redis3.2.4.
+- latest: currently it is the same as v300 or 3.2.4. 
+
 ## <a name="4">Start</a>
 There are several of ways to start Redis docker container as follows:
 - Start one container whose port 6379 is mapped to the host specific port such as 6379
