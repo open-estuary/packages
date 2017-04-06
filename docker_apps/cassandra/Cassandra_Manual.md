@@ -43,7 +43,12 @@ There are several of ways to start Cassandra docker container as follows:
 - Start one container which uses the specified configuration
   - Examples:`docker run --security-opt seccomp=unconfined -p 9042:9042 -v /host/configdir:/etc/cassandra -d openestuary/cassandra:3.10         
     Consequently, it will use /host/configdir/cassandra.yaml and other configuration files.
-- Default account: user `cassandra`, password `Estuary12#$`
+- Default account: user `cassandra`, password `cassandra`
+
+```
+   Usually it could use `cqlsh <ip address> <port(default 9042)>` to connect cassandra node.
+   Please note that the <ip address> should not be '127.0.0.1'.
+```
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [cassandra.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/cassandra/cassandra.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/cassandra/start.sh).
