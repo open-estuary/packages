@@ -1,5 +1,5 @@
-1. [Setup Deployment Environment](#1)
-2. [Deploy OpenStack](#2)
+* [1. Setup Deployment Environment](#1)
+* [2. Deploy OpenStack](#2)
 
 ## Terms
 **Deployment machine**: machine to run deployment scripts.
