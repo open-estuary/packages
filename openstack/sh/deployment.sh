@@ -173,14 +173,14 @@ function launch_an_instance
 
     $xtrace
 
-    echo "Please use the \"ssh cirros@${vm_ip}\" to login the vm, \
-        the password is \"gocubsgo\""
+    echo "Please use the \"ssh cirros@${vm_ip}\" to login the vm, "
+    echo "the password is \"gocubsgo\""
 }
 
 
 if [ $# -eq 0 ]; then
-    echo "You should use './deployment.sh '\$USERNAME' to point out which user\
-        you are going to use."
+    echo "You should use './deployment.sh '\$USERNAME' to point out which user"
+    echo  "you are going to use."
     exit 1
 else
     USERNAME=$1
@@ -190,7 +190,7 @@ filedir=$(cd "$(dirname "$0")"; pwd)
 filepath=$(cd "$(dirname "$filedir")"; pwd)
 
 source $filepath/config/openstack_cfg.sh
-source $filepath/config/common.sh
+source $filepath/sh/common.sh
 
 pushd ${filepath}
     if [ ! -d openstack-ref-architecture ]; then

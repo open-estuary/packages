@@ -10,10 +10,10 @@ if [ -f /etc/debian_version ]; then
     echo "APT::Get::AllowUnauthenticated 1;" >> /etc/apt/apt.conf.d/70debconf
     
     #echo deb http://repo.linaro.org/debian/erp-16.12-stable jessie main >> \
-    wget http://114.119.4.74:8083/repos/debian/erp-16.12-stable/ jessie main >> \ 
+    echo deb http://192.168.1.103:8083/repos/debian/erp-16.12-stable/ jessie main >> \
         /etc/apt/sources.list
     #echo deb-src http://repo.linaro.org/debian/erp-16.12-stable jessie main  >> \
-    wget http://114.119.4.74:8083/repos/debian/erp-16.12-stable/ jessie main >> \
+    echo deb-src http://192.168.1.103:8083/repos/debian/erp-16.12-stable/ jessie main >> \
         /etc/apt/sources.list
     echo deb http://ftp.debian.org/debian jessie-backports main  >> \
         /etc/apt/sources.list
@@ -27,7 +27,7 @@ fi
 
 if [ -f /etc/redhat_version ]; then
     #wget http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo \
-    wget http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo \
+    wget http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo \
         -O /etc/yum.repos.d/linaro-overlay.repo
     [ $? -ne 0 ] && echo "The CentOS source cannot be accessed"
     yum update -y

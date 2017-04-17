@@ -32,6 +32,7 @@ For dnsmasq, please refer to official [manual](http://www.thekelleys.org.uk/dnsm
 $ mkdir openstack-deploy
 $ cd openstack-deploy
 $ git clone https://github.com/open-estuary/packages.git
+$ cd packages
 ```
 
 config the packages/openstack/config/target_machine_hosts (Estuary guys can skip this)
@@ -41,7 +42,7 @@ $ ./openstack/sh/setup_deployment_machine.sh <USER-ACCOUNT>
 ```
 **_Note1_**: "USER-ACCOUNT" is the target machine user account used for deployment.
 
-**_Note2_**: You neet to change the source for the target machines. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' to instead of 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo'; for debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' to instead of 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/'
+**_Note2_**: You neet to change the source for the target machines. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' or 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo' to instead of "http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo"; for debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' or 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/' to instead of 'http://192.168.1.103:8083/repos/debian/erp-16.12-stable/'
 
 **_Note3_**: After the scripts finished, You need to **REBOOT** the target machines so that the hostnames defined in target_machine_hosts take into effect
 

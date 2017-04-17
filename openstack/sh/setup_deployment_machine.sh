@@ -25,8 +25,7 @@ function install_openstack_client
 }
 
 if [ $# -eq 0 ]; then
-    echo "You should use './openstack/sh/deployment.sh '\$USERNAME' to point out which user\
-        you are going to use."
+    echo "You should use './openstack/sh/deployment.sh '\$USERNAME' to point out which user you are going to use."
     exit 1
 else
     USERNAME=$1
