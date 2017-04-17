@@ -11,16 +11,11 @@ project_user="user"
 project_name="demo"
 project_passwd="password"
 
-DEMO_ROUTER="demo-router"
-
 # fixed ip address and net info
-DEMO_NET="demo-net"
-DEMO_SUBNET="demo-subnet"
-demo_net_gw_addr="10.10.10.1"
-demo_net_bits="24" 
+demo_net_cidr="10.10.8.0/24"
 
 image_name="cirros-1"
-instance_name="cirros_test"
+heat_name="heat_test"
 image_file="cirros-d161201-aarch64-disk.img"
 image_address_url="http://download.cirros-cloud.net/daily/20161201/${image_file}"
 
