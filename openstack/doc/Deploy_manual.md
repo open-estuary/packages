@@ -12,7 +12,7 @@
 
 TO BE ADD
 
-* Install Estuary latest release Debian or CentOS on target machines
+* Install Estuary latest release Debian or CentOS on target machines (Install in /dev/sda disk)
 
 * Bind the IP addresses of target machines (Estaury test environtment is ready, test guy please skip this step)
 
@@ -27,6 +27,7 @@ For dnsmasq, please refer to official [manual](http://www.thekelleys.org.uk/dnsm
 **Or** simply just setup the /etc/hosts file of each machine, includine deployment and target machines.
 
 * Setup the software environments for deployment machine and target machines
+
 **_Note_**: All the bellow steps are operated on deployment machine. For estuary test environment, the deployment machine is **OpenLab2 BoardServer**.
 ```
 $ mkdir openstack-deploy
@@ -35,14 +36,16 @@ $ git clone https://github.com/open-estuary/packages.git
 $ cd packages
 ```
 
-config the packages/openstack/config/target_machine_hosts (Estuary guys can skip this)
+* config the packages/openstack/config/target_machine_hosts (Estuary guys can skip this)
+
+* Execute the scripts to deploy software environments.
 
 ```
 $ ./openstack/sh/setup_deployment_machine.sh <USER-ACCOUNT>
 ```
 **_Note1_**: "USER-ACCOUNT" is the target machine user account used for deployment.
 
-**_Note2_**: You neet to change the source for the target machines. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' or 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo' to instead of "http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo"; for debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' or 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/' to instead of 'http://192.168.1.103:8083/repos/debian/erp-16.12-stable/'
+**_Note2_**: You neet to change the source for the target machines in the ```setup_target_machines.sh```. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' or 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo' to instead of "http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo". For Debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' or 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/' to instead of 'http://192.168.1.103:8083/repos/debian/erp-16.12-stable/'. (Estuary guys can skip this)
 
 **_Note3_**: After the scripts finished, You need to **REBOOT** the target machines so that the hostnames defined in target_machine_hosts take into effect
 
@@ -61,14 +64,14 @@ $ git clone https://git.linaro.org/leg/sdi/openstack-ref-architecture.git openst
 Genetare the secrets folder in the ```openstack-ref-architecture/ansible``` to store variables. This folder can refer to the ```openstack/config/secrets``` folder. 
 For Estuary test guys, copy the ```openstack/config/secrets```folder to ```openstack-ref-architecture/ansible```
 
-```cp -r openstack/config/secrets folder openstack/openstack-ref-architecture/ansible```
+```
+$ cp -r openstack/config/secrets openstack/openstack-ref-architecture/ansible
+```
 
 * Deploy the openstack
 ```
 $ ./openstack/sh/deployment.sh <USER-ACCOUNT>        ## It will take sometime ~30 minitues to finish the deployment
 ```
-**_Note1_**: "RELEASE-TAG" is the Estuary release tag e.g. v3.1.
+**_Note1_**: "USER-ACCOUNT" is the target machine user account used for deployment.
 
-**_Note2_**: "USER-ACCOUNT" is the target machine user account used for deployment.
-
-**_Note3_**: The default "openstack/config/target_machine_hosts" and "openstack/config/secrets" files are for estuary test environment, please modifiy them if your environment is different from the estuary test environment.
+**_Note2_**: The default "openstack/config/secrets" files are for estuary test environment, please modifiy them if your environment is different from the estuary test environment.
