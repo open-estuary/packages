@@ -1,1 +1,1 @@
-[UserManual](UserManual.docx)
+Please download the [UserManual](UserManual.docx) to see.

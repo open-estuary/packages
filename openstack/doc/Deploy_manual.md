@@ -45,7 +45,7 @@ $ ./openstack/sh/setup_deployment_machine.sh <USER-ACCOUNT>
 ```
 **_Note1_**: "USER-ACCOUNT" is the target machine user account used for deployment.
 
-**_Note2_**: You neet to change the source for the target machines in the ```setup_target_machines.sh```. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' or 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo' to instead of "http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo". For Debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' or 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/' to instead of 'http://192.168.1.103:8083/repos/debian/erp-16.12-stable/'. (Estuary guys can skip this step.)
+**_Note2_**: You neet to change the source for the target machines in the ```setup_target_machines.sh```. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' or 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo' to instead of "http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo". For Debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' or 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/' to instead of 'http://192.168.1.103:8083/repos/debian/erp-16.12-stable/'. (Estuary guys can skip this)
 
 **_Note3_**: After the scripts finished, You need to **REBOOT** the target machines so that the hostnames defined in target_machine_hosts take into effect
 
@@ -64,7 +64,9 @@ $ git clone https://git.linaro.org/leg/sdi/openstack-ref-architecture.git openst
 Genetare the secrets folder in the ```openstack-ref-architecture/ansible``` to store variables. This folder can refer to the ```openstack/config/secrets``` folder. 
 For Estuary test guys, copy the ```openstack/config/secrets```folder to ```openstack-ref-architecture/ansible```
 
-```cp -r openstack/config/secrets openstack/openstack-ref-architecture/ansible```
+```
+$ cp -r openstack/config/secrets openstack/openstack-ref-architecture/ansible
+```
 
 * Deploy the openstack
 ```
