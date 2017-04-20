@@ -200,7 +200,7 @@ pushd ${filepath}
     install_dir=$PWD
     if [ ! -d ansible/secrets ]; then
         echo "You have not config secrets in the openstack folder"
-        exit 1
+        ln -s ${filepath}/config/secrets  ${install_dir}/ansible/secrets
     fi
     #cp -r ${filepath}/config/secrets  ./ansible
     export ANSIBLE_HOSTS=$install_dir/ansible/secrets/hosts
@@ -212,6 +212,7 @@ pushd ${filepath}
     ceph_mon_server=`get_first_machine ceph_monitor_servers`
     echo "Begin to install Ceph Monitor"
     echo "ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-mon -u $USERNAME"
+    echo "Please input the sudo password of $USERNAME"
     if ! ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-mon -u $USERNAME; then
         echo "Ceph MON installation failed"
         exit 1
@@ -229,6 +230,7 @@ pushd ${filepath}
     ceph_osd_server=`get_first_machine ceph_osd_servers`
     echo "Begin to install Ceph OSD"
     echo "ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-osd -u $USERNAME"
+    echo "Please input the sudo password of $USERNAME"
     if ! ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-osd -u $USERNAME; then
         echo "Ceph OSD installation failed"
         #exit 1
@@ -241,11 +243,12 @@ pushd ${filepath}
     ceph_osd_tree=$(echo ${ceph_osd_result} | grep 'HEALTH_ERR')
     if [[ x"$ceph_osd_tree" != x"" ]]; then
         echo "Ceph OSD installation failed"
-        #exit 1
+        exit 1
     fi
 
     echo "Begin to install whole OpenStack Services"
     echo "ansible-playbook -K -v -i ./secrets/hosts ./site.yml -u $USERNAME"
+    echo "Please input the sudo password of $USERNAME"
     if ! ansible-playbook -K -v -i ./secrets/hosts ./site.yml -u $USERNAME; then
         echo "OpenStack installation failed"
         exit 1
@@ -269,10 +272,13 @@ adminrc_path=$(find $filepath -name  'nova-admin.rc')
 
 LOCAL_PATH=$PWD
 LOCAL_ADMIN=$PWD/nova-admin.rc
+linaro_ansible_path=${filepath}/openstack-ref-architecture/ansible
 cp ${adminrc_path}  ${LOCAL_PATH}
-keystone_admin_passwd=$(find ${filepath}/openstack-ref-architecture/ansible/secrets -name 'deployment-vars' | xargs cat | \
+keystone_admin_passwd=$(find ${linaro_ansible_path}/secrets \
+    -name 'deployment-vars' | xargs cat | \
 grep 'keystone_admin_pass:' | awk '{print $NF}')
-public_url=http://$(find ${filepath}/openstack-ref-architecture/ansible/secrets -name 'deployment-vars' | xargs cat | \
+public_url=http://$(find ${linaro_ansible_path}/secrets \
+    -name 'deployment-vars' | xargs cat | \
     grep 'public_api_host:' | grep -o '[0-9.]\+')
 sed -i "s/{{keystone_admin_pass}}/${keystone_admin_passwd}/g" ${LOCAL_ADMIN}
 sed -i "s#{{public_api_host}}#${public_url}#g" ${LOCAL_ADMIN}
