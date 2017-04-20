@@ -31,6 +31,8 @@ else
     USERNAME=$1
 fi
 
+install_openstack_client
+
 if [ -f /etc/debian_version ]; then
     #sudo apt-get -q=2 update
     sudo apt-get install -y git libyaml-dev libxml2-dev libxslt1-dev \
