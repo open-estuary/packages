@@ -49,7 +49,6 @@ function prepare_openstack_services
     local xtrace
     xtrace=$(set +o | grep xtrace)
     set -o xtrace
-    
 
     if [ ! "$(openstack role show ${project_user} 2>/dev/null)" ]; then
         openstack role create ${project_user}
@@ -59,7 +58,7 @@ function prepare_openstack_services
         openstack flavor create --ram 512 --disk 10 --vcpus 1 --public m1.tiny
         [[ $? -ne 0 ]] && die $LINENO "create flavor m1.tiny failed"
     fi
-    
+ 
     if [ ! -f ${image_file} ]; then
         wget ${image_address_url}
         [[ $? -ne 0 ]] && die $LINENO "download image file failed"
@@ -87,17 +86,21 @@ function prepare_openstack_services
         [[ $? -ne 0 ]] && die $LINENO "create provider subnet failed"
     fi
 
-    openstack project create --domain ${DOMAIN} --description "Demo Project" \
-        ${project_name}
-    [[ $? -ne 0 ]] && die $LINENO "create demo project failed"
-    openstack user create --domain ${DOMAIN} --password ${project_passwd} \
-        ${project_name}
-    [[ $? -ne 0 ]] && die $LINENO "create demo user failed"
-    openstack role add --project ${project_name} --user ${project_name} \
-        ${project_user}
-    [[ $? -ne 0 ]] && die $LINENO "add role for demo project failed"
+    if [ ! "$(openstack project show ${project_name} 2>/dev/null)" ]; then
+        openstack project create --domain ${DOMAIN} --description "Demo Project" \
+            ${project_name}
+        [[ $? -ne 0 ]] && die $LINENO "create demo project failed"
+    fi
 
+    if [ ! "$(openstack user show ${project_name} 2>/dev/null)" ]; then
+        openstack user create --domain ${DOMAIN} --password ${project_passwd} \
+            ${project_name}
+        [[ $? -ne 0 ]] && die $LINENO "create demo user failed"
 
+        openstack role add --project ${project_name} --user ${project_name} \
+            ${project_user}
+        [[ $? -ne 0 ]] && die $LINENO "add role for demo project failed"
+    fi
     openstack project list
     demo_project_id=$(openstack project show ${project_name} | \
         grep ' id ' | awk '{print $(NF-1)}')
@@ -138,14 +141,16 @@ function launch_an_instance
     openstack keypair create ${key_name} > ${key_name}.pem
 
     chmod 600 ${key_name}.pem
-    heat stack-create $heat_name -f ${filepath}/config/test.yml -P "image=$image_id;\
-        public_network=$provider_net;flavor=$flavor_name;key_name=$key_name;\
-        private_subnet=$demo_net_cidr"
-    [[ $? -ne 0 ]] && die $LINENO "create an instance failed"
-    echo "sleep for 100 seconds to wait to launch the first stack..."
-    sleep 100
+    if [ ! "$(heat stack-show ${heat_name} 2>/dev/null)" ]; then
+        heat stack-create $heat_name -f ${filepath}/config/test.yml -P "image=$image_id;\
+            public_network=$provider_net;flavor=$flavor_name;key_name=$key_name;\
+            private_subnet=$demo_net_cidr"
+        [[ $? -ne 0 ]] && die $LINENO "create an instance failed"
+        echo "sleep for 100 seconds to wait to launch the first stack..."
+        sleep 100
+    fi
 
-    instance_name=$(nova list | sed 's/ /\n/g' | grep -i "my-fisrt-stack")
+    instance_name=$(nova list | sed 's/ /\n/g' | grep -i "$heat_name")
     instance_run=$(openstack server list | grep Running)
     if [ x"$instance_run" == x"" ]; then
         instance_error=$(openstack server list | grep ERROR)
@@ -270,13 +275,14 @@ unset OS_INTERFACE
 unset OS_IDENTITY_API_VERSION
 adminrc_path=$(find $filepath -name  'nova-admin.rc')
 
+
 LOCAL_PATH=$PWD
 LOCAL_ADMIN=$PWD/nova-admin.rc
 linaro_ansible_path=${filepath}/openstack-ref-architecture/ansible
-cp ${adminrc_path}  ${LOCAL_PATH}
+cp -f ${adminrc_path}  ${LOCAL_PATH}
 keystone_admin_passwd=$(find ${linaro_ansible_path}/secrets \
     -name 'deployment-vars' | xargs cat | \
-grep 'keystone_admin_pass:' | awk '{print $NF}')
+    grep 'keystone_admin_pass:' | awk '{print $NF}')
 public_url=http://$(find ${linaro_ansible_path}/secrets \
     -name 'deployment-vars' | xargs cat | \
     grep 'public_api_host:' | grep -o '[0-9.]\+')
@@ -287,6 +293,14 @@ network_server=`get_first_machine networking_servers`
 scp ${LOCAL_ADMIN}  $USERNAME@${network_server}:~
 cp -f ${LOCAL_ADMIN}  ~/
 
+echo -e "\033[41;37m Now OpenStack Installation has finished. The following steps will \n
+    create openstack project, user, role and public network informations. If your \n
+    ${filepath}/config/openstack_cfg.sh has been configured, you can continue. Or you \n
+    had better stop here! \033[0m"
+read -n1 -t 20 -p "If you want to continue the following steps (default y)? y/N " choice
+if [ x"$choice" = x"n" ] || [ x"$choice" = x"N" ]; then
+    exit 0
+fi
 openstack_services
 prepare_openstack_services
 #launch_an_instance

@@ -35,14 +35,14 @@ if [ ! -d ${BUILDDIR}/tar ] ; then
 fi
 
 pushd ${BUILDDIR}/$tar
-sudo cp ${openstack_dir}/start.sh ./
-sudo cp ${openstack_dir}/remove.sh ./
-sudo cp ${openstack_dir}/common.sh ./
-sudo cp ${openstack_dir}/openstack_cfg.sh ./
-git clone  https://git.linaro.org/leg/sdi/openstack-ref-architecture.git
+sudo cp -r ${openstack_dir}/config ./
+sudo cp -r ${openstack_dir}/patch ./
+sudo cp -r ${openstack_dir}/sh ./
+sudo cp -r ${openstack_dir}/doc ./
+sudo cp ${openstack_dir}/remove ./
 
-sudo tar -zcf ${BUILDDIR}/openstack.tar.gz remove.sh common.sh \
-    start.sh openstack_cfg.sh openstack-ref-architecture
+sudo tar -zcf ${BUILDDIR}/openstack.tar.gz remove.sh config patch\
+    sh doc
 popd > /dev/null
 
 sudo cp ${BUILDDIR}/openstack.tar.gz ${PACK_SAVE_DIR}/

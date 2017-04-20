@@ -8,17 +8,17 @@
 
 ## <a name="1">1. Setup Deployment Environment</a>
 ***
-* Setup the network of target machines (Estaury test environtment is ready, test guy please skip this step)
+* Setup the network of target machines (Estuary test environtment is ready, test guy please skip this step)
 
 TO BE ADD
 
 * Install Estuary latest release Debian or CentOS on target machines (Install in /dev/sda disk)
 
-* Bind the IP addresses of target machines (Estaury test environtment is ready, test guy please skip this step)
+* Bind the IP addresses of target machines (Estuary test environtment is ready, test guy please skip this step)
 
 Bind the IP address through the dhcp router Or dhcp machine(which install a dhcp service, e.g. dnsmasq).
 
-* Setup dns service (Estaury test environtment is ready, test guy please skip this step)
+* Setup dns service (Estuary test environtment is ready, test guy please skip this step)
 
 Setup dns of each target machine through the router Or dns machine(which install a dns service, e.g. dnsmasq).
 For dnsmasq, please refer to official [manual](http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html).
@@ -64,8 +64,12 @@ $ patch -p1 < ~/openstack-deploy/packages/openstack/patch/skip_tunnel_nic_task.p
 ```
 
 * Modify the secrets for the deployment (Estuary guys can skip this step)
+
 Modify the variables in ```openstack-deploy/openstack/config/secrets``` folder according to your environment.
 
+* Modify the related info of openstack info (Estuary guys can ship this step)
+
+Modify the variables in ```openstack-deploy/openstack/config/openstack_cfg.sh``` of your environment if you want to use create projects and other infos aotomatically.
 
 * Deploy the openstack
 ```
