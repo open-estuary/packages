@@ -47,7 +47,7 @@ $ ./openstack/sh/setup_deployment_machine.sh <USER-ACCOUNT>
 
 **_Note2_**: You neet to change the source for the target machines in the ```setup_target_machines.sh```. For CentOS, you can use 'http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo' or 'http://114.119.4.74:8083/repos/centos/7/linaro-overlay.repo' to instead of "http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo". For Debian, you can use 'http://repo.linaro.org/debian/erp-16.12-stable' or 'http://114.119.4.74:8083/repos/debian/erp-16.12-stable/' to instead of 'http://192.168.1.103:8083/repos/debian/erp-16.12-stable/'. (Estuary guys can skip this)
 
-**_Note3_**: In the process of script execute, you need to input several passwords. For *ansible* commands, you need to input password of "USER_ACCOUNT". For other commands, you need to install your own sudo password in the deployment machines.
+**_Note3_**: In the process of script execute, you need to input several passwords. For *ansible* commands, you need to input password of "USER_ACCOUNT". For other commands, you need to input your own sudo password in the deployment machines.
 
 **_Note4_**: After the scripts finished, You need to **REBOOT** the target machines so that the hostnames defined in target_machine_hosts take into effect
 

@@ -32,6 +32,7 @@ else
 fi
 
 if [ -f /etc/debian_version ]; then
+    apt-get install -y sudo
     sudo apt-get -q=2 update
     sudo apt-get install -y git libyaml-dev libxml2-dev libxslt1-dev \
         libmysqlclient-dev libffi-dev libssl-dev libvirt-dev python-dev \
@@ -82,16 +83,15 @@ temp_hosts=$(mktemp /tmp/temp.XXXX)
 
 # modify the machines hostname/hosts and reboot the machines
 for((i=0;i<${#clients_ips[@]};i++)); do
-    ssh $USERNAME@${clients_ips[$i]} "echo ${client_hosts[$i]} > /etc/hostname"
-    ssh $USERNAME@${clients_hosts[$i]} "cat /etc/hostname"
+    ssh $USERNAME@${clients_ips[$i]} "echo ${clients_hosts[$i]} > /etc/hostname"
     echo ${clients_ips[$i]}  >> ${temp_hosts}
 done
 
-
-ansible all -u $USERNAME -i ${temp_hosts} -m copy -a \
-    "src=${filepath}/config/target_machine_hosts dest=~/"   2>/dev/null
-ansible all -u $USERNAME -K -i ${temp_hosts} -m shell -a \
-    "cat ~/target_machine_hosts >> /etc/hosts" --sudo
+# if you have not use dns, you can uncomment below
+#ansible all -u $USERNAME -i ${temp_hosts} -m copy -a \
+#    "src=${filepath}/config/target_machine_hosts dest=~/"   2>/dev/null
+#ansible all -u $USERNAME -K -i ${temp_hosts} -m shell -a \
+#    "cat ~/target_machine_hosts >> /etc/hosts" --sudo
 
 ansible all -u $USERNAME -i ${temp_hosts} -m copy -a \
     "src=${filepath}/sh/setup_target_machines.sh dest=~/"   2>/dev/null

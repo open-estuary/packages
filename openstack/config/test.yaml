@@ -28,7 +28,7 @@ parameters:
     type: string
     label: Public Key
     description: Public Key to be used on the compute instance.
-  private_subnet:
+  private_subnet_cidr:
     type: string
     label: Private Subnet CIDR
     description: Private subnet to be used by compute instances.
@@ -58,7 +58,7 @@ resources:
     type: OS::Neutron::Subnet
     properties:
       network_id: { get_resource: private_network }
-      cidr: { get_param: private_subnet }
+      cidr: { get_param: private_subnet_cidr }
       dns_nameservers:
         - 8.8.8.8
 

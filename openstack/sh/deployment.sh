@@ -82,7 +82,7 @@ function prepare_openstack_services
         neutron subnet-create ${provider_net} --name ${provider_subnet} \
             --allocation-pool start=${provider_net_start_addr},end=${provider_net_stop_addr} \
             --disable-dhcp --gateway ${provider_net_gw_addr} \
-            ${provider_net_start_addr%.*}.1/${provider_net_bits}
+            ${subnet_range}
         [[ $? -ne 0 ]] && die $LINENO "create provider subnet failed"
     fi
 
@@ -193,6 +193,12 @@ fi
 
 filedir=$(cd "$(dirname "$0")"; pwd)
 filepath=$(cd "$(dirname "$filedir")"; pwd)
+
+clients_hosts=(`cat ${filepath}/config/target_machine_hosts |awk '{print $2}'`)
+# modify the machines hostname/hosts and reboot the machines
+for((i=0;i<${#clients_hosts[@]};i++)); do
+    ssh $USERNAME@${clients_hosts[$i]} "cat /etc/hostname"
+done
 
 source $filepath/config/openstack_cfg.sh
 source $filepath/sh/common.sh
