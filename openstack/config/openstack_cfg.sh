@@ -1,7 +1,7 @@
 # floating ip address and net info
 provider_net="ext_net"
 provider_subnet="ext-net-subnet"
-provider_net_start_addr="114.119.11.90"
+provider_net_start_addr="114.119.11.91"
 provider_net_stop_addr="114.119.11.94"
 provider_net_gw_addr="114.119.11.89"
 subnet_range="114.119.11.88/29"

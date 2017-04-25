@@ -65,6 +65,7 @@ function prepare_openstack_services
     fi
     if [ ! "$(openstack image show ${image_name} 2>/dev/null)" ]; then
         openstack image create --public --container-format bare --disk-format \
+
             qcow2 --file $image_file --property hw_firmware_type=uefi \
             --property os_command_line="console=ttyAMA0" \
             --property hw_disk_bus=scsi --property hw_scsi_model=virtio-scsi \
@@ -142,15 +143,18 @@ function launch_an_instance
 
     chmod 600 ${key_name}.pem
     if [ ! "$(heat stack-show ${heat_name} 2>/dev/null)" ]; then
-        heat stack-create $heat_name -f ${filepath}/config/test.yml -P "image=$image_id;\
-            public_network=$provider_net;flavor=$flavor_name;key_name=$key_name;\
-            private_subnet=$demo_net_cidr"
+        heat stack-create $heat_name -f ${filepath}/config/test.yaml -P "image=$image_id;public_network=$provider_net;flavor=$flavor_name;key_name=$key_name;private_subnet_cidr=$demo_net_cidr"
         [[ $? -ne 0 ]] && die $LINENO "create an instance failed"
         echo "sleep for 100 seconds to wait to launch the first stack..."
         sleep 100
     fi
 
-    instance_name=$(nova list | sed 's/ /\n/g' | grep -i "$heat_name")
+    $xtrace
+    instance_name=$(nova list | awk '{print $4}' | grep -v 'Name' 2>/dev/null)
+    if [  x"$(echo $instance_name)" = x"" ]; then
+        echo "Launch the instance ERROR. Please check the log file"
+        exit 1
+    fi
     instance_run=$(openstack server list | grep Running)
     if [ x"$instance_run" == x"" ]; then
         instance_error=$(openstack server list | grep ERROR)
@@ -175,8 +179,6 @@ function launch_an_instance
         die $LINENO "from the network node's namespace, the instance' \
         fixed ip can not be accessed"
     fi
-
-    $xtrace
 
     echo "Please use the \"ssh cirros@${vm_ip}\" to login the vm, "
     echo "the password is \"gocubsgo\""
@@ -213,7 +215,6 @@ pushd ${filepath}
         echo "You have not config secrets in the openstack folder"
         ln -s ${filepath}/config/secrets  ${install_dir}/ansible/secrets
     fi
-    #cp -r ${filepath}/config/secrets  ./ansible
     export ANSIBLE_HOSTS=$install_dir/ansible/secrets/hosts
 
     pushd ansible
@@ -281,15 +282,14 @@ unset OS_INTERFACE
 unset OS_IDENTITY_API_VERSION
 adminrc_path=$(find $filepath -name  'nova-admin.rc')
 
-
 LOCAL_PATH=$PWD
 LOCAL_ADMIN=$PWD/nova-admin.rc
 linaro_ansible_path=${filepath}/openstack-ref-architecture/ansible
 cp -f ${adminrc_path}  ${LOCAL_PATH}
-keystone_admin_passwd=$(find ${linaro_ansible_path}/secrets \
+keystone_admin_passwd=$(find -L ${linaro_ansible_path}/secrets \
     -name 'deployment-vars' | xargs cat | \
     grep 'keystone_admin_pass:' | awk '{print $NF}')
-public_url=http://$(find ${linaro_ansible_path}/secrets \
+public_url=http://$(find -L ${linaro_ansible_path}/secrets \
     -name 'deployment-vars' | xargs cat | \
     grep 'public_api_host:' | grep -o '[0-9.]\+')
 sed -i "s/{{keystone_admin_pass}}/${keystone_admin_passwd}/g" ${LOCAL_ADMIN}
@@ -309,5 +309,5 @@ if [ x"$choice" = x"n" ] || [ x"$choice" = x"N" ]; then
 fi
 openstack_services
 prepare_openstack_services
-#launch_an_instance
+launch_an_instance
 
