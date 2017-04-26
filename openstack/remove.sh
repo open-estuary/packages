@@ -19,41 +19,13 @@ function delete_net
         return
     fi
 
-    vm_id=`openstack server list | awk '{print $2}' | grep -v "ID"`
-    for id in ${vm_id[*]}; do
-        openstack server delete $id
-        [[ $? -ne 0 ]] && echo  $LINENO "delete vm failed"
-    done
-
-    floating_ips=`openstack floating ip list | awk '{print $4}' | grep -v 'Floating'`
-    for ip in ${floating_ips[*]}; do
-        openstack floating ip delete $ip
-        [[ $? -ne 0 ]] && echo  $LINENO "delete floating ip failed"
-    done
-
-    #delete the network for tenant
-    if [[ x`neutron router-list | grep ${DEMO_ROUTER}` != x"" ]]; then
-        neutron router-gateway-clear ${DEMO_ROUTER}
-        [[ $? -ne 0 ]] && echo  $LINENO "clear gw for demo router failed"
-    fi
-    
-    subnets_id=`neutron subnet-list | awk '{print $4}' | grep -v 'name'`
-    for subnet in ${subnets_id[*]}; do
-        neutron router-interface-delete ${DEMO_ROUTER} $subnet
-        [[ $? -ne 0 ]] && echo  $LINENO "delete interface for demo router failed"
-    done
-
-    if [[ `neutron router-list | grep ${DEMO_ROUTER}` ]]; then
-        neutron router-delete ${DEMO_ROUTER}
-        [[ $? -ne 0 ]] && echo  $LINENO "delete demo router failed"
+    stack_name=$heat_name
+    if [ "heat stack-list $stack_name 2>/dev/null" ]; then
+        ( y | heat stack-delete $stack_name )
+        [[ $? -ne 0 ]] && echo  $LINENO "delete stack failed"
     fi
 
-    if [[ `neutron subnet-list | grep ${DEMO_SUBNET}` ]];then
-        neutron subnet-delete ${DEMO_SUBNET}
-        [[ $? -ne 0 ]] && echo  $LINENO "delete demo subnet failed"
-    fi
-    
-    if [[ `openstack keypair list | grep ${key_name}` ]]; then
+    if [[ "openstack keypair list | grep ${key_name} 2>/dev/null" ]]; then
         openstack keypair delete ${key_name}
         [[ $? -ne 0 ]] && echo  $LINENO "delete keypair failed"
     fi
@@ -84,16 +56,16 @@ function delete_openstack_other_service
     xtrace=$(set +o | grep xtrace)
     set -o xtrace
 
-    if [[ `neutron net-list | grep ${DEMO_NET}` ]];then
+    if [[ "neutron net-show ${DEMO_NET} 2>/dev/null" ]];then
         neutron net-delete ${DEMO_NET}
         [[ $? -ne 0 ]] && echo  $LINENO "delete net ${DEMO_NET} failed"
     fi
-    if [[ `openstack project list | grep ${project_name}` ]];then
+    if [[ "openstack project show ${project_name} 2>/dev/null" ]];then
         openstack project delete ${project_name}
         [[ $? -ne 0 ]] && echo  $LINENO "delete project ${project_name} failed"
     fi
 
-    if [[ `openstack user list | grep ${project_name}` ]];then
+    if [[ "openstack user show ${project_name} 2>/dev/null" ]];then
         openstack user delete ${project_name}
         [[ $? -ne 0 ]] && echo  $LINENO "delete user ${project_name} failed"
     fi
@@ -110,17 +82,17 @@ function delete_openstack_other_service
         [[ $? -ne 0 ]] && echo  $LINENO "delete network $net failed"
     done
 
-    if [[ `openstack image list | grep ${image_name}` ]];then
+    if [[ "openstack image show ${image_name} 2>/dev/null" ]];then
         openstack image delete ${image_name}
         [[ $? -ne 0 ]] && echo  $LINENO "delete image ${image_name} failed"
     fi
 
-    if [[ `openstack flavor list | grep "m1.tiny"` ]];then
+    if [[ "openstack flavor show "m1.tiny" 2>/dev/null" ]];then
         openstack flavor delete m1.tiny
         [[ $? -ne 0 ]] && echo  $LINENO "delete flavor m1.tiny failed"
     fi
 
-    if [[ `openstack role list | grep ${project_user}` ]]; then
+    if [[ "openstack role show ${project_user} 2>/dev/null" ]]; then
         openstack role delete ${project_user}
         [[ $? -ne 0 ]] && echo  $LINENO "delete role ${project_user} failed"
     fi
@@ -146,8 +118,8 @@ function delete_openstack_other_service
 filepath=$(cd "$(dirname "$0")"; pwd)
 
 
-source $filepath/openstack_cfg.sh
-source $filepath/common.sh
+source $filepath/config/openstack_cfg.sh
+source $filepath/sh/common.sh
 LOCAL_ADMIN=~/nova-admin.rc
 LOCAL_DEMO=~/${project_name}-admin.rc
 

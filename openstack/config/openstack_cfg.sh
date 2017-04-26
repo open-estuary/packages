@@ -1,10 +1,10 @@
 # floating ip address and net info
 provider_net="ext_net"
 provider_subnet="ext-net-subnet"
-provider_net_start_addr="192.168.1.57"
-provider_net_stop_addr="192.168.1.58"
-provider_net_gw_addr="192.168.1.2"
-provider_net_bits="24"
+provider_net_start_addr="114.119.11.91"
+provider_net_stop_addr="114.119.11.94"
+provider_net_gw_addr="114.119.11.89"
+subnet_range="114.119.11.88/29"
 
 # info for demo project
 project_user="user"

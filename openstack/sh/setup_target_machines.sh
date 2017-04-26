@@ -22,6 +22,7 @@ if [ -f /etc/debian_version ]; then
     apt-get update -y
     [ $? -ne 0 ] && echo "The Debian cannot be updated"
     apt install -t jessie-backports systemd systemd-sysv libpam-systemd -y
+    apt install sudo -y
     [ $? -ne 0 ] && echo "The Debian cannot update systemd"
 fi
 
@@ -31,5 +32,6 @@ if [ -f /etc/redhat_version ]; then
         -O /etc/yum.repos.d/linaro-overlay.repo
     [ $? -ne 0 ] && echo "The CentOS source cannot be accessed"
     yum update -y
+    yum install sudo -y
     [ $? -ne 0 ] && echo "The CentOS cannot be updated"
 fi

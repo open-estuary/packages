@@ -17,7 +17,6 @@ QUOTA_FILE=
 
 function prepare_openstack_tenant
 {
-    source ${LOCAL_ADMIN}
     local xtrace
     xtrace=$(set +o | grep xtrace)
     set -o xtrace
@@ -28,17 +27,17 @@ function prepare_openstack_tenant
         [[ $? -ne 0 ]] && die $LINENO "create role ${ROLE} failed"
     fi
    
-    if [ x"$DOMAIN" = x""]; then
+    if [ x"$DOMAIN" = x"" ]; then
         DOMAIN="default"
     fi
 
-    if [ ! $(openstack domain show $DOMAIN 2>/dev/null)  ]; then
+    if [ ! "$openstack domain show $DOMAIN 2>/dev/null"  ]; then
         openstack domain create $DOMAIN
         [[ $? -ne 0 ]] && die $LINENO "create domain ${DOMAIN} failed"
     fi 
 
     # create a tenant
-    if [ ! $(openstack project show $TENANT 2>/dev/null) ]; then
+    if [ ! "$(openstack project show $TENANT 2>/dev/null)" ]; then
         openstack project create --domain ${DOMAIN} --description "$TENANT \
             Project" ${TENANT}
         [[ $? -ne 0 ]] && die $LINENO "create $TENANT project failed"
@@ -46,7 +45,7 @@ function prepare_openstack_tenant
 
     random_passwd=$(openssl rand -base64 10)
     # create a user
-    if [ ! $(openstack user show $USER 2>/dev/null) ]; then
+    if [ ! "$(openstack user show $USER 2>/dev/null)" ]; then
         openstack user create --domain ${DOMAIN} --password ${random_passwd} \
             ${USER}
         [[ $? -ne 0 ]] && die $LINENO "create $USER user failed"
@@ -60,10 +59,12 @@ function prepare_openstack_tenant
     openstack project list
     project_id=$(openstack project show ${TENANT} -c id -f value)
     
+    $xtrace
+    echo -e "\033[41;37m"
     echo "The project_id is: $project_id "
     echo "user name is: $USER"
     echo "user password is: $random_passwd"
-    $xtrace
+    echo -e "\033[0m"
 }
 
 Usage() {
@@ -79,7 +80,7 @@ Usage: mkdeploydisk.sh [OPTION]... [--OPTION=VALUE]...
     --domain=xxx          show which domain the user belongs. if not set, use 'default'
 
 for example:
-
+    ./create_project.sh --user=test --role=user --project=test2 --domain=default
 EOF
 }
 
@@ -107,6 +108,20 @@ do
     shift
 done
 
+if [ x"$DOMAIN" = x""  ]; then
+    DOMAIN="default"
+fi
+if [ x"$ROLE" = x"" ]; then
+    ROLE="user"
+fi
+
+if [ x"$USER" = x"" ]  || [ x"$TENANT" = x"" ]; then
+    echo "the user and tenant name can not be empty"
+    Usage
+    exit 1
+fi
+
+prepare_openstack_tenant
 
 ##############################
 # get the nova-admin.rc file
