@@ -49,7 +49,6 @@ function prepare_openstack_services
     local xtrace
     xtrace=$(set +o | grep xtrace)
     set -o xtrace
-    
 
     if [ ! "$(openstack role show ${project_user} 2>/dev/null)" ]; then
         openstack role create ${project_user}
@@ -59,13 +58,14 @@ function prepare_openstack_services
         openstack flavor create --ram 512 --disk 10 --vcpus 1 --public m1.tiny
         [[ $? -ne 0 ]] && die $LINENO "create flavor m1.tiny failed"
     fi
-    
+ 
     if [ ! -f ${image_file} ]; then
         wget ${image_address_url}
         [[ $? -ne 0 ]] && die $LINENO "download image file failed"
     fi
     if [ ! "$(openstack image show ${image_name} 2>/dev/null)" ]; then
         openstack image create --public --container-format bare --disk-format \
+
             qcow2 --file $image_file --property hw_firmware_type=uefi \
             --property os_command_line="console=ttyAMA0" \
             --property hw_disk_bus=scsi --property hw_scsi_model=virtio-scsi \
@@ -83,21 +83,25 @@ function prepare_openstack_services
         neutron subnet-create ${provider_net} --name ${provider_subnet} \
             --allocation-pool start=${provider_net_start_addr},end=${provider_net_stop_addr} \
             --disable-dhcp --gateway ${provider_net_gw_addr} \
-            ${provider_net_start_addr%.*}.1/${provider_net_bits}
+            ${subnet_range}
         [[ $? -ne 0 ]] && die $LINENO "create provider subnet failed"
     fi
 
-    openstack project create --domain ${DOMAIN} --description "Demo Project" \
-        ${project_name}
-    [[ $? -ne 0 ]] && die $LINENO "create demo project failed"
-    openstack user create --domain ${DOMAIN} --password ${project_passwd} \
-        ${project_name}
-    [[ $? -ne 0 ]] && die $LINENO "create demo user failed"
-    openstack role add --project ${project_name} --user ${project_name} \
-        ${project_user}
-    [[ $? -ne 0 ]] && die $LINENO "add role for demo project failed"
+    if [ ! "$(openstack project show ${project_name} 2>/dev/null)" ]; then
+        openstack project create --domain ${DOMAIN} --description "Demo Project" \
+            ${project_name}
+        [[ $? -ne 0 ]] && die $LINENO "create demo project failed"
+    fi
 
+    if [ ! "$(openstack user show ${project_name} 2>/dev/null)" ]; then
+        openstack user create --domain ${DOMAIN} --password ${project_passwd} \
+            ${project_name}
+        [[ $? -ne 0 ]] && die $LINENO "create demo user failed"
 
+        openstack role add --project ${project_name} --user ${project_name} \
+            ${project_user}
+        [[ $? -ne 0 ]] && die $LINENO "add role for demo project failed"
+    fi
     openstack project list
     demo_project_id=$(openstack project show ${project_name} | \
         grep ' id ' | awk '{print $(NF-1)}')
@@ -138,14 +142,19 @@ function launch_an_instance
     openstack keypair create ${key_name} > ${key_name}.pem
 
     chmod 600 ${key_name}.pem
-    heat stack-create $heat_name -f ${filepath}/config/test.yml -P "image=$image_id;\
-        public_network=$provider_net;flavor=$flavor_name;key_name=$key_name;\
-        private_subnet=$demo_net_cidr"
-    [[ $? -ne 0 ]] && die $LINENO "create an instance failed"
-    echo "sleep for 100 seconds to wait to launch the first stack..."
-    sleep 100
+    if [ ! "$(heat stack-show ${heat_name} 2>/dev/null)" ]; then
+        heat stack-create $heat_name -f ${filepath}/config/test.yaml -P "image=$image_id;public_network=$provider_net;flavor=$flavor_name;key_name=$key_name;private_subnet_cidr=$demo_net_cidr"
+        [[ $? -ne 0 ]] && die $LINENO "create an instance failed"
+        echo "sleep for 100 seconds to wait to launch the first stack..."
+        sleep 100
+    fi
 
-    instance_name=$(nova list | sed 's/ /\n/g' | grep -i "my-fisrt-stack")
+    $xtrace
+    instance_name=$(nova list | awk '{print $4}' | grep -v 'Name' 2>/dev/null)
+    if [  x"$(echo $instance_name)" = x"" ]; then
+        echo "Launch the instance ERROR. Please check the log file"
+        exit 1
+    fi
     instance_run=$(openstack server list | grep Running)
     if [ x"$instance_run" == x"" ]; then
         instance_error=$(openstack server list | grep ERROR)
@@ -171,8 +180,6 @@ function launch_an_instance
         fixed ip can not be accessed"
     fi
 
-    $xtrace
-
     echo "Please use the \"ssh cirros@${vm_ip}\" to login the vm, "
     echo "the password is \"gocubsgo\""
 }
@@ -189,6 +196,12 @@ fi
 filedir=$(cd "$(dirname "$0")"; pwd)
 filepath=$(cd "$(dirname "$filedir")"; pwd)
 
+clients_hosts=(`cat ${filepath}/config/target_machine_hosts |awk '{print $2}'`)
+# modify the machines hostname/hosts and reboot the machines
+for((i=0;i<${#clients_hosts[@]};i++)); do
+    ssh $USERNAME@${clients_hosts[$i]} "cat /etc/hostname"
+done
+
 source $filepath/config/openstack_cfg.sh
 source $filepath/sh/common.sh
 
@@ -200,9 +213,8 @@ pushd ${filepath}
     install_dir=$PWD
     if [ ! -d ansible/secrets ]; then
         echo "You have not config secrets in the openstack folder"
-        exit 1
+        ln -s ${filepath}/config/secrets  ${install_dir}/ansible/secrets
     fi
-    #cp -r ${filepath}/config/secrets  ./ansible
     export ANSIBLE_HOSTS=$install_dir/ansible/secrets/hosts
 
     pushd ansible
@@ -212,6 +224,7 @@ pushd ${filepath}
     ceph_mon_server=`get_first_machine ceph_monitor_servers`
     echo "Begin to install Ceph Monitor"
     echo "ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-mon -u $USERNAME"
+    echo "Please input the sudo password of $USERNAME"
     if ! ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-mon -u $USERNAME; then
         echo "Ceph MON installation failed"
         exit 1
@@ -229,6 +242,7 @@ pushd ${filepath}
     ceph_osd_server=`get_first_machine ceph_osd_servers`
     echo "Begin to install Ceph OSD"
     echo "ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-osd -u $USERNAME"
+    echo "Please input the sudo password of $USERNAME"
     if ! ansible-playbook -K -v -i ./secrets/hosts ./site.yml --tags ceph-osd -u $USERNAME; then
         echo "Ceph OSD installation failed"
         #exit 1
@@ -241,11 +255,12 @@ pushd ${filepath}
     ceph_osd_tree=$(echo ${ceph_osd_result} | grep 'HEALTH_ERR')
     if [[ x"$ceph_osd_tree" != x"" ]]; then
         echo "Ceph OSD installation failed"
-        #exit 1
+        exit 1
     fi
 
     echo "Begin to install whole OpenStack Services"
     echo "ansible-playbook -K -v -i ./secrets/hosts ./site.yml -u $USERNAME"
+    echo "Please input the sudo password of $USERNAME"
     if ! ansible-playbook -K -v -i ./secrets/hosts ./site.yml -u $USERNAME; then
         echo "OpenStack installation failed"
         exit 1
@@ -269,10 +284,13 @@ adminrc_path=$(find $filepath -name  'nova-admin.rc')
 
 LOCAL_PATH=$PWD
 LOCAL_ADMIN=$PWD/nova-admin.rc
-cp ${adminrc_path}  ${LOCAL_PATH}
-keystone_admin_passwd=$(find ${filepath}/openstack-ref-architecture/ansible/secrets -name 'deployment-vars' | xargs cat | \
-grep 'keystone_admin_pass:' | awk '{print $NF}')
-public_url=http://$(find ${filepath}/openstack-ref-architecture/ansible/secrets -name 'deployment-vars' | xargs cat | \
+linaro_ansible_path=${filepath}/openstack-ref-architecture/ansible
+cp -f ${adminrc_path}  ${LOCAL_PATH}
+keystone_admin_passwd=$(find -L ${linaro_ansible_path}/secrets \
+    -name 'deployment-vars' | xargs cat | \
+    grep 'keystone_admin_pass:' | awk '{print $NF}')
+public_url=http://$(find -L ${linaro_ansible_path}/secrets \
+    -name 'deployment-vars' | xargs cat | \
     grep 'public_api_host:' | grep -o '[0-9.]\+')
 sed -i "s/{{keystone_admin_pass}}/${keystone_admin_passwd}/g" ${LOCAL_ADMIN}
 sed -i "s#{{public_api_host}}#${public_url}#g" ${LOCAL_ADMIN}
@@ -281,7 +299,15 @@ network_server=`get_first_machine networking_servers`
 scp ${LOCAL_ADMIN}  $USERNAME@${network_server}:~
 cp -f ${LOCAL_ADMIN}  ~/
 
+echo -e "\033[41;37m Now OpenStack Installation has finished. The following steps will \n
+    create openstack project, user, role and public network informations. If your \n
+    ${filepath}/config/openstack_cfg.sh has been configured, you can continue. Or you \n
+    had better stop here! \033[0m"
+read -n1 -t 20 -p "If you want to continue the following steps (default y)? y/N " choice
+if [ x"$choice" = x"n" ] || [ x"$choice" = x"N" ]; then
+    exit 0
+fi
 openstack_services
 prepare_openstack_services
-#launch_an_instance
+launch_an_instance
 
