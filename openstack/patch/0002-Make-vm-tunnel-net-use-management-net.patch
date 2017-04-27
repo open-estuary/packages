@@ -1,0 +1,55 @@
+From a1a568f34ab9a1cda7052b7bb5f259bbf4212b57 Mon Sep 17 00:00:00 2001
+From: Xinliang Liu <xinliang.liu@linaro.org>
+Date: Thu, 27 Apr 2017 10:41:27 +0800
+Subject: [PATCH 2/3] Make vm tunnel net use management net
+
+Signed-off-by: Xinliang Liu <xinliang.liu@linaro.org>
+---
+ ansible/roles/nics/tasks/main.yml | 12 ++++++------
+ ansible/site.yml                  |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/ansible/roles/nics/tasks/main.yml b/ansible/roles/nics/tasks/main.yml
+index 5d2f2fa..05fed0c 100644
+--- a/ansible/roles/nics/tasks/main.yml
++++ b/ansible/roles/nics/tasks/main.yml
+@@ -1,17 +1,17 @@
+ - include_vars: "{{ansible_os_family}}.yml"
+ 
+-- name: Setup projects nic
+-  template: src={{projects_nic.src}} dest={{projects_nic.dest}} mode=0444
+-  register: projects_net
++#- name: Setup projects nic
++#  template: src={{projects_nic.src}} dest={{projects_nic.dest}} mode=0444
++#  register: projects_net
+ 
+ - name: Setup ext nic
+   when: inventory_hostname in groups['networking_servers']
+   template: src={{ext_nic.src}} dest={{ext_nic.dest}} mode=0444
+   register: ext_net
+ 
+-- name: Bring up tunnel interface
+-  when: projects_net.changed
+-  command: ifup {{tunnel_interface}}
++#- name: Bring up tunnel interface
++#  when: projects_net.changed
++#  command: ifup {{tunnel_interface}}
+ 
+ - name: Bring up public interface
+   when: ext_net.changed
+diff --git a/ansible/site.yml b/ansible/site.yml
+index 3cefc76..e6ba16d 100644
+--- a/ansible/site.yml
++++ b/ansible/site.yml
+@@ -173,7 +173,7 @@
+     - ["secrets/deployment-vars", "deployment-vars.example"]
+     - ["secrets/host_vars/{{inventory_hostname}}", "vars/empty"]
+   roles:
+-    - {role: nics, tags: [nics]}
++          #    - {role: nics, tags: [nics]}
+     - {role: compute, tags: [compute]}
+ 
+ - name: Configure Cinder Volumes
+-- 
+2.1.4
+

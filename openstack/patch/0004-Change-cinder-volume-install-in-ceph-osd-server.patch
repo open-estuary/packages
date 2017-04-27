@@ -1,0 +1,28 @@
+From 7526a2d75451c06df1642540e9a23a837e2ba776 Mon Sep 17 00:00:00 2001
+From: Xinliang Liu <xinliang.liu@linaro.org>
+Date: Fri, 28 Apr 2017 11:17:07 +0800
+Subject: [PATCH] Change cinder-volume install in ceph osd server
+
+This make compute and ceph osd node can be seperate nodes.
+
+Signed-off-by: Xinliang Liu <xinliang.liu@linaro.org>
+---
+ ansible/site.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ansible/site.yml b/ansible/site.yml
+index e6ba16d..9b71427 100644
+--- a/ansible/site.yml
++++ b/ansible/site.yml
+@@ -177,7 +177,7 @@
+     - {role: compute, tags: [compute]}
+ 
+ - name: Configure Cinder Volumes
+-  hosts: compute_servers
++  hosts: ceph_osd_servers
+   become: yes
+   vars_files:
+     - ["secrets/deployment-vars", "deployment-vars.example"]
+-- 
+2.1.4
+
