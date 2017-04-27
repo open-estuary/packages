@@ -1,0 +1,8 @@
+# 1) install dnsmasq
+$ apt-get install dnsmasq
+
+# 2) cp eth0.conf to /etc/dnsmasq.d/
+$ cp eth0.conf /etc/dnsmasq.d/
+
+# 3) restart dnsmasq
+$ systemctl restart dnsmasq.service

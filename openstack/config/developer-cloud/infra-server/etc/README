@@ -1,0 +1,8 @@
+# ntp installation and configuration
+$ apt-get install ntp
+$ cp ntp.conf /etc/ntp.conf
+
+# vsftpd installation and configuration
+$ apt-get install vsftpd
+$ cp vsftpd.conf /etc/vsftpd.conf
+
