@@ -26,7 +26,7 @@ if [ -f /etc/debian_version ]; then
     [ $? -ne 0 ] && echo "The Debian cannot update systemd"
 fi
 
-if [ -f /etc/redhat_version ]; then
+if [ -f /etc/redhat-release ]; then
     #wget http://repo.linaro.org/rpm/linaro-overlay/centos-7/linaro-overlay.repo \
     wget http://192.168.1.103:8083/repos/centos/7/linaro-overlay.repo \
         -O /etc/yum.repos.d/linaro-overlay.repo
