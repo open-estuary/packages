@@ -1,0 +1,17 @@
+# 1) Install iptables-persistent
+$ apt-get install iptables-persistent
+
+# 2) copy rules.v4 to /etc/iptables/rules.v4
+$ cp rules.v4 /etc/iptables/rules.v4
+
+# 3) restore rules.v4
+$ iptables-restore < /etc/iptables/rules.v4
+
+# 4) set ip forward
+$ sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+$ sysctl -w net.ipv4.ip_forward=1
+
+Note:
+If you need to update /etc/iptables/rules.v4, please run:
+$ iptables-save > /etc/iptables/rules.v4
+

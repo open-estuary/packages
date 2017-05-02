@@ -1,0 +1,6 @@
+This is the Estuary Developer Cloud infra server configurations.
+
+etc/dnsmasq.d/ : dnsmasq config files
+etc/iptables/ : iptables config files
+etc/vsftpd.conf: ftp config file, this for uefi update. user name and password is 'ftp'
+etc/ntp.conf: ntp time server. This is for dnsmasq dhcp ntp server option.
