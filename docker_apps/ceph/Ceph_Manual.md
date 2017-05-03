@@ -19,9 +19,12 @@ Ceph docker image could be installed through one of following ways:
 - Use docker `pull openestuary/ceph` to install the Ceph docker image
 
 ### Versions 
-- v300/10.2.7/kraken : based on Open-Estuary V300 CentOS and Ceph 
-- latest: currently it is the same as v300 or kraken
-
+- ceph-base
+  - v300/10.2.7/kraken : based on Open-Estuary V300 CentOS and Ceph-10.2.7
+  - latest: currently it is the same as v300 or jewel
+- ceph
+  - v300/11.1.1/kraken : based on Open-Estuary V300 CentOS and Ceph-11.1.1
+  - latest: currently it is the same as v300 or kraken
 ## <a name="4">Start</a>
 
 As for how to use Ceph docker images, please refer to:       
