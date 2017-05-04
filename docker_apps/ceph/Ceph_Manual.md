@@ -20,8 +20,8 @@ Ceph docker image could be installed through one of following ways:
 
 ### Versions 
 - ceph-base
-  - v300/10.2.7/kraken : based on Open-Estuary V300 CentOS and Ceph-10.2.7
-  - latest: currently it is the same as v300 or jewel
+  - v300/11.1.1/kraken : based on Open-Estuary V300 CentOS and Ceph-11.1.1
+  - latest: currently it is the same as v300 or kraken
 - ceph
   - v300/11.1.1/kraken : based on Open-Estuary V300 CentOS and Ceph-11.1.1
   - latest: currently it is the same as v300 or kraken
@@ -29,7 +29,7 @@ Ceph docker image could be installed through one of following ways:
 
 As for how to use Ceph docker images, please refer to:       
   - [Ceph Docker Image overview](https://github.com/sjtuhjh/ceph-docker)
-  - [Ceph Base Image Manual](https://github.com/sjtuhjh/ceph-docker/blob/master/ceph-releases/jewel/centos/7/base/README.md)
+  - [Ceph Base Image Manual](https://github.com/sjtuhjh/ceph-docker/blob/master/ceph-releases/kraken/centos/7/base/README.md)
   - [Ceph Daemon Image Manual](https://github.com/sjtuhjh/ceph-docker/blob/master/ceph-releases/kraken/centos/7/daemon/README.md)
  
 ## <a name="5">Remove</a>
