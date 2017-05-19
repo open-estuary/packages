@@ -63,6 +63,8 @@ fi
 
 filedir=$(cd "$(dirname "$0")"; pwd)
 filepath=$(cd "$(dirname "$filedir")"; pwd)
+source $filepath/sh/common.sh
+
 pushd ${filepath}
 if [ ! -d openstack-ref-architecture ]; then
     git clone https://git.linaro.org/leg/sdi/openstack-ref-architecture.git
