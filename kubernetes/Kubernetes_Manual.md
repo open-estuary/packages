@@ -1,55 +1,32 @@
 * [Introduction](#1)
 * [Build ](#2)
 * [Installation](#3)
-* [Start](#4)
-* [Remove](#5)
-* [Performance Optimization](#6)
-* [Performance Benchmark](#7)
+* [Example](#4)
 
 ## <a name="1">Introduction</a>
 
-This AliSQL [docker image](https://docs.docker.com/) is based on [AliSQL Server 5.6](https://github.com/alibaba/AliSQL/archive/AliSQL-5.6.32-1.tar.gz).
-
+Kubernetes is an open-source platform for automating deployment, scaling, and operations of application containers across clusters of hosts, providing container-centric infrastructure. For more information, please refer to https://kubernetes.io.
 
 ## <a name="2">Build</a>
-As for how to build this docker image, please refer to [AliSQL Server Docker file](https://github.com/open-estuary/dockerfiles/tree/master/mysql/alisql).
-In addition, all docker images are stored into [OpenEstuary Docker Hub](https://cloud.docker.com/app/openestuary).
 
 ## <a name="3">Installation</a>
-AliSQL docker image could be installed through one of following ways:  
-- Use the [setup.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/alisql/setup.sh) on ARM64 host to setup docker and AliSQL docker image accordingly
-- Use docker `pull openestuary/alisql` to install the AliSQL docker image 
+Currently the kubernetes could be installed via  [OpenEstuary Repostiory](https://github.com/open-estuary/distro-repo).
 
 ### Versions 
-- v300/5.6 : based on Open-Estuary V300 CentOS and AliSQL 5.6.
-- latest: currently it is the same as v300 or 5.6. 
+- v1.6.4 
 
-## <a name="4">Start</a>
-There are several of ways to start AliSQL docker container as follows:
-- Start one container whose port 3306 is mapped to the host specific port such as 3306
-  - Examples: `docker run -p 3306:3306 --name alisql -d openestuary/alisql:latest`
-- Start one container whose port 3306 is mapped to the host port dynamically
-  - Examples:
-    - Execute `docker run -P --name alisql -d openestuary/alisql:latest` to start the container
-    - Execute `docker port alisql` to check the dynamic port
-- Start one container which uses the specified host data diretory 
-  - Examples:`docker run -p 3306:3306 -v /host/datadir:/u01/my3306/data -d openestuary/alisql:latest`
-- Start one container which uses the specified configuration, that is /host/configdir/my.conf
-  - Examples:`docker run -p 3306:3306 -v /host/configdir:/usr/local/mysql/config -d openestuary/alisql:latest`
-- Default account: user `alisql`, password `Estuary12#$`
-
-By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [my.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/alisql/my.conf) . 
-As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/alisql/start.sh).
-In addition, the [docker documents](https://docs.docker.com/) will provide more docker commands.
-                                                   
-## <a name="5">Remove</a>
-- Execute the [remove.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/alisql/remove.sh) on ARM64 to remove AliSQL docker container and images 
-- Execute `docker rm <dockercontainer_id>` and `docker rmi openestuary/alisql` to remove docker containers and AliSQL docker images accordingly
-
-## <a name="6">Performance Optimization</a>
-
-As for performance optimization, please refer to [MySQL Perfomrance Optimization Guide](https://github.com/sjtuhjh/perfdocs/blob/master/MongoDB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.pdf)
-
-
-## <a name="7">Performance Benchmark</a>
-TBD 
+## <a name="4">Example</a>
+### How to setup Kubernete with monitoring on ARM64 platform 
+- Excute the [kube_master_setup.sh](https://github.com/open-estuary/packages/blob/master/kubernetes/kube-config/kube_master_setup.sh) on the master node;
+- Excute the [kube_node_setup.sh](https://github.com/open-estuary/packages/blob/master/kubernetes/kube-config/kube_node_setup.sh) `<token> <master ip>` on each working node(including master node);
+  - The 'token' string could be gotten via `kubeadm token list` on the master node; 
+- Excute the [kube_monitor_setup.sh](https://github.com/open-estuary/packages/blob/master/kubernetes/kube-config/kube_monitor_setup.sh) on the master node;
+  - It will use `Grafana` + `influxdb` + `Heapster` + `cAdvisor(Kubelet)` to setup monitoring;
+  
+- Open one web browser, and enter `http://<master_node_ip>:30000`
+  - To login in with userid `admin` and password `admin`;
+  - To add one data source
+   - Select `Type` as `InfluxDB`;
+   - Input url as `http://monitoring-influxdb:8086`;
+   - Input Database as `k8s`;
+   - Input both user and password as `root`
