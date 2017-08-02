@@ -65,7 +65,6 @@ function prepare_openstack_services
     fi
     if [ ! "$(openstack image show ${image_name} 2>/dev/null)" ]; then
         openstack image create --public --container-format bare --disk-format \
-
             qcow2 --file $image_file --property hw_firmware_type=uefi \
             --property os_command_line="console=ttyAMA0" \
             --property hw_disk_bus=scsi --property hw_scsi_model=virtio-scsi \
