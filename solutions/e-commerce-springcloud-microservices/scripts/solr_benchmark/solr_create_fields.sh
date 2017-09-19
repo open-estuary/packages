@@ -7,9 +7,10 @@ fi
 
 host="${1}"
 port=${2:-8983}
+user="${3:-solr}"
 core="e-commerce"
 
-sudo -u solr solr -h ${host} create -c "${core}"
+sudo -u ${user} solr -h ${host} create -c "${core}"
 
 ######### create e-commerce core fields ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
