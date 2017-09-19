@@ -10,7 +10,12 @@ port=${2:-8983}
 user="${3:-solr}"
 core="e-commerce"
 
-sudo -u ${user} solr -h ${host} create -c "${core}"
+solr_cmd="solr"
+if [ -z "$(which solr 2>/dev/null)" ] ; then
+    solr="/opt/solr/bin/solr"
+fi
+
+sudo -u ${user} ${solr_cmd} -h ${host} create -c "${core}"
 
 ######### create e-commerce core fields ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
