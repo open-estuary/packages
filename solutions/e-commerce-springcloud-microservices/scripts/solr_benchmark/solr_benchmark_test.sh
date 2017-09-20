@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "${2}" ] ; then
-    echo "Usage: <solr server ip> <query_file> [<solr server port>]"
+    echo "Usage: <solr server ip> <query_file> <solr server port> <number_of_user> <time_in_sec>"
     exit 0
 fi
 
@@ -22,7 +22,10 @@ BENCHMARK_JMX="${CUR_DIR}/solr_benchmark.jmx"
 HOST="${1}"
 PORT=${3:-8983}
 
+USER_NUM=${4:-100}
+DUR_TIME_INSEC=${5:-240}
+
 SERVERPATH="/solr/e-commerce"
 QUERYFILE="${2}"
 
-${JMETER} -n -t ${BENCHMARK_JMX} -JserverName=${HOST} -JserverPort=${PORT} -JserverPath=${SERVERPATH} -JqueryFile="${QUERYFILE}"
+${JMETER} -n -t ${BENCHMARK_JMX} -JserverName=${HOST} -JserverPort=${PORT} -JserverPath=${SERVERPATH} -JqueryFile="${QUERYFILE}" -JnoOfUsers ${USER_NUM} -JdurationInSecs ${DUR_TIME_INSEC}
