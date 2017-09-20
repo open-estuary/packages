@@ -15,7 +15,7 @@ if [ -z "$(which solr 2>/dev/null)" ] ; then
     solr_cmd="/opt/solr/bin/solr"
 fi
 
-sudo -u ${user} ${solr_cmd} -h ${host} create -c "${core}"
+sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
 
 ######### create e-commerce core fields ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
