@@ -12,7 +12,7 @@ core="e-commerce"
 
 solr_cmd="solr"
 if [ -z "$(which solr 2>/dev/null)" ] ; then
-    solr="/opt/solr/bin/solr"
+    solr_cmd="/opt/solr/bin/solr"
 fi
 
 sudo -u ${user} ${solr_cmd} -h ${host} create -c "${core}"
