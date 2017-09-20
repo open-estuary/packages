@@ -20,5 +20,5 @@ if [ -z "$(which post 2>/dev/null)" ] ; then
     post_cmd="/opt/solr/bin/post"
 fi
 
-${post_cmd} -p "${port}" -host "${host}" -c "${core}" ${1} -params "fieldnames=productid,cateid,title,description,manufacturer,price,quatity,size,url&header=true" -params "separator=%09"
+${post_cmd} -c "${core}" -p "${port}" -host "${host}" -params "fieldnames=productid,cateid,title,description,manufacturer,price,quatity,size,url&header=true" -params "separator=%09" ${data}
 
