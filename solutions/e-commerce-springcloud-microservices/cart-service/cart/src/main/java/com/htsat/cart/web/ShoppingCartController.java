@@ -1,12 +1,10 @@
 package com.htsat.cart.web;
 
-import com.htsat.cart.dao.REcUserinfoMapper;
 import com.htsat.cart.dto.ShoppingCartDTO;
 import com.htsat.cart.dto.StatusDTO;
 import com.htsat.cart.enums.ExcuteStatusEnum;
 import com.htsat.cart.model.REcShoppingcart;
 import com.htsat.cart.model.REcSku;
-import com.htsat.cart.model.REcUserinfo;
 import com.htsat.cart.service.IRedisService;
 import com.htsat.cart.service.IShoppingCartService;
 import com.htsat.cart.service.IUserService;
@@ -53,19 +51,11 @@ public class ShoppingCartController {
         try {
             //mysql save
             returnShoppingCartDTO = shoppingCartService.addShoppingCartAndSKU(shoppingCartDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("create exception mysql!");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
-
-        try {
             //redis save
             shoppingCartService.addShoppCartAndSKUToRedis(returnShoppingCartDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("create exception redis!");
+            logger.info("create exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
