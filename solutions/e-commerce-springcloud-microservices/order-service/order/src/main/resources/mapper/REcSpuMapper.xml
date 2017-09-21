@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcSpuMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcSpu" >
+    <id column="nSPUID" property="nspuid" jdbcType="INTEGER" />
+    <result column="sSPUName" property="sspuname" jdbcType="VARCHAR" />
+    <result column="sAvailable_on" property="savailableOn" jdbcType="VARCHAR" />
+    <result column="slug" property="slug" jdbcType="VARCHAR" />
+    <result column="sMeta_description" property="smetaDescription" jdbcType="VARCHAR" />
+    <result column="sMeta_keywords" property="smetaKeywords" jdbcType="VARCHAR" />
+    <result column="nCategoryID" property="ncategoryid" jdbcType="INTEGER" />
+    <result column="nBrandID" property="nbrandid" jdbcType="INTEGER" />
+    <result column="nImageID" property="nimageid" jdbcType="INTEGER" />
+    <result column="sDescription" property="sdescription" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nSPUID, sSPUName, sAvailable_on, slug, sMeta_description, sMeta_keywords, nCategoryID, 
+    nBrandID, nImageID, sDescription
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcSpuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_spu
+    where nSPUID = #{nspuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_ec_spu
+    where nSPUID = #{nspuid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcSpuExample" >
+    delete from r_ec_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcSpu" >
+    insert into r_ec_spu (nSPUID, sSPUName, sAvailable_on, 
+      slug, sMeta_description, sMeta_keywords, 
+      nCategoryID, nBrandID, nImageID, 
+      sDescription)
+    values (#{nspuid,jdbcType=INTEGER}, #{sspuname,jdbcType=VARCHAR}, #{savailableOn,jdbcType=VARCHAR}, 
+      #{slug,jdbcType=VARCHAR}, #{smetaDescription,jdbcType=VARCHAR}, #{smetaKeywords,jdbcType=VARCHAR}, 
+      #{ncategoryid,jdbcType=INTEGER}, #{nbrandid,jdbcType=INTEGER}, #{nimageid,jdbcType=INTEGER}, 
+      #{sdescription,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcSpu" >
+    insert into r_ec_spu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nspuid != null" >
+        nSPUID,
+      </if>
+      <if test="sspuname != null" >
+        sSPUName,
+      </if>
+      <if test="savailableOn != null" >
+        sAvailable_on,
+      </if>
+      <if test="slug != null" >
+        slug,
+      </if>
+      <if test="smetaDescription != null" >
+        sMeta_description,
+      </if>
+      <if test="smetaKeywords != null" >
+        sMeta_keywords,
+      </if>
+      <if test="ncategoryid != null" >
+        nCategoryID,
+      </if>
+      <if test="nbrandid != null" >
+        nBrandID,
+      </if>
+      <if test="nimageid != null" >
+        nImageID,
+      </if>
+      <if test="sdescription != null" >
+        sDescription,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nspuid != null" >
+        #{nspuid,jdbcType=INTEGER},
+      </if>
+      <if test="sspuname != null" >
+        #{sspuname,jdbcType=VARCHAR},
+      </if>
+      <if test="savailableOn != null" >
+        #{savailableOn,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null" >
+        #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="smetaDescription != null" >
+        #{smetaDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="smetaKeywords != null" >
+        #{smetaKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="ncategoryid != null" >
+        #{ncategoryid,jdbcType=INTEGER},
+      </if>
+      <if test="nbrandid != null" >
+        #{nbrandid,jdbcType=INTEGER},
+      </if>
+      <if test="nimageid != null" >
+        #{nimageid,jdbcType=INTEGER},
+      </if>
+      <if test="sdescription != null" >
+        #{sdescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcSpuExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_spu
+    <set >
+      <if test="record.nspuid != null" >
+        nSPUID = #{record.nspuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sspuname != null" >
+        sSPUName = #{record.sspuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.savailableOn != null" >
+        sAvailable_on = #{record.savailableOn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slug != null" >
+        slug = #{record.slug,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smetaDescription != null" >
+        sMeta_description = #{record.smetaDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smetaKeywords != null" >
+        sMeta_keywords = #{record.smetaKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ncategoryid != null" >
+        nCategoryID = #{record.ncategoryid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nbrandid != null" >
+        nBrandID = #{record.nbrandid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nimageid != null" >
+        nImageID = #{record.nimageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sdescription != null" >
+        sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_spu
+    set nSPUID = #{record.nspuid,jdbcType=INTEGER},
+      sSPUName = #{record.sspuname,jdbcType=VARCHAR},
+      sAvailable_on = #{record.savailableOn,jdbcType=VARCHAR},
+      slug = #{record.slug,jdbcType=VARCHAR},
+      sMeta_description = #{record.smetaDescription,jdbcType=VARCHAR},
+      sMeta_keywords = #{record.smetaKeywords,jdbcType=VARCHAR},
+      nCategoryID = #{record.ncategoryid,jdbcType=INTEGER},
+      nBrandID = #{record.nbrandid,jdbcType=INTEGER},
+      nImageID = #{record.nimageid,jdbcType=INTEGER},
+      sDescription = #{record.sdescription,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcSpu" >
+    update r_ec_spu
+    <set >
+      <if test="sspuname != null" >
+        sSPUName = #{sspuname,jdbcType=VARCHAR},
+      </if>
+      <if test="savailableOn != null" >
+        sAvailable_on = #{savailableOn,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null" >
+        slug = #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="smetaDescription != null" >
+        sMeta_description = #{smetaDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="smetaKeywords != null" >
+        sMeta_keywords = #{smetaKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="ncategoryid != null" >
+        nCategoryID = #{ncategoryid,jdbcType=INTEGER},
+      </if>
+      <if test="nbrandid != null" >
+        nBrandID = #{nbrandid,jdbcType=INTEGER},
+      </if>
+      <if test="nimageid != null" >
+        nImageID = #{nimageid,jdbcType=INTEGER},
+      </if>
+      <if test="sdescription != null" >
+        sDescription = #{sdescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nSPUID = #{nspuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcSpu" >
+    update r_ec_spu
+    set sSPUName = #{sspuname,jdbcType=VARCHAR},
+      sAvailable_on = #{savailableOn,jdbcType=VARCHAR},
+      slug = #{slug,jdbcType=VARCHAR},
+      sMeta_description = #{smetaDescription,jdbcType=VARCHAR},
+      sMeta_keywords = #{smetaKeywords,jdbcType=VARCHAR},
+      nCategoryID = #{ncategoryid,jdbcType=INTEGER},
+      nBrandID = #{nbrandid,jdbcType=INTEGER},
+      nImageID = #{nimageid,jdbcType=INTEGER},
+      sDescription = #{sdescription,jdbcType=VARCHAR}
+    where nSPUID = #{nspuid,jdbcType=INTEGER}
+  </update>
+</mapper>
