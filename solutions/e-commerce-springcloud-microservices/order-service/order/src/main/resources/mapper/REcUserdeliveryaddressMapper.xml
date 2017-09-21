@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcUserdeliveryaddressMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcUserdeliveryaddress" >
+    <id column="nAddressNo" property="naddressno" jdbcType="INTEGER" />
+    <result column="nUserID" property="nuserid" jdbcType="INTEGER" />
+    <result column="sFirstName" property="sfirstname" jdbcType="VARCHAR" />
+    <result column="sLastName" property="slastname" jdbcType="VARCHAR" />
+    <result column="sAddress" property="saddress" jdbcType="VARCHAR" />
+    <result column="sCity" property="scity" jdbcType="VARCHAR" />
+    <result column="sProvince" property="sprovince" jdbcType="VARCHAR" />
+    <result column="sCountry" property="scountry" jdbcType="VARCHAR" />
+    <result column="sEmail" property="semail" jdbcType="VARCHAR" />
+    <result column="sPhoneNo" property="sphoneno" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nAddressNo, nUserID, sFirstName, sLastName, sAddress, sCity, sProvince, sCountry, 
+    sEmail, sPhoneNo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcUserdeliveryaddressExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_userdeliveryaddress
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_userdeliveryaddress
+    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_ec_userdeliveryaddress
+    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcUserdeliveryaddressExample" >
+    delete from r_ec_userdeliveryaddress
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
+    insert into r_ec_userdeliveryaddress (nAddressNo, nUserID, sFirstName, 
+      sLastName, sAddress, sCity, 
+      sProvince, sCountry, sEmail, 
+      sPhoneNo)
+    values (#{naddressno,jdbcType=INTEGER}, #{nuserid,jdbcType=INTEGER}, #{sfirstname,jdbcType=VARCHAR}, 
+      #{slastname,jdbcType=VARCHAR}, #{saddress,jdbcType=VARCHAR}, #{scity,jdbcType=VARCHAR}, 
+      #{sprovince,jdbcType=VARCHAR}, #{scountry,jdbcType=VARCHAR}, #{semail,jdbcType=VARCHAR}, 
+      #{sphoneno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
+    insert into r_ec_userdeliveryaddress
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="naddressno != null" >
+        nAddressNo,
+      </if>
+      <if test="nuserid != null" >
+        nUserID,
+      </if>
+      <if test="sfirstname != null" >
+        sFirstName,
+      </if>
+      <if test="slastname != null" >
+        sLastName,
+      </if>
+      <if test="saddress != null" >
+        sAddress,
+      </if>
+      <if test="scity != null" >
+        sCity,
+      </if>
+      <if test="sprovince != null" >
+        sProvince,
+      </if>
+      <if test="scountry != null" >
+        sCountry,
+      </if>
+      <if test="semail != null" >
+        sEmail,
+      </if>
+      <if test="sphoneno != null" >
+        sPhoneNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="naddressno != null" >
+        #{naddressno,jdbcType=INTEGER},
+      </if>
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="sfirstname != null" >
+        #{sfirstname,jdbcType=VARCHAR},
+      </if>
+      <if test="slastname != null" >
+        #{slastname,jdbcType=VARCHAR},
+      </if>
+      <if test="saddress != null" >
+        #{saddress,jdbcType=VARCHAR},
+      </if>
+      <if test="scity != null" >
+        #{scity,jdbcType=VARCHAR},
+      </if>
+      <if test="sprovince != null" >
+        #{sprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="scountry != null" >
+        #{scountry,jdbcType=VARCHAR},
+      </if>
+      <if test="semail != null" >
+        #{semail,jdbcType=VARCHAR},
+      </if>
+      <if test="sphoneno != null" >
+        #{sphoneno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcUserdeliveryaddressExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_userdeliveryaddress
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_userdeliveryaddress
+    <set >
+      <if test="record.naddressno != null" >
+        nAddressNo = #{record.naddressno,jdbcType=INTEGER},
+      </if>
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sfirstname != null" >
+        sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slastname != null" >
+        sLastName = #{record.slastname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saddress != null" >
+        sAddress = #{record.saddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scity != null" >
+        sCity = #{record.scity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sprovince != null" >
+        sProvince = #{record.sprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scountry != null" >
+        sCountry = #{record.scountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.semail != null" >
+        sEmail = #{record.semail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sphoneno != null" >
+        sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_userdeliveryaddress
+    set nAddressNo = #{record.naddressno,jdbcType=INTEGER},
+      nUserID = #{record.nuserid,jdbcType=INTEGER},
+      sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
+      sLastName = #{record.slastname,jdbcType=VARCHAR},
+      sAddress = #{record.saddress,jdbcType=VARCHAR},
+      sCity = #{record.scity,jdbcType=VARCHAR},
+      sProvince = #{record.sprovince,jdbcType=VARCHAR},
+      sCountry = #{record.scountry,jdbcType=VARCHAR},
+      sEmail = #{record.semail,jdbcType=VARCHAR},
+      sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
+    update r_ec_userdeliveryaddress
+    <set >
+      <if test="nuserid != null" >
+        nUserID = #{nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="sfirstname != null" >
+        sFirstName = #{sfirstname,jdbcType=VARCHAR},
+      </if>
+      <if test="slastname != null" >
+        sLastName = #{slastname,jdbcType=VARCHAR},
+      </if>
+      <if test="saddress != null" >
+        sAddress = #{saddress,jdbcType=VARCHAR},
+      </if>
+      <if test="scity != null" >
+        sCity = #{scity,jdbcType=VARCHAR},
+      </if>
+      <if test="sprovince != null" >
+        sProvince = #{sprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="scountry != null" >
+        sCountry = #{scountry,jdbcType=VARCHAR},
+      </if>
+      <if test="semail != null" >
+        sEmail = #{semail,jdbcType=VARCHAR},
+      </if>
+      <if test="sphoneno != null" >
+        sPhoneNo = #{sphoneno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
+    update r_ec_userdeliveryaddress
+    set nUserID = #{nuserid,jdbcType=INTEGER},
+      sFirstName = #{sfirstname,jdbcType=VARCHAR},
+      sLastName = #{slastname,jdbcType=VARCHAR},
+      sAddress = #{saddress,jdbcType=VARCHAR},
+      sCity = #{scity,jdbcType=VARCHAR},
+      sProvince = #{sprovince,jdbcType=VARCHAR},
+      sCountry = #{scountry,jdbcType=VARCHAR},
+      sEmail = #{semail,jdbcType=VARCHAR},
+      sPhoneNo = #{sphoneno,jdbcType=VARCHAR}
+    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+  </update>
+</mapper>
