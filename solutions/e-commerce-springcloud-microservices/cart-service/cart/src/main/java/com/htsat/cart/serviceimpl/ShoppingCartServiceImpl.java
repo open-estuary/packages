@@ -81,7 +81,6 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
 
         int insertResult = shoppingcartMapper.insert(shoppingcart);
         if (insertResult != 1){
-            logger.info("insert shoppingcart error");
             throw new Exception();
         }
         return shoppingcart;
@@ -96,7 +95,6 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             cartsku.setNquantity(skuDTO.getQuantity());
             int result = cartskuMapper.insert(cartsku);
             if (result != 1) {
-                logger.info("insert cartSKUList error");
                 throw new Exception();
             }
             cartskuList.add(cartsku);
@@ -107,7 +105,6 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Override
     public void addShoppCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws Exception{
         getJedis().set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
-        logger.info("insert to redis");
     }
 
     /*********************************************search******************************************/
