@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcImageMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcImage" >
+    <id column="nImageID" property="nimageid" jdbcType="INTEGER" />
+    <result column="nPosition" property="nposition" jdbcType="INTEGER" />
+    <result column="nAttachment_content_type" property="nattachmentContentType" jdbcType="CHAR" />
+    <result column="sAttachment_file_name" property="sattachmentFileName" jdbcType="VARCHAR" />
+    <result column="sType" property="stype" jdbcType="VARCHAR" />
+    <result column="sAttachment_updated_at" property="sattachmentUpdatedAt" jdbcType="TIMESTAMP" />
+    <result column="nAttachment_width" property="nattachmentWidth" jdbcType="INTEGER" />
+    <result column="nAttachment_height" property="nattachmentHeight" jdbcType="INTEGER" />
+    <result column="sAlt" property="salt" jdbcType="VARCHAR" />
+    <result column="sViewable_type" property="sviewableType" jdbcType="VARCHAR" />
+    <result column="sMini_url" property="sminiUrl" jdbcType="VARCHAR" />
+    <result column="sSmall_url" property="ssmallUrl" jdbcType="VARCHAR" />
+    <result column="sLarge_url" property="slargeUrl" jdbcType="VARCHAR" />
+    <result column="sProduct_url" property="sproductUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nImageID, nPosition, nAttachment_content_type, sAttachment_file_name, sType, sAttachment_updated_at, 
+    nAttachment_width, nAttachment_height, sAlt, sViewable_type, sMini_url, sSmall_url, 
+    sLarge_url, sProduct_url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_image
+    where nImageID = #{nimageid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_ec_image
+    where nImageID = #{nimageid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcImageExample" >
+    delete from r_ec_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcImage" >
+    insert into r_ec_image (nImageID, nPosition, nAttachment_content_type, 
+      sAttachment_file_name, sType, sAttachment_updated_at, 
+      nAttachment_width, nAttachment_height, sAlt, 
+      sViewable_type, sMini_url, sSmall_url, 
+      sLarge_url, sProduct_url)
+    values (#{nimageid,jdbcType=INTEGER}, #{nposition,jdbcType=INTEGER}, #{nattachmentContentType,jdbcType=CHAR}, 
+      #{sattachmentFileName,jdbcType=VARCHAR}, #{stype,jdbcType=VARCHAR}, #{sattachmentUpdatedAt,jdbcType=TIMESTAMP}, 
+      #{nattachmentWidth,jdbcType=INTEGER}, #{nattachmentHeight,jdbcType=INTEGER}, #{salt,jdbcType=VARCHAR}, 
+      #{sviewableType,jdbcType=VARCHAR}, #{sminiUrl,jdbcType=VARCHAR}, #{ssmallUrl,jdbcType=VARCHAR}, 
+      #{slargeUrl,jdbcType=VARCHAR}, #{sproductUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcImage" >
+    insert into r_ec_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nimageid != null" >
+        nImageID,
+      </if>
+      <if test="nposition != null" >
+        nPosition,
+      </if>
+      <if test="nattachmentContentType != null" >
+        nAttachment_content_type,
+      </if>
+      <if test="sattachmentFileName != null" >
+        sAttachment_file_name,
+      </if>
+      <if test="stype != null" >
+        sType,
+      </if>
+      <if test="sattachmentUpdatedAt != null" >
+        sAttachment_updated_at,
+      </if>
+      <if test="nattachmentWidth != null" >
+        nAttachment_width,
+      </if>
+      <if test="nattachmentHeight != null" >
+        nAttachment_height,
+      </if>
+      <if test="salt != null" >
+        sAlt,
+      </if>
+      <if test="sviewableType != null" >
+        sViewable_type,
+      </if>
+      <if test="sminiUrl != null" >
+        sMini_url,
+      </if>
+      <if test="ssmallUrl != null" >
+        sSmall_url,
+      </if>
+      <if test="slargeUrl != null" >
+        sLarge_url,
+      </if>
+      <if test="sproductUrl != null" >
+        sProduct_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nimageid != null" >
+        #{nimageid,jdbcType=INTEGER},
+      </if>
+      <if test="nposition != null" >
+        #{nposition,jdbcType=INTEGER},
+      </if>
+      <if test="nattachmentContentType != null" >
+        #{nattachmentContentType,jdbcType=CHAR},
+      </if>
+      <if test="sattachmentFileName != null" >
+        #{sattachmentFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="stype != null" >
+        #{stype,jdbcType=VARCHAR},
+      </if>
+      <if test="sattachmentUpdatedAt != null" >
+        #{sattachmentUpdatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nattachmentWidth != null" >
+        #{nattachmentWidth,jdbcType=INTEGER},
+      </if>
+      <if test="nattachmentHeight != null" >
+        #{nattachmentHeight,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="sviewableType != null" >
+        #{sviewableType,jdbcType=VARCHAR},
+      </if>
+      <if test="sminiUrl != null" >
+        #{sminiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ssmallUrl != null" >
+        #{ssmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="slargeUrl != null" >
+        #{slargeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sproductUrl != null" >
+        #{sproductUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcImageExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_image
+    <set >
+      <if test="record.nimageid != null" >
+        nImageID = #{record.nimageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nposition != null" >
+        nPosition = #{record.nposition,jdbcType=INTEGER},
+      </if>
+      <if test="record.nattachmentContentType != null" >
+        nAttachment_content_type = #{record.nattachmentContentType,jdbcType=CHAR},
+      </if>
+      <if test="record.sattachmentFileName != null" >
+        sAttachment_file_name = #{record.sattachmentFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stype != null" >
+        sType = #{record.stype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sattachmentUpdatedAt != null" >
+        sAttachment_updated_at = #{record.sattachmentUpdatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nattachmentWidth != null" >
+        nAttachment_width = #{record.nattachmentWidth,jdbcType=INTEGER},
+      </if>
+      <if test="record.nattachmentHeight != null" >
+        nAttachment_height = #{record.nattachmentHeight,jdbcType=INTEGER},
+      </if>
+      <if test="record.salt != null" >
+        sAlt = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sviewableType != null" >
+        sViewable_type = #{record.sviewableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sminiUrl != null" >
+        sMini_url = #{record.sminiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssmallUrl != null" >
+        sSmall_url = #{record.ssmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slargeUrl != null" >
+        sLarge_url = #{record.slargeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sproductUrl != null" >
+        sProduct_url = #{record.sproductUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_image
+    set nImageID = #{record.nimageid,jdbcType=INTEGER},
+      nPosition = #{record.nposition,jdbcType=INTEGER},
+      nAttachment_content_type = #{record.nattachmentContentType,jdbcType=CHAR},
+      sAttachment_file_name = #{record.sattachmentFileName,jdbcType=VARCHAR},
+      sType = #{record.stype,jdbcType=VARCHAR},
+      sAttachment_updated_at = #{record.sattachmentUpdatedAt,jdbcType=TIMESTAMP},
+      nAttachment_width = #{record.nattachmentWidth,jdbcType=INTEGER},
+      nAttachment_height = #{record.nattachmentHeight,jdbcType=INTEGER},
+      sAlt = #{record.salt,jdbcType=VARCHAR},
+      sViewable_type = #{record.sviewableType,jdbcType=VARCHAR},
+      sMini_url = #{record.sminiUrl,jdbcType=VARCHAR},
+      sSmall_url = #{record.ssmallUrl,jdbcType=VARCHAR},
+      sLarge_url = #{record.slargeUrl,jdbcType=VARCHAR},
+      sProduct_url = #{record.sproductUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcImage" >
+    update r_ec_image
+    <set >
+      <if test="nposition != null" >
+        nPosition = #{nposition,jdbcType=INTEGER},
+      </if>
+      <if test="nattachmentContentType != null" >
+        nAttachment_content_type = #{nattachmentContentType,jdbcType=CHAR},
+      </if>
+      <if test="sattachmentFileName != null" >
+        sAttachment_file_name = #{sattachmentFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="stype != null" >
+        sType = #{stype,jdbcType=VARCHAR},
+      </if>
+      <if test="sattachmentUpdatedAt != null" >
+        sAttachment_updated_at = #{sattachmentUpdatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nattachmentWidth != null" >
+        nAttachment_width = #{nattachmentWidth,jdbcType=INTEGER},
+      </if>
+      <if test="nattachmentHeight != null" >
+        nAttachment_height = #{nattachmentHeight,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null" >
+        sAlt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="sviewableType != null" >
+        sViewable_type = #{sviewableType,jdbcType=VARCHAR},
+      </if>
+      <if test="sminiUrl != null" >
+        sMini_url = #{sminiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ssmallUrl != null" >
+        sSmall_url = #{ssmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="slargeUrl != null" >
+        sLarge_url = #{slargeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sproductUrl != null" >
+        sProduct_url = #{sproductUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nImageID = #{nimageid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcImage" >
+    update r_ec_image
+    set nPosition = #{nposition,jdbcType=INTEGER},
+      nAttachment_content_type = #{nattachmentContentType,jdbcType=CHAR},
+      sAttachment_file_name = #{sattachmentFileName,jdbcType=VARCHAR},
+      sType = #{stype,jdbcType=VARCHAR},
+      sAttachment_updated_at = #{sattachmentUpdatedAt,jdbcType=TIMESTAMP},
+      nAttachment_width = #{nattachmentWidth,jdbcType=INTEGER},
+      nAttachment_height = #{nattachmentHeight,jdbcType=INTEGER},
+      sAlt = #{salt,jdbcType=VARCHAR},
+      sViewable_type = #{sviewableType,jdbcType=VARCHAR},
+      sMini_url = #{sminiUrl,jdbcType=VARCHAR},
+      sSmall_url = #{ssmallUrl,jdbcType=VARCHAR},
+      sLarge_url = #{slargeUrl,jdbcType=VARCHAR},
+      sProduct_url = #{sproductUrl,jdbcType=VARCHAR}
+    where nImageID = #{nimageid,jdbcType=INTEGER}
+  </update>
+</mapper>

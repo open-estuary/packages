@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcSkuMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcSku" >
+    <id column="nSKUID" property="nskuid" jdbcType="INTEGER" />
+    <result column="nSPUID" property="nspuid" jdbcType="INTEGER" />
+    <result column="nColor" property="ncolor" jdbcType="VARCHAR" />
+    <result column="sSize" property="ssize" jdbcType="VARCHAR" />
+    <result column="nPrice" property="nprice" jdbcType="DECIMAL" />
+    <result column="nDisplay_price" property="ndisplayPrice" jdbcType="DECIMAL" />
+    <result column="nInventory" property="ninventory" jdbcType="INTEGER" />
+    <result column="nDiscount" property="ndiscount" jdbcType="REAL" />
+    <result column="sCurrency" property="scurrency" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nSKUID, nSPUID, nColor, sSize, nPrice, nDisplay_price, nInventory, nDiscount, sCurrency
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcSkuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_sku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_sku
+    where nSKUID = #{nskuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_ec_sku
+    where nSKUID = #{nskuid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcSkuExample" >
+    delete from r_ec_sku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcSku" >
+    insert into r_ec_sku (nSKUID, nSPUID, nColor, 
+      sSize, nPrice, nDisplay_price, 
+      nInventory, nDiscount, sCurrency
+      )
+    values (#{nskuid,jdbcType=INTEGER}, #{nspuid,jdbcType=INTEGER}, #{ncolor,jdbcType=VARCHAR}, 
+      #{ssize,jdbcType=VARCHAR}, #{nprice,jdbcType=DECIMAL}, #{ndisplayPrice,jdbcType=DECIMAL}, 
+      #{ninventory,jdbcType=INTEGER}, #{ndiscount,jdbcType=REAL}, #{scurrency,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcSku" >
+    insert into r_ec_sku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nskuid != null" >
+        nSKUID,
+      </if>
+      <if test="nspuid != null" >
+        nSPUID,
+      </if>
+      <if test="ncolor != null" >
+        nColor,
+      </if>
+      <if test="ssize != null" >
+        sSize,
+      </if>
+      <if test="nprice != null" >
+        nPrice,
+      </if>
+      <if test="ndisplayPrice != null" >
+        nDisplay_price,
+      </if>
+      <if test="ninventory != null" >
+        nInventory,
+      </if>
+      <if test="ndiscount != null" >
+        nDiscount,
+      </if>
+      <if test="scurrency != null" >
+        sCurrency,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nskuid != null" >
+        #{nskuid,jdbcType=INTEGER},
+      </if>
+      <if test="nspuid != null" >
+        #{nspuid,jdbcType=INTEGER},
+      </if>
+      <if test="ncolor != null" >
+        #{ncolor,jdbcType=VARCHAR},
+      </if>
+      <if test="ssize != null" >
+        #{ssize,jdbcType=VARCHAR},
+      </if>
+      <if test="nprice != null" >
+        #{nprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ndisplayPrice != null" >
+        #{ndisplayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="ninventory != null" >
+        #{ninventory,jdbcType=INTEGER},
+      </if>
+      <if test="ndiscount != null" >
+        #{ndiscount,jdbcType=REAL},
+      </if>
+      <if test="scurrency != null" >
+        #{scurrency,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcSkuExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_sku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_sku
+    <set >
+      <if test="record.nskuid != null" >
+        nSKUID = #{record.nskuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nspuid != null" >
+        nSPUID = #{record.nspuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ncolor != null" >
+        nColor = #{record.ncolor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssize != null" >
+        sSize = #{record.ssize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nprice != null" >
+        nPrice = #{record.nprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ndisplayPrice != null" >
+        nDisplay_price = #{record.ndisplayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ninventory != null" >
+        nInventory = #{record.ninventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.ndiscount != null" >
+        nDiscount = #{record.ndiscount,jdbcType=REAL},
+      </if>
+      <if test="record.scurrency != null" >
+        sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_sku
+    set nSKUID = #{record.nskuid,jdbcType=INTEGER},
+      nSPUID = #{record.nspuid,jdbcType=INTEGER},
+      nColor = #{record.ncolor,jdbcType=VARCHAR},
+      sSize = #{record.ssize,jdbcType=VARCHAR},
+      nPrice = #{record.nprice,jdbcType=DECIMAL},
+      nDisplay_price = #{record.ndisplayPrice,jdbcType=DECIMAL},
+      nInventory = #{record.ninventory,jdbcType=INTEGER},
+      nDiscount = #{record.ndiscount,jdbcType=REAL},
+      sCurrency = #{record.scurrency,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcSku" >
+    update r_ec_sku
+    <set >
+      <if test="nspuid != null" >
+        nSPUID = #{nspuid,jdbcType=INTEGER},
+      </if>
+      <if test="ncolor != null" >
+        nColor = #{ncolor,jdbcType=VARCHAR},
+      </if>
+      <if test="ssize != null" >
+        sSize = #{ssize,jdbcType=VARCHAR},
+      </if>
+      <if test="nprice != null" >
+        nPrice = #{nprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ndisplayPrice != null" >
+        nDisplay_price = #{ndisplayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="ninventory != null" >
+        nInventory = #{ninventory,jdbcType=INTEGER},
+      </if>
+      <if test="ndiscount != null" >
+        nDiscount = #{ndiscount,jdbcType=REAL},
+      </if>
+      <if test="scurrency != null" >
+        sCurrency = #{scurrency,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nSKUID = #{nskuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcSku" >
+    update r_ec_sku
+    set nSPUID = #{nspuid,jdbcType=INTEGER},
+      nColor = #{ncolor,jdbcType=VARCHAR},
+      sSize = #{ssize,jdbcType=VARCHAR},
+      nPrice = #{nprice,jdbcType=DECIMAL},
+      nDisplay_price = #{ndisplayPrice,jdbcType=DECIMAL},
+      nInventory = #{ninventory,jdbcType=INTEGER},
+      nDiscount = #{ndiscount,jdbcType=REAL},
+      sCurrency = #{scurrency,jdbcType=VARCHAR}
+    where nSKUID = #{nskuid,jdbcType=INTEGER}
+  </update>
+  <select id="getSKUList" resultMap="BaseResultMap" parameterType="java.util.ArrayList">
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_sku
+    where nSKUID in
+    <foreach collection="list" item="nskuid" index="index"
+             open="(" close=")" separator=",">
+      #{nskuid,jdbcType=INTEGER}
+    </foreach>
+    ORDER BY nSKUID
+  </select>
+</mapper>

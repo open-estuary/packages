@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcUserinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcUserinfo" >
+    <id column="nUserID" property="nuserid" jdbcType="INTEGER" />
+    <result column="sLoginName" property="sloginname" jdbcType="VARCHAR" />
+    <result column="sLoginPassword" property="sloginpassword" jdbcType="VARCHAR" />
+    <result column="sFirstName" property="sfirstname" jdbcType="VARCHAR" />
+    <result column="sLastName" property="slastname" jdbcType="VARCHAR" />
+    <result column="sPhoneNo" property="sphoneno" jdbcType="VARCHAR" />
+    <result column="sEmailAddress" property="semailaddress" jdbcType="VARCHAR" />
+    <result column="cGender" property="cgender" jdbcType="CHAR" />
+    <result column="sBirthday" property="sbirthday" jdbcType="DATE" />
+    <result column="sRegisterTime" property="sregistertime" jdbcType="TIMESTAMP" />
+    <result column="sPayPassword" property="spaypassword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nUserID, sLoginName, sLoginPassword, sFirstName, sLastName, sPhoneNo, sEmailAddress, 
+    cGender, sBirthday, sRegisterTime, sPayPassword
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcUserinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_userinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_userinfo
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from r_ec_userinfo
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcUserinfoExample" >
+    delete from r_ec_userinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcUserinfo" >
+    insert into r_ec_userinfo (nUserID, sLoginName, sLoginPassword, 
+      sFirstName, sLastName, sPhoneNo, 
+      sEmailAddress, cGender, sBirthday, 
+      sRegisterTime, sPayPassword)
+    values (#{nuserid,jdbcType=INTEGER}, #{sloginname,jdbcType=VARCHAR}, #{sloginpassword,jdbcType=VARCHAR}, 
+      #{sfirstname,jdbcType=VARCHAR}, #{slastname,jdbcType=VARCHAR}, #{sphoneno,jdbcType=VARCHAR}, 
+      #{semailaddress,jdbcType=VARCHAR}, #{cgender,jdbcType=CHAR}, #{sbirthday,jdbcType=DATE}, 
+      #{sregistertime,jdbcType=TIMESTAMP}, #{spaypassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcUserinfo" >
+    insert into r_ec_userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nuserid != null" >
+        nUserID,
+      </if>
+      <if test="sloginname != null" >
+        sLoginName,
+      </if>
+      <if test="sloginpassword != null" >
+        sLoginPassword,
+      </if>
+      <if test="sfirstname != null" >
+        sFirstName,
+      </if>
+      <if test="slastname != null" >
+        sLastName,
+      </if>
+      <if test="sphoneno != null" >
+        sPhoneNo,
+      </if>
+      <if test="semailaddress != null" >
+        sEmailAddress,
+      </if>
+      <if test="cgender != null" >
+        cGender,
+      </if>
+      <if test="sbirthday != null" >
+        sBirthday,
+      </if>
+      <if test="sregistertime != null" >
+        sRegisterTime,
+      </if>
+      <if test="spaypassword != null" >
+        sPayPassword,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="sloginname != null" >
+        #{sloginname,jdbcType=VARCHAR},
+      </if>
+      <if test="sloginpassword != null" >
+        #{sloginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sfirstname != null" >
+        #{sfirstname,jdbcType=VARCHAR},
+      </if>
+      <if test="slastname != null" >
+        #{slastname,jdbcType=VARCHAR},
+      </if>
+      <if test="sphoneno != null" >
+        #{sphoneno,jdbcType=VARCHAR},
+      </if>
+      <if test="semailaddress != null" >
+        #{semailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cgender != null" >
+        #{cgender,jdbcType=CHAR},
+      </if>
+      <if test="sbirthday != null" >
+        #{sbirthday,jdbcType=DATE},
+      </if>
+      <if test="sregistertime != null" >
+        #{sregistertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spaypassword != null" >
+        #{spaypassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcUserinfoExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_userinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_userinfo
+    <set >
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sloginname != null" >
+        sLoginName = #{record.sloginname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sloginpassword != null" >
+        sLoginPassword = #{record.sloginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfirstname != null" >
+        sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slastname != null" >
+        sLastName = #{record.slastname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sphoneno != null" >
+        sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.semailaddress != null" >
+        sEmailAddress = #{record.semailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgender != null" >
+        cGender = #{record.cgender,jdbcType=CHAR},
+      </if>
+      <if test="record.sbirthday != null" >
+        sBirthday = #{record.sbirthday,jdbcType=DATE},
+      </if>
+      <if test="record.sregistertime != null" >
+        sRegisterTime = #{record.sregistertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.spaypassword != null" >
+        sPayPassword = #{record.spaypassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_userinfo
+    set nUserID = #{record.nuserid,jdbcType=INTEGER},
+      sLoginName = #{record.sloginname,jdbcType=VARCHAR},
+      sLoginPassword = #{record.sloginpassword,jdbcType=VARCHAR},
+      sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
+      sLastName = #{record.slastname,jdbcType=VARCHAR},
+      sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR},
+      sEmailAddress = #{record.semailaddress,jdbcType=VARCHAR},
+      cGender = #{record.cgender,jdbcType=CHAR},
+      sBirthday = #{record.sbirthday,jdbcType=DATE},
+      sRegisterTime = #{record.sregistertime,jdbcType=TIMESTAMP},
+      sPayPassword = #{record.spaypassword,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcUserinfo" >
+    update r_ec_userinfo
+    <set >
+      <if test="sloginname != null" >
+        sLoginName = #{sloginname,jdbcType=VARCHAR},
+      </if>
+      <if test="sloginpassword != null" >
+        sLoginPassword = #{sloginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sfirstname != null" >
+        sFirstName = #{sfirstname,jdbcType=VARCHAR},
+      </if>
+      <if test="slastname != null" >
+        sLastName = #{slastname,jdbcType=VARCHAR},
+      </if>
+      <if test="sphoneno != null" >
+        sPhoneNo = #{sphoneno,jdbcType=VARCHAR},
+      </if>
+      <if test="semailaddress != null" >
+        sEmailAddress = #{semailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cgender != null" >
+        cGender = #{cgender,jdbcType=CHAR},
+      </if>
+      <if test="sbirthday != null" >
+        sBirthday = #{sbirthday,jdbcType=DATE},
+      </if>
+      <if test="sregistertime != null" >
+        sRegisterTime = #{sregistertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spaypassword != null" >
+        sPayPassword = #{spaypassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcUserinfo" >
+    update r_ec_userinfo
+    set sLoginName = #{sloginname,jdbcType=VARCHAR},
+      sLoginPassword = #{sloginpassword,jdbcType=VARCHAR},
+      sFirstName = #{sfirstname,jdbcType=VARCHAR},
+      sLastName = #{slastname,jdbcType=VARCHAR},
+      sPhoneNo = #{sphoneno,jdbcType=VARCHAR},
+      sEmailAddress = #{semailaddress,jdbcType=VARCHAR},
+      cGender = #{cgender,jdbcType=CHAR},
+      sBirthday = #{sbirthday,jdbcType=DATE},
+      sRegisterTime = #{sregistertime,jdbcType=TIMESTAMP},
+      sPayPassword = #{spaypassword,jdbcType=VARCHAR}
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+  </update>
+</mapper>
