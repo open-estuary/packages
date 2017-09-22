@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcDeliveryinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcDeliveryinfo" >
+    <id column="sDeliveryID" property="sdeliveryid" jdbcType="VARCHAR" />
+    <result column="sExpressCompany" property="sexpresscompany" jdbcType="VARCHAR" />
+    <result column="nDeliveryPrice" property="ndeliveryprice" jdbcType="DECIMAL" />
+    <result column="cStatus" property="cstatus" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sDeliveryID, sExpressCompany, nDeliveryPrice, cStatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcDeliveryinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_deliveryinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_deliveryinfo
+    where sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from r_ec_deliveryinfo
+    where sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcDeliveryinfoExample" >
+    delete from r_ec_deliveryinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    insert into r_ec_deliveryinfo (sDeliveryID, sExpressCompany, nDeliveryPrice, 
+      cStatus)
+    values (#{sdeliveryid,jdbcType=VARCHAR}, #{sexpresscompany,jdbcType=VARCHAR}, #{ndeliveryprice,jdbcType=DECIMAL}, 
+      #{cstatus,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    insert into r_ec_deliveryinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sdeliveryid != null" >
+        sDeliveryID,
+      </if>
+      <if test="sexpresscompany != null" >
+        sExpressCompany,
+      </if>
+      <if test="ndeliveryprice != null" >
+        nDeliveryPrice,
+      </if>
+      <if test="cstatus != null" >
+        cStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sdeliveryid != null" >
+        #{sdeliveryid,jdbcType=VARCHAR},
+      </if>
+      <if test="sexpresscompany != null" >
+        #{sexpresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ndeliveryprice != null" >
+        #{ndeliveryprice,jdbcType=DECIMAL},
+      </if>
+      <if test="cstatus != null" >
+        #{cstatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcDeliveryinfoExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_deliveryinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_deliveryinfo
+    <set >
+      <if test="record.sdeliveryid != null" >
+        sDeliveryID = #{record.sdeliveryid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sexpresscompany != null" >
+        sExpressCompany = #{record.sexpresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ndeliveryprice != null" >
+        nDeliveryPrice = #{record.ndeliveryprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cstatus != null" >
+        cStatus = #{record.cstatus,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_deliveryinfo
+    set sDeliveryID = #{record.sdeliveryid,jdbcType=VARCHAR},
+      sExpressCompany = #{record.sexpresscompany,jdbcType=VARCHAR},
+      nDeliveryPrice = #{record.ndeliveryprice,jdbcType=DECIMAL},
+      cStatus = #{record.cstatus,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    update r_ec_deliveryinfo
+    <set >
+      <if test="sexpresscompany != null" >
+        sExpressCompany = #{sexpresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ndeliveryprice != null" >
+        nDeliveryPrice = #{ndeliveryprice,jdbcType=DECIMAL},
+      </if>
+      <if test="cstatus != null" >
+        cStatus = #{cstatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    update r_ec_deliveryinfo
+    set sExpressCompany = #{sexpresscompany,jdbcType=VARCHAR},
+      nDeliveryPrice = #{ndeliveryprice,jdbcType=DECIMAL},
+      cStatus = #{cstatus,jdbcType=CHAR}
+    where sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR}
+  </update>
+</mapper>
