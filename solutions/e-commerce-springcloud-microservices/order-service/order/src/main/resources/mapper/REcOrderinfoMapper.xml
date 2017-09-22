@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcOrderinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcOrderinfo" >
+    <id column="sOrderID" property="sorderid" jdbcType="VARCHAR" />
+    <result column="nUserID" property="nuserid" jdbcType="INTEGER" />
+    <result column="sParentOrderID" property="sparentorderid" jdbcType="VARCHAR" />
+    <result column="cPaymentMethod" property="cpaymentmethod" jdbcType="CHAR" />
+    <result column="sPaymentMethodTitle" property="spaymentmethodtitle" jdbcType="VARCHAR" />
+    <result column="nDiscount" property="ndiscount" jdbcType="REAL" />
+    <result column="nTotalQuantity" property="ntotalquantity" jdbcType="INTEGER" />
+    <result column="nTotalPrice" property="ntotalprice" jdbcType="DECIMAL" />
+    <result column="sVersion" property="sversion" jdbcType="VARCHAR" />
+    <result column="nAddressNo" property="naddressno" jdbcType="INTEGER" />
+    <result column="cStatus" property="cstatus" jdbcType="CHAR" />
+    <result column="sDate_created" property="sdateCreated" jdbcType="TIMESTAMP" />
+    <result column="sDate_Modified" property="sdateModified" jdbcType="TIMESTAMP" />
+    <result column="sDate_Paid" property="sdatePaid" jdbcType="TIMESTAMP" />
+    <result column="sDate_Completed" property="sdateCompleted" jdbcType="TIMESTAMP" />
+    <result column="sCustomerMark" property="scustomermark" jdbcType="VARCHAR" />
+    <result column="sDeliveryID" property="sdeliveryid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sOrderID, nUserID, sParentOrderID, cPaymentMethod, sPaymentMethodTitle, nDiscount, 
+    nTotalQuantity, nTotalPrice, sVersion, nAddressNo, cStatus, sDate_created, sDate_Modified, 
+    sDate_Paid, sDate_Completed, sCustomerMark, sDeliveryID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcOrderinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_orderinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_orderinfo
+    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from r_ec_orderinfo
+    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcOrderinfoExample" >
+    delete from r_ec_orderinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcOrderinfo" >
+    insert into r_ec_orderinfo (sOrderID, nUserID, sParentOrderID, 
+      cPaymentMethod, sPaymentMethodTitle, nDiscount, 
+      nTotalQuantity, nTotalPrice, sVersion, 
+      nAddressNo, cStatus, sDate_created, 
+      sDate_Modified, sDate_Paid, sDate_Completed, 
+      sCustomerMark, sDeliveryID)
+    values (#{sorderid,jdbcType=VARCHAR}, #{nuserid,jdbcType=INTEGER}, #{sparentorderid,jdbcType=VARCHAR}, 
+      #{cpaymentmethod,jdbcType=CHAR}, #{spaymentmethodtitle,jdbcType=VARCHAR}, #{ndiscount,jdbcType=REAL}, 
+      #{ntotalquantity,jdbcType=INTEGER}, #{ntotalprice,jdbcType=DECIMAL}, #{sversion,jdbcType=VARCHAR}, 
+      #{naddressno,jdbcType=INTEGER}, #{cstatus,jdbcType=CHAR}, #{sdateCreated,jdbcType=TIMESTAMP}, 
+      #{sdateModified,jdbcType=TIMESTAMP}, #{sdatePaid,jdbcType=TIMESTAMP}, #{sdateCompleted,jdbcType=TIMESTAMP}, 
+      #{scustomermark,jdbcType=VARCHAR}, #{sdeliveryid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcOrderinfo" >
+    insert into r_ec_orderinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sorderid != null" >
+        sOrderID,
+      </if>
+      <if test="nuserid != null" >
+        nUserID,
+      </if>
+      <if test="sparentorderid != null" >
+        sParentOrderID,
+      </if>
+      <if test="cpaymentmethod != null" >
+        cPaymentMethod,
+      </if>
+      <if test="spaymentmethodtitle != null" >
+        sPaymentMethodTitle,
+      </if>
+      <if test="ndiscount != null" >
+        nDiscount,
+      </if>
+      <if test="ntotalquantity != null" >
+        nTotalQuantity,
+      </if>
+      <if test="ntotalprice != null" >
+        nTotalPrice,
+      </if>
+      <if test="sversion != null" >
+        sVersion,
+      </if>
+      <if test="naddressno != null" >
+        nAddressNo,
+      </if>
+      <if test="cstatus != null" >
+        cStatus,
+      </if>
+      <if test="sdateCreated != null" >
+        sDate_created,
+      </if>
+      <if test="sdateModified != null" >
+        sDate_Modified,
+      </if>
+      <if test="sdatePaid != null" >
+        sDate_Paid,
+      </if>
+      <if test="sdateCompleted != null" >
+        sDate_Completed,
+      </if>
+      <if test="scustomermark != null" >
+        sCustomerMark,
+      </if>
+      <if test="sdeliveryid != null" >
+        sDeliveryID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sorderid != null" >
+        #{sorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="sparentorderid != null" >
+        #{sparentorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="cpaymentmethod != null" >
+        #{cpaymentmethod,jdbcType=CHAR},
+      </if>
+      <if test="spaymentmethodtitle != null" >
+        #{spaymentmethodtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ndiscount != null" >
+        #{ndiscount,jdbcType=REAL},
+      </if>
+      <if test="ntotalquantity != null" >
+        #{ntotalquantity,jdbcType=INTEGER},
+      </if>
+      <if test="ntotalprice != null" >
+        #{ntotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="sversion != null" >
+        #{sversion,jdbcType=VARCHAR},
+      </if>
+      <if test="naddressno != null" >
+        #{naddressno,jdbcType=INTEGER},
+      </if>
+      <if test="cstatus != null" >
+        #{cstatus,jdbcType=CHAR},
+      </if>
+      <if test="sdateCreated != null" >
+        #{sdateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdateModified != null" >
+        #{sdateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdatePaid != null" >
+        #{sdatePaid,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdateCompleted != null" >
+        #{sdateCompleted,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scustomermark != null" >
+        #{scustomermark,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeliveryid != null" >
+        #{sdeliveryid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcOrderinfoExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_orderinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_orderinfo
+    <set >
+      <if test="record.sorderid != null" >
+        sOrderID = #{record.sorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sparentorderid != null" >
+        sParentOrderID = #{record.sparentorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpaymentmethod != null" >
+        cPaymentMethod = #{record.cpaymentmethod,jdbcType=CHAR},
+      </if>
+      <if test="record.spaymentmethodtitle != null" >
+        sPaymentMethodTitle = #{record.spaymentmethodtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ndiscount != null" >
+        nDiscount = #{record.ndiscount,jdbcType=REAL},
+      </if>
+      <if test="record.ntotalquantity != null" >
+        nTotalQuantity = #{record.ntotalquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.ntotalprice != null" >
+        nTotalPrice = #{record.ntotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sversion != null" >
+        sVersion = #{record.sversion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.naddressno != null" >
+        nAddressNo = #{record.naddressno,jdbcType=INTEGER},
+      </if>
+      <if test="record.cstatus != null" >
+        cStatus = #{record.cstatus,jdbcType=CHAR},
+      </if>
+      <if test="record.sdateCreated != null" >
+        sDate_created = #{record.sdateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sdateModified != null" >
+        sDate_Modified = #{record.sdateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sdatePaid != null" >
+        sDate_Paid = #{record.sdatePaid,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sdateCompleted != null" >
+        sDate_Completed = #{record.sdateCompleted,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.scustomermark != null" >
+        sCustomerMark = #{record.scustomermark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sdeliveryid != null" >
+        sDeliveryID = #{record.sdeliveryid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_orderinfo
+    set sOrderID = #{record.sorderid,jdbcType=VARCHAR},
+      nUserID = #{record.nuserid,jdbcType=INTEGER},
+      sParentOrderID = #{record.sparentorderid,jdbcType=VARCHAR},
+      cPaymentMethod = #{record.cpaymentmethod,jdbcType=CHAR},
+      sPaymentMethodTitle = #{record.spaymentmethodtitle,jdbcType=VARCHAR},
+      nDiscount = #{record.ndiscount,jdbcType=REAL},
+      nTotalQuantity = #{record.ntotalquantity,jdbcType=INTEGER},
+      nTotalPrice = #{record.ntotalprice,jdbcType=DECIMAL},
+      sVersion = #{record.sversion,jdbcType=VARCHAR},
+      nAddressNo = #{record.naddressno,jdbcType=INTEGER},
+      cStatus = #{record.cstatus,jdbcType=CHAR},
+      sDate_created = #{record.sdateCreated,jdbcType=TIMESTAMP},
+      sDate_Modified = #{record.sdateModified,jdbcType=TIMESTAMP},
+      sDate_Paid = #{record.sdatePaid,jdbcType=TIMESTAMP},
+      sDate_Completed = #{record.sdateCompleted,jdbcType=TIMESTAMP},
+      sCustomerMark = #{record.scustomermark,jdbcType=VARCHAR},
+      sDeliveryID = #{record.sdeliveryid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcOrderinfo" >
+    update r_ec_orderinfo
+    <set >
+      <if test="nuserid != null" >
+        nUserID = #{nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="sparentorderid != null" >
+        sParentOrderID = #{sparentorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="cpaymentmethod != null" >
+        cPaymentMethod = #{cpaymentmethod,jdbcType=CHAR},
+      </if>
+      <if test="spaymentmethodtitle != null" >
+        sPaymentMethodTitle = #{spaymentmethodtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ndiscount != null" >
+        nDiscount = #{ndiscount,jdbcType=REAL},
+      </if>
+      <if test="ntotalquantity != null" >
+        nTotalQuantity = #{ntotalquantity,jdbcType=INTEGER},
+      </if>
+      <if test="ntotalprice != null" >
+        nTotalPrice = #{ntotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="sversion != null" >
+        sVersion = #{sversion,jdbcType=VARCHAR},
+      </if>
+      <if test="naddressno != null" >
+        nAddressNo = #{naddressno,jdbcType=INTEGER},
+      </if>
+      <if test="cstatus != null" >
+        cStatus = #{cstatus,jdbcType=CHAR},
+      </if>
+      <if test="sdateCreated != null" >
+        sDate_created = #{sdateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdateModified != null" >
+        sDate_Modified = #{sdateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdatePaid != null" >
+        sDate_Paid = #{sdatePaid,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdateCompleted != null" >
+        sDate_Completed = #{sdateCompleted,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scustomermark != null" >
+        sCustomerMark = #{scustomermark,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeliveryid != null" >
+        sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcOrderinfo" >
+    update r_ec_orderinfo
+    set nUserID = #{nuserid,jdbcType=INTEGER},
+      sParentOrderID = #{sparentorderid,jdbcType=VARCHAR},
+      cPaymentMethod = #{cpaymentmethod,jdbcType=CHAR},
+      sPaymentMethodTitle = #{spaymentmethodtitle,jdbcType=VARCHAR},
+      nDiscount = #{ndiscount,jdbcType=REAL},
+      nTotalQuantity = #{ntotalquantity,jdbcType=INTEGER},
+      nTotalPrice = #{ntotalprice,jdbcType=DECIMAL},
+      sVersion = #{sversion,jdbcType=VARCHAR},
+      nAddressNo = #{naddressno,jdbcType=INTEGER},
+      cStatus = #{cstatus,jdbcType=CHAR},
+      sDate_created = #{sdateCreated,jdbcType=TIMESTAMP},
+      sDate_Modified = #{sdateModified,jdbcType=TIMESTAMP},
+      sDate_Paid = #{sdatePaid,jdbcType=TIMESTAMP},
+      sDate_Completed = #{sdateCompleted,jdbcType=TIMESTAMP},
+      sCustomerMark = #{scustomermark,jdbcType=VARCHAR},
+      sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR}
+    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+  </update>
+</mapper>
