@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.search.dao.REcCartskuMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.search.model.REcCartsku" >
+    <id column="nUserID" property="nuserid" jdbcType="INTEGER" />
+    <id column="nProductID" property="nproductid" jdbcType="INTEGER" />
+    <result column="nQuantity" property="nquantity" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nUserID, nProductID, nQuantity
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.search.model.REcCartskuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_cartsku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.htsat.search.model.REcCartskuKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_cartsku
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+      and nProductID = #{nproductid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.htsat.search.model.REcCartskuKey" >
+    delete from r_ec_cartsku
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+      and nProductID = #{nproductid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.search.model.REcCartskuExample" >
+    delete from r_ec_cartsku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.search.model.REcCartsku" >
+    insert into r_ec_cartsku (nUserID, nProductID, nQuantity
+      )
+    values (#{nuserid,jdbcType=INTEGER}, #{nproductid,jdbcType=INTEGER}, #{nquantity,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.search.model.REcCartsku" >
+    insert into r_ec_cartsku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nuserid != null" >
+        nUserID,
+      </if>
+      <if test="nproductid != null" >
+        nProductID,
+      </if>
+      <if test="nquantity != null" >
+        nQuantity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="nproductid != null" >
+        #{nproductid,jdbcType=INTEGER},
+      </if>
+      <if test="nquantity != null" >
+        #{nquantity,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.search.model.REcCartskuExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_cartsku
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_cartsku
+    <set >
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nproductid != null" >
+        nProductID = #{record.nproductid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nquantity != null" >
+        nQuantity = #{record.nquantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_cartsku
+    set nUserID = #{record.nuserid,jdbcType=INTEGER},
+      nProductID = #{record.nproductid,jdbcType=INTEGER},
+      nQuantity = #{record.nquantity,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.search.model.REcCartsku" >
+    update r_ec_cartsku
+    <set >
+      <if test="nquantity != null" >
+        nQuantity = #{nquantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+      and nProductID = #{nproductid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.search.model.REcCartsku" >
+    update r_ec_cartsku
+    set nQuantity = #{nquantity,jdbcType=INTEGER}
+    where nUserID = #{nuserid,jdbcType=INTEGER}
+      and nProductID = #{nproductid,jdbcType=INTEGER}
+  </update>
+</mapper>
