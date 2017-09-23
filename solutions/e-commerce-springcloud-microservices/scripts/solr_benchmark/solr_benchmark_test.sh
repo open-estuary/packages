@@ -28,4 +28,12 @@ DUR_TIME_INSEC=${5:-240}
 SERVERPATH="/solr/e-commerce"
 QUERYFILE="${2}"
 
-${JMETER} -n -t ${BENCHMARK_JMX} -JserverName=${HOST} -JserverPort=${PORT} -JserverPath=${SERVERPATH} -JqueryFile="${QUERYFILE}" -JnoOfUsers ${USER_NUM} -JdurationInSecs ${DUR_TIME_INSEC}
+CUR_DIR="$(cd `dirname $0`; pwd)"
+if [ -f "${CUR_DIR}/solr_benchmark_result" ] ; then
+    echo "Delete old test logs ..."
+    rm ${CUR_DIR}/solr_benchmark_result.jtl
+    rm ${CUR_DIR}/jmeter.log
+fi
+
+echo "Perform New Solr Test(Server:${HOST}, Port:${PORT}, NumberofUser:${USER_NUM}, TestTimeInSecs:${DUR_TIME_INSEC}"
+taskset -c 2-63 ${JMETER} -n -t ${BENCHMARK_JMX} -JserverName=${HOST} -JserverPort=${PORT} -JserverPath=${SERVERPATH} -JqueryFile="${QUERYFILE}" -JnoOfUsers ${USER_NUM} -JdurationInSecs ${DUR_TIME_INSEC} -l ${CUR_DIR}/solr_benchmark_result.jtl -o ${CUR_DIR}/solr_benchmark_report -e
