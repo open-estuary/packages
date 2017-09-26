@@ -1,2 +1,4 @@
 jmeter.log
+solr_benchmark_result.jtl
+solr_benchmark_report/
 solr_benchmark_result
