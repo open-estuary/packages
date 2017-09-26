@@ -10,7 +10,7 @@ public interface REcUserbankinfoMapper {
 
     int deleteByExample(REcUserbankinfoExample example);
 
-    int deleteByPrimaryKey(String scardnumber);
+    int deleteByPrimaryKey(String scardid);
 
     int insert(REcUserbankinfo record);
 
@@ -18,7 +18,7 @@ public interface REcUserbankinfoMapper {
 
     List<REcUserbankinfo> selectByExample(REcUserbankinfoExample example);
 
-    REcUserbankinfo selectByPrimaryKey(String scardnumber);
+    REcUserbankinfo selectByPrimaryKey(String scardid);
 
     int updateByExampleSelective(@Param("record") REcUserbankinfo record, @Param("example") REcUserbankinfoExample example);
 

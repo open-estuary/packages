@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class REcShoppingcart {
-    private Integer nuserid;
+    private Long nshoppingcartid;
+
+    private Long nuserid;
 
     private Date supdatetime;
 
-    private Float ndiscount;
+    private BigDecimal ndiscount;
 
     private Integer ntotalquantity;
 
@@ -16,11 +18,21 @@ public class REcShoppingcart {
 
     private BigDecimal ntotalprice;
 
-    public Integer getNuserid() {
+    private Date ncreatetime;
+
+    public Long getNshoppingcartid() {
+        return nshoppingcartid;
+    }
+
+    public void setNshoppingcartid(Long nshoppingcartid) {
+        this.nshoppingcartid = nshoppingcartid;
+    }
+
+    public Long getNuserid() {
         return nuserid;
     }
 
-    public void setNuserid(Integer nuserid) {
+    public void setNuserid(Long nuserid) {
         this.nuserid = nuserid;
     }
 
@@ -32,11 +44,11 @@ public class REcShoppingcart {
         this.supdatetime = supdatetime;
     }
 
-    public Float getNdiscount() {
+    public BigDecimal getNdiscount() {
         return ndiscount;
     }
 
-    public void setNdiscount(Float ndiscount) {
+    public void setNdiscount(BigDecimal ndiscount) {
         this.ndiscount = ndiscount;
     }
 
@@ -62,5 +74,13 @@ public class REcShoppingcart {
 
     public void setNtotalprice(BigDecimal ntotalprice) {
         this.ntotalprice = ntotalprice;
+    }
+
+    public Date getNcreatetime() {
+        return ncreatetime;
+    }
+
+    public void setNcreatetime(Date ncreatetime) {
+        this.ncreatetime = ncreatetime;
     }
 }

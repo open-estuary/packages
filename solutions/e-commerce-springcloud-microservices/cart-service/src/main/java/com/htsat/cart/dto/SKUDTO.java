@@ -2,12 +2,13 @@ package com.htsat.cart.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class SKUDTO implements Serializable{
 
-    int skuId;
+    Long skuId;
 
-    int spuId;
+    Long spuId;
 
     String color;
 
@@ -19,23 +20,27 @@ public class SKUDTO implements Serializable{
 
     String currency;
 
-    float discount;
+    BigDecimal discount;
+
+    Date dcreatetime;
+
+    Date dupdatetime;
 
     int quantity;
 
-    public int getSkuId() {
+    public Long getSkuId() {
         return skuId;
     }
 
-    public void setSkuId(int skuId) {
+    public void setSkuId(Long skuId) {
         this.skuId = skuId;
     }
 
-    public int getSpuId() {
+    public Long getSpuId() {
         return spuId;
     }
 
-    public void setSpuId(int spuId) {
+    public void setSpuId(Long spuId) {
         this.spuId = spuId;
     }
 
@@ -87,12 +92,28 @@ public class SKUDTO implements Serializable{
         this.quantity = quantity;
     }
 
-    public float getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
     }
 
     @Override
@@ -106,6 +127,8 @@ public class SKUDTO implements Serializable{
                 ", displayPrice=" + displayPrice +
                 ", currency='" + currency + '\'' +
                 ", discount=" + discount +
+                ", dcreatetime=" + dcreatetime +
+                ", dupdatetime=" + dupdatetime +
                 ", quantity=" + quantity +
                 '}';
     }

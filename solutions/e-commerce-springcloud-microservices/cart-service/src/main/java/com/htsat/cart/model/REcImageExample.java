@@ -115,923 +115,453 @@ public class REcImageExample {
             return (Criteria) this;
         }
 
-        public Criteria andNimageidEqualTo(Integer value) {
+        public Criteria andNimageidEqualTo(Long value) {
             addCriterion("nImageID =", value, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidNotEqualTo(Integer value) {
+        public Criteria andNimageidNotEqualTo(Long value) {
             addCriterion("nImageID <>", value, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidGreaterThan(Integer value) {
+        public Criteria andNimageidGreaterThan(Long value) {
             addCriterion("nImageID >", value, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNimageidGreaterThanOrEqualTo(Long value) {
             addCriterion("nImageID >=", value, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidLessThan(Integer value) {
+        public Criteria andNimageidLessThan(Long value) {
             addCriterion("nImageID <", value, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidLessThanOrEqualTo(Integer value) {
+        public Criteria andNimageidLessThanOrEqualTo(Long value) {
             addCriterion("nImageID <=", value, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidIn(List<Integer> values) {
+        public Criteria andNimageidIn(List<Long> values) {
             addCriterion("nImageID in", values, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidNotIn(List<Integer> values) {
+        public Criteria andNimageidNotIn(List<Long> values) {
             addCriterion("nImageID not in", values, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidBetween(Integer value1, Integer value2) {
+        public Criteria andNimageidBetween(Long value1, Long value2) {
             addCriterion("nImageID between", value1, value2, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNimageidNotBetween(Integer value1, Integer value2) {
+        public Criteria andNimageidNotBetween(Long value1, Long value2) {
             addCriterion("nImageID not between", value1, value2, "nimageid");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionIsNull() {
-            addCriterion("nPosition is null");
+        public Criteria andNimagetypeIsNull() {
+            addCriterion("nImageType is null");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionIsNotNull() {
-            addCriterion("nPosition is not null");
+        public Criteria andNimagetypeIsNotNull() {
+            addCriterion("nImageType is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionEqualTo(Integer value) {
-            addCriterion("nPosition =", value, "nposition");
+        public Criteria andNimagetypeEqualTo(String value) {
+            addCriterion("nImageType =", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionNotEqualTo(Integer value) {
-            addCriterion("nPosition <>", value, "nposition");
+        public Criteria andNimagetypeNotEqualTo(String value) {
+            addCriterion("nImageType <>", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionGreaterThan(Integer value) {
-            addCriterion("nPosition >", value, "nposition");
+        public Criteria andNimagetypeGreaterThan(String value) {
+            addCriterion("nImageType >", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionGreaterThanOrEqualTo(Integer value) {
-            addCriterion("nPosition >=", value, "nposition");
+        public Criteria andNimagetypeGreaterThanOrEqualTo(String value) {
+            addCriterion("nImageType >=", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionLessThan(Integer value) {
-            addCriterion("nPosition <", value, "nposition");
+        public Criteria andNimagetypeLessThan(String value) {
+            addCriterion("nImageType <", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionLessThanOrEqualTo(Integer value) {
-            addCriterion("nPosition <=", value, "nposition");
+        public Criteria andNimagetypeLessThanOrEqualTo(String value) {
+            addCriterion("nImageType <=", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionIn(List<Integer> values) {
-            addCriterion("nPosition in", values, "nposition");
+        public Criteria andNimagetypeLike(String value) {
+            addCriterion("nImageType like", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionNotIn(List<Integer> values) {
-            addCriterion("nPosition not in", values, "nposition");
+        public Criteria andNimagetypeNotLike(String value) {
+            addCriterion("nImageType not like", value, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionBetween(Integer value1, Integer value2) {
-            addCriterion("nPosition between", value1, value2, "nposition");
+        public Criteria andNimagetypeIn(List<String> values) {
+            addCriterion("nImageType in", values, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNpositionNotBetween(Integer value1, Integer value2) {
-            addCriterion("nPosition not between", value1, value2, "nposition");
+        public Criteria andNimagetypeNotIn(List<String> values) {
+            addCriterion("nImageType not in", values, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeIsNull() {
-            addCriterion("nAttachment_content_type is null");
+        public Criteria andNimagetypeBetween(String value1, String value2) {
+            addCriterion("nImageType between", value1, value2, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeIsNotNull() {
-            addCriterion("nAttachment_content_type is not null");
+        public Criteria andNimagetypeNotBetween(String value1, String value2) {
+            addCriterion("nImageType not between", value1, value2, "nimagetype");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeEqualTo(String value) {
-            addCriterion("nAttachment_content_type =", value, "nattachmentContentType");
+        public Criteria andSimagenameIsNull() {
+            addCriterion("sImageName is null");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeNotEqualTo(String value) {
-            addCriterion("nAttachment_content_type <>", value, "nattachmentContentType");
+        public Criteria andSimagenameIsNotNull() {
+            addCriterion("sImageName is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeGreaterThan(String value) {
-            addCriterion("nAttachment_content_type >", value, "nattachmentContentType");
+        public Criteria andSimagenameEqualTo(String value) {
+            addCriterion("sImageName =", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("nAttachment_content_type >=", value, "nattachmentContentType");
+        public Criteria andSimagenameNotEqualTo(String value) {
+            addCriterion("sImageName <>", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeLessThan(String value) {
-            addCriterion("nAttachment_content_type <", value, "nattachmentContentType");
+        public Criteria andSimagenameGreaterThan(String value) {
+            addCriterion("sImageName >", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeLessThanOrEqualTo(String value) {
-            addCriterion("nAttachment_content_type <=", value, "nattachmentContentType");
+        public Criteria andSimagenameGreaterThanOrEqualTo(String value) {
+            addCriterion("sImageName >=", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeLike(String value) {
-            addCriterion("nAttachment_content_type like", value, "nattachmentContentType");
+        public Criteria andSimagenameLessThan(String value) {
+            addCriterion("sImageName <", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeNotLike(String value) {
-            addCriterion("nAttachment_content_type not like", value, "nattachmentContentType");
+        public Criteria andSimagenameLessThanOrEqualTo(String value) {
+            addCriterion("sImageName <=", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeIn(List<String> values) {
-            addCriterion("nAttachment_content_type in", values, "nattachmentContentType");
+        public Criteria andSimagenameLike(String value) {
+            addCriterion("sImageName like", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeNotIn(List<String> values) {
-            addCriterion("nAttachment_content_type not in", values, "nattachmentContentType");
+        public Criteria andSimagenameNotLike(String value) {
+            addCriterion("sImageName not like", value, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeBetween(String value1, String value2) {
-            addCriterion("nAttachment_content_type between", value1, value2, "nattachmentContentType");
+        public Criteria andSimagenameIn(List<String> values) {
+            addCriterion("sImageName in", values, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentContentTypeNotBetween(String value1, String value2) {
-            addCriterion("nAttachment_content_type not between", value1, value2, "nattachmentContentType");
+        public Criteria andSimagenameNotIn(List<String> values) {
+            addCriterion("sImageName not in", values, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameIsNull() {
-            addCriterion("sAttachment_file_name is null");
+        public Criteria andSimagenameBetween(String value1, String value2) {
+            addCriterion("sImageName between", value1, value2, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameIsNotNull() {
-            addCriterion("sAttachment_file_name is not null");
+        public Criteria andSimagenameNotBetween(String value1, String value2) {
+            addCriterion("sImageName not between", value1, value2, "simagename");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameEqualTo(String value) {
-            addCriterion("sAttachment_file_name =", value, "sattachmentFileName");
+        public Criteria andDupdatetimeIsNull() {
+            addCriterion("dUpdateTime is null");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameNotEqualTo(String value) {
-            addCriterion("sAttachment_file_name <>", value, "sattachmentFileName");
+        public Criteria andDupdatetimeIsNotNull() {
+            addCriterion("dUpdateTime is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameGreaterThan(String value) {
-            addCriterion("sAttachment_file_name >", value, "sattachmentFileName");
+        public Criteria andDupdatetimeEqualTo(Date value) {
+            addCriterion("dUpdateTime =", value, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameGreaterThanOrEqualTo(String value) {
-            addCriterion("sAttachment_file_name >=", value, "sattachmentFileName");
+        public Criteria andDupdatetimeNotEqualTo(Date value) {
+            addCriterion("dUpdateTime <>", value, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameLessThan(String value) {
-            addCriterion("sAttachment_file_name <", value, "sattachmentFileName");
+        public Criteria andDupdatetimeGreaterThan(Date value) {
+            addCriterion("dUpdateTime >", value, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameLessThanOrEqualTo(String value) {
-            addCriterion("sAttachment_file_name <=", value, "sattachmentFileName");
+        public Criteria andDupdatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime >=", value, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameLike(String value) {
-            addCriterion("sAttachment_file_name like", value, "sattachmentFileName");
+        public Criteria andDupdatetimeLessThan(Date value) {
+            addCriterion("dUpdateTime <", value, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameNotLike(String value) {
-            addCriterion("sAttachment_file_name not like", value, "sattachmentFileName");
+        public Criteria andDupdatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime <=", value, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameIn(List<String> values) {
-            addCriterion("sAttachment_file_name in", values, "sattachmentFileName");
+        public Criteria andDupdatetimeIn(List<Date> values) {
+            addCriterion("dUpdateTime in", values, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameNotIn(List<String> values) {
-            addCriterion("sAttachment_file_name not in", values, "sattachmentFileName");
+        public Criteria andDupdatetimeNotIn(List<Date> values) {
+            addCriterion("dUpdateTime not in", values, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameBetween(String value1, String value2) {
-            addCriterion("sAttachment_file_name between", value1, value2, "sattachmentFileName");
+        public Criteria andDupdatetimeBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime between", value1, value2, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentFileNameNotBetween(String value1, String value2) {
-            addCriterion("sAttachment_file_name not between", value1, value2, "sattachmentFileName");
+        public Criteria andDupdatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime not between", value1, value2, "dupdatetime");
             return (Criteria) this;
         }
 
-        public Criteria andStypeIsNull() {
-            addCriterion("sType is null");
+        public Criteria andSdescriptionIsNull() {
+            addCriterion("sDescription is null");
             return (Criteria) this;
         }
 
-        public Criteria andStypeIsNotNull() {
-            addCriterion("sType is not null");
+        public Criteria andSdescriptionIsNotNull() {
+            addCriterion("sDescription is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStypeEqualTo(String value) {
-            addCriterion("sType =", value, "stype");
+        public Criteria andSdescriptionEqualTo(String value) {
+            addCriterion("sDescription =", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeNotEqualTo(String value) {
-            addCriterion("sType <>", value, "stype");
+        public Criteria andSdescriptionNotEqualTo(String value) {
+            addCriterion("sDescription <>", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeGreaterThan(String value) {
-            addCriterion("sType >", value, "stype");
+        public Criteria andSdescriptionGreaterThan(String value) {
+            addCriterion("sDescription >", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeGreaterThanOrEqualTo(String value) {
-            addCriterion("sType >=", value, "stype");
+        public Criteria andSdescriptionGreaterThanOrEqualTo(String value) {
+            addCriterion("sDescription >=", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeLessThan(String value) {
-            addCriterion("sType <", value, "stype");
+        public Criteria andSdescriptionLessThan(String value) {
+            addCriterion("sDescription <", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeLessThanOrEqualTo(String value) {
-            addCriterion("sType <=", value, "stype");
+        public Criteria andSdescriptionLessThanOrEqualTo(String value) {
+            addCriterion("sDescription <=", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeLike(String value) {
-            addCriterion("sType like", value, "stype");
+        public Criteria andSdescriptionLike(String value) {
+            addCriterion("sDescription like", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeNotLike(String value) {
-            addCriterion("sType not like", value, "stype");
+        public Criteria andSdescriptionNotLike(String value) {
+            addCriterion("sDescription not like", value, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeIn(List<String> values) {
-            addCriterion("sType in", values, "stype");
+        public Criteria andSdescriptionIn(List<String> values) {
+            addCriterion("sDescription in", values, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeNotIn(List<String> values) {
-            addCriterion("sType not in", values, "stype");
+        public Criteria andSdescriptionNotIn(List<String> values) {
+            addCriterion("sDescription not in", values, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeBetween(String value1, String value2) {
-            addCriterion("sType between", value1, value2, "stype");
+        public Criteria andSdescriptionBetween(String value1, String value2) {
+            addCriterion("sDescription between", value1, value2, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andStypeNotBetween(String value1, String value2) {
-            addCriterion("sType not between", value1, value2, "stype");
+        public Criteria andSdescriptionNotBetween(String value1, String value2) {
+            addCriterion("sDescription not between", value1, value2, "sdescription");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtIsNull() {
-            addCriterion("sAttachment_updated_at is null");
+        public Criteria andSpathIsNull() {
+            addCriterion("sPath is null");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtIsNotNull() {
-            addCriterion("sAttachment_updated_at is not null");
+        public Criteria andSpathIsNotNull() {
+            addCriterion("sPath is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtEqualTo(Date value) {
-            addCriterion("sAttachment_updated_at =", value, "sattachmentUpdatedAt");
+        public Criteria andSpathEqualTo(String value) {
+            addCriterion("sPath =", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtNotEqualTo(Date value) {
-            addCriterion("sAttachment_updated_at <>", value, "sattachmentUpdatedAt");
+        public Criteria andSpathNotEqualTo(String value) {
+            addCriterion("sPath <>", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtGreaterThan(Date value) {
-            addCriterion("sAttachment_updated_at >", value, "sattachmentUpdatedAt");
+        public Criteria andSpathGreaterThan(String value) {
+            addCriterion("sPath >", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtGreaterThanOrEqualTo(Date value) {
-            addCriterion("sAttachment_updated_at >=", value, "sattachmentUpdatedAt");
+        public Criteria andSpathGreaterThanOrEqualTo(String value) {
+            addCriterion("sPath >=", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtLessThan(Date value) {
-            addCriterion("sAttachment_updated_at <", value, "sattachmentUpdatedAt");
+        public Criteria andSpathLessThan(String value) {
+            addCriterion("sPath <", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtLessThanOrEqualTo(Date value) {
-            addCriterion("sAttachment_updated_at <=", value, "sattachmentUpdatedAt");
+        public Criteria andSpathLessThanOrEqualTo(String value) {
+            addCriterion("sPath <=", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtIn(List<Date> values) {
-            addCriterion("sAttachment_updated_at in", values, "sattachmentUpdatedAt");
+        public Criteria andSpathLike(String value) {
+            addCriterion("sPath like", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtNotIn(List<Date> values) {
-            addCriterion("sAttachment_updated_at not in", values, "sattachmentUpdatedAt");
+        public Criteria andSpathNotLike(String value) {
+            addCriterion("sPath not like", value, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtBetween(Date value1, Date value2) {
-            addCriterion("sAttachment_updated_at between", value1, value2, "sattachmentUpdatedAt");
+        public Criteria andSpathIn(List<String> values) {
+            addCriterion("sPath in", values, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andSattachmentUpdatedAtNotBetween(Date value1, Date value2) {
-            addCriterion("sAttachment_updated_at not between", value1, value2, "sattachmentUpdatedAt");
+        public Criteria andSpathNotIn(List<String> values) {
+            addCriterion("sPath not in", values, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthIsNull() {
-            addCriterion("nAttachment_width is null");
+        public Criteria andSpathBetween(String value1, String value2) {
+            addCriterion("sPath between", value1, value2, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthIsNotNull() {
-            addCriterion("nAttachment_width is not null");
+        public Criteria andSpathNotBetween(String value1, String value2) {
+            addCriterion("sPath not between", value1, value2, "spath");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthEqualTo(Integer value) {
-            addCriterion("nAttachment_width =", value, "nattachmentWidth");
+        public Criteria andDcreatetimeIsNull() {
+            addCriterion("dCreateTime is null");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthNotEqualTo(Integer value) {
-            addCriterion("nAttachment_width <>", value, "nattachmentWidth");
+        public Criteria andDcreatetimeIsNotNull() {
+            addCriterion("dCreateTime is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthGreaterThan(Integer value) {
-            addCriterion("nAttachment_width >", value, "nattachmentWidth");
+        public Criteria andDcreatetimeEqualTo(Date value) {
+            addCriterion("dCreateTime =", value, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthGreaterThanOrEqualTo(Integer value) {
-            addCriterion("nAttachment_width >=", value, "nattachmentWidth");
+        public Criteria andDcreatetimeNotEqualTo(Date value) {
+            addCriterion("dCreateTime <>", value, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthLessThan(Integer value) {
-            addCriterion("nAttachment_width <", value, "nattachmentWidth");
+        public Criteria andDcreatetimeGreaterThan(Date value) {
+            addCriterion("dCreateTime >", value, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthLessThanOrEqualTo(Integer value) {
-            addCriterion("nAttachment_width <=", value, "nattachmentWidth");
+        public Criteria andDcreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime >=", value, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthIn(List<Integer> values) {
-            addCriterion("nAttachment_width in", values, "nattachmentWidth");
+        public Criteria andDcreatetimeLessThan(Date value) {
+            addCriterion("dCreateTime <", value, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthNotIn(List<Integer> values) {
-            addCriterion("nAttachment_width not in", values, "nattachmentWidth");
+        public Criteria andDcreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime <=", value, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthBetween(Integer value1, Integer value2) {
-            addCriterion("nAttachment_width between", value1, value2, "nattachmentWidth");
+        public Criteria andDcreatetimeIn(List<Date> values) {
+            addCriterion("dCreateTime in", values, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentWidthNotBetween(Integer value1, Integer value2) {
-            addCriterion("nAttachment_width not between", value1, value2, "nattachmentWidth");
+        public Criteria andDcreatetimeNotIn(List<Date> values) {
+            addCriterion("dCreateTime not in", values, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentHeightIsNull() {
-            addCriterion("nAttachment_height is null");
+        public Criteria andDcreatetimeBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime between", value1, value2, "dcreatetime");
             return (Criteria) this;
         }
 
-        public Criteria andNattachmentHeightIsNotNull() {
-            addCriterion("nAttachment_height is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightEqualTo(Integer value) {
-            addCriterion("nAttachment_height =", value, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightNotEqualTo(Integer value) {
-            addCriterion("nAttachment_height <>", value, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightGreaterThan(Integer value) {
-            addCriterion("nAttachment_height >", value, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightGreaterThanOrEqualTo(Integer value) {
-            addCriterion("nAttachment_height >=", value, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightLessThan(Integer value) {
-            addCriterion("nAttachment_height <", value, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightLessThanOrEqualTo(Integer value) {
-            addCriterion("nAttachment_height <=", value, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightIn(List<Integer> values) {
-            addCriterion("nAttachment_height in", values, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightNotIn(List<Integer> values) {
-            addCriterion("nAttachment_height not in", values, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightBetween(Integer value1, Integer value2) {
-            addCriterion("nAttachment_height between", value1, value2, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andNattachmentHeightNotBetween(Integer value1, Integer value2) {
-            addCriterion("nAttachment_height not between", value1, value2, "nattachmentHeight");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltIsNull() {
-            addCriterion("sAlt is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltIsNotNull() {
-            addCriterion("sAlt is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltEqualTo(String value) {
-            addCriterion("sAlt =", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltNotEqualTo(String value) {
-            addCriterion("sAlt <>", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltGreaterThan(String value) {
-            addCriterion("sAlt >", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltGreaterThanOrEqualTo(String value) {
-            addCriterion("sAlt >=", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltLessThan(String value) {
-            addCriterion("sAlt <", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltLessThanOrEqualTo(String value) {
-            addCriterion("sAlt <=", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltLike(String value) {
-            addCriterion("sAlt like", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltNotLike(String value) {
-            addCriterion("sAlt not like", value, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltIn(List<String> values) {
-            addCriterion("sAlt in", values, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltNotIn(List<String> values) {
-            addCriterion("sAlt not in", values, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltBetween(String value1, String value2) {
-            addCriterion("sAlt between", value1, value2, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSaltNotBetween(String value1, String value2) {
-            addCriterion("sAlt not between", value1, value2, "salt");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeIsNull() {
-            addCriterion("sViewable_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeIsNotNull() {
-            addCriterion("sViewable_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeEqualTo(String value) {
-            addCriterion("sViewable_type =", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeNotEqualTo(String value) {
-            addCriterion("sViewable_type <>", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeGreaterThan(String value) {
-            addCriterion("sViewable_type >", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("sViewable_type >=", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeLessThan(String value) {
-            addCriterion("sViewable_type <", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeLessThanOrEqualTo(String value) {
-            addCriterion("sViewable_type <=", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeLike(String value) {
-            addCriterion("sViewable_type like", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeNotLike(String value) {
-            addCriterion("sViewable_type not like", value, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeIn(List<String> values) {
-            addCriterion("sViewable_type in", values, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeNotIn(List<String> values) {
-            addCriterion("sViewable_type not in", values, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeBetween(String value1, String value2) {
-            addCriterion("sViewable_type between", value1, value2, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSviewableTypeNotBetween(String value1, String value2) {
-            addCriterion("sViewable_type not between", value1, value2, "sviewableType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlIsNull() {
-            addCriterion("sMini_url is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlIsNotNull() {
-            addCriterion("sMini_url is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlEqualTo(String value) {
-            addCriterion("sMini_url =", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlNotEqualTo(String value) {
-            addCriterion("sMini_url <>", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlGreaterThan(String value) {
-            addCriterion("sMini_url >", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("sMini_url >=", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlLessThan(String value) {
-            addCriterion("sMini_url <", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlLessThanOrEqualTo(String value) {
-            addCriterion("sMini_url <=", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlLike(String value) {
-            addCriterion("sMini_url like", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlNotLike(String value) {
-            addCriterion("sMini_url not like", value, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlIn(List<String> values) {
-            addCriterion("sMini_url in", values, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlNotIn(List<String> values) {
-            addCriterion("sMini_url not in", values, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlBetween(String value1, String value2) {
-            addCriterion("sMini_url between", value1, value2, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSminiUrlNotBetween(String value1, String value2) {
-            addCriterion("sMini_url not between", value1, value2, "sminiUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlIsNull() {
-            addCriterion("sSmall_url is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlIsNotNull() {
-            addCriterion("sSmall_url is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlEqualTo(String value) {
-            addCriterion("sSmall_url =", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlNotEqualTo(String value) {
-            addCriterion("sSmall_url <>", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlGreaterThan(String value) {
-            addCriterion("sSmall_url >", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("sSmall_url >=", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlLessThan(String value) {
-            addCriterion("sSmall_url <", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlLessThanOrEqualTo(String value) {
-            addCriterion("sSmall_url <=", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlLike(String value) {
-            addCriterion("sSmall_url like", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlNotLike(String value) {
-            addCriterion("sSmall_url not like", value, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlIn(List<String> values) {
-            addCriterion("sSmall_url in", values, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlNotIn(List<String> values) {
-            addCriterion("sSmall_url not in", values, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlBetween(String value1, String value2) {
-            addCriterion("sSmall_url between", value1, value2, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSsmallUrlNotBetween(String value1, String value2) {
-            addCriterion("sSmall_url not between", value1, value2, "ssmallUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlIsNull() {
-            addCriterion("sLarge_url is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlIsNotNull() {
-            addCriterion("sLarge_url is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlEqualTo(String value) {
-            addCriterion("sLarge_url =", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlNotEqualTo(String value) {
-            addCriterion("sLarge_url <>", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlGreaterThan(String value) {
-            addCriterion("sLarge_url >", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("sLarge_url >=", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlLessThan(String value) {
-            addCriterion("sLarge_url <", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlLessThanOrEqualTo(String value) {
-            addCriterion("sLarge_url <=", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlLike(String value) {
-            addCriterion("sLarge_url like", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlNotLike(String value) {
-            addCriterion("sLarge_url not like", value, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlIn(List<String> values) {
-            addCriterion("sLarge_url in", values, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlNotIn(List<String> values) {
-            addCriterion("sLarge_url not in", values, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlBetween(String value1, String value2) {
-            addCriterion("sLarge_url between", value1, value2, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlargeUrlNotBetween(String value1, String value2) {
-            addCriterion("sLarge_url not between", value1, value2, "slargeUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlIsNull() {
-            addCriterion("sProduct_url is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlIsNotNull() {
-            addCriterion("sProduct_url is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlEqualTo(String value) {
-            addCriterion("sProduct_url =", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlNotEqualTo(String value) {
-            addCriterion("sProduct_url <>", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlGreaterThan(String value) {
-            addCriterion("sProduct_url >", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("sProduct_url >=", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlLessThan(String value) {
-            addCriterion("sProduct_url <", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlLessThanOrEqualTo(String value) {
-            addCriterion("sProduct_url <=", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlLike(String value) {
-            addCriterion("sProduct_url like", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlNotLike(String value) {
-            addCriterion("sProduct_url not like", value, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlIn(List<String> values) {
-            addCriterion("sProduct_url in", values, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlNotIn(List<String> values) {
-            addCriterion("sProduct_url not in", values, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlBetween(String value1, String value2) {
-            addCriterion("sProduct_url between", value1, value2, "sproductUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andSproductUrlNotBetween(String value1, String value2) {
-            addCriterion("sProduct_url not between", value1, value2, "sproductUrl");
+        public Criteria andDcreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime not between", value1, value2, "dcreatetime");
             return (Criteria) this;
         }
     }

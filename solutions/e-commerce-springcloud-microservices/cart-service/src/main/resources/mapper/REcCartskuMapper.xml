@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.htsat.cart.dao.REcCartskuMapper" >
   <resultMap id="BaseResultMap" type="com.htsat.cart.model.REcCartsku" >
-    <id column="nUserID" property="nuserid" jdbcType="INTEGER" />
-    <id column="nProductID" property="nproductid" jdbcType="INTEGER" />
+    <id column="nCartSKUID" property="ncartskuid" jdbcType="BIGINT" />
+    <result column="nUserID" property="nuserid" jdbcType="BIGINT" />
+    <result column="nSKUID" property="nskuid" jdbcType="BIGINT" />
     <result column="nQuantity" property="nquantity" jdbcType="INTEGER" />
+    <result column="nShoppingCartID" property="nshoppingcartid" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    nUserID, nProductID, nQuantity
+    nCartSKUID, nUserID, nSKUID, nQuantity, nShoppingCartID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcCartskuExample" >
     select
@@ -81,17 +83,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcCartskuKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from r_ec_cartsku
-    where nUserID = #{nuserid,jdbcType=INTEGER}
-      and nProductID = #{nproductid,jdbcType=INTEGER}
+    where nCartSKUID = #{ncartskuid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.htsat.cart.model.REcCartskuKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from r_ec_cartsku
-    where nUserID = #{nuserid,jdbcType=INTEGER}
-      and nProductID = #{nproductid,jdbcType=INTEGER}
+    where nCartSKUID = #{ncartskuid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.htsat.cart.model.REcCartskuExample" >
     delete from r_ec_cartsku
@@ -100,33 +100,45 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.htsat.cart.model.REcCartsku" >
-    insert into r_ec_cartsku (nUserID, nProductID, nQuantity
-      )
-    values (#{nuserid,jdbcType=INTEGER}, #{nproductid,jdbcType=INTEGER}, #{nquantity,jdbcType=INTEGER}
-      )
+    insert into r_ec_cartsku (nCartSKUID, nUserID, nSKUID, 
+      nQuantity, nShoppingCartID)
+    values (#{ncartskuid,jdbcType=BIGINT}, #{nuserid,jdbcType=BIGINT}, #{nskuid,jdbcType=BIGINT}, 
+      #{nquantity,jdbcType=INTEGER}, #{nshoppingcartid,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.htsat.cart.model.REcCartsku" >
     insert into r_ec_cartsku
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ncartskuid != null" >
+        nCartSKUID,
+      </if>
       <if test="nuserid != null" >
         nUserID,
       </if>
-      <if test="nproductid != null" >
-        nProductID,
+      <if test="nskuid != null" >
+        nSKUID,
       </if>
       <if test="nquantity != null" >
         nQuantity,
       </if>
+      <if test="nshoppingcartid != null" >
+        nShoppingCartID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="nuserid != null" >
-        #{nuserid,jdbcType=INTEGER},
+      <if test="ncartskuid != null" >
+        #{ncartskuid,jdbcType=BIGINT},
       </if>
-      <if test="nproductid != null" >
-        #{nproductid,jdbcType=INTEGER},
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="nskuid != null" >
+        #{nskuid,jdbcType=BIGINT},
       </if>
       <if test="nquantity != null" >
         #{nquantity,jdbcType=INTEGER},
+      </if>
+      <if test="nshoppingcartid != null" >
+        #{nshoppingcartid,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -139,14 +151,20 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update r_ec_cartsku
     <set >
-      <if test="record.nuserid != null" >
-        nUserID = #{record.nuserid,jdbcType=INTEGER},
+      <if test="record.ncartskuid != null" >
+        nCartSKUID = #{record.ncartskuid,jdbcType=BIGINT},
       </if>
-      <if test="record.nproductid != null" >
-        nProductID = #{record.nproductid,jdbcType=INTEGER},
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nskuid != null" >
+        nSKUID = #{record.nskuid,jdbcType=BIGINT},
       </if>
       <if test="record.nquantity != null" >
         nQuantity = #{record.nquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.nshoppingcartid != null" >
+        nShoppingCartID = #{record.nshoppingcartid,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -155,9 +173,11 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update r_ec_cartsku
-    set nUserID = #{record.nuserid,jdbcType=INTEGER},
-      nProductID = #{record.nproductid,jdbcType=INTEGER},
-      nQuantity = #{record.nquantity,jdbcType=INTEGER}
+    set nCartSKUID = #{record.ncartskuid,jdbcType=BIGINT},
+      nUserID = #{record.nuserid,jdbcType=BIGINT},
+      nSKUID = #{record.nskuid,jdbcType=BIGINT},
+      nQuantity = #{record.nquantity,jdbcType=INTEGER},
+      nShoppingCartID = #{record.nshoppingcartid,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -165,23 +185,45 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.htsat.cart.model.REcCartsku" >
     update r_ec_cartsku
     <set >
+      <if test="nuserid != null" >
+        nUserID = #{nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="nskuid != null" >
+        nSKUID = #{nskuid,jdbcType=BIGINT},
+      </if>
       <if test="nquantity != null" >
         nQuantity = #{nquantity,jdbcType=INTEGER},
       </if>
+      <if test="nshoppingcartid != null" >
+        nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT},
+      </if>
     </set>
-    where nUserID = #{nuserid,jdbcType=INTEGER}
-      and nProductID = #{nproductid,jdbcType=INTEGER}
+    where nCartSKUID = #{ncartskuid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.cart.model.REcCartsku" >
     update r_ec_cartsku
-    set nQuantity = #{nquantity,jdbcType=INTEGER}
-    where nUserID = #{nuserid,jdbcType=INTEGER}
-      and nProductID = #{nproductid,jdbcType=INTEGER}
+    set nUserID = #{nuserid,jdbcType=BIGINT},
+      nSKUID = #{nskuid,jdbcType=BIGINT},
+      nQuantity = #{nquantity,jdbcType=INTEGER},
+      nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+    where nCartSKUID = #{ncartskuid,jdbcType=BIGINT}
   </update>
-  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByShoppingCartId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
     from r_ec_cartsku
-    where nUserID = #{nuserid,jdbcType=INTEGER}
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByREcCartskuKey" parameterType="com.htsat.cart.model.REcCartskuKey" >
+    delete from r_ec_cartsku
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+    and nSKUID = #{nskuid,jdbcType=BIGINT}
+  </delete>
+  <select id="selectByREcCartskuKey" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcCartskuKey" >
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_cartsku
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+    and nSKUID = #{nskuid,jdbcType=BIGINT}
   </select>
 </mapper>

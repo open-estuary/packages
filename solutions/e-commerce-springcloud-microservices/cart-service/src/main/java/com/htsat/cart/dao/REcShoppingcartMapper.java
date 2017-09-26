@@ -10,7 +10,7 @@ public interface REcShoppingcartMapper {
 
     int deleteByExample(REcShoppingcartExample example);
 
-    int deleteByPrimaryKey(Integer nuserid);
+    int deleteByPrimaryKey(Long nshoppingcartid);
 
     int insert(REcShoppingcart record);
 
@@ -18,7 +18,7 @@ public interface REcShoppingcartMapper {
 
     List<REcShoppingcart> selectByExample(REcShoppingcartExample example);
 
-    REcShoppingcart selectByPrimaryKey(Integer nuserid);
+    REcShoppingcart selectByPrimaryKey(Long nshoppingcartid);
 
     int updateByExampleSelective(@Param("record") REcShoppingcart record, @Param("example") REcShoppingcartExample example);
 
@@ -27,4 +27,6 @@ public interface REcShoppingcartMapper {
     int updateByPrimaryKeySelective(REcShoppingcart record);
 
     int updateByPrimaryKey(REcShoppingcart record);
+
+    List<REcShoppingcart> selectByUserId(Long userId);
 }

@@ -104,6 +104,66 @@ public class REcCartskuExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andNcartskuidIsNull() {
+            addCriterion("nCartSKUID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidIsNotNull() {
+            addCriterion("nCartSKUID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidEqualTo(Long value) {
+            addCriterion("nCartSKUID =", value, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidNotEqualTo(Long value) {
+            addCriterion("nCartSKUID <>", value, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidGreaterThan(Long value) {
+            addCriterion("nCartSKUID >", value, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nCartSKUID >=", value, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidLessThan(Long value) {
+            addCriterion("nCartSKUID <", value, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidLessThanOrEqualTo(Long value) {
+            addCriterion("nCartSKUID <=", value, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidIn(List<Long> values) {
+            addCriterion("nCartSKUID in", values, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidNotIn(List<Long> values) {
+            addCriterion("nCartSKUID not in", values, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidBetween(Long value1, Long value2) {
+            addCriterion("nCartSKUID between", value1, value2, "ncartskuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcartskuidNotBetween(Long value1, Long value2) {
+            addCriterion("nCartSKUID not between", value1, value2, "ncartskuid");
+            return (Criteria) this;
+        }
+
         public Criteria andNuseridIsNull() {
             addCriterion("nUserID is null");
             return (Criteria) this;
@@ -114,113 +174,113 @@ public class REcCartskuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNuseridEqualTo(Integer value) {
+        public Criteria andNuseridEqualTo(Long value) {
             addCriterion("nUserID =", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotEqualTo(Integer value) {
+        public Criteria andNuseridNotEqualTo(Long value) {
             addCriterion("nUserID <>", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThan(Integer value) {
+        public Criteria andNuseridGreaterThan(Long value) {
             addCriterion("nUserID >", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNuseridGreaterThanOrEqualTo(Long value) {
             addCriterion("nUserID >=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThan(Integer value) {
+        public Criteria andNuseridLessThan(Long value) {
             addCriterion("nUserID <", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThanOrEqualTo(Integer value) {
+        public Criteria andNuseridLessThanOrEqualTo(Long value) {
             addCriterion("nUserID <=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridIn(List<Integer> values) {
+        public Criteria andNuseridIn(List<Long> values) {
             addCriterion("nUserID in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotIn(List<Integer> values) {
+        public Criteria andNuseridNotIn(List<Long> values) {
             addCriterion("nUserID not in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridBetween(Long value1, Long value2) {
             addCriterion("nUserID between", value1, value2, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridNotBetween(Long value1, Long value2) {
             addCriterion("nUserID not between", value1, value2, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidIsNull() {
-            addCriterion("nProductID is null");
+        public Criteria andNskuidIsNull() {
+            addCriterion("nSKUID is null");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidIsNotNull() {
-            addCriterion("nProductID is not null");
+        public Criteria andNskuidIsNotNull() {
+            addCriterion("nSKUID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidEqualTo(Integer value) {
-            addCriterion("nProductID =", value, "nproductid");
+        public Criteria andNskuidEqualTo(Long value) {
+            addCriterion("nSKUID =", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidNotEqualTo(Integer value) {
-            addCriterion("nProductID <>", value, "nproductid");
+        public Criteria andNskuidNotEqualTo(Long value) {
+            addCriterion("nSKUID <>", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidGreaterThan(Integer value) {
-            addCriterion("nProductID >", value, "nproductid");
+        public Criteria andNskuidGreaterThan(Long value) {
+            addCriterion("nSKUID >", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("nProductID >=", value, "nproductid");
+        public Criteria andNskuidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nSKUID >=", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidLessThan(Integer value) {
-            addCriterion("nProductID <", value, "nproductid");
+        public Criteria andNskuidLessThan(Long value) {
+            addCriterion("nSKUID <", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidLessThanOrEqualTo(Integer value) {
-            addCriterion("nProductID <=", value, "nproductid");
+        public Criteria andNskuidLessThanOrEqualTo(Long value) {
+            addCriterion("nSKUID <=", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidIn(List<Integer> values) {
-            addCriterion("nProductID in", values, "nproductid");
+        public Criteria andNskuidIn(List<Long> values) {
+            addCriterion("nSKUID in", values, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidNotIn(List<Integer> values) {
-            addCriterion("nProductID not in", values, "nproductid");
+        public Criteria andNskuidNotIn(List<Long> values) {
+            addCriterion("nSKUID not in", values, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidBetween(Integer value1, Integer value2) {
-            addCriterion("nProductID between", value1, value2, "nproductid");
+        public Criteria andNskuidBetween(Long value1, Long value2) {
+            addCriterion("nSKUID between", value1, value2, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNproductidNotBetween(Integer value1, Integer value2) {
-            addCriterion("nProductID not between", value1, value2, "nproductid");
+        public Criteria andNskuidNotBetween(Long value1, Long value2) {
+            addCriterion("nSKUID not between", value1, value2, "nskuid");
             return (Criteria) this;
         }
 
@@ -281,6 +341,66 @@ public class REcCartskuExample {
 
         public Criteria andNquantityNotBetween(Integer value1, Integer value2) {
             addCriterion("nQuantity not between", value1, value2, "nquantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidIsNull() {
+            addCriterion("nShoppingCartID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidIsNotNull() {
+            addCriterion("nShoppingCartID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidEqualTo(Long value) {
+            addCriterion("nShoppingCartID =", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidNotEqualTo(Long value) {
+            addCriterion("nShoppingCartID <>", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidGreaterThan(Long value) {
+            addCriterion("nShoppingCartID >", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nShoppingCartID >=", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidLessThan(Long value) {
+            addCriterion("nShoppingCartID <", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidLessThanOrEqualTo(Long value) {
+            addCriterion("nShoppingCartID <=", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidIn(List<Long> values) {
+            addCriterion("nShoppingCartID in", values, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidNotIn(List<Long> values) {
+            addCriterion("nShoppingCartID not in", values, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidBetween(Long value1, Long value2) {
+            addCriterion("nShoppingCartID between", value1, value2, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidNotBetween(Long value1, Long value2) {
+            addCriterion("nShoppingCartID not between", value1, value2, "nshoppingcartid");
             return (Criteria) this;
         }
     }

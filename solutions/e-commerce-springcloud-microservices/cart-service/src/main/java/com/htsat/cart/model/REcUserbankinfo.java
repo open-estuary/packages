@@ -1,46 +1,48 @@
 package com.htsat.cart.model;
 
 public class REcUserbankinfo {
-    private String scardnumber;
+    private String scardid;
 
-    private Integer nuserid;
+    private Long nuserid;
 
-    private String sbank;
+    private Short sbank;
 
-    private String scardtype;
+    private Short scardtype;
 
     private String scurrency;
 
-    public String getScardnumber() {
-        return scardnumber;
+    private String scardnumber;
+
+    public String getScardid() {
+        return scardid;
     }
 
-    public void setScardnumber(String scardnumber) {
-        this.scardnumber = scardnumber == null ? null : scardnumber.trim();
+    public void setScardid(String scardid) {
+        this.scardid = scardid == null ? null : scardid.trim();
     }
 
-    public Integer getNuserid() {
+    public Long getNuserid() {
         return nuserid;
     }
 
-    public void setNuserid(Integer nuserid) {
+    public void setNuserid(Long nuserid) {
         this.nuserid = nuserid;
     }
 
-    public String getSbank() {
+    public Short getSbank() {
         return sbank;
     }
 
-    public void setSbank(String sbank) {
-        this.sbank = sbank == null ? null : sbank.trim();
+    public void setSbank(Short sbank) {
+        this.sbank = sbank;
     }
 
-    public String getScardtype() {
+    public Short getScardtype() {
         return scardtype;
     }
 
-    public void setScardtype(String scardtype) {
-        this.scardtype = scardtype == null ? null : scardtype.trim();
+    public void setScardtype(Short scardtype) {
+        this.scardtype = scardtype;
     }
 
     public String getScurrency() {
@@ -49,5 +51,13 @@ public class REcUserbankinfo {
 
     public void setScurrency(String scurrency) {
         this.scurrency = scurrency == null ? null : scurrency.trim();
+    }
+
+    public String getScardnumber() {
+        return scardnumber;
+    }
+
+    public void setScardnumber(String scardnumber) {
+        this.scardnumber = scardnumber == null ? null : scardnumber.trim();
     }
 }

@@ -1,5 +1,9 @@
 package com.htsat.cart.web;
 
+import com.htsat.cart.Exception.DeleteException;
+import com.htsat.cart.Exception.InsertException;
+import com.htsat.cart.Exception.SearchException;
+import com.htsat.cart.Exception.UpdateException;
 import com.htsat.cart.dto.ShoppingCartDTO;
 import com.htsat.cart.dto.StatusDTO;
 import com.htsat.cart.enums.ExcuteStatusEnum;
@@ -25,9 +29,6 @@ public class ShoppingCartController {
     @Autowired
     IShoppingCartService shoppingCartService;
 
-//    @Autowired
-//    IRedisService redisService;
-
     @RequestMapping(value = "/carts", method = RequestMethod.POST)
     @ResponseBody
     public StatusDTO createShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO){
@@ -35,22 +36,22 @@ public class ShoppingCartController {
         status.setUserId(shoppingCartDTO.getUserId());
 
         List<REcSku> skuList = shoppingCartService.getSKUListByDTOList(shoppingCartDTO.getSkudtoList());
+        //用户 sku 校验
         if (!userService.checkUserAvailable(shoppingCartDTO.getUserId())
                 || !shoppingCartService.checkSKUParam(shoppingCartDTO.getSkudtoList(), skuList)) {
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
 
-//        Jedis jedis = redisService.getResource();
-        ShoppingCartDTO returnShoppingCartDTO = null;
         try {
-            //mysql save
-            returnShoppingCartDTO = shoppingCartService.addShoppingCartAndSKU(shoppingCartDTO);
-            //redis save
-            shoppingCartService.addShoppCartAndSKUToRedis(returnShoppingCartDTO);
-        } catch (Exception e) {
+            shoppingCartService.addShoppingCartAndSKU(shoppingCartDTO);
+        } catch (InsertException e) {
             e.printStackTrace();
             logger.info("create exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        } catch (Exception e) {
+            e.printStackTrace();
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -60,23 +61,19 @@ public class ShoppingCartController {
 
     @RequestMapping(value = "/carts/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartDTO getShoppingCart(@PathVariable("userId") Integer userId){
+    public ShoppingCartDTO getShoppingCart(@PathVariable("userId") Long userId){
         ShoppingCartDTO shoppingCartDTO = null;
         if (!userService.checkUserAvailable(userId)) {
             return null;
         }
         try {
-            //redis get
-            shoppingCartDTO = shoppingCartService.getShoppingCartFromRedis(userId);
-            //mysql get
-            if (shoppingCartDTO == null) {
-                REcShoppingcart shoppingcart = shoppingCartService.getShoppingCart(userId);
-                List<REcSku> skuList = shoppingCartService.getSKUList(userId);
-                shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
-            }
-        } catch (Exception e) {
+            shoppingCartDTO = shoppingCartService.getShoppingCart(userId);
+        } catch (SearchException e) {
             e.printStackTrace();
             logger.info("get exception !");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return shoppingCartDTO;
@@ -84,7 +81,7 @@ public class ShoppingCartController {
 
     @RequestMapping(value = "/carts/{userId}", method = RequestMethod.DELETE)
     @ResponseBody
-    public StatusDTO deleteShoppingCart(@PathVariable("userId") Integer userId){
+    public StatusDTO deleteShoppingCart(@PathVariable("userId") Long userId){
         StatusDTO status = new StatusDTO();
         status.setUserId(userId);
 
@@ -94,10 +91,13 @@ public class ShoppingCartController {
 
         try {
             shoppingCartService.deleteShoppingCartAndSKU(userId);
-            shoppingCartService.deleteShoppingCartAndSKUToRedis(userId);
-        } catch (Exception e) {
+        } catch (DeleteException e) {
             e.printStackTrace();
             logger.info("delete exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        } catch (Exception e) {
+            e.printStackTrace();
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -113,10 +113,11 @@ public class ShoppingCartController {
         }
         ShoppingCartDTO returnShoppingCartDTO = null;
         try {
-            //mysql
             returnShoppingCartDTO = shoppingCartService.updateShoppingCartAndSKU(type, shoppingCartDTO);
-            //redis
-            shoppingCartService.updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
+        } catch (UpdateException e) {
+            e.printStackTrace();
+            logger.info("delete exception !");
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("delete exception !");
@@ -135,32 +136,5 @@ public class ShoppingCartController {
         }
         return status;
     }
-
-//    @RequestMapping("/redis/set")
-//    public String redisSet(){
-//        ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
-//        shoppingCartDTO.setUserId(1);
-//        Jedis jedis = redisService.getResource();
-//        jedis.set((shoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(shoppingCartDTO));
-//
-//        return "true";
-//    }
-//
-//    @RequestMapping("/redis/get")
-//    public ShoppingCartDTO redisGet(){
-//        ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
-//        shoppingCartDTO.setUserId(1);
-//        Jedis jedis = redisService.getResource();
-//        byte[] person = jedis.get((shoppingCartDTO.getUserId() + "").getBytes());
-//        return (ShoppingCartDTO) SerializeUtil.unserialize(person);
-//    }
-
-//    @Autowired
-//    RestTemplate restTemplate;
-//
-//    @RequestMapping(value = "/add", method = RequestMethod.GET)
-//    public String add() {
-//        return restTemplate.getForEntity("http://CART-SERVICE/add?a=10&b=20", String.class).getBody();
-//    }
 
 }

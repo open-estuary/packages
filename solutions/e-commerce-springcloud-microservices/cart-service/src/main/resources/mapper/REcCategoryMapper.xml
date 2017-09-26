@@ -6,6 +6,10 @@
     <result column="nLevel" property="nlevel" jdbcType="INTEGER" />
     <result column="nParentCategoryID" property="nparentcategoryid" jdbcType="INTEGER" />
     <result column="sCategoryName" property="scategoryname" jdbcType="VARCHAR" />
+    <result column="sCode" property="scode" jdbcType="VARCHAR" />
+    <result column="IsLeaf" property="isleaf" jdbcType="CHAR" />
+    <result column="dCreateTime" property="dcreatetime" jdbcType="TIMESTAMP" />
+    <result column="dUpdateTime" property="dupdatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    nCategoryID, nLevel, nParentCategoryID, sCategoryName
+    nCategoryID, nLevel, nParentCategoryID, sCategoryName, sCode, IsLeaf, dCreateTime, 
+    dUpdateTime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcCategoryExample" >
     select
@@ -100,9 +105,11 @@
   </delete>
   <insert id="insert" parameterType="com.htsat.cart.model.REcCategory" >
     insert into r_ec_category (nCategoryID, nLevel, nParentCategoryID, 
-      sCategoryName)
+      sCategoryName, sCode, IsLeaf, 
+      dCreateTime, dUpdateTime)
     values (#{ncategoryid,jdbcType=INTEGER}, #{nlevel,jdbcType=INTEGER}, #{nparentcategoryid,jdbcType=INTEGER}, 
-      #{scategoryname,jdbcType=VARCHAR})
+      #{scategoryname,jdbcType=VARCHAR}, #{scode,jdbcType=VARCHAR}, #{isleaf,jdbcType=CHAR}, 
+      #{dcreatetime,jdbcType=TIMESTAMP}, #{dupdatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.htsat.cart.model.REcCategory" >
     insert into r_ec_category
@@ -119,6 +126,18 @@
       <if test="scategoryname != null" >
         sCategoryName,
       </if>
+      <if test="scode != null" >
+        sCode,
+      </if>
+      <if test="isleaf != null" >
+        IsLeaf,
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime,
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ncategoryid != null" >
@@ -132,6 +151,18 @@
       </if>
       <if test="scategoryname != null" >
         #{scategoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="scode != null" >
+        #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="isleaf != null" >
+        #{isleaf,jdbcType=CHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        #{dupdatetime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -156,6 +187,18 @@
       <if test="record.scategoryname != null" >
         sCategoryName = #{record.scategoryname,jdbcType=VARCHAR},
       </if>
+      <if test="record.scode != null" >
+        sCode = #{record.scode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isleaf != null" >
+        IsLeaf = #{record.isleaf,jdbcType=CHAR},
+      </if>
+      <if test="record.dcreatetime != null" >
+        dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dupdatetime != null" >
+        dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +209,11 @@
     set nCategoryID = #{record.ncategoryid,jdbcType=INTEGER},
       nLevel = #{record.nlevel,jdbcType=INTEGER},
       nParentCategoryID = #{record.nparentcategoryid,jdbcType=INTEGER},
-      sCategoryName = #{record.scategoryname,jdbcType=VARCHAR}
+      sCategoryName = #{record.scategoryname,jdbcType=VARCHAR},
+      sCode = #{record.scode,jdbcType=VARCHAR},
+      IsLeaf = #{record.isleaf,jdbcType=CHAR},
+      dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +230,18 @@
       <if test="scategoryname != null" >
         sCategoryName = #{scategoryname,jdbcType=VARCHAR},
       </if>
+      <if test="scode != null" >
+        sCode = #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="isleaf != null" >
+        IsLeaf = #{isleaf,jdbcType=CHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where nCategoryID = #{ncategoryid,jdbcType=INTEGER}
   </update>
@@ -190,7 +249,11 @@
     update r_ec_category
     set nLevel = #{nlevel,jdbcType=INTEGER},
       nParentCategoryID = #{nparentcategoryid,jdbcType=INTEGER},
-      sCategoryName = #{scategoryname,jdbcType=VARCHAR}
+      sCategoryName = #{scategoryname,jdbcType=VARCHAR},
+      sCode = #{scode,jdbcType=VARCHAR},
+      IsLeaf = #{isleaf,jdbcType=CHAR},
+      dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP}
     where nCategoryID = #{ncategoryid,jdbcType=INTEGER}
   </update>
 </mapper>

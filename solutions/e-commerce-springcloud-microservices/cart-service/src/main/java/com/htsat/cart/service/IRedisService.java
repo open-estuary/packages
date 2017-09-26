@@ -9,12 +9,12 @@ import redis.clients.jedis.Jedis;
  */
 public interface IRedisService {
 
-	public Jedis getResource();
+	Jedis getResource();
 
-	public void returnResource(Jedis jedis);
+	void returnResource(Jedis jedis);
 
-	public void set(String key, String value);
+	void set(String key, String value);
 
-	public String get(String key);
+	String get(String key);
 
 }

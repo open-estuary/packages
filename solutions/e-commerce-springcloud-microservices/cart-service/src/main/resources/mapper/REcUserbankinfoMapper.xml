@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.htsat.cart.dao.REcUserbankinfoMapper" >
   <resultMap id="BaseResultMap" type="com.htsat.cart.model.REcUserbankinfo" >
-    <id column="sCardNumber" property="scardnumber" jdbcType="VARCHAR" />
-    <result column="nUserID" property="nuserid" jdbcType="INTEGER" />
-    <result column="sBank" property="sbank" jdbcType="CHAR" />
-    <result column="sCardType" property="scardtype" jdbcType="CHAR" />
+    <id column="sCardID" property="scardid" jdbcType="VARCHAR" />
+    <result column="nUserID" property="nuserid" jdbcType="BIGINT" />
+    <result column="sBank" property="sbank" jdbcType="SMALLINT" />
+    <result column="sCardType" property="scardtype" jdbcType="SMALLINT" />
     <result column="sCurrency" property="scurrency" jdbcType="VARCHAR" />
+    <result column="sCardNumber" property="scardnumber" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    sCardNumber, nUserID, sBank, sCardType, sCurrency
+    sCardID, nUserID, sBank, sCardType, sCurrency, sCardNumber
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcUserbankinfoExample" >
     select
@@ -87,11 +88,11 @@
     select 
     <include refid="Base_Column_List" />
     from r_ec_userbankinfo
-    where sCardNumber = #{scardnumber,jdbcType=VARCHAR}
+    where sCardID = #{scardid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from r_ec_userbankinfo
-    where sCardNumber = #{scardnumber,jdbcType=VARCHAR}
+    where sCardID = #{scardid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.htsat.cart.model.REcUserbankinfoExample" >
     delete from r_ec_userbankinfo
@@ -100,16 +101,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.htsat.cart.model.REcUserbankinfo" >
-    insert into r_ec_userbankinfo (sCardNumber, nUserID, sBank, 
-      sCardType, sCurrency)
-    values (#{scardnumber,jdbcType=VARCHAR}, #{nuserid,jdbcType=INTEGER}, #{sbank,jdbcType=CHAR}, 
-      #{scardtype,jdbcType=CHAR}, #{scurrency,jdbcType=VARCHAR})
+    insert into r_ec_userbankinfo (sCardID, nUserID, sBank, 
+      sCardType, sCurrency, sCardNumber
+      )
+    values (#{scardid,jdbcType=VARCHAR}, #{nuserid,jdbcType=BIGINT}, #{sbank,jdbcType=SMALLINT}, 
+      #{scardtype,jdbcType=SMALLINT}, #{scurrency,jdbcType=VARCHAR}, #{scardnumber,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.htsat.cart.model.REcUserbankinfo" >
     insert into r_ec_userbankinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="scardnumber != null" >
-        sCardNumber,
+      <if test="scardid != null" >
+        sCardID,
       </if>
       <if test="nuserid != null" >
         nUserID,
@@ -123,22 +126,28 @@
       <if test="scurrency != null" >
         sCurrency,
       </if>
+      <if test="scardnumber != null" >
+        sCardNumber,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="scardnumber != null" >
-        #{scardnumber,jdbcType=VARCHAR},
+      <if test="scardid != null" >
+        #{scardid,jdbcType=VARCHAR},
       </if>
       <if test="nuserid != null" >
-        #{nuserid,jdbcType=INTEGER},
+        #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sbank != null" >
-        #{sbank,jdbcType=CHAR},
+        #{sbank,jdbcType=SMALLINT},
       </if>
       <if test="scardtype != null" >
-        #{scardtype,jdbcType=CHAR},
+        #{scardtype,jdbcType=SMALLINT},
       </if>
       <if test="scurrency != null" >
         #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="scardnumber != null" >
+        #{scardnumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -151,20 +160,23 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update r_ec_userbankinfo
     <set >
-      <if test="record.scardnumber != null" >
-        sCardNumber = #{record.scardnumber,jdbcType=VARCHAR},
+      <if test="record.scardid != null" >
+        sCardID = #{record.scardid,jdbcType=VARCHAR},
       </if>
       <if test="record.nuserid != null" >
-        nUserID = #{record.nuserid,jdbcType=INTEGER},
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
       </if>
       <if test="record.sbank != null" >
-        sBank = #{record.sbank,jdbcType=CHAR},
+        sBank = #{record.sbank,jdbcType=SMALLINT},
       </if>
       <if test="record.scardtype != null" >
-        sCardType = #{record.scardtype,jdbcType=CHAR},
+        sCardType = #{record.scardtype,jdbcType=SMALLINT},
       </if>
       <if test="record.scurrency != null" >
         sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scardnumber != null" >
+        sCardNumber = #{record.scardnumber,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -173,11 +185,12 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update r_ec_userbankinfo
-    set sCardNumber = #{record.scardnumber,jdbcType=VARCHAR},
-      nUserID = #{record.nuserid,jdbcType=INTEGER},
-      sBank = #{record.sbank,jdbcType=CHAR},
-      sCardType = #{record.scardtype,jdbcType=CHAR},
-      sCurrency = #{record.scurrency,jdbcType=VARCHAR}
+    set sCardID = #{record.scardid,jdbcType=VARCHAR},
+      nUserID = #{record.nuserid,jdbcType=BIGINT},
+      sBank = #{record.sbank,jdbcType=SMALLINT},
+      sCardType = #{record.scardtype,jdbcType=SMALLINT},
+      sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      sCardNumber = #{record.scardnumber,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -186,26 +199,30 @@
     update r_ec_userbankinfo
     <set >
       <if test="nuserid != null" >
-        nUserID = #{nuserid,jdbcType=INTEGER},
+        nUserID = #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sbank != null" >
-        sBank = #{sbank,jdbcType=CHAR},
+        sBank = #{sbank,jdbcType=SMALLINT},
       </if>
       <if test="scardtype != null" >
-        sCardType = #{scardtype,jdbcType=CHAR},
+        sCardType = #{scardtype,jdbcType=SMALLINT},
       </if>
       <if test="scurrency != null" >
         sCurrency = #{scurrency,jdbcType=VARCHAR},
       </if>
+      <if test="scardnumber != null" >
+        sCardNumber = #{scardnumber,jdbcType=VARCHAR},
+      </if>
     </set>
-    where sCardNumber = #{scardnumber,jdbcType=VARCHAR}
+    where sCardID = #{scardid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.cart.model.REcUserbankinfo" >
     update r_ec_userbankinfo
-    set nUserID = #{nuserid,jdbcType=INTEGER},
-      sBank = #{sbank,jdbcType=CHAR},
-      sCardType = #{scardtype,jdbcType=CHAR},
-      sCurrency = #{scurrency,jdbcType=VARCHAR}
-    where sCardNumber = #{scardnumber,jdbcType=VARCHAR}
+    set nUserID = #{nuserid,jdbcType=BIGINT},
+      sBank = #{sbank,jdbcType=SMALLINT},
+      sCardType = #{scardtype,jdbcType=SMALLINT},
+      sCurrency = #{scurrency,jdbcType=VARCHAR},
+      sCardNumber = #{scardnumber,jdbcType=VARCHAR}
+    where sCardID = #{scardid,jdbcType=VARCHAR}
   </update>
 </mapper>

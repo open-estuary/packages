@@ -2,8 +2,9 @@ package com.htsat.cart.dao;
 
 import com.htsat.cart.model.REcCartsku;
 import com.htsat.cart.model.REcCartskuExample;
-import com.htsat.cart.model.REcCartskuKey;
 import java.util.List;
+
+import com.htsat.cart.model.REcCartskuKey;
 import org.apache.ibatis.annotations.Param;
 
 public interface REcCartskuMapper {
@@ -11,7 +12,7 @@ public interface REcCartskuMapper {
 
     int deleteByExample(REcCartskuExample example);
 
-    int deleteByPrimaryKey(REcCartskuKey key);
+    int deleteByPrimaryKey(Long ncartskuid);
 
     int insert(REcCartsku record);
 
@@ -19,7 +20,7 @@ public interface REcCartskuMapper {
 
     List<REcCartsku> selectByExample(REcCartskuExample example);
 
-    REcCartsku selectByPrimaryKey(REcCartskuKey key);
+    REcCartsku selectByPrimaryKey(Long ncartskuid);
 
     int updateByExampleSelective(@Param("record") REcCartsku record, @Param("example") REcCartskuExample example);
 
@@ -29,5 +30,9 @@ public interface REcCartskuMapper {
 
     int updateByPrimaryKey(REcCartsku record);
 
-    List<REcCartsku> selectByUserId(int userId);
+    List<REcCartsku> selectByShoppingCartId(Long userId);
+
+    int deleteByREcCartskuKey(REcCartskuKey cartskuKey);
+
+    REcCartsku selectByREcCartskuKey(REcCartskuKey cartskuKey);
 }

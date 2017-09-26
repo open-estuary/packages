@@ -1,5 +1,8 @@
 package com.htsat.cart.service;
 
+import com.htsat.cart.Exception.DeleteException;
+import com.htsat.cart.Exception.SearchException;
+import com.htsat.cart.Exception.UpdateException;
 import com.htsat.cart.dto.SKUDTO;
 import com.htsat.cart.dto.ShoppingCartDTO;
 import com.htsat.cart.model.REcCartsku;
@@ -19,28 +22,18 @@ public interface IShoppingCartService {
 
     /*********************************************create******************************************/
 
-    ShoppingCartDTO addShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws Exception;
-
-    void addShoppCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws Exception;
+    void addShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws Exception;
 
     /*********************************************search******************************************/
 
-    List<REcSku> getSKUList(int userId);
-
-    REcShoppingcart getShoppingCart(int userId) throws Exception;
-
-    ShoppingCartDTO getShoppingCartFromRedis(int userId) throws Exception;
+    ShoppingCartDTO getShoppingCart(Long userId) throws SearchException;
 
     /*********************************************delete******************************************/
 
-    void deleteShoppingCartAndSKU(int userId) throws Exception;
-
-    void deleteShoppingCartAndSKUToRedis(int userId) throws Exception;
+    void deleteShoppingCartAndSKU(Long userId) throws DeleteException;
 
     /*********************************************update******************************************/
 
-    ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws Exception;
-
-    void updateShoppingCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws Exception;
+    ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException;
 
 }
