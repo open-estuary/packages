@@ -1,121 +1,146 @@
 package com.htsat.order.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class AddressDTO implements Serializable{
-    private int addressId;
+    private Long naddressid;
 
-    private int userId;
+    private Long nuserid;
 
-    private String firstName;
+    private String sfirstname;
 
-    private String lastName;
+    private String slastname;
 
-    private String address;
+    private String saddress;
 
-    private String city;
+    private String scity;
 
-    private String province;
+    private String sprovince;
 
-    private String country;
+    private String scountry;
 
-    private String email;
+    private String semail;
 
-    private String phone;
+    private String sphoneno;
 
-    public int getAddressId() {
-        return addressId;
+    private String sdistrict;
+
+    private Date dcreatetime;
+
+    private Date dupdatetime;
+
+    private String szipcode;
+
+    public Long getNaddressid() {
+        return naddressid;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setNaddressid(Long naddressid) {
+        this.naddressid = naddressid;
     }
 
-    public int getUserId() {
-        return userId;
+    public Long getNuserid() {
+        return nuserid;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setNuserid(Long nuserid) {
+        this.nuserid = nuserid;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getSfirstname() {
+        return sfirstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setSfirstname(String sfirstname) {
+        this.sfirstname = sfirstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSlastname() {
+        return slastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSlastname(String slastname) {
+        this.slastname = slastname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getSaddress() {
+        return saddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setSaddress(String saddress) {
+        this.saddress = saddress;
     }
 
-    public String getCity() {
-        return city;
+    public String getScity() {
+        return scity;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setScity(String scity) {
+        this.scity = scity;
     }
 
-    public String getProvince() {
-        return province;
+    public String getSprovince() {
+        return sprovince;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setSprovince(String sprovince) {
+        this.sprovince = sprovince;
     }
 
-    public String getCountry() {
-        return country;
+    public String getScountry() {
+        return scountry;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setScountry(String scountry) {
+        this.scountry = scountry;
     }
 
-    public String getEmail() {
-        return email;
+    public String getSemail() {
+        return semail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSemail(String semail) {
+        this.semail = semail;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getSphoneno() {
+        return sphoneno;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setSphoneno(String sphoneno) {
+        this.sphoneno = sphoneno;
     }
 
-    @Override
-    public String toString() {
-        return "AddressDTO{" +
-                "addressId=" + addressId +
-                ", userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", province='" + province + '\'' +
-                ", country='" + country + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+    public String getSdistrict() {
+        return sdistrict;
+    }
+
+    public void setSdistrict(String sdistrict) {
+        this.sdistrict = sdistrict;
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
+    }
+
+    public String getSzipcode() {
+        return szipcode;
+    }
+
+    public void setSzipcode(String szipcode) {
+        this.szipcode = szipcode;
     }
 }

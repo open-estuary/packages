@@ -10,7 +10,7 @@ public interface REcOrderinfoMapper {
 
     int deleteByExample(REcOrderinfoExample example);
 
-    int deleteByPrimaryKey(String sorderid);
+    int deleteByPrimaryKey(Long norderid);
 
     int insert(REcOrderinfo record);
 
@@ -18,7 +18,7 @@ public interface REcOrderinfoMapper {
 
     List<REcOrderinfo> selectByExample(REcOrderinfoExample example);
 
-    REcOrderinfo selectByPrimaryKey(String sorderid);
+    REcOrderinfo selectByPrimaryKey(Long norderid);
 
     int updateByExampleSelective(@Param("record") REcOrderinfo record, @Param("example") REcOrderinfoExample example);
 

@@ -1,9 +1,11 @@
 package com.htsat.order.model;
 
-public class REcUserdeliveryaddress {
-    private Integer naddressno;
+import java.util.Date;
 
-    private Integer nuserid;
+public class REcUserdeliveryaddress {
+    private Long naddressid;
+
+    private Long nuserid;
 
     private String sfirstname;
 
@@ -21,19 +23,27 @@ public class REcUserdeliveryaddress {
 
     private String sphoneno;
 
-    public Integer getNaddressno() {
-        return naddressno;
+    private String sdistrict;
+
+    private Date dcreatetime;
+
+    private Date dupdatetime;
+
+    private String szipcode;
+
+    public Long getNaddressid() {
+        return naddressid;
     }
 
-    public void setNaddressno(Integer naddressno) {
-        this.naddressno = naddressno;
+    public void setNaddressid(Long naddressid) {
+        this.naddressid = naddressid;
     }
 
-    public Integer getNuserid() {
+    public Long getNuserid() {
         return nuserid;
     }
 
-    public void setNuserid(Integer nuserid) {
+    public void setNuserid(Long nuserid) {
         this.nuserid = nuserid;
     }
 
@@ -99,5 +109,37 @@ public class REcUserdeliveryaddress {
 
     public void setSphoneno(String sphoneno) {
         this.sphoneno = sphoneno == null ? null : sphoneno.trim();
+    }
+
+    public String getSdistrict() {
+        return sdistrict;
+    }
+
+    public void setSdistrict(String sdistrict) {
+        this.sdistrict = sdistrict == null ? null : sdistrict.trim();
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
+    }
+
+    public String getSzipcode() {
+        return szipcode;
+    }
+
+    public void setSzipcode(String szipcode) {
+        this.szipcode = szipcode == null ? null : szipcode.trim();
     }
 }

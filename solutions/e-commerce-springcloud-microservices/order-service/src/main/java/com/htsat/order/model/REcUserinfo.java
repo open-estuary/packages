@@ -3,7 +3,7 @@ package com.htsat.order.model;
 import java.util.Date;
 
 public class REcUserinfo {
-    private Integer nuserid;
+    private Long nuserid;
 
     private String sloginname;
 
@@ -25,11 +25,11 @@ public class REcUserinfo {
 
     private String spaypassword;
 
-    public Integer getNuserid() {
+    public Long getNuserid() {
         return nuserid;
     }
 
-    public void setNuserid(Integer nuserid) {
+    public void setNuserid(Long nuserid) {
         this.nuserid = nuserid;
     }
 

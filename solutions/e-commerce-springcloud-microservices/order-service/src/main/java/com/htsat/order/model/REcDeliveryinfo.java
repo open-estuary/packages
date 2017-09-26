@@ -1,22 +1,37 @@
 package com.htsat.order.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class REcDeliveryinfo {
-    private String sdeliveryid;
+    private Long ndeliveryid;
 
     private String sexpresscompany;
 
     private BigDecimal ndeliveryprice;
 
-    private String cstatus;
+    private Short cstatus;
 
-    public String getSdeliveryid() {
-        return sdeliveryid;
+    private Date dcreatetime;
+
+    private Date dupdatetime;
+
+    private Date douttime;
+
+    private Long naddressid;
+
+    private String sconsignee;
+
+    private String sdeliverycomment;
+
+    private String sdeliverycode;
+
+    public Long getNdeliveryid() {
+        return ndeliveryid;
     }
 
-    public void setSdeliveryid(String sdeliveryid) {
-        this.sdeliveryid = sdeliveryid == null ? null : sdeliveryid.trim();
+    public void setNdeliveryid(Long ndeliveryid) {
+        this.ndeliveryid = ndeliveryid;
     }
 
     public String getSexpresscompany() {
@@ -35,11 +50,67 @@ public class REcDeliveryinfo {
         this.ndeliveryprice = ndeliveryprice;
     }
 
-    public String getCstatus() {
+    public Short getCstatus() {
         return cstatus;
     }
 
-    public void setCstatus(String cstatus) {
-        this.cstatus = cstatus == null ? null : cstatus.trim();
+    public void setCstatus(Short cstatus) {
+        this.cstatus = cstatus;
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
+    }
+
+    public Date getDouttime() {
+        return douttime;
+    }
+
+    public void setDouttime(Date douttime) {
+        this.douttime = douttime;
+    }
+
+    public Long getNaddressid() {
+        return naddressid;
+    }
+
+    public void setNaddressid(Long naddressid) {
+        this.naddressid = naddressid;
+    }
+
+    public String getSconsignee() {
+        return sconsignee;
+    }
+
+    public void setSconsignee(String sconsignee) {
+        this.sconsignee = sconsignee == null ? null : sconsignee.trim();
+    }
+
+    public String getSdeliverycomment() {
+        return sdeliverycomment;
+    }
+
+    public void setSdeliverycomment(String sdeliverycomment) {
+        this.sdeliverycomment = sdeliverycomment == null ? null : sdeliverycomment.trim();
+    }
+
+    public String getSdeliverycode() {
+        return sdeliverycode;
+    }
+
+    public void setSdeliverycode(String sdeliverycode) {
+        this.sdeliverycode = sdeliverycode == null ? null : sdeliverycode.trim();
     }
 }

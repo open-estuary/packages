@@ -15,10 +15,14 @@ public class ComputeUtils {
         return quantity;
     }
 
-    public static float computeDiscount(List<OrderSKUDTO> orderSKUDTOList) {
-        float discount = 0;
+    public static BigDecimal computeDiscount(List<OrderSKUDTO> orderSKUDTOList) {
+        BigDecimal discount = new BigDecimal(0);
         for (int i = 0; i < orderSKUDTOList.size(); i++) {
-            discount += orderSKUDTOList.get(i).getDiscount() * orderSKUDTOList.get(i).getQuantity();
+            BigDecimal quantity = new BigDecimal(orderSKUDTOList.get(i).getQuantity());
+            BigDecimal sDiscount = orderSKUDTOList.get(i).getDiscount();
+            if (sDiscount == null)
+                sDiscount = new BigDecimal(0);
+            discount = discount.add(sDiscount.multiply(quantity));
         }
         return discount;
     }
@@ -28,7 +32,7 @@ public class ComputeUtils {
         for (int i = 0; i < orderSKUDTOList.size(); i++) {
             BigDecimal displayPrice = orderSKUDTOList.get(i).getPrice();
             BigDecimal quantity = new BigDecimal(orderSKUDTOList.get(i).getQuantity());
-            BigDecimal deliveryPrice = deliveryDTO.getDeliveryPrice();
+            BigDecimal deliveryPrice = deliveryDTO.getNdeliveryprice();
             BigDecimal price = displayPrice.multiply(quantity).add(deliveryPrice);
 
             totalPrice = totalPrice.add(price);

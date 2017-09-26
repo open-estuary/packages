@@ -2,23 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.htsat.order.dao.REcOrderinfoMapper" >
   <resultMap id="BaseResultMap" type="com.htsat.order.model.REcOrderinfo" >
-    <id column="sOrderID" property="sorderid" jdbcType="VARCHAR" />
-    <result column="nUserID" property="nuserid" jdbcType="INTEGER" />
-    <result column="sParentOrderID" property="sparentorderid" jdbcType="VARCHAR" />
-    <result column="cPaymentMethod" property="cpaymentmethod" jdbcType="CHAR" />
-    <result column="sPaymentMethodTitle" property="spaymentmethodtitle" jdbcType="VARCHAR" />
-    <result column="nDiscount" property="ndiscount" jdbcType="REAL" />
+    <id column="nOrderID" property="norderid" jdbcType="BIGINT" />
+    <result column="nUserID" property="nuserid" jdbcType="BIGINT" />
+    <result column="sParentOrderID" property="sparentorderid" jdbcType="BIGINT" />
+    <result column="cPaymentMethod" property="cpaymentmethod" jdbcType="SMALLINT" />
+    <result column="nDiscount" property="ndiscount" jdbcType="DECIMAL" />
     <result column="nTotalQuantity" property="ntotalquantity" jdbcType="INTEGER" />
     <result column="nTotalPrice" property="ntotalprice" jdbcType="DECIMAL" />
-    <result column="sVersion" property="sversion" jdbcType="VARCHAR" />
-    <result column="nAddressNo" property="naddressno" jdbcType="INTEGER" />
-    <result column="cStatus" property="cstatus" jdbcType="CHAR" />
-    <result column="sDate_created" property="sdateCreated" jdbcType="TIMESTAMP" />
-    <result column="sDate_Modified" property="sdateModified" jdbcType="TIMESTAMP" />
-    <result column="sDate_Paid" property="sdatePaid" jdbcType="TIMESTAMP" />
-    <result column="sDate_Completed" property="sdateCompleted" jdbcType="TIMESTAMP" />
+    <result column="cStatus" property="cstatus" jdbcType="SMALLINT" />
+    <result column="sCreateTime" property="screatetime" jdbcType="TIMESTAMP" />
+    <result column="sUpdateTime" property="supdatetime" jdbcType="TIMESTAMP" />
+    <result column="sCompletedTime" property="scompletedtime" jdbcType="TIMESTAMP" />
     <result column="sCustomerMark" property="scustomermark" jdbcType="VARCHAR" />
-    <result column="sDeliveryID" property="sdeliveryid" jdbcType="VARCHAR" />
+    <result column="nDeliveryID" property="ndeliveryid" jdbcType="BIGINT" />
+    <result column="sOrderCode" property="sordercode" jdbcType="CHAR" />
+    <result column="sShopCode" property="sshopcode" jdbcType="CHAR" />
+    <result column="sOrderType" property="sordertype" jdbcType="SMALLINT" />
+    <result column="dPaymentTime" property="dpaymenttime" jdbcType="TIMESTAMP" />
+    <result column="sOrderSource" property="sordersource" jdbcType="SMALLINT" />
+    <result column="nAddressID" property="naddressid" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    sOrderID, nUserID, sParentOrderID, cPaymentMethod, sPaymentMethodTitle, nDiscount, 
-    nTotalQuantity, nTotalPrice, sVersion, nAddressNo, cStatus, sDate_created, sDate_Modified, 
-    sDate_Paid, sDate_Completed, sCustomerMark, sDeliveryID
+    nOrderID, nUserID, sParentOrderID, cPaymentMethod, nDiscount, nTotalQuantity, nTotalPrice, 
+    cStatus, sCreateTime, sUpdateTime, sCompletedTime, sCustomerMark, nDeliveryID, sOrderCode, 
+    sShopCode, sOrderType, dPaymentTime, sOrderSource, nAddressID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcOrderinfoExample" >
     select
@@ -97,15 +99,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from r_ec_orderinfo
-    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+    where nOrderID = #{norderid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from r_ec_orderinfo
-    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+    where nOrderID = #{norderid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.htsat.order.model.REcOrderinfoExample" >
     delete from r_ec_orderinfo
@@ -114,24 +116,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.htsat.order.model.REcOrderinfo" >
-    insert into r_ec_orderinfo (sOrderID, nUserID, sParentOrderID, 
-      cPaymentMethod, sPaymentMethodTitle, nDiscount, 
-      nTotalQuantity, nTotalPrice, sVersion, 
-      nAddressNo, cStatus, sDate_created, 
-      sDate_Modified, sDate_Paid, sDate_Completed, 
-      sCustomerMark, sDeliveryID)
-    values (#{sorderid,jdbcType=VARCHAR}, #{nuserid,jdbcType=INTEGER}, #{sparentorderid,jdbcType=VARCHAR}, 
-      #{cpaymentmethod,jdbcType=CHAR}, #{spaymentmethodtitle,jdbcType=VARCHAR}, #{ndiscount,jdbcType=REAL}, 
-      #{ntotalquantity,jdbcType=INTEGER}, #{ntotalprice,jdbcType=DECIMAL}, #{sversion,jdbcType=VARCHAR}, 
-      #{naddressno,jdbcType=INTEGER}, #{cstatus,jdbcType=CHAR}, #{sdateCreated,jdbcType=TIMESTAMP}, 
-      #{sdateModified,jdbcType=TIMESTAMP}, #{sdatePaid,jdbcType=TIMESTAMP}, #{sdateCompleted,jdbcType=TIMESTAMP}, 
-      #{scustomermark,jdbcType=VARCHAR}, #{sdeliveryid,jdbcType=VARCHAR})
+    insert into r_ec_orderinfo (nOrderID, nUserID, sParentOrderID, 
+      cPaymentMethod, nDiscount, nTotalQuantity, 
+      nTotalPrice, cStatus, sCreateTime, 
+      sUpdateTime, sCompletedTime, sCustomerMark, 
+      nDeliveryID, sOrderCode, sShopCode, 
+      sOrderType, dPaymentTime, sOrderSource, 
+      nAddressID)
+    values (#{norderid,jdbcType=BIGINT}, #{nuserid,jdbcType=BIGINT}, #{sparentorderid,jdbcType=BIGINT}, 
+      #{cpaymentmethod,jdbcType=SMALLINT}, #{ndiscount,jdbcType=DECIMAL}, #{ntotalquantity,jdbcType=INTEGER}, 
+      #{ntotalprice,jdbcType=DECIMAL}, #{cstatus,jdbcType=SMALLINT}, #{screatetime,jdbcType=TIMESTAMP}, 
+      #{supdatetime,jdbcType=TIMESTAMP}, #{scompletedtime,jdbcType=TIMESTAMP}, #{scustomermark,jdbcType=VARCHAR}, 
+      #{ndeliveryid,jdbcType=BIGINT}, #{sordercode,jdbcType=CHAR}, #{sshopcode,jdbcType=CHAR}, 
+      #{sordertype,jdbcType=SMALLINT}, #{dpaymenttime,jdbcType=TIMESTAMP}, #{sordersource,jdbcType=SMALLINT}, 
+      #{naddressid,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.htsat.order.model.REcOrderinfo" >
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcOrderinfo"  useGeneratedKeys="true" keyProperty="norderid">
     insert into r_ec_orderinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="sorderid != null" >
-        sOrderID,
+      <if test="norderid != null" >
+        nOrderID,
       </if>
       <if test="nuserid != null" >
         nUserID,
@@ -142,9 +146,6 @@
       <if test="cpaymentmethod != null" >
         cPaymentMethod,
       </if>
-      <if test="spaymentmethodtitle != null" >
-        sPaymentMethodTitle,
-      </if>
       <if test="ndiscount != null" >
         nDiscount,
       </if>
@@ -154,52 +155,58 @@
       <if test="ntotalprice != null" >
         nTotalPrice,
       </if>
-      <if test="sversion != null" >
-        sVersion,
-      </if>
-      <if test="naddressno != null" >
-        nAddressNo,
-      </if>
       <if test="cstatus != null" >
         cStatus,
       </if>
-      <if test="sdateCreated != null" >
-        sDate_created,
+      <if test="screatetime != null" >
+        sCreateTime,
       </if>
-      <if test="sdateModified != null" >
-        sDate_Modified,
+      <if test="supdatetime != null" >
+        sUpdateTime,
       </if>
-      <if test="sdatePaid != null" >
-        sDate_Paid,
-      </if>
-      <if test="sdateCompleted != null" >
-        sDate_Completed,
+      <if test="scompletedtime != null" >
+        sCompletedTime,
       </if>
       <if test="scustomermark != null" >
         sCustomerMark,
       </if>
-      <if test="sdeliveryid != null" >
-        sDeliveryID,
+      <if test="ndeliveryid != null" >
+        nDeliveryID,
+      </if>
+      <if test="sordercode != null" >
+        sOrderCode,
+      </if>
+      <if test="sshopcode != null" >
+        sShopCode,
+      </if>
+      <if test="sordertype != null" >
+        sOrderType,
+      </if>
+      <if test="dpaymenttime != null" >
+        dPaymentTime,
+      </if>
+      <if test="sordersource != null" >
+        sOrderSource,
+      </if>
+      <if test="naddressid != null" >
+        nAddressID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="sorderid != null" >
-        #{sorderid,jdbcType=VARCHAR},
+      <if test="norderid != null" >
+        #{norderid,jdbcType=BIGINT},
       </if>
       <if test="nuserid != null" >
-        #{nuserid,jdbcType=INTEGER},
+        #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sparentorderid != null" >
-        #{sparentorderid,jdbcType=VARCHAR},
+        #{sparentorderid,jdbcType=BIGINT},
       </if>
       <if test="cpaymentmethod != null" >
-        #{cpaymentmethod,jdbcType=CHAR},
-      </if>
-      <if test="spaymentmethodtitle != null" >
-        #{spaymentmethodtitle,jdbcType=VARCHAR},
+        #{cpaymentmethod,jdbcType=SMALLINT},
       </if>
       <if test="ndiscount != null" >
-        #{ndiscount,jdbcType=REAL},
+        #{ndiscount,jdbcType=DECIMAL},
       </if>
       <if test="ntotalquantity != null" >
         #{ntotalquantity,jdbcType=INTEGER},
@@ -207,32 +214,41 @@
       <if test="ntotalprice != null" >
         #{ntotalprice,jdbcType=DECIMAL},
       </if>
-      <if test="sversion != null" >
-        #{sversion,jdbcType=VARCHAR},
-      </if>
-      <if test="naddressno != null" >
-        #{naddressno,jdbcType=INTEGER},
-      </if>
       <if test="cstatus != null" >
-        #{cstatus,jdbcType=CHAR},
+        #{cstatus,jdbcType=SMALLINT},
       </if>
-      <if test="sdateCreated != null" >
-        #{sdateCreated,jdbcType=TIMESTAMP},
+      <if test="screatetime != null" >
+        #{screatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="sdateModified != null" >
-        #{sdateModified,jdbcType=TIMESTAMP},
+      <if test="supdatetime != null" >
+        #{supdatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="sdatePaid != null" >
-        #{sdatePaid,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sdateCompleted != null" >
-        #{sdateCompleted,jdbcType=TIMESTAMP},
+      <if test="scompletedtime != null" >
+        #{scompletedtime,jdbcType=TIMESTAMP},
       </if>
       <if test="scustomermark != null" >
         #{scustomermark,jdbcType=VARCHAR},
       </if>
-      <if test="sdeliveryid != null" >
-        #{sdeliveryid,jdbcType=VARCHAR},
+      <if test="ndeliveryid != null" >
+        #{ndeliveryid,jdbcType=BIGINT},
+      </if>
+      <if test="sordercode != null" >
+        #{sordercode,jdbcType=CHAR},
+      </if>
+      <if test="sshopcode != null" >
+        #{sshopcode,jdbcType=CHAR},
+      </if>
+      <if test="sordertype != null" >
+        #{sordertype,jdbcType=SMALLINT},
+      </if>
+      <if test="dpaymenttime != null" >
+        #{dpaymenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sordersource != null" >
+        #{sordersource,jdbcType=SMALLINT},
+      </if>
+      <if test="naddressid != null" >
+        #{naddressid,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -245,23 +261,20 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update r_ec_orderinfo
     <set >
-      <if test="record.sorderid != null" >
-        sOrderID = #{record.sorderid,jdbcType=VARCHAR},
+      <if test="record.norderid != null" >
+        nOrderID = #{record.norderid,jdbcType=BIGINT},
       </if>
       <if test="record.nuserid != null" >
-        nUserID = #{record.nuserid,jdbcType=INTEGER},
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
       </if>
       <if test="record.sparentorderid != null" >
-        sParentOrderID = #{record.sparentorderid,jdbcType=VARCHAR},
+        sParentOrderID = #{record.sparentorderid,jdbcType=BIGINT},
       </if>
       <if test="record.cpaymentmethod != null" >
-        cPaymentMethod = #{record.cpaymentmethod,jdbcType=CHAR},
-      </if>
-      <if test="record.spaymentmethodtitle != null" >
-        sPaymentMethodTitle = #{record.spaymentmethodtitle,jdbcType=VARCHAR},
+        cPaymentMethod = #{record.cpaymentmethod,jdbcType=SMALLINT},
       </if>
       <if test="record.ndiscount != null" >
-        nDiscount = #{record.ndiscount,jdbcType=REAL},
+        nDiscount = #{record.ndiscount,jdbcType=DECIMAL},
       </if>
       <if test="record.ntotalquantity != null" >
         nTotalQuantity = #{record.ntotalquantity,jdbcType=INTEGER},
@@ -269,32 +282,41 @@
       <if test="record.ntotalprice != null" >
         nTotalPrice = #{record.ntotalprice,jdbcType=DECIMAL},
       </if>
-      <if test="record.sversion != null" >
-        sVersion = #{record.sversion,jdbcType=VARCHAR},
-      </if>
-      <if test="record.naddressno != null" >
-        nAddressNo = #{record.naddressno,jdbcType=INTEGER},
-      </if>
       <if test="record.cstatus != null" >
-        cStatus = #{record.cstatus,jdbcType=CHAR},
+        cStatus = #{record.cstatus,jdbcType=SMALLINT},
       </if>
-      <if test="record.sdateCreated != null" >
-        sDate_created = #{record.sdateCreated,jdbcType=TIMESTAMP},
+      <if test="record.screatetime != null" >
+        sCreateTime = #{record.screatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.sdateModified != null" >
-        sDate_Modified = #{record.sdateModified,jdbcType=TIMESTAMP},
+      <if test="record.supdatetime != null" >
+        sUpdateTime = #{record.supdatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.sdatePaid != null" >
-        sDate_Paid = #{record.sdatePaid,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.sdateCompleted != null" >
-        sDate_Completed = #{record.sdateCompleted,jdbcType=TIMESTAMP},
+      <if test="record.scompletedtime != null" >
+        sCompletedTime = #{record.scompletedtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.scustomermark != null" >
         sCustomerMark = #{record.scustomermark,jdbcType=VARCHAR},
       </if>
-      <if test="record.sdeliveryid != null" >
-        sDeliveryID = #{record.sdeliveryid,jdbcType=VARCHAR},
+      <if test="record.ndeliveryid != null" >
+        nDeliveryID = #{record.ndeliveryid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sordercode != null" >
+        sOrderCode = #{record.sordercode,jdbcType=CHAR},
+      </if>
+      <if test="record.sshopcode != null" >
+        sShopCode = #{record.sshopcode,jdbcType=CHAR},
+      </if>
+      <if test="record.sordertype != null" >
+        sOrderType = #{record.sordertype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.dpaymenttime != null" >
+        dPaymentTime = #{record.dpaymenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sordersource != null" >
+        sOrderSource = #{record.sordersource,jdbcType=SMALLINT},
+      </if>
+      <if test="record.naddressid != null" >
+        nAddressID = #{record.naddressid,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -303,23 +325,25 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update r_ec_orderinfo
-    set sOrderID = #{record.sorderid,jdbcType=VARCHAR},
-      nUserID = #{record.nuserid,jdbcType=INTEGER},
-      sParentOrderID = #{record.sparentorderid,jdbcType=VARCHAR},
-      cPaymentMethod = #{record.cpaymentmethod,jdbcType=CHAR},
-      sPaymentMethodTitle = #{record.spaymentmethodtitle,jdbcType=VARCHAR},
-      nDiscount = #{record.ndiscount,jdbcType=REAL},
+    set nOrderID = #{record.norderid,jdbcType=BIGINT},
+      nUserID = #{record.nuserid,jdbcType=BIGINT},
+      sParentOrderID = #{record.sparentorderid,jdbcType=BIGINT},
+      cPaymentMethod = #{record.cpaymentmethod,jdbcType=SMALLINT},
+      nDiscount = #{record.ndiscount,jdbcType=DECIMAL},
       nTotalQuantity = #{record.ntotalquantity,jdbcType=INTEGER},
       nTotalPrice = #{record.ntotalprice,jdbcType=DECIMAL},
-      sVersion = #{record.sversion,jdbcType=VARCHAR},
-      nAddressNo = #{record.naddressno,jdbcType=INTEGER},
-      cStatus = #{record.cstatus,jdbcType=CHAR},
-      sDate_created = #{record.sdateCreated,jdbcType=TIMESTAMP},
-      sDate_Modified = #{record.sdateModified,jdbcType=TIMESTAMP},
-      sDate_Paid = #{record.sdatePaid,jdbcType=TIMESTAMP},
-      sDate_Completed = #{record.sdateCompleted,jdbcType=TIMESTAMP},
+      cStatus = #{record.cstatus,jdbcType=SMALLINT},
+      sCreateTime = #{record.screatetime,jdbcType=TIMESTAMP},
+      sUpdateTime = #{record.supdatetime,jdbcType=TIMESTAMP},
+      sCompletedTime = #{record.scompletedtime,jdbcType=TIMESTAMP},
       sCustomerMark = #{record.scustomermark,jdbcType=VARCHAR},
-      sDeliveryID = #{record.sdeliveryid,jdbcType=VARCHAR}
+      nDeliveryID = #{record.ndeliveryid,jdbcType=BIGINT},
+      sOrderCode = #{record.sordercode,jdbcType=CHAR},
+      sShopCode = #{record.sshopcode,jdbcType=CHAR},
+      sOrderType = #{record.sordertype,jdbcType=SMALLINT},
+      dPaymentTime = #{record.dpaymenttime,jdbcType=TIMESTAMP},
+      sOrderSource = #{record.sordersource,jdbcType=SMALLINT},
+      nAddressID = #{record.naddressid,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -328,19 +352,16 @@
     update r_ec_orderinfo
     <set >
       <if test="nuserid != null" >
-        nUserID = #{nuserid,jdbcType=INTEGER},
+        nUserID = #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sparentorderid != null" >
-        sParentOrderID = #{sparentorderid,jdbcType=VARCHAR},
+        sParentOrderID = #{sparentorderid,jdbcType=BIGINT},
       </if>
       <if test="cpaymentmethod != null" >
-        cPaymentMethod = #{cpaymentmethod,jdbcType=CHAR},
-      </if>
-      <if test="spaymentmethodtitle != null" >
-        sPaymentMethodTitle = #{spaymentmethodtitle,jdbcType=VARCHAR},
+        cPaymentMethod = #{cpaymentmethod,jdbcType=SMALLINT},
       </if>
       <if test="ndiscount != null" >
-        nDiscount = #{ndiscount,jdbcType=REAL},
+        nDiscount = #{ndiscount,jdbcType=DECIMAL},
       </if>
       <if test="ntotalquantity != null" >
         nTotalQuantity = #{ntotalquantity,jdbcType=INTEGER},
@@ -348,54 +369,65 @@
       <if test="ntotalprice != null" >
         nTotalPrice = #{ntotalprice,jdbcType=DECIMAL},
       </if>
-      <if test="sversion != null" >
-        sVersion = #{sversion,jdbcType=VARCHAR},
-      </if>
-      <if test="naddressno != null" >
-        nAddressNo = #{naddressno,jdbcType=INTEGER},
-      </if>
       <if test="cstatus != null" >
-        cStatus = #{cstatus,jdbcType=CHAR},
+        cStatus = #{cstatus,jdbcType=SMALLINT},
       </if>
-      <if test="sdateCreated != null" >
-        sDate_created = #{sdateCreated,jdbcType=TIMESTAMP},
+      <if test="screatetime != null" >
+        sCreateTime = #{screatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="sdateModified != null" >
-        sDate_Modified = #{sdateModified,jdbcType=TIMESTAMP},
+      <if test="supdatetime != null" >
+        sUpdateTime = #{supdatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="sdatePaid != null" >
-        sDate_Paid = #{sdatePaid,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sdateCompleted != null" >
-        sDate_Completed = #{sdateCompleted,jdbcType=TIMESTAMP},
+      <if test="scompletedtime != null" >
+        sCompletedTime = #{scompletedtime,jdbcType=TIMESTAMP},
       </if>
       <if test="scustomermark != null" >
         sCustomerMark = #{scustomermark,jdbcType=VARCHAR},
       </if>
-      <if test="sdeliveryid != null" >
-        sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR},
+      <if test="ndeliveryid != null" >
+        nDeliveryID = #{ndeliveryid,jdbcType=BIGINT},
+      </if>
+      <if test="sordercode != null" >
+        sOrderCode = #{sordercode,jdbcType=CHAR},
+      </if>
+      <if test="sshopcode != null" >
+        sShopCode = #{sshopcode,jdbcType=CHAR},
+      </if>
+      <if test="sordertype != null" >
+        sOrderType = #{sordertype,jdbcType=SMALLINT},
+      </if>
+      <if test="dpaymenttime != null" >
+        dPaymentTime = #{dpaymenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sordersource != null" >
+        sOrderSource = #{sordersource,jdbcType=SMALLINT},
+      </if>
+      <if test="naddressid != null" >
+        nAddressID = #{naddressid,jdbcType=BIGINT},
       </if>
     </set>
-    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+    where nOrderID = #{norderid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcOrderinfo" >
     update r_ec_orderinfo
-    set nUserID = #{nuserid,jdbcType=INTEGER},
-      sParentOrderID = #{sparentorderid,jdbcType=VARCHAR},
-      cPaymentMethod = #{cpaymentmethod,jdbcType=CHAR},
-      sPaymentMethodTitle = #{spaymentmethodtitle,jdbcType=VARCHAR},
-      nDiscount = #{ndiscount,jdbcType=REAL},
+    set nUserID = #{nuserid,jdbcType=BIGINT},
+      sParentOrderID = #{sparentorderid,jdbcType=BIGINT},
+      cPaymentMethod = #{cpaymentmethod,jdbcType=SMALLINT},
+      nDiscount = #{ndiscount,jdbcType=DECIMAL},
       nTotalQuantity = #{ntotalquantity,jdbcType=INTEGER},
       nTotalPrice = #{ntotalprice,jdbcType=DECIMAL},
-      sVersion = #{sversion,jdbcType=VARCHAR},
-      nAddressNo = #{naddressno,jdbcType=INTEGER},
-      cStatus = #{cstatus,jdbcType=CHAR},
-      sDate_created = #{sdateCreated,jdbcType=TIMESTAMP},
-      sDate_Modified = #{sdateModified,jdbcType=TIMESTAMP},
-      sDate_Paid = #{sdatePaid,jdbcType=TIMESTAMP},
-      sDate_Completed = #{sdateCompleted,jdbcType=TIMESTAMP},
+      cStatus = #{cstatus,jdbcType=SMALLINT},
+      sCreateTime = #{screatetime,jdbcType=TIMESTAMP},
+      sUpdateTime = #{supdatetime,jdbcType=TIMESTAMP},
+      sCompletedTime = #{scompletedtime,jdbcType=TIMESTAMP},
       sCustomerMark = #{scustomermark,jdbcType=VARCHAR},
-      sDeliveryID = #{sdeliveryid,jdbcType=VARCHAR}
-    where sOrderID = #{sorderid,jdbcType=VARCHAR}
+      nDeliveryID = #{ndeliveryid,jdbcType=BIGINT},
+      sOrderCode = #{sordercode,jdbcType=CHAR},
+      sShopCode = #{sshopcode,jdbcType=CHAR},
+      sOrderType = #{sordertype,jdbcType=SMALLINT},
+      dPaymentTime = #{dpaymenttime,jdbcType=TIMESTAMP},
+      sOrderSource = #{sordersource,jdbcType=SMALLINT},
+      nAddressID = #{naddressid,jdbcType=BIGINT}
+    where nOrderID = #{norderid,jdbcType=BIGINT}
   </update>
 </mapper>

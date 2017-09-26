@@ -1,32 +1,46 @@
 package com.htsat.order.model;
 
+import java.util.Date;
+
 public class REcSpu {
-    private Integer nspuid;
+    private Long nspuid;
+
+    private String sspubriefname;
 
     private String sspuname;
 
-    private String savailableOn;
+    private String smetakeywords;
 
-    private String slug;
+    private Long ncategoryid;
 
-    private String smetaDescription;
+    private Long nbrandid;
 
-    private String smetaKeywords;
-
-    private Integer ncategoryid;
-
-    private Integer nbrandid;
-
-    private Integer nimageid;
+    private Long nimageid;
 
     private String sdescription;
 
-    public Integer getNspuid() {
+    private String scode;
+
+    private String sisvirtual;
+
+    private Date dcreatetime;
+
+    private Date dupdatetime;
+
+    public Long getNspuid() {
         return nspuid;
     }
 
-    public void setNspuid(Integer nspuid) {
+    public void setNspuid(Long nspuid) {
         this.nspuid = nspuid;
+    }
+
+    public String getSspubriefname() {
+        return sspubriefname;
+    }
+
+    public void setSspubriefname(String sspubriefname) {
+        this.sspubriefname = sspubriefname == null ? null : sspubriefname.trim();
     }
 
     public String getSspuname() {
@@ -37,59 +51,35 @@ public class REcSpu {
         this.sspuname = sspuname == null ? null : sspuname.trim();
     }
 
-    public String getSavailableOn() {
-        return savailableOn;
+    public String getSmetakeywords() {
+        return smetakeywords;
     }
 
-    public void setSavailableOn(String savailableOn) {
-        this.savailableOn = savailableOn == null ? null : savailableOn.trim();
+    public void setSmetakeywords(String smetakeywords) {
+        this.smetakeywords = smetakeywords == null ? null : smetakeywords.trim();
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug == null ? null : slug.trim();
-    }
-
-    public String getSmetaDescription() {
-        return smetaDescription;
-    }
-
-    public void setSmetaDescription(String smetaDescription) {
-        this.smetaDescription = smetaDescription == null ? null : smetaDescription.trim();
-    }
-
-    public String getSmetaKeywords() {
-        return smetaKeywords;
-    }
-
-    public void setSmetaKeywords(String smetaKeywords) {
-        this.smetaKeywords = smetaKeywords == null ? null : smetaKeywords.trim();
-    }
-
-    public Integer getNcategoryid() {
+    public Long getNcategoryid() {
         return ncategoryid;
     }
 
-    public void setNcategoryid(Integer ncategoryid) {
+    public void setNcategoryid(Long ncategoryid) {
         this.ncategoryid = ncategoryid;
     }
 
-    public Integer getNbrandid() {
+    public Long getNbrandid() {
         return nbrandid;
     }
 
-    public void setNbrandid(Integer nbrandid) {
+    public void setNbrandid(Long nbrandid) {
         this.nbrandid = nbrandid;
     }
 
-    public Integer getNimageid() {
+    public Long getNimageid() {
         return nimageid;
     }
 
-    public void setNimageid(Integer nimageid) {
+    public void setNimageid(Long nimageid) {
         this.nimageid = nimageid;
     }
 
@@ -99,5 +89,37 @@ public class REcSpu {
 
     public void setSdescription(String sdescription) {
         this.sdescription = sdescription == null ? null : sdescription.trim();
+    }
+
+    public String getScode() {
+        return scode;
+    }
+
+    public void setScode(String scode) {
+        this.scode = scode == null ? null : scode.trim();
+    }
+
+    public String getSisvirtual() {
+        return sisvirtual;
+    }
+
+    public void setSisvirtual(String sisvirtual) {
+        this.sisvirtual = sisvirtual == null ? null : sisvirtual.trim();
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
     }
 }

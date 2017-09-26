@@ -1,6 +1,7 @@
 package com.htsat.order.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class REcUserdeliveryaddressExample {
@@ -104,63 +105,63 @@ public class REcUserdeliveryaddressExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andNaddressnoIsNull() {
-            addCriterion("nAddressNo is null");
+        public Criteria andNaddressidIsNull() {
+            addCriterion("nAddressID is null");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoIsNotNull() {
-            addCriterion("nAddressNo is not null");
+        public Criteria andNaddressidIsNotNull() {
+            addCriterion("nAddressID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoEqualTo(Integer value) {
-            addCriterion("nAddressNo =", value, "naddressno");
+        public Criteria andNaddressidEqualTo(Long value) {
+            addCriterion("nAddressID =", value, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoNotEqualTo(Integer value) {
-            addCriterion("nAddressNo <>", value, "naddressno");
+        public Criteria andNaddressidNotEqualTo(Long value) {
+            addCriterion("nAddressID <>", value, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoGreaterThan(Integer value) {
-            addCriterion("nAddressNo >", value, "naddressno");
+        public Criteria andNaddressidGreaterThan(Long value) {
+            addCriterion("nAddressID >", value, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoGreaterThanOrEqualTo(Integer value) {
-            addCriterion("nAddressNo >=", value, "naddressno");
+        public Criteria andNaddressidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nAddressID >=", value, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoLessThan(Integer value) {
-            addCriterion("nAddressNo <", value, "naddressno");
+        public Criteria andNaddressidLessThan(Long value) {
+            addCriterion("nAddressID <", value, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoLessThanOrEqualTo(Integer value) {
-            addCriterion("nAddressNo <=", value, "naddressno");
+        public Criteria andNaddressidLessThanOrEqualTo(Long value) {
+            addCriterion("nAddressID <=", value, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoIn(List<Integer> values) {
-            addCriterion("nAddressNo in", values, "naddressno");
+        public Criteria andNaddressidIn(List<Long> values) {
+            addCriterion("nAddressID in", values, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoNotIn(List<Integer> values) {
-            addCriterion("nAddressNo not in", values, "naddressno");
+        public Criteria andNaddressidNotIn(List<Long> values) {
+            addCriterion("nAddressID not in", values, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoBetween(Integer value1, Integer value2) {
-            addCriterion("nAddressNo between", value1, value2, "naddressno");
+        public Criteria andNaddressidBetween(Long value1, Long value2) {
+            addCriterion("nAddressID between", value1, value2, "naddressid");
             return (Criteria) this;
         }
 
-        public Criteria andNaddressnoNotBetween(Integer value1, Integer value2) {
-            addCriterion("nAddressNo not between", value1, value2, "naddressno");
+        public Criteria andNaddressidNotBetween(Long value1, Long value2) {
+            addCriterion("nAddressID not between", value1, value2, "naddressid");
             return (Criteria) this;
         }
 
@@ -174,52 +175,52 @@ public class REcUserdeliveryaddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andNuseridEqualTo(Integer value) {
+        public Criteria andNuseridEqualTo(Long value) {
             addCriterion("nUserID =", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotEqualTo(Integer value) {
+        public Criteria andNuseridNotEqualTo(Long value) {
             addCriterion("nUserID <>", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThan(Integer value) {
+        public Criteria andNuseridGreaterThan(Long value) {
             addCriterion("nUserID >", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNuseridGreaterThanOrEqualTo(Long value) {
             addCriterion("nUserID >=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThan(Integer value) {
+        public Criteria andNuseridLessThan(Long value) {
             addCriterion("nUserID <", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThanOrEqualTo(Integer value) {
+        public Criteria andNuseridLessThanOrEqualTo(Long value) {
             addCriterion("nUserID <=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridIn(List<Integer> values) {
+        public Criteria andNuseridIn(List<Long> values) {
             addCriterion("nUserID in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotIn(List<Integer> values) {
+        public Criteria andNuseridNotIn(List<Long> values) {
             addCriterion("nUserID not in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridBetween(Long value1, Long value2) {
             addCriterion("nUserID between", value1, value2, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridNotBetween(Long value1, Long value2) {
             addCriterion("nUserID not between", value1, value2, "nuserid");
             return (Criteria) this;
         }
@@ -781,6 +782,266 @@ public class REcUserdeliveryaddressExample {
 
         public Criteria andSphonenoNotBetween(String value1, String value2) {
             addCriterion("sPhoneNo not between", value1, value2, "sphoneno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictIsNull() {
+            addCriterion("sDistrict is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictIsNotNull() {
+            addCriterion("sDistrict is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictEqualTo(String value) {
+            addCriterion("sDistrict =", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictNotEqualTo(String value) {
+            addCriterion("sDistrict <>", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictGreaterThan(String value) {
+            addCriterion("sDistrict >", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictGreaterThanOrEqualTo(String value) {
+            addCriterion("sDistrict >=", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictLessThan(String value) {
+            addCriterion("sDistrict <", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictLessThanOrEqualTo(String value) {
+            addCriterion("sDistrict <=", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictLike(String value) {
+            addCriterion("sDistrict like", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictNotLike(String value) {
+            addCriterion("sDistrict not like", value, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictIn(List<String> values) {
+            addCriterion("sDistrict in", values, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictNotIn(List<String> values) {
+            addCriterion("sDistrict not in", values, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictBetween(String value1, String value2) {
+            addCriterion("sDistrict between", value1, value2, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andSdistrictNotBetween(String value1, String value2) {
+            addCriterion("sDistrict not between", value1, value2, "sdistrict");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIsNull() {
+            addCriterion("dCreateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIsNotNull() {
+            addCriterion("dCreateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeEqualTo(Date value) {
+            addCriterion("dCreateTime =", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotEqualTo(Date value) {
+            addCriterion("dCreateTime <>", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeGreaterThan(Date value) {
+            addCriterion("dCreateTime >", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime >=", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeLessThan(Date value) {
+            addCriterion("dCreateTime <", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime <=", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIn(List<Date> values) {
+            addCriterion("dCreateTime in", values, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotIn(List<Date> values) {
+            addCriterion("dCreateTime not in", values, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime between", value1, value2, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime not between", value1, value2, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIsNull() {
+            addCriterion("dUpdateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIsNotNull() {
+            addCriterion("dUpdateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeEqualTo(Date value) {
+            addCriterion("dUpdateTime =", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotEqualTo(Date value) {
+            addCriterion("dUpdateTime <>", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeGreaterThan(Date value) {
+            addCriterion("dUpdateTime >", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime >=", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeLessThan(Date value) {
+            addCriterion("dUpdateTime <", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime <=", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIn(List<Date> values) {
+            addCriterion("dUpdateTime in", values, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotIn(List<Date> values) {
+            addCriterion("dUpdateTime not in", values, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime between", value1, value2, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime not between", value1, value2, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeIsNull() {
+            addCriterion("sZipCode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeIsNotNull() {
+            addCriterion("sZipCode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeEqualTo(String value) {
+            addCriterion("sZipCode =", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeNotEqualTo(String value) {
+            addCriterion("sZipCode <>", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeGreaterThan(String value) {
+            addCriterion("sZipCode >", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeGreaterThanOrEqualTo(String value) {
+            addCriterion("sZipCode >=", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeLessThan(String value) {
+            addCriterion("sZipCode <", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeLessThanOrEqualTo(String value) {
+            addCriterion("sZipCode <=", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeLike(String value) {
+            addCriterion("sZipCode like", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeNotLike(String value) {
+            addCriterion("sZipCode not like", value, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeIn(List<String> values) {
+            addCriterion("sZipCode in", values, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeNotIn(List<String> values) {
+            addCriterion("sZipCode not in", values, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeBetween(String value1, String value2) {
+            addCriterion("sZipCode between", value1, value2, "szipcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSzipcodeNotBetween(String value1, String value2) {
+            addCriterion("sZipCode not between", value1, value2, "szipcode");
             return (Criteria) this;
         }
     }

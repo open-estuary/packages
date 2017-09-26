@@ -5,18 +5,13 @@ import com.htsat.cart.dto.StatusDTO;
 import com.htsat.cart.enums.ExcuteStatusEnum;
 import com.htsat.cart.model.REcShoppingcart;
 import com.htsat.cart.model.REcSku;
-import com.htsat.cart.service.IRedisService;
 import com.htsat.cart.service.IShoppingCartService;
 import com.htsat.cart.service.IUserService;
 import com.htsat.cart.utils.ConvertToDTO;
-import com.htsat.cart.utils.SerializeUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import redis.clients.jedis.Jedis;
 
-import java.io.Serializable;
 import java.util.List;
 
 @RestController

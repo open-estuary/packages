@@ -2,6 +2,7 @@ package com.htsat.order.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class REcSkuExample {
@@ -115,52 +116,52 @@ public class REcSkuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNskuidEqualTo(Integer value) {
+        public Criteria andNskuidEqualTo(Long value) {
             addCriterion("nSKUID =", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidNotEqualTo(Integer value) {
+        public Criteria andNskuidNotEqualTo(Long value) {
             addCriterion("nSKUID <>", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidGreaterThan(Integer value) {
+        public Criteria andNskuidGreaterThan(Long value) {
             addCriterion("nSKUID >", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNskuidGreaterThanOrEqualTo(Long value) {
             addCriterion("nSKUID >=", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidLessThan(Integer value) {
+        public Criteria andNskuidLessThan(Long value) {
             addCriterion("nSKUID <", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidLessThanOrEqualTo(Integer value) {
+        public Criteria andNskuidLessThanOrEqualTo(Long value) {
             addCriterion("nSKUID <=", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidIn(List<Integer> values) {
+        public Criteria andNskuidIn(List<Long> values) {
             addCriterion("nSKUID in", values, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidNotIn(List<Integer> values) {
+        public Criteria andNskuidNotIn(List<Long> values) {
             addCriterion("nSKUID not in", values, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidBetween(Integer value1, Integer value2) {
+        public Criteria andNskuidBetween(Long value1, Long value2) {
             addCriterion("nSKUID between", value1, value2, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidNotBetween(Integer value1, Integer value2) {
+        public Criteria andNskuidNotBetween(Long value1, Long value2) {
             addCriterion("nSKUID not between", value1, value2, "nskuid");
             return (Criteria) this;
         }
@@ -175,52 +176,52 @@ public class REcSkuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNspuidEqualTo(Integer value) {
+        public Criteria andNspuidEqualTo(Long value) {
             addCriterion("nSPUID =", value, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidNotEqualTo(Integer value) {
+        public Criteria andNspuidNotEqualTo(Long value) {
             addCriterion("nSPUID <>", value, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidGreaterThan(Integer value) {
+        public Criteria andNspuidGreaterThan(Long value) {
             addCriterion("nSPUID >", value, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNspuidGreaterThanOrEqualTo(Long value) {
             addCriterion("nSPUID >=", value, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidLessThan(Integer value) {
+        public Criteria andNspuidLessThan(Long value) {
             addCriterion("nSPUID <", value, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidLessThanOrEqualTo(Integer value) {
+        public Criteria andNspuidLessThanOrEqualTo(Long value) {
             addCriterion("nSPUID <=", value, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidIn(List<Integer> values) {
+        public Criteria andNspuidIn(List<Long> values) {
             addCriterion("nSPUID in", values, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidNotIn(List<Integer> values) {
+        public Criteria andNspuidNotIn(List<Long> values) {
             addCriterion("nSPUID not in", values, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidBetween(Integer value1, Integer value2) {
+        public Criteria andNspuidBetween(Long value1, Long value2) {
             addCriterion("nSPUID between", value1, value2, "nspuid");
             return (Criteria) this;
         }
 
-        public Criteria andNspuidNotBetween(Integer value1, Integer value2) {
+        public Criteria andNspuidNotBetween(Long value1, Long value2) {
             addCriterion("nSPUID not between", value1, value2, "nspuid");
             return (Criteria) this;
         }
@@ -425,63 +426,63 @@ public class REcSkuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceIsNull() {
-            addCriterion("nDisplay_price is null");
+        public Criteria andNdisplaypriceIsNull() {
+            addCriterion("nDisplayPrice is null");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceIsNotNull() {
-            addCriterion("nDisplay_price is not null");
+        public Criteria andNdisplaypriceIsNotNull() {
+            addCriterion("nDisplayPrice is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceEqualTo(BigDecimal value) {
-            addCriterion("nDisplay_price =", value, "ndisplayPrice");
+        public Criteria andNdisplaypriceEqualTo(BigDecimal value) {
+            addCriterion("nDisplayPrice =", value, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceNotEqualTo(BigDecimal value) {
-            addCriterion("nDisplay_price <>", value, "ndisplayPrice");
+        public Criteria andNdisplaypriceNotEqualTo(BigDecimal value) {
+            addCriterion("nDisplayPrice <>", value, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceGreaterThan(BigDecimal value) {
-            addCriterion("nDisplay_price >", value, "ndisplayPrice");
+        public Criteria andNdisplaypriceGreaterThan(BigDecimal value) {
+            addCriterion("nDisplayPrice >", value, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("nDisplay_price >=", value, "ndisplayPrice");
+        public Criteria andNdisplaypriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("nDisplayPrice >=", value, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceLessThan(BigDecimal value) {
-            addCriterion("nDisplay_price <", value, "ndisplayPrice");
+        public Criteria andNdisplaypriceLessThan(BigDecimal value) {
+            addCriterion("nDisplayPrice <", value, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("nDisplay_price <=", value, "ndisplayPrice");
+        public Criteria andNdisplaypriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("nDisplayPrice <=", value, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceIn(List<BigDecimal> values) {
-            addCriterion("nDisplay_price in", values, "ndisplayPrice");
+        public Criteria andNdisplaypriceIn(List<BigDecimal> values) {
+            addCriterion("nDisplayPrice in", values, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceNotIn(List<BigDecimal> values) {
-            addCriterion("nDisplay_price not in", values, "ndisplayPrice");
+        public Criteria andNdisplaypriceNotIn(List<BigDecimal> values) {
+            addCriterion("nDisplayPrice not in", values, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("nDisplay_price between", value1, value2, "ndisplayPrice");
+        public Criteria andNdisplaypriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("nDisplayPrice between", value1, value2, "ndisplayprice");
             return (Criteria) this;
         }
 
-        public Criteria andNdisplayPriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("nDisplay_price not between", value1, value2, "ndisplayPrice");
+        public Criteria andNdisplaypriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("nDisplayPrice not between", value1, value2, "ndisplayprice");
             return (Criteria) this;
         }
 
@@ -555,52 +556,52 @@ public class REcSkuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountEqualTo(Float value) {
+        public Criteria andNdiscountEqualTo(Long value) {
             addCriterion("nDiscount =", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotEqualTo(Float value) {
+        public Criteria andNdiscountNotEqualTo(Long value) {
             addCriterion("nDiscount <>", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountGreaterThan(Float value) {
+        public Criteria andNdiscountGreaterThan(Long value) {
             addCriterion("nDiscount >", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountGreaterThanOrEqualTo(Float value) {
+        public Criteria andNdiscountGreaterThanOrEqualTo(Long value) {
             addCriterion("nDiscount >=", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountLessThan(Float value) {
+        public Criteria andNdiscountLessThan(Long value) {
             addCriterion("nDiscount <", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountLessThanOrEqualTo(Float value) {
+        public Criteria andNdiscountLessThanOrEqualTo(Long value) {
             addCriterion("nDiscount <=", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountIn(List<Float> values) {
+        public Criteria andNdiscountIn(List<Long> values) {
             addCriterion("nDiscount in", values, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotIn(List<Float> values) {
+        public Criteria andNdiscountNotIn(List<Long> values) {
             addCriterion("nDiscount not in", values, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountBetween(Float value1, Float value2) {
+        public Criteria andNdiscountBetween(Long value1, Long value2) {
             addCriterion("nDiscount between", value1, value2, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotBetween(Float value1, Float value2) {
+        public Criteria andNdiscountNotBetween(Long value1, Long value2) {
             addCriterion("nDiscount not between", value1, value2, "ndiscount");
             return (Criteria) this;
         }
@@ -672,6 +673,126 @@ public class REcSkuExample {
 
         public Criteria andScurrencyNotBetween(String value1, String value2) {
             addCriterion("sCurrency not between", value1, value2, "scurrency");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIsNull() {
+            addCriterion("dCreateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIsNotNull() {
+            addCriterion("dCreateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeEqualTo(Date value) {
+            addCriterion("dCreateTime =", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotEqualTo(Date value) {
+            addCriterion("dCreateTime <>", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeGreaterThan(Date value) {
+            addCriterion("dCreateTime >", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime >=", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeLessThan(Date value) {
+            addCriterion("dCreateTime <", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime <=", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIn(List<Date> values) {
+            addCriterion("dCreateTime in", values, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotIn(List<Date> values) {
+            addCriterion("dCreateTime not in", values, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime between", value1, value2, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime not between", value1, value2, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIsNull() {
+            addCriterion("dUpdateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIsNotNull() {
+            addCriterion("dUpdateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeEqualTo(Date value) {
+            addCriterion("dUpdateTime =", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotEqualTo(Date value) {
+            addCriterion("dUpdateTime <>", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeGreaterThan(Date value) {
+            addCriterion("dUpdateTime >", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime >=", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeLessThan(Date value) {
+            addCriterion("dUpdateTime <", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime <=", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIn(List<Date> values) {
+            addCriterion("dUpdateTime in", values, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotIn(List<Date> values) {
+            addCriterion("dUpdateTime not in", values, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime between", value1, value2, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime not between", value1, value2, "dupdatetime");
             return (Criteria) this;
         }
     }

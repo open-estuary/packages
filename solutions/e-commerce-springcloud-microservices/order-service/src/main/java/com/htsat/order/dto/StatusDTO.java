@@ -6,15 +6,15 @@ import java.io.Serializable;
 
 public class StatusDTO implements Serializable{
 
-    int userId;
+    Long userId;
 
     ExcuteStatusEnum status;
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

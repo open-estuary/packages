@@ -19,15 +19,19 @@ public class ConvertToDTO {
         OrderDTO orderDTO = new OrderDTO();
 
         DeliveryDTO deliveryDTO = new DeliveryDTO();
-        deliveryDTO.setDeliveryId(deliveryinfo.getSdeliveryid());
-        deliveryDTO.setDeliveryPrice(deliveryinfo.getNdeliveryprice());
-        deliveryDTO.setStatus(deliveryinfo.getCstatus());
-        deliveryDTO.setExpressCompany(deliveryinfo.getSexpresscompany());
+        deliveryDTO.setNdeliveryid(deliveryinfo.getNdeliveryid());
+        deliveryDTO.setNdeliveryprice(deliveryinfo.getNdeliveryprice());
+        deliveryDTO.setCstatus(deliveryinfo.getCstatus());
+        deliveryDTO.setSexpresscompany(deliveryinfo.getSexpresscompany());
+        deliveryDTO.setNaddressid(deliveryinfo.getNaddressid());
+        deliveryDTO.setSconsignee(deliveryinfo.getSconsignee());
+        deliveryDTO.setSdeliverycode(deliveryinfo.getSdeliverycode());
+        deliveryDTO.setSdeliverycomment(deliveryinfo.getSdeliverycomment());
 
         List<OrderSKUDTO> orderskuDTOList = new ArrayList<>();
         for (REcOrdersku ordersku : orderskuList) {
             OrderSKUDTO orderskuDTO = new OrderSKUDTO();
-            orderskuDTO.setOrderId(ordersku.getSorderid());
+            orderskuDTO.setOrderId(ordersku.getNorderid());
             orderskuDTO.setSkuId(ordersku.getNskuid());
             orderskuDTO.setCurrency(ordersku.getScurrency());
             orderskuDTO.setDiscount(ordersku.getNdiscount());
@@ -39,33 +43,32 @@ public class ConvertToDTO {
         }
 
         AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setUserId(address.getNuserid());
-        addressDTO.setAddressId(address.getNaddressno());
-        addressDTO.setAddress(address.getSaddress());
-        addressDTO.setCity(address.getScity());
-        addressDTO.setCountry(address.getScountry());
-        addressDTO.setProvince(address.getSprovince());
-        addressDTO.setEmail(address.getSemail());
-        addressDTO.setFirstName(address.getSfirstname());
-        addressDTO.setLastName(address.getSlastname());
-        addressDTO.setPhone(address.getSphoneno());
+        addressDTO.setNuserid(address.getNuserid());
+        addressDTO.setNaddressid(address.getNaddressid());
+        addressDTO.setSaddress(address.getSaddress());
+        addressDTO.setScity(address.getScity());
+        addressDTO.setScountry(address.getScountry());
+        addressDTO.setSprovince(address.getSprovince());
+        addressDTO.setSemail(address.getSemail());
+        addressDTO.setSfirstname(address.getSfirstname());
+        addressDTO.setSlastname(address.getSlastname());
+        addressDTO.setSphoneno(address.getSphoneno());
 
         orderDTO.setAddressDTO(addressDTO);
-        orderDTO.setCompleteDate(orderinfo.getSdateCompleted());
-        orderDTO.setCustomerMark(orderinfo.getScustomermark());
         orderDTO.setDeliveryDTO(deliveryDTO);
+        orderDTO.setScompletedtime(orderinfo.getScompletedtime());
+        orderDTO.setScustomermark(orderinfo.getScustomermark());
         orderDTO.setDiscount(orderinfo.getNdiscount());
-        orderDTO.setOrderId(orderinfo.getSorderid());
+        orderDTO.setOrderId(orderinfo.getNorderid());
+        orderDTO.setSordercode(orderinfo.getSordercode());
         orderDTO.setOrderskudtoList(orderskuDTOList);
-        orderDTO.setPaidDate(orderinfo.getSdatePaid());
+        orderDTO.setDpaymenttime(orderinfo.getDpaymenttime());
         orderDTO.setParentOrderid(orderinfo.getSparentorderid());
         orderDTO.setPaymentMethod(orderinfo.getCpaymentmethod());
-        orderDTO.setPaymentMethodTitle(orderinfo.getSpaymentmethodtitle());
-        orderDTO.setStatus(orderinfo.getCstatus());
+        orderDTO.setCstatus(orderinfo.getCstatus());
         orderDTO.setTotalPrice(orderinfo.getNtotalprice());
         orderDTO.setTotalQuantity(orderinfo.getNtotalquantity());
         orderDTO.setUserId(orderinfo.getNuserid());
-        orderDTO.setVersion(orderinfo.getSversion());
 
         return orderDTO;
 

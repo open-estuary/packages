@@ -7,83 +7,83 @@ import java.util.List;
 
 public class OrderDTO implements Serializable{
 
-    private String orderId;
+    private Long orderId;
 
-    private int userId;
+    private Long userId;
 
-    private String parentOrderid;
+    private Long parentOrderid;
 
-    private String paymentMethod;
+    private Short paymentMethod;
 
-    private String paymentMethodTitle;
-
-    private float discount;
+    private BigDecimal discount;
 
     private int totalQuantity;
 
     private BigDecimal totalPrice;
 
-    private String version;
+    private Short cstatus;
+
+    private Date screatetime;
+
+    private Date supdatetime;
+
+    private Date scompletedtime;
+
+    private String scustomermark;
+
+    private String sordercode;
+
+    private String sshopcode;
+
+    private Short sordertype;
+
+    private Date dpaymenttime;
+
+    private Short sordersource;
 
     private AddressDTO addressDTO;
-
-    private String status;
-
-    private Date paidDate;
-
-    private Date completeDate;
-
-    private String customerMark;
 
     private DeliveryDTO deliveryDTO;
 
     private List<OrderSKUDTO> orderskudtoList;
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getParentOrderid() {
+    public Long getParentOrderid() {
         return parentOrderid;
     }
 
-    public void setParentOrderid(String parentOrderid) {
+    public void setParentOrderid(Long parentOrderid) {
         this.parentOrderid = parentOrderid;
     }
 
-    public String getPaymentMethod() {
+    public Short getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(Short paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getPaymentMethodTitle() {
-        return paymentMethodTitle;
-    }
-
-    public void setPaymentMethodTitle(String paymentMethodTitle) {
-        this.paymentMethodTitle = paymentMethodTitle;
-    }
-
-    public float getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
@@ -103,12 +103,84 @@ public class OrderDTO implements Serializable{
         this.totalPrice = totalPrice;
     }
 
-    public String getVersion() {
-        return version;
+    public Short getCstatus() {
+        return cstatus;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setCstatus(Short cstatus) {
+        this.cstatus = cstatus;
+    }
+
+    public Date getScreatetime() {
+        return screatetime;
+    }
+
+    public void setScreatetime(Date screatetime) {
+        this.screatetime = screatetime;
+    }
+
+    public Date getSupdatetime() {
+        return supdatetime;
+    }
+
+    public void setSupdatetime(Date supdatetime) {
+        this.supdatetime = supdatetime;
+    }
+
+    public Date getScompletedtime() {
+        return scompletedtime;
+    }
+
+    public void setScompletedtime(Date scompletedtime) {
+        this.scompletedtime = scompletedtime;
+    }
+
+    public String getScustomermark() {
+        return scustomermark;
+    }
+
+    public void setScustomermark(String scustomermark) {
+        this.scustomermark = scustomermark;
+    }
+
+    public String getSordercode() {
+        return sordercode;
+    }
+
+    public void setSordercode(String sordercode) {
+        this.sordercode = sordercode;
+    }
+
+    public String getSshopcode() {
+        return sshopcode;
+    }
+
+    public void setSshopcode(String sshopcode) {
+        this.sshopcode = sshopcode;
+    }
+
+    public Short getSordertype() {
+        return sordertype;
+    }
+
+    public void setSordertype(Short sordertype) {
+        this.sordertype = sordertype;
+    }
+
+    public Date getDpaymenttime() {
+        return dpaymenttime;
+    }
+
+    public void setDpaymenttime(Date dpaymenttime) {
+        this.dpaymenttime = dpaymenttime;
+    }
+
+    public Short getSordersource() {
+        return sordersource;
+    }
+
+    public void setSordersource(Short sordersource) {
+        this.sordersource = sordersource;
     }
 
     public AddressDTO getAddressDTO() {
@@ -117,38 +189,6 @@ public class OrderDTO implements Serializable{
 
     public void setAddressDTO(AddressDTO addressDTO) {
         this.addressDTO = addressDTO;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getPaidDate() {
-        return paidDate;
-    }
-
-    public void setPaidDate(Date paidDate) {
-        this.paidDate = paidDate;
-    }
-
-    public Date getCompleteDate() {
-        return completeDate;
-    }
-
-    public void setCompleteDate(Date completeDate) {
-        this.completeDate = completeDate;
-    }
-
-    public String getCustomerMark() {
-        return customerMark;
-    }
-
-    public void setCustomerMark(String customerMark) {
-        this.customerMark = customerMark;
     }
 
     public DeliveryDTO getDeliveryDTO() {
@@ -165,27 +205,5 @@ public class OrderDTO implements Serializable{
 
     public void setOrderskudtoList(List<OrderSKUDTO> orderskudtoList) {
         this.orderskudtoList = orderskudtoList;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDTO{" +
-                "orderId='" + orderId + '\'' +
-                ", userId=" + userId +
-                ", parentOrderid='" + parentOrderid + '\'' +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", paymentMethodTitle='" + paymentMethodTitle + '\'' +
-                ", discount=" + discount +
-                ", totalQuantity=" + totalQuantity +
-                ", totalPrice=" + totalPrice +
-                ", version='" + version + '\'' +
-                ", addressDTO=" + addressDTO +
-                ", status='" + status + '\'' +
-                ", paidDate=" + paidDate +
-                ", completeDate=" + completeDate +
-                ", customerMark='" + customerMark + '\'' +
-                ", deliveryDTO=" + deliveryDTO +
-                ", orderskudtoList=" + orderskudtoList +
-                '}';
     }
 }

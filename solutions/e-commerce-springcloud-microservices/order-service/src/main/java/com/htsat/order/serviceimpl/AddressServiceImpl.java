@@ -13,9 +13,9 @@ public class AddressServiceImpl implements IAddressService {
     REcUserdeliveryaddressMapper addressMapper;
 
     @Override
-    public boolean checkAddressAvailable(int userId, int addressId) {
+    public boolean checkAddressAvailable(Long userId, Long addressId) {
         REcUserdeliveryaddress address = addressMapper.selectByPrimaryKey(addressId);
-        if (address.getNuserid() == userId) {
+        if (address != null && userId.equals(address.getNuserid())) {
             return true;
         }
         return false;

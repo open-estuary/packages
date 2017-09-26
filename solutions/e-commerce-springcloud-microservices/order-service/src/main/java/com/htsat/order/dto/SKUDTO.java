@@ -2,12 +2,13 @@ package com.htsat.order.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class SKUDTO implements Serializable{
 
-    int skuId;
+    Long skuId;
 
-    int spuId;
+    Long spuId;
 
     String color;
 
@@ -19,23 +20,27 @@ public class SKUDTO implements Serializable{
 
     String currency;
 
-    float discount;
+    BigDecimal discount;
 
-    int quantity;
+    int inventory;
 
-    public int getSkuId() {
+    Date dcreatetime;
+
+    Date dupdatetime;
+
+    public Long getSkuId() {
         return skuId;
     }
 
-    public void setSkuId(int skuId) {
+    public void setSkuId(Long skuId) {
         this.skuId = skuId;
     }
 
-    public int getSpuId() {
+    public Long getSpuId() {
         return spuId;
     }
 
-    public void setSpuId(int spuId) {
+    public void setSpuId(Long spuId) {
         this.spuId = spuId;
     }
 
@@ -79,20 +84,36 @@ public class SKUDTO implements Serializable{
         this.currency = currency;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public float getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
+    }
+
+    public int getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
     }
 
     @Override
@@ -106,7 +127,9 @@ public class SKUDTO implements Serializable{
                 ", displayPrice=" + displayPrice +
                 ", currency='" + currency + '\'' +
                 ", discount=" + discount +
-                ", quantity=" + quantity +
+                ", inventory=" + inventory +
+                ", dcreatetime=" + dcreatetime +
+                ", dupdatetime=" + dupdatetime +
                 '}';
     }
 }

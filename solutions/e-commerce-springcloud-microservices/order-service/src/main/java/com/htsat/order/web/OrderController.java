@@ -37,7 +37,7 @@ public class OrderController {
         OrderDTO returnOrderDTO = null;
         //check
         boolean checkUserResult = userService.checkUserAvailable(orderDTO.getUserId());
-        boolean checkAddressResult = addressService.checkAddressAvailable(orderDTO.getUserId(), orderDTO.getAddressDTO().getAddressId());
+        boolean checkAddressResult = addressService.checkAddressAvailable(orderDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
         boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
 
         if (!(checkUserResult && checkAddressResult && checkcheckSKUPResult)) {
@@ -46,10 +46,7 @@ public class OrderController {
         }
 
         try {
-            //mysql
-            returnOrderDTO = orderService.createOrderAndDeliveryAndOrderSKU(orderDTO);
-            //redis
-            orderService.createOrderAndDeliveryAndOrderSKUToRedis(returnOrderDTO);
+            orderService.createOrderAndDeliveryAndOrderSKU(orderDTO);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("create exception !");
@@ -62,7 +59,7 @@ public class OrderController {
 
     @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDTO getOrder(@PathVariable("orderId") String orderId){
+    public OrderDTO getOrder(@PathVariable("orderId") Long orderId){
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderId);
@@ -76,7 +73,7 @@ public class OrderController {
 
     @RequestMapping(value = "/orders/{userId}/{orderId}", method = RequestMethod.DELETE)
     @ResponseBody
-    public StatusDTO deleteOrder(@PathVariable("userId") Integer userId, @PathVariable("orderId") String orderId){
+    public StatusDTO deleteOrder(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId){
         StatusDTO status = new StatusDTO();
         status.setUserId(userId);
         if (!userService.checkUserAvailable(userId)) {
@@ -94,10 +91,10 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/orders/{userId}/{orderId}/{deliveryStatus}", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/delivery/{userId}/{orderId}/{deliveryStatus}", method = RequestMethod.POST)
     @ResponseBody
-    public OrderDTO updateOrderStatusByDelivery(@PathVariable("userId") Integer userId, @PathVariable("orderId") String orderId, @PathVariable("deliveryStatus") String deliveryStatus) {
-        if (!userService.checkUserAvailable(userId) || StringUtils.isEmpty(orderId) || !NumberUtils.isNumber(deliveryStatus)) {
+    public OrderDTO updateOrderStatusByDelivery(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId, @PathVariable("deliveryStatus") short deliveryStatus) {
+        if (!userService.checkUserAvailable(userId) || orderId == null ) {
             return null;
         }
         OrderDTO orderDTO = null;
@@ -111,10 +108,21 @@ public class OrderController {
         return orderDTO;
     }
 
-    @RequestMapping(value = "/orders/payment", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/payment/{userId}/{orderId}/{cardId}/{paymentPassword}", method = RequestMethod.POST)
     @ResponseBody
-    public OrderDTO updateOrderStatusAndPaymentMethodByPayment(@RequestBody OrderDTO orderDTO) {
-        return null;
+    public OrderDTO updateOrderStatusByPayment(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId, @PathVariable("cardId") String cardId, @PathVariable("paymentPassword") String paymentPassword) {
+        if (!userService.checkUserAvailable(userId) || orderId == null ) {
+            return null;
+        }
+        OrderDTO orderDTO = null;
+        try {
+            orderDTO = orderService.updateOrderPayment(userId, orderId, cardId, paymentPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("update payment exception !");
+            return null;
+        }
+        return orderDTO;
     }
 
 }

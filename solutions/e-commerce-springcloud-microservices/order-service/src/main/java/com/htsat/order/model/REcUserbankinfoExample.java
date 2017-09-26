@@ -104,73 +104,73 @@ public class REcUserbankinfoExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andScardnumberIsNull() {
-            addCriterion("sCardNumber is null");
+        public Criteria andScardidIsNull() {
+            addCriterion("sCardID is null");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberIsNotNull() {
-            addCriterion("sCardNumber is not null");
+        public Criteria andScardidIsNotNull() {
+            addCriterion("sCardID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberEqualTo(String value) {
-            addCriterion("sCardNumber =", value, "scardnumber");
+        public Criteria andScardidEqualTo(String value) {
+            addCriterion("sCardID =", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberNotEqualTo(String value) {
-            addCriterion("sCardNumber <>", value, "scardnumber");
+        public Criteria andScardidNotEqualTo(String value) {
+            addCriterion("sCardID <>", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberGreaterThan(String value) {
-            addCriterion("sCardNumber >", value, "scardnumber");
+        public Criteria andScardidGreaterThan(String value) {
+            addCriterion("sCardID >", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberGreaterThanOrEqualTo(String value) {
-            addCriterion("sCardNumber >=", value, "scardnumber");
+        public Criteria andScardidGreaterThanOrEqualTo(String value) {
+            addCriterion("sCardID >=", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberLessThan(String value) {
-            addCriterion("sCardNumber <", value, "scardnumber");
+        public Criteria andScardidLessThan(String value) {
+            addCriterion("sCardID <", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberLessThanOrEqualTo(String value) {
-            addCriterion("sCardNumber <=", value, "scardnumber");
+        public Criteria andScardidLessThanOrEqualTo(String value) {
+            addCriterion("sCardID <=", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberLike(String value) {
-            addCriterion("sCardNumber like", value, "scardnumber");
+        public Criteria andScardidLike(String value) {
+            addCriterion("sCardID like", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberNotLike(String value) {
-            addCriterion("sCardNumber not like", value, "scardnumber");
+        public Criteria andScardidNotLike(String value) {
+            addCriterion("sCardID not like", value, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberIn(List<String> values) {
-            addCriterion("sCardNumber in", values, "scardnumber");
+        public Criteria andScardidIn(List<String> values) {
+            addCriterion("sCardID in", values, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberNotIn(List<String> values) {
-            addCriterion("sCardNumber not in", values, "scardnumber");
+        public Criteria andScardidNotIn(List<String> values) {
+            addCriterion("sCardID not in", values, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberBetween(String value1, String value2) {
-            addCriterion("sCardNumber between", value1, value2, "scardnumber");
+        public Criteria andScardidBetween(String value1, String value2) {
+            addCriterion("sCardID between", value1, value2, "scardid");
             return (Criteria) this;
         }
 
-        public Criteria andScardnumberNotBetween(String value1, String value2) {
-            addCriterion("sCardNumber not between", value1, value2, "scardnumber");
+        public Criteria andScardidNotBetween(String value1, String value2) {
+            addCriterion("sCardID not between", value1, value2, "scardid");
             return (Criteria) this;
         }
 
@@ -184,52 +184,52 @@ public class REcUserbankinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andNuseridEqualTo(Integer value) {
+        public Criteria andNuseridEqualTo(Long value) {
             addCriterion("nUserID =", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotEqualTo(Integer value) {
+        public Criteria andNuseridNotEqualTo(Long value) {
             addCriterion("nUserID <>", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThan(Integer value) {
+        public Criteria andNuseridGreaterThan(Long value) {
             addCriterion("nUserID >", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNuseridGreaterThanOrEqualTo(Long value) {
             addCriterion("nUserID >=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThan(Integer value) {
+        public Criteria andNuseridLessThan(Long value) {
             addCriterion("nUserID <", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThanOrEqualTo(Integer value) {
+        public Criteria andNuseridLessThanOrEqualTo(Long value) {
             addCriterion("nUserID <=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridIn(List<Integer> values) {
+        public Criteria andNuseridIn(List<Long> values) {
             addCriterion("nUserID in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotIn(List<Integer> values) {
+        public Criteria andNuseridNotIn(List<Long> values) {
             addCriterion("nUserID not in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridBetween(Long value1, Long value2) {
             addCriterion("nUserID between", value1, value2, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridNotBetween(Long value1, Long value2) {
             addCriterion("nUserID not between", value1, value2, "nuserid");
             return (Criteria) this;
         }
@@ -244,62 +244,52 @@ public class REcUserbankinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andSbankEqualTo(String value) {
+        public Criteria andSbankEqualTo(Short value) {
             addCriterion("sBank =", value, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankNotEqualTo(String value) {
+        public Criteria andSbankNotEqualTo(Short value) {
             addCriterion("sBank <>", value, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankGreaterThan(String value) {
+        public Criteria andSbankGreaterThan(Short value) {
             addCriterion("sBank >", value, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankGreaterThanOrEqualTo(String value) {
+        public Criteria andSbankGreaterThanOrEqualTo(Short value) {
             addCriterion("sBank >=", value, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankLessThan(String value) {
+        public Criteria andSbankLessThan(Short value) {
             addCriterion("sBank <", value, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankLessThanOrEqualTo(String value) {
+        public Criteria andSbankLessThanOrEqualTo(Short value) {
             addCriterion("sBank <=", value, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankLike(String value) {
-            addCriterion("sBank like", value, "sbank");
-            return (Criteria) this;
-        }
-
-        public Criteria andSbankNotLike(String value) {
-            addCriterion("sBank not like", value, "sbank");
-            return (Criteria) this;
-        }
-
-        public Criteria andSbankIn(List<String> values) {
+        public Criteria andSbankIn(List<Short> values) {
             addCriterion("sBank in", values, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankNotIn(List<String> values) {
+        public Criteria andSbankNotIn(List<Short> values) {
             addCriterion("sBank not in", values, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankBetween(String value1, String value2) {
+        public Criteria andSbankBetween(Short value1, Short value2) {
             addCriterion("sBank between", value1, value2, "sbank");
             return (Criteria) this;
         }
 
-        public Criteria andSbankNotBetween(String value1, String value2) {
+        public Criteria andSbankNotBetween(Short value1, Short value2) {
             addCriterion("sBank not between", value1, value2, "sbank");
             return (Criteria) this;
         }
@@ -314,62 +304,52 @@ public class REcUserbankinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeEqualTo(String value) {
+        public Criteria andScardtypeEqualTo(Short value) {
             addCriterion("sCardType =", value, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeNotEqualTo(String value) {
+        public Criteria andScardtypeNotEqualTo(Short value) {
             addCriterion("sCardType <>", value, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeGreaterThan(String value) {
+        public Criteria andScardtypeGreaterThan(Short value) {
             addCriterion("sCardType >", value, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeGreaterThanOrEqualTo(String value) {
+        public Criteria andScardtypeGreaterThanOrEqualTo(Short value) {
             addCriterion("sCardType >=", value, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeLessThan(String value) {
+        public Criteria andScardtypeLessThan(Short value) {
             addCriterion("sCardType <", value, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeLessThanOrEqualTo(String value) {
+        public Criteria andScardtypeLessThanOrEqualTo(Short value) {
             addCriterion("sCardType <=", value, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeLike(String value) {
-            addCriterion("sCardType like", value, "scardtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andScardtypeNotLike(String value) {
-            addCriterion("sCardType not like", value, "scardtype");
-            return (Criteria) this;
-        }
-
-        public Criteria andScardtypeIn(List<String> values) {
+        public Criteria andScardtypeIn(List<Short> values) {
             addCriterion("sCardType in", values, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeNotIn(List<String> values) {
+        public Criteria andScardtypeNotIn(List<Short> values) {
             addCriterion("sCardType not in", values, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeBetween(String value1, String value2) {
+        public Criteria andScardtypeBetween(Short value1, Short value2) {
             addCriterion("sCardType between", value1, value2, "scardtype");
             return (Criteria) this;
         }
 
-        public Criteria andScardtypeNotBetween(String value1, String value2) {
+        public Criteria andScardtypeNotBetween(Short value1, Short value2) {
             addCriterion("sCardType not between", value1, value2, "scardtype");
             return (Criteria) this;
         }
@@ -441,6 +421,76 @@ public class REcUserbankinfoExample {
 
         public Criteria andScurrencyNotBetween(String value1, String value2) {
             addCriterion("sCurrency not between", value1, value2, "scurrency");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberIsNull() {
+            addCriterion("sCardNumber is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberIsNotNull() {
+            addCriterion("sCardNumber is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberEqualTo(String value) {
+            addCriterion("sCardNumber =", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberNotEqualTo(String value) {
+            addCriterion("sCardNumber <>", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberGreaterThan(String value) {
+            addCriterion("sCardNumber >", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberGreaterThanOrEqualTo(String value) {
+            addCriterion("sCardNumber >=", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberLessThan(String value) {
+            addCriterion("sCardNumber <", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberLessThanOrEqualTo(String value) {
+            addCriterion("sCardNumber <=", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberLike(String value) {
+            addCriterion("sCardNumber like", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberNotLike(String value) {
+            addCriterion("sCardNumber not like", value, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberIn(List<String> values) {
+            addCriterion("sCardNumber in", values, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberNotIn(List<String> values) {
+            addCriterion("sCardNumber not in", values, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberBetween(String value1, String value2) {
+            addCriterion("sCardNumber between", value1, value2, "scardnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andScardnumberNotBetween(String value1, String value2) {
+            addCriterion("sCardNumber not between", value1, value2, "scardnumber");
             return (Criteria) this;
         }
     }

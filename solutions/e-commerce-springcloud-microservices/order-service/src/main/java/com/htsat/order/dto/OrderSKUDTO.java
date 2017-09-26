@@ -5,33 +5,33 @@ import java.math.BigDecimal;
 
 public class OrderSKUDTO implements Serializable{
 
-    private String orderId;
+    private Long orderId;
 
-    private int skuId;
+    private Long skuId;
 
     private int quantity;
 
     private BigDecimal originPrice;
 
-    private float discount;
+    private BigDecimal discount;
 
     private String currency;
 
     private BigDecimal price;
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public int getSkuId() {
+    public Long getSkuId() {
         return skuId;
     }
 
-    public void setSkuId(int skuId) {
+    public void setSkuId(Long skuId) {
         this.skuId = skuId;
     }
 
@@ -51,11 +51,11 @@ public class OrderSKUDTO implements Serializable{
         this.originPrice = originPrice;
     }
 
-    public float getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
@@ -73,18 +73,5 @@ public class OrderSKUDTO implements Serializable{
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderSKUDTO{" +
-                "orderId='" + orderId + '\'' +
-                ", skuId=" + skuId +
-                ", quantity=" + quantity +
-                ", originPrice=" + originPrice +
-                ", discount=" + discount +
-                ", currency='" + currency + '\'' +
-                ", price=" + price +
-                '}';
     }
 }

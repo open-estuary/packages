@@ -13,7 +13,7 @@ public class UserServiceImpl implements IUserService {
     REcUserinfoMapper userinfoMapper;
 
     @Override
-    public boolean checkUserAvailable(int userId) {
+    public boolean checkUserAvailable(Long userId) {
         REcUserinfo user = userinfoMapper.selectByPrimaryKey(userId);
         if (user != null) {
             return true;
