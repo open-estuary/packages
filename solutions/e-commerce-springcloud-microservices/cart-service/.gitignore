@@ -2,10 +2,10 @@
 # 忽略掉所有文件名是 foo.txt的文件.
 # foo.txt
 # 忽略所有生成的 iml文件,
-*.iml
-*.cmd
-*.idea
-*.mvn
+cart.iml
+mvnw.cmd
+.idea/*
+.mvn/*
 # foo.html是手工维护的，所以例外.
 # !foo.html
 # 忽略所有.o和 .a文件.
