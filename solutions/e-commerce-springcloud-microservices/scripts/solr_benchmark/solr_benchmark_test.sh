@@ -48,3 +48,13 @@ fi
 echo "Perform New Solr Test(LOCAL_HOST:${LOCAL_HOST}, REMOTE_HOST:${REMOTE_HOST}, Target Server:${HOST}, Target Port:${PORT}, NumberofUser:${USER_NUM}, TestTimeInSecs:${DUR_TIME_INSEC}, QUERYFILE:${QUERYFILE}"
 taskset -c 2-63 ${JMETER} -n -t ${BENCHMARK_JMX} -Djava.rmi.server.hostname=${LOCAL_HOST} -GserverName=${HOST} -GserverPort=${PORT} -GserverPath=${SERVERPATH} -GqueryFile="${QUERYFILE}" -GnoOfUsers ${USER_NUM} -GdurationInSecs ${DUR_TIME_INSEC} -l ${CUR_DIR}/solr_benchmark_result.jtl -o ${CUR_DIR}/solr_benchmark_report -e -R"${REMOTE_HOST}"
 
+OUT_DIR="${6:-/estuarytest/solr_testresults/}"
+if [ ! -d ${OUT_DIR} ] ; then
+    mkdir -p ${OUT_DIR}
+fi
+
+if [ -d ./solr_benchmark_report ] ; then
+    OUT_FILE="solr_benchmark_report_${USER_NUM}users"
+    mv ./solr_benchmark_report ${OUT_DIR}/${OUT_FILE}
+    echo "Please check test report under ${OUT_DIR}/${OUT_FILE}"
+fi
