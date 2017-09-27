@@ -34,6 +34,11 @@ curl -X POST -H 'Content-type:application/json' --data-binary \
       '{"set-property": { "query.fieldValueCache.size":10240000, "query.fieldValueCache.initialSize":10240000, "query.fieldValueCache.autowarmCount":4096}}' \
       http://${host}:${port}/solr/${core}/config
 
+######### create chinese field type ############################################################
+curl -X POST -H 'Content-type:application/json' --data-binary \
+      '{"add-field-type": { "name":"text-smartcn", "class": "solr.TextField", "analyzer":{ "tokenizer": {"class":"solr.HMMChineseTokenizerFactory"}, "filter":[{"class":"solr.SmartChineseWordTokenFilterFactory"}, {"class":"solr.CJKWidthFilterFactory", "words":"org/apache/lucene/analysis/cn/smart/stopwords.txt"},{"class":"solr.PorterStemFilterFactory"},{"class":"solr.LowerCaseFilterFactory"}]}}}' \
+      http://${host}:${port}/solr/${core}/schema
+
 ######### create e-commerce core fields ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
       '{"add-field": { "name":"productid", "type":"int", "stored":true,  "indexed":true}}' \
@@ -44,15 +49,15 @@ curl -X POST -H 'Content-type:application/json' --data-binary \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"title", "type":"string", "stored":true, "indexed":true}}'     \
+     '{"add-field": {"name":"title", "type":"text-smartcn", "stored":true, "indexed":true}}'     \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"description", "type":"string", "stored":true, "indexed":true}}'  \
+     '{"add-field": {"name":"description", "type":"text-smartcn", "stored":true, "indexed":true}}'  \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"manufacturer","type":"string", "stored":true,"indexed":true}}'  \
+     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":true,"indexed":true}}'  \
      http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary  \
@@ -64,7 +69,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary  \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"size","type":"string","stored":true,"indexed":false}}'           \
+     '{"add-field": {"name":"size","type":"text-smartcn","stored":true,"indexed":false}}'           \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
