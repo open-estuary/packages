@@ -17,6 +17,23 @@ fi
 
 sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
 
+######### update e-commerce cache_size ########################################################
+curl -X POST -H 'Content-type:application/json' --data-binary \
+      '{"set-property": { "query.filterCache.size":10240000, "query.filterCache.initialSize":10240000, "query.filterCache.autowarmCount":4096}}' \
+      http://${host}:${port}/solr/${core}/config
+
+curl -X POST -H 'Content-type:application/json' --data-binary \
+      '{"set-property": { "query.queryResultCache.size":10240000, "query.queryResultCache.initialSize":10240000, "query.queryResultCache.autowarmCount":4096}}' \
+      http://${host}:${port}/solr/${core}/config
+
+curl -X POST -H 'Content-type:application/json' --data-binary \
+      '{"set-property": { "query.documentCache.size":10240000, "query.documentCache.initialSize":10240000, "query.documentCache.autowarmCount":4096}}' \
+      http://${host}:${port}/solr/${core}/config
+
+curl -X POST -H 'Content-type:application/json' --data-binary \
+      '{"set-property": { "query.fieldValueCache.size":10240000, "query.fieldValueCache.initialSize":10240000, "query.fieldValueCache.autowarmCount":4096}}' \
+      http://${host}:${port}/solr/${core}/config
+
 ######### create e-commerce core fields ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
       '{"add-field": { "name":"productid", "type":"int", "stored":true,  "indexed":true}}' \
