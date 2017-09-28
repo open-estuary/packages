@@ -45,11 +45,12 @@ public class ShoppingCartController {
             shoppingCartService.addShoppingCartAndSKU(shoppingCartDTO);
         } catch (InsertException e) {
             e.printStackTrace();
-            logger.info("create exception !");
+            logger.error("create exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -68,10 +69,11 @@ public class ShoppingCartController {
             shoppingCartDTO = shoppingCartService.getShoppingCart(userId);
         } catch (SearchException e) {
             e.printStackTrace();
-            logger.info("get exception !");
+            logger.error("get exception !");
             return null;
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("exception !");
             return null;
         }
         return shoppingCartDTO;
@@ -91,11 +93,12 @@ public class ShoppingCartController {
             shoppingCartService.deleteShoppingCartAndSKU(userId);
         } catch (DeleteException e) {
             e.printStackTrace();
-            logger.info("delete exception !");
+            logger.error("delete exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -114,11 +117,11 @@ public class ShoppingCartController {
             returnShoppingCartDTO = shoppingCartService.updateShoppingCartAndSKU(type, shoppingCartDTO);
         } catch (UpdateException e) {
             e.printStackTrace();
-            logger.info("delete exception !");
+            logger.error("update exception !");
             return null;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("delete exception !");
+            logger.error("exception !");
             return null;
         }
         return returnShoppingCartDTO;
@@ -130,7 +133,7 @@ public class ShoppingCartController {
             logger.info("create success !");
         } else{
             status.setStatus(ExcuteStatusEnum.FAILURE);
-            logger.info("create fail !");
+            logger.error("create fail !");
         }
         return status;
     }

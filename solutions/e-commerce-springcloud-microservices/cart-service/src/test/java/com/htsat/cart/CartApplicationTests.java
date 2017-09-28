@@ -120,7 +120,7 @@ public class CartApplicationTests {
 	@Test
 	public void updateShoppingCartTest() {
 		try {
-			sendUpdateShoppingCartPost("http://localhost:8001/carts/1");
+			sendUpdateShoppingCartPost("http://localhost:8001/carts/3");
 		} catch (Exception e) {
 
 		}
