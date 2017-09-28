@@ -4,11 +4,18 @@ import com.htsat.order.dto.DeliveryDTO;
 import com.htsat.order.dto.OrderDTO;
 import com.htsat.order.dto.StatusDTO;
 import com.htsat.order.enums.ExcuteStatusEnum;
+import com.htsat.order.exception.DeleteException;
+import com.htsat.order.exception.InsertException;
+import com.htsat.order.exception.SearchException;
+import com.htsat.order.exception.UpdateException;
 import com.htsat.order.service.IAddressService;
 import com.htsat.order.service.IOrderService;
 import com.htsat.order.service.IUserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +53,14 @@ public class OrderController {
 
         try {
             orderService.createOrderAndDeliveryAndOrderSKU(orderDTO);
+        } catch (InsertException e) {
+            e.printStackTrace();
+            logger.error("create exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("create exception !");
+            logger.error("exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -62,9 +74,13 @@ public class OrderController {
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderId);
+        } catch (SearchException e) {
+            e.printStackTrace();
+            logger.error("search exception !");
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("get exception !");
+            logger.error("exception !");
             return null;
         }
         return orderDTO;
@@ -80,9 +96,14 @@ public class OrderController {
         }
         try {
             orderService.deleteOrderAndDeliveryAndOrderSKU(orderId);
+        } catch (DeleteException e) {
+            e.printStackTrace();
+            logger.error("delete exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("delete exception !");
+            logger.error("exception !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -99,9 +120,13 @@ public class OrderController {
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.updateOrderDelivery(orderId, deliveryStatus);
+        } catch (UpdateException e) {
+            e.printStackTrace();
+            logger.error("update delivery exception !");
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("update delivery exception !");
+            logger.error("delivery exception !");
             return null;
         }
         return orderDTO;
@@ -116,9 +141,13 @@ public class OrderController {
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.updateOrderPayment(userId, orderId, cardId, paymentPassword);
+        } catch (UpdateException e) {
+            e.printStackTrace();
+            logger.error("update payment exception !");
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("update payment exception !");
+            logger.error("payment exception !");
             return null;
         }
         return orderDTO;

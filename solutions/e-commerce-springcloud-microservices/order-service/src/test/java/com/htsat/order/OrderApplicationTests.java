@@ -106,7 +106,7 @@ public class OrderApplicationTests {
 	@Test
 	public void testDelete() throws IOException {
 
-		URL url = new URL("http://localhost:8000/orders/1/12");
+		URL url = new URL("http://localhost:8000/orders/1/13");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("DELETE");
 		connection.setDoInput(true);
@@ -134,7 +134,7 @@ public class OrderApplicationTests {
 	@Test
 	public void updateOrderTest() {
 		try {
-			sendUpdateOrderPost("http://localhost:8000/orders/delivery/1/11/1");
+			sendUpdateOrderPost("http://localhost:8000/orders/delivery/1/14/1");
 		} catch (Exception e) {
 
 		}
@@ -143,7 +143,7 @@ public class OrderApplicationTests {
 	@Test
 	public void updateOrderPaymentTest() {
 		try {
-			sendUpdateOrderPost("http://localhost:8000/orders/payment/1/11/301/123456");
+			sendUpdateOrderPost("http://localhost:8000/orders/payment/1/14/301/123456");
 		} catch (Exception e) {
 
 		}
