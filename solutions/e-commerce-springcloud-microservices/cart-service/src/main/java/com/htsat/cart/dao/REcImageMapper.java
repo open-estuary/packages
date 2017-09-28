@@ -10,7 +10,7 @@ public interface REcImageMapper {
 
     int deleteByExample(REcImageExample example);
 
-    int deleteByPrimaryKey(Integer nimageid);
+    int deleteByPrimaryKey(Long nimageid);
 
     int insert(REcImage record);
 
@@ -18,7 +18,7 @@ public interface REcImageMapper {
 
     List<REcImage> selectByExample(REcImageExample example);
 
-    REcImage selectByPrimaryKey(Integer nimageid);
+    REcImage selectByPrimaryKey(Long nimageid);
 
     int updateByExampleSelective(@Param("record") REcImage record, @Param("example") REcImageExample example);
 

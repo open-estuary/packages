@@ -105,73 +105,123 @@ public class REcOrderskuExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andSorderidIsNull() {
-            addCriterion("sOrderID is null");
+        public Criteria andNorderskuidIsNull() {
+            addCriterion("nOrderSKUID is null");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidIsNotNull() {
-            addCriterion("sOrderID is not null");
+        public Criteria andNorderskuidIsNotNull() {
+            addCriterion("nOrderSKUID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidEqualTo(String value) {
-            addCriterion("sOrderID =", value, "sorderid");
+        public Criteria andNorderskuidEqualTo(Long value) {
+            addCriterion("nOrderSKUID =", value, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidNotEqualTo(String value) {
-            addCriterion("sOrderID <>", value, "sorderid");
+        public Criteria andNorderskuidNotEqualTo(Long value) {
+            addCriterion("nOrderSKUID <>", value, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidGreaterThan(String value) {
-            addCriterion("sOrderID >", value, "sorderid");
+        public Criteria andNorderskuidGreaterThan(Long value) {
+            addCriterion("nOrderSKUID >", value, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidGreaterThanOrEqualTo(String value) {
-            addCriterion("sOrderID >=", value, "sorderid");
+        public Criteria andNorderskuidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nOrderSKUID >=", value, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidLessThan(String value) {
-            addCriterion("sOrderID <", value, "sorderid");
+        public Criteria andNorderskuidLessThan(Long value) {
+            addCriterion("nOrderSKUID <", value, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidLessThanOrEqualTo(String value) {
-            addCriterion("sOrderID <=", value, "sorderid");
+        public Criteria andNorderskuidLessThanOrEqualTo(Long value) {
+            addCriterion("nOrderSKUID <=", value, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidLike(String value) {
-            addCriterion("sOrderID like", value, "sorderid");
+        public Criteria andNorderskuidIn(List<Long> values) {
+            addCriterion("nOrderSKUID in", values, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidNotLike(String value) {
-            addCriterion("sOrderID not like", value, "sorderid");
+        public Criteria andNorderskuidNotIn(List<Long> values) {
+            addCriterion("nOrderSKUID not in", values, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidIn(List<String> values) {
-            addCriterion("sOrderID in", values, "sorderid");
+        public Criteria andNorderskuidBetween(Long value1, Long value2) {
+            addCriterion("nOrderSKUID between", value1, value2, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidNotIn(List<String> values) {
-            addCriterion("sOrderID not in", values, "sorderid");
+        public Criteria andNorderskuidNotBetween(Long value1, Long value2) {
+            addCriterion("nOrderSKUID not between", value1, value2, "norderskuid");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidBetween(String value1, String value2) {
-            addCriterion("sOrderID between", value1, value2, "sorderid");
+        public Criteria andNorderidIsNull() {
+            addCriterion("nOrderID is null");
             return (Criteria) this;
         }
 
-        public Criteria andSorderidNotBetween(String value1, String value2) {
-            addCriterion("sOrderID not between", value1, value2, "sorderid");
+        public Criteria andNorderidIsNotNull() {
+            addCriterion("nOrderID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidEqualTo(Long value) {
+            addCriterion("nOrderID =", value, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidNotEqualTo(Long value) {
+            addCriterion("nOrderID <>", value, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidGreaterThan(Long value) {
+            addCriterion("nOrderID >", value, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nOrderID >=", value, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidLessThan(Long value) {
+            addCriterion("nOrderID <", value, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidLessThanOrEqualTo(Long value) {
+            addCriterion("nOrderID <=", value, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidIn(List<Long> values) {
+            addCriterion("nOrderID in", values, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidNotIn(List<Long> values) {
+            addCriterion("nOrderID not in", values, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidBetween(Long value1, Long value2) {
+            addCriterion("nOrderID between", value1, value2, "norderid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNorderidNotBetween(Long value1, Long value2) {
+            addCriterion("nOrderID not between", value1, value2, "norderid");
             return (Criteria) this;
         }
 
@@ -185,52 +235,52 @@ public class REcOrderskuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNskuidEqualTo(Integer value) {
+        public Criteria andNskuidEqualTo(Long value) {
             addCriterion("nSKUID =", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidNotEqualTo(Integer value) {
+        public Criteria andNskuidNotEqualTo(Long value) {
             addCriterion("nSKUID <>", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidGreaterThan(Integer value) {
+        public Criteria andNskuidGreaterThan(Long value) {
             addCriterion("nSKUID >", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNskuidGreaterThanOrEqualTo(Long value) {
             addCriterion("nSKUID >=", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidLessThan(Integer value) {
+        public Criteria andNskuidLessThan(Long value) {
             addCriterion("nSKUID <", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidLessThanOrEqualTo(Integer value) {
+        public Criteria andNskuidLessThanOrEqualTo(Long value) {
             addCriterion("nSKUID <=", value, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidIn(List<Integer> values) {
+        public Criteria andNskuidIn(List<Long> values) {
             addCriterion("nSKUID in", values, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidNotIn(List<Integer> values) {
+        public Criteria andNskuidNotIn(List<Long> values) {
             addCriterion("nSKUID not in", values, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidBetween(Integer value1, Integer value2) {
+        public Criteria andNskuidBetween(Long value1, Long value2) {
             addCriterion("nSKUID between", value1, value2, "nskuid");
             return (Criteria) this;
         }
 
-        public Criteria andNskuidNotBetween(Integer value1, Integer value2) {
+        public Criteria andNskuidNotBetween(Long value1, Long value2) {
             addCriterion("nSKUID not between", value1, value2, "nskuid");
             return (Criteria) this;
         }
@@ -365,52 +415,52 @@ public class REcOrderskuExample {
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountEqualTo(Float value) {
+        public Criteria andNdiscountEqualTo(BigDecimal value) {
             addCriterion("nDiscount =", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotEqualTo(Float value) {
+        public Criteria andNdiscountNotEqualTo(BigDecimal value) {
             addCriterion("nDiscount <>", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountGreaterThan(Float value) {
+        public Criteria andNdiscountGreaterThan(BigDecimal value) {
             addCriterion("nDiscount >", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountGreaterThanOrEqualTo(Float value) {
+        public Criteria andNdiscountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("nDiscount >=", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountLessThan(Float value) {
+        public Criteria andNdiscountLessThan(BigDecimal value) {
             addCriterion("nDiscount <", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountLessThanOrEqualTo(Float value) {
+        public Criteria andNdiscountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("nDiscount <=", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountIn(List<Float> values) {
+        public Criteria andNdiscountIn(List<BigDecimal> values) {
             addCriterion("nDiscount in", values, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotIn(List<Float> values) {
+        public Criteria andNdiscountNotIn(List<BigDecimal> values) {
             addCriterion("nDiscount not in", values, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountBetween(Float value1, Float value2) {
+        public Criteria andNdiscountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("nDiscount between", value1, value2, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotBetween(Float value1, Float value2) {
+        public Criteria andNdiscountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("nDiscount not between", value1, value2, "ndiscount");
             return (Criteria) this;
         }

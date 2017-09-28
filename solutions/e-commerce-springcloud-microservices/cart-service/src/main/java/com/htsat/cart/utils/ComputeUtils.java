@@ -15,10 +15,14 @@ public class ComputeUtils {
         return quantity;
     }
 
-    public static float computeDiscount(List<SKUDTO> skuDTOList) {
-        float discount = 0;
+    public static BigDecimal computeDiscount(List<SKUDTO> skuDTOList) {
+        BigDecimal discount = new BigDecimal(0);
         for (int i = 0; i < skuDTOList.size(); i++) {
-            discount += skuDTOList.get(i).getDiscount() * skuDTOList.get(i).getQuantity();
+            BigDecimal quantity = new BigDecimal(skuDTOList.get(i).getQuantity());
+            BigDecimal sDiscount = skuDTOList.get(i).getDiscount();
+            if (sDiscount == null)
+                sDiscount = new BigDecimal(0);
+            discount = discount.add(sDiscount.multiply(quantity));
         }
         return discount;
     }

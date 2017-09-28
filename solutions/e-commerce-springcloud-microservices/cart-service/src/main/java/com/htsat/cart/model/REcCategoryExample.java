@@ -1,6 +1,7 @@
 package com.htsat.cart.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class REcCategoryExample {
@@ -351,6 +352,266 @@ public class REcCategoryExample {
 
         public Criteria andScategorynameNotBetween(String value1, String value2) {
             addCriterion("sCategoryName not between", value1, value2, "scategoryname");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeIsNull() {
+            addCriterion("sCode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeIsNotNull() {
+            addCriterion("sCode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeEqualTo(String value) {
+            addCriterion("sCode =", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeNotEqualTo(String value) {
+            addCriterion("sCode <>", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeGreaterThan(String value) {
+            addCriterion("sCode >", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeGreaterThanOrEqualTo(String value) {
+            addCriterion("sCode >=", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeLessThan(String value) {
+            addCriterion("sCode <", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeLessThanOrEqualTo(String value) {
+            addCriterion("sCode <=", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeLike(String value) {
+            addCriterion("sCode like", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeNotLike(String value) {
+            addCriterion("sCode not like", value, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeIn(List<String> values) {
+            addCriterion("sCode in", values, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeNotIn(List<String> values) {
+            addCriterion("sCode not in", values, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeBetween(String value1, String value2) {
+            addCriterion("sCode between", value1, value2, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andScodeNotBetween(String value1, String value2) {
+            addCriterion("sCode not between", value1, value2, "scode");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafIsNull() {
+            addCriterion("IsLeaf is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafIsNotNull() {
+            addCriterion("IsLeaf is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafEqualTo(String value) {
+            addCriterion("IsLeaf =", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafNotEqualTo(String value) {
+            addCriterion("IsLeaf <>", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafGreaterThan(String value) {
+            addCriterion("IsLeaf >", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafGreaterThanOrEqualTo(String value) {
+            addCriterion("IsLeaf >=", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafLessThan(String value) {
+            addCriterion("IsLeaf <", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafLessThanOrEqualTo(String value) {
+            addCriterion("IsLeaf <=", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafLike(String value) {
+            addCriterion("IsLeaf like", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafNotLike(String value) {
+            addCriterion("IsLeaf not like", value, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafIn(List<String> values) {
+            addCriterion("IsLeaf in", values, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafNotIn(List<String> values) {
+            addCriterion("IsLeaf not in", values, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafBetween(String value1, String value2) {
+            addCriterion("IsLeaf between", value1, value2, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsleafNotBetween(String value1, String value2) {
+            addCriterion("IsLeaf not between", value1, value2, "isleaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIsNull() {
+            addCriterion("dCreateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIsNotNull() {
+            addCriterion("dCreateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeEqualTo(Date value) {
+            addCriterion("dCreateTime =", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotEqualTo(Date value) {
+            addCriterion("dCreateTime <>", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeGreaterThan(Date value) {
+            addCriterion("dCreateTime >", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime >=", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeLessThan(Date value) {
+            addCriterion("dCreateTime <", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dCreateTime <=", value, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeIn(List<Date> values) {
+            addCriterion("dCreateTime in", values, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotIn(List<Date> values) {
+            addCriterion("dCreateTime not in", values, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime between", value1, value2, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDcreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dCreateTime not between", value1, value2, "dcreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIsNull() {
+            addCriterion("dUpdateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIsNotNull() {
+            addCriterion("dUpdateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeEqualTo(Date value) {
+            addCriterion("dUpdateTime =", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotEqualTo(Date value) {
+            addCriterion("dUpdateTime <>", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeGreaterThan(Date value) {
+            addCriterion("dUpdateTime >", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime >=", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeLessThan(Date value) {
+            addCriterion("dUpdateTime <", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("dUpdateTime <=", value, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeIn(List<Date> values) {
+            addCriterion("dUpdateTime in", values, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotIn(List<Date> values) {
+            addCriterion("dUpdateTime not in", values, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime between", value1, value2, "dupdatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDupdatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("dUpdateTime not between", value1, value2, "dupdatetime");
             return (Criteria) this;
         }
     }

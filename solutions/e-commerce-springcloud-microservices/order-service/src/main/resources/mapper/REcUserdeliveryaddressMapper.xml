@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.htsat.order.dao.REcUserdeliveryaddressMapper" >
   <resultMap id="BaseResultMap" type="com.htsat.order.model.REcUserdeliveryaddress" >
-    <id column="nAddressNo" property="naddressno" jdbcType="INTEGER" />
-    <result column="nUserID" property="nuserid" jdbcType="INTEGER" />
+    <id column="nAddressID" property="naddressid" jdbcType="BIGINT" />
+    <result column="nUserID" property="nuserid" jdbcType="BIGINT" />
     <result column="sFirstName" property="sfirstname" jdbcType="VARCHAR" />
     <result column="sLastName" property="slastname" jdbcType="VARCHAR" />
     <result column="sAddress" property="saddress" jdbcType="VARCHAR" />
@@ -12,6 +12,10 @@
     <result column="sCountry" property="scountry" jdbcType="VARCHAR" />
     <result column="sEmail" property="semail" jdbcType="VARCHAR" />
     <result column="sPhoneNo" property="sphoneno" jdbcType="VARCHAR" />
+    <result column="sDistrict" property="sdistrict" jdbcType="VARCHAR" />
+    <result column="dCreateTime" property="dcreatetime" jdbcType="TIMESTAMP" />
+    <result column="dUpdateTime" property="dupdatetime" jdbcType="TIMESTAMP" />
+    <result column="sZipCode" property="szipcode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    nAddressNo, nUserID, sFirstName, sLastName, sAddress, sCity, sProvince, sCountry, 
-    sEmail, sPhoneNo
+    nAddressID, nUserID, sFirstName, sLastName, sAddress, sCity, sProvince, sCountry, 
+    sEmail, sPhoneNo, sDistrict, dCreateTime, dUpdateTime, sZipCode
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcUserdeliveryaddressExample" >
     select
@@ -89,15 +93,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from r_ec_userdeliveryaddress
-    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+    where nAddressID = #{naddressid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from r_ec_userdeliveryaddress
-    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+    where nAddressID = #{naddressid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.htsat.order.model.REcUserdeliveryaddressExample" >
     delete from r_ec_userdeliveryaddress
@@ -106,20 +110,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
-    insert into r_ec_userdeliveryaddress (nAddressNo, nUserID, sFirstName, 
+    insert into r_ec_userdeliveryaddress (nAddressID, nUserID, sFirstName, 
       sLastName, sAddress, sCity, 
       sProvince, sCountry, sEmail, 
-      sPhoneNo)
-    values (#{naddressno,jdbcType=INTEGER}, #{nuserid,jdbcType=INTEGER}, #{sfirstname,jdbcType=VARCHAR}, 
+      sPhoneNo, sDistrict, dCreateTime, 
+      dUpdateTime, sZipCode)
+    values (#{naddressid,jdbcType=BIGINT}, #{nuserid,jdbcType=BIGINT}, #{sfirstname,jdbcType=VARCHAR}, 
       #{slastname,jdbcType=VARCHAR}, #{saddress,jdbcType=VARCHAR}, #{scity,jdbcType=VARCHAR}, 
       #{sprovince,jdbcType=VARCHAR}, #{scountry,jdbcType=VARCHAR}, #{semail,jdbcType=VARCHAR}, 
-      #{sphoneno,jdbcType=VARCHAR})
+      #{sphoneno,jdbcType=VARCHAR}, #{sdistrict,jdbcType=VARCHAR}, #{dcreatetime,jdbcType=TIMESTAMP}, 
+      #{dupdatetime,jdbcType=TIMESTAMP}, #{szipcode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
     insert into r_ec_userdeliveryaddress
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="naddressno != null" >
-        nAddressNo,
+      <if test="naddressid != null" >
+        nAddressID,
       </if>
       <if test="nuserid != null" >
         nUserID,
@@ -148,13 +154,25 @@
       <if test="sphoneno != null" >
         sPhoneNo,
       </if>
+      <if test="sdistrict != null" >
+        sDistrict,
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime,
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime,
+      </if>
+      <if test="szipcode != null" >
+        sZipCode,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="naddressno != null" >
-        #{naddressno,jdbcType=INTEGER},
+      <if test="naddressid != null" >
+        #{naddressid,jdbcType=BIGINT},
       </if>
       <if test="nuserid != null" >
-        #{nuserid,jdbcType=INTEGER},
+        #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sfirstname != null" >
         #{sfirstname,jdbcType=VARCHAR},
@@ -180,6 +198,18 @@
       <if test="sphoneno != null" >
         #{sphoneno,jdbcType=VARCHAR},
       </if>
+      <if test="sdistrict != null" >
+        #{sdistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="szipcode != null" >
+        #{szipcode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.htsat.order.model.REcUserdeliveryaddressExample" resultType="java.lang.Integer" >
@@ -191,11 +221,11 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update r_ec_userdeliveryaddress
     <set >
-      <if test="record.naddressno != null" >
-        nAddressNo = #{record.naddressno,jdbcType=INTEGER},
+      <if test="record.naddressid != null" >
+        nAddressID = #{record.naddressid,jdbcType=BIGINT},
       </if>
       <if test="record.nuserid != null" >
-        nUserID = #{record.nuserid,jdbcType=INTEGER},
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
       </if>
       <if test="record.sfirstname != null" >
         sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
@@ -221,6 +251,18 @@
       <if test="record.sphoneno != null" >
         sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR},
       </if>
+      <if test="record.sdistrict != null" >
+        sDistrict = #{record.sdistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dcreatetime != null" >
+        dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dupdatetime != null" >
+        dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.szipcode != null" >
+        sZipCode = #{record.szipcode,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -228,8 +270,8 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update r_ec_userdeliveryaddress
-    set nAddressNo = #{record.naddressno,jdbcType=INTEGER},
-      nUserID = #{record.nuserid,jdbcType=INTEGER},
+    set nAddressID = #{record.naddressid,jdbcType=BIGINT},
+      nUserID = #{record.nuserid,jdbcType=BIGINT},
       sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
       sLastName = #{record.slastname,jdbcType=VARCHAR},
       sAddress = #{record.saddress,jdbcType=VARCHAR},
@@ -237,7 +279,11 @@
       sProvince = #{record.sprovince,jdbcType=VARCHAR},
       sCountry = #{record.scountry,jdbcType=VARCHAR},
       sEmail = #{record.semail,jdbcType=VARCHAR},
-      sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR}
+      sPhoneNo = #{record.sphoneno,jdbcType=VARCHAR},
+      sDistrict = #{record.sdistrict,jdbcType=VARCHAR},
+      dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      sZipCode = #{record.szipcode,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -246,7 +292,7 @@
     update r_ec_userdeliveryaddress
     <set >
       <if test="nuserid != null" >
-        nUserID = #{nuserid,jdbcType=INTEGER},
+        nUserID = #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sfirstname != null" >
         sFirstName = #{sfirstname,jdbcType=VARCHAR},
@@ -272,12 +318,24 @@
       <if test="sphoneno != null" >
         sPhoneNo = #{sphoneno,jdbcType=VARCHAR},
       </if>
+      <if test="sdistrict != null" >
+        sDistrict = #{sdistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="szipcode != null" >
+        sZipCode = #{szipcode,jdbcType=VARCHAR},
+      </if>
     </set>
-    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+    where nAddressID = #{naddressid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcUserdeliveryaddress" >
     update r_ec_userdeliveryaddress
-    set nUserID = #{nuserid,jdbcType=INTEGER},
+    set nUserID = #{nuserid,jdbcType=BIGINT},
       sFirstName = #{sfirstname,jdbcType=VARCHAR},
       sLastName = #{slastname,jdbcType=VARCHAR},
       sAddress = #{saddress,jdbcType=VARCHAR},
@@ -285,7 +343,11 @@
       sProvince = #{sprovince,jdbcType=VARCHAR},
       sCountry = #{scountry,jdbcType=VARCHAR},
       sEmail = #{semail,jdbcType=VARCHAR},
-      sPhoneNo = #{sphoneno,jdbcType=VARCHAR}
-    where nAddressNo = #{naddressno,jdbcType=INTEGER}
+      sPhoneNo = #{sphoneno,jdbcType=VARCHAR},
+      sDistrict = #{sdistrict,jdbcType=VARCHAR},
+      dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      sZipCode = #{szipcode,jdbcType=VARCHAR}
+    where nAddressID = #{naddressid,jdbcType=BIGINT}
   </update>
 </mapper>

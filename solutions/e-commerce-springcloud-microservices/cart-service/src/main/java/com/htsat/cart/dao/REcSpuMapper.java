@@ -10,7 +10,7 @@ public interface REcSpuMapper {
 
     int deleteByExample(REcSpuExample example);
 
-    int deleteByPrimaryKey(Integer nspuid);
+    int deleteByPrimaryKey(Long nspuid);
 
     int insert(REcSpu record);
 
@@ -18,7 +18,7 @@ public interface REcSpuMapper {
 
     List<REcSpu> selectByExample(REcSpuExample example);
 
-    REcSpu selectByPrimaryKey(Integer nspuid);
+    REcSpu selectByPrimaryKey(Long nspuid);
 
     int updateByExampleSelective(@Param("record") REcSpu record, @Param("example") REcSpuExample example);
 

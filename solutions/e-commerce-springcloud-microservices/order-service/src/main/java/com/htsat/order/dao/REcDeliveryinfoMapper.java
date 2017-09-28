@@ -10,7 +10,7 @@ public interface REcDeliveryinfoMapper {
 
     int deleteByExample(REcDeliveryinfoExample example);
 
-    int deleteByPrimaryKey(String sdeliveryid);
+    int deleteByPrimaryKey(Long ndeliveryid);
 
     int insert(REcDeliveryinfo record);
 
@@ -18,7 +18,7 @@ public interface REcDeliveryinfoMapper {
 
     List<REcDeliveryinfo> selectByExample(REcDeliveryinfoExample example);
 
-    REcDeliveryinfo selectByPrimaryKey(String sdeliveryid);
+    REcDeliveryinfo selectByPrimaryKey(Long ndeliveryid);
 
     int updateByExampleSelective(@Param("record") REcDeliveryinfo record, @Param("example") REcDeliveryinfoExample example);
 

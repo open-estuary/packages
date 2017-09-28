@@ -1,23 +1,23 @@
 package com.htsat.order.model;
 
 public class REcOrderskuKey {
-    private String sorderid;
+    private Long norderid;
 
-    private Integer nskuid;
+    private Long nskuid;
 
-    public String getSorderid() {
-        return sorderid;
+    public Long getNorderid() {
+        return norderid;
     }
 
-    public void setSorderid(String sorderid) {
-        this.sorderid = sorderid == null ? null : sorderid.trim();
+    public void setNorderid(Long norderid) {
+        this.norderid = norderid;
     }
 
-    public Integer getNskuid() {
+    public Long getNskuid() {
         return nskuid;
     }
 
-    public void setNskuid(Integer nskuid) {
+    public void setNskuid(Long nskuid) {
         this.nskuid = nskuid;
     }
 }

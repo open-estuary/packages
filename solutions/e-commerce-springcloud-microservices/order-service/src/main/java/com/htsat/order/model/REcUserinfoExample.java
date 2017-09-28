@@ -142,52 +142,52 @@ public class REcUserinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andNuseridEqualTo(Integer value) {
+        public Criteria andNuseridEqualTo(Long value) {
             addCriterion("nUserID =", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotEqualTo(Integer value) {
+        public Criteria andNuseridNotEqualTo(Long value) {
             addCriterion("nUserID <>", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThan(Integer value) {
+        public Criteria andNuseridGreaterThan(Long value) {
             addCriterion("nUserID >", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNuseridGreaterThanOrEqualTo(Long value) {
             addCriterion("nUserID >=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThan(Integer value) {
+        public Criteria andNuseridLessThan(Long value) {
             addCriterion("nUserID <", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThanOrEqualTo(Integer value) {
+        public Criteria andNuseridLessThanOrEqualTo(Long value) {
             addCriterion("nUserID <=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridIn(List<Integer> values) {
+        public Criteria andNuseridIn(List<Long> values) {
             addCriterion("nUserID in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotIn(List<Integer> values) {
+        public Criteria andNuseridNotIn(List<Long> values) {
             addCriterion("nUserID not in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridBetween(Long value1, Long value2) {
             addCriterion("nUserID between", value1, value2, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridNotBetween(Long value1, Long value2) {
             addCriterion("nUserID not between", value1, value2, "nuserid");
             return (Criteria) this;
         }

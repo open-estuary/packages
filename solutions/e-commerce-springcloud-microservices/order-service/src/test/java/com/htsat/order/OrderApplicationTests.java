@@ -49,28 +49,35 @@ public class OrderApplicationTests {
 	private static String sendCreateShoppingCartPost(String url) throws IOException {
 
 		AddressDTO addressDTO = new AddressDTO();
-		addressDTO.setAddressId(101);
+		addressDTO.setNaddressid(101L);
 
 		DeliveryDTO deliveryDTO = new DeliveryDTO();
-		deliveryDTO.setDeliveryId("7001");
-		deliveryDTO.setExpressCompany("EMS");
-		deliveryDTO.setDeliveryPrice(new BigDecimal(100));
-//		deliveryDTO.setStatus(DeliveryStatusEnum.NORECEIVE.toString());
+		deliveryDTO.setSexpresscompany("EMS");
+		deliveryDTO.setNdeliveryprice(new BigDecimal(100));
+		deliveryDTO.setNaddressid(addressDTO.getNaddressid());
 
 		List<OrderSKUDTO> orderskuDTOList = new ArrayList<>();
 		OrderSKUDTO ordersku = new OrderSKUDTO();
-		ordersku.setSkuId(10001);
+		ordersku.setSkuId(10001L);
 		ordersku.setQuantity(5);
 		ordersku.setPrice(new BigDecimal(700));
 		ordersku.setOriginPrice(new BigDecimal(799));
-		ordersku.setDiscount(99);
+		ordersku.setDiscount(new BigDecimal(99));
+
+		OrderSKUDTO ordersku2 = new OrderSKUDTO();
+		ordersku2.setSkuId(10002L);
+		ordersku2.setQuantity(7);
+		ordersku2.setPrice(new BigDecimal(799));
+		ordersku2.setOriginPrice(new BigDecimal(799));
+		ordersku2.setDiscount(new BigDecimal(0));
+
 		orderskuDTOList.add(ordersku);
+		orderskuDTOList.add(ordersku2);
 
 		OrderDTO orderDTO = new OrderDTO();
-		orderDTO.setUserId(1);
-		orderDTO.setVersion("v1");
+		orderDTO.setUserId(1L);
 		orderDTO.setAddressDTO(addressDTO);
-		orderDTO.setCustomerMark("everything is good!");
+		orderDTO.setScustomermark("everything is good!");
 		orderDTO.setDeliveryDTO(deliveryDTO);
 		orderDTO.setOrderskudtoList(orderskuDTOList);
 
@@ -99,7 +106,7 @@ public class OrderApplicationTests {
 	@Test
 	public void testDelete() throws IOException {
 
-		URL url = new URL("http://localhost:8000/orders/1/1:2017-09-20-22:28:32");
+		URL url = new URL("http://localhost:8000/orders/1/13");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("DELETE");
 		connection.setDoInput(true);
@@ -124,39 +131,45 @@ public class OrderApplicationTests {
 		in.close();
 	}
 
-//	@Test
-//	public void updateOrderTest() {
-//		try {
-//			sendUpdateOrderPost("http://localhost:8000/orders/1/1:2017-09-21-10:03:42/1");
-//		} catch (Exception e) {
-//
-//		}
-//	}
-//
-//	private static String sendUpdateOrderPost(String url) throws IOException {
-//
-//
-//
-//		DefaultHttpClient httpClient = new DefaultHttpClient();
-//		HttpPost httpPost = new HttpPost(url);
-//		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
-//		String jsonstr = JSON.toJSONString(shoppingCart);
-//		StringEntity se = new StringEntity(jsonstr);
-//		se.setContentType("text/json");
-//		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-//		httpPost.setEntity(se);
-//		HttpResponse response = httpClient.execute(httpPost);
-//		//输出调用结果
-//		if (response != null && response.getStatusLine().getStatusCode() == 200) {
-//			String result = EntityUtils.toString(response.getEntity());
-//			// 生成 JSON 对象
-//			JSONObject obj = JSONObject.parseObject(result);
-//			String errorcode = obj.getString("errorcode");
-//			if ("000".equals(errorcode)) {
-//				System.out.println("addHkfishOrder_request_success");
-//			}
-//		}
-//		return "";
-//	}
+	@Test
+	public void updateOrderTest() {
+		try {
+			sendUpdateOrderPost("http://localhost:8000/orders/delivery/1/14/1");
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Test
+	public void updateOrderPaymentTest() {
+		try {
+			sendUpdateOrderPost("http://localhost:8000/orders/payment/1/14/301/123456");
+		} catch (Exception e) {
+
+		}
+	}
+
+	private static String sendUpdateOrderPost(String url) throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+		String jsonstr = JSON.toJSONString(null);
+		StringEntity se = new StringEntity(jsonstr);
+		se.setContentType("text/json");
+		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		httpPost.setEntity(se);
+		HttpResponse response = httpClient.execute(httpPost);
+		//输出调用结果
+		if (response != null && response.getStatusLine().getStatusCode() == 200) {
+			String result = EntityUtils.toString(response.getEntity());
+			// 生成 JSON 对象
+			JSONObject obj = JSONObject.parseObject(result);
+			String errorcode = obj.getString("errorcode");
+			if ("000".equals(errorcode)) {
+				System.out.println("addHkfishOrder_request_success");
+			}
+		}
+		return "";
+	}
 
 }

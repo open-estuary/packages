@@ -10,7 +10,7 @@ public interface REcUserinfoMapper {
 
     int deleteByExample(REcUserinfoExample example);
 
-    int deleteByPrimaryKey(Integer nuserid);
+    int deleteByPrimaryKey(Long nuserid);
 
     int insert(REcUserinfo record);
 
@@ -18,7 +18,7 @@ public interface REcUserinfoMapper {
 
     List<REcUserinfo> selectByExample(REcUserinfoExample example);
 
-    REcUserinfo selectByPrimaryKey(Integer nuserid);
+    REcUserinfo selectByPrimaryKey(Long nuserid);
 
     int updateByExampleSelective(@Param("record") REcUserinfo record, @Param("example") REcUserinfoExample example);
 

@@ -1,23 +1,23 @@
 package com.htsat.cart.model;
 
 public class REcCartskuKey {
-    private Integer nuserid;
+    private Long nshoppingcartid;
 
-    private Integer nproductid;
+    private Long nskuid;
 
-    public Integer getNuserid() {
-        return nuserid;
+    public Long getNshoppingcartid() {
+        return nshoppingcartid;
     }
 
-    public void setNuserid(Integer nuserid) {
-        this.nuserid = nuserid;
+    public void setNshoppingcartid(Long nshoppingcartid) {
+        this.nshoppingcartid = nshoppingcartid;
     }
 
-    public Integer getNproductid() {
-        return nproductid;
+    public Long getNskuid() {
+        return nskuid;
     }
 
-    public void setNproductid(Integer nproductid) {
-        this.nproductid = nproductid;
+    public void setNskuid(Long nskuid) {
+        this.nskuid = nskuid;
     }
 }

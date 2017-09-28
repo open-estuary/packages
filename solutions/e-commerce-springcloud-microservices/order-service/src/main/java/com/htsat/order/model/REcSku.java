@@ -1,11 +1,12 @@
 package com.htsat.order.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class REcSku {
-    private Integer nskuid;
+    private Long nskuid;
 
-    private Integer nspuid;
+    private Long nspuid;
 
     private String ncolor;
 
@@ -13,27 +14,31 @@ public class REcSku {
 
     private BigDecimal nprice;
 
-    private BigDecimal ndisplayPrice;
+    private BigDecimal ndisplayprice;
 
     private Integer ninventory;
 
-    private Float ndiscount;
+    private Long ndiscount;
 
     private String scurrency;
 
-    public Integer getNskuid() {
+    private Date dcreatetime;
+
+    private Date dupdatetime;
+
+    public Long getNskuid() {
         return nskuid;
     }
 
-    public void setNskuid(Integer nskuid) {
+    public void setNskuid(Long nskuid) {
         this.nskuid = nskuid;
     }
 
-    public Integer getNspuid() {
+    public Long getNspuid() {
         return nspuid;
     }
 
-    public void setNspuid(Integer nspuid) {
+    public void setNspuid(Long nspuid) {
         this.nspuid = nspuid;
     }
 
@@ -61,12 +66,12 @@ public class REcSku {
         this.nprice = nprice;
     }
 
-    public BigDecimal getNdisplayPrice() {
-        return ndisplayPrice;
+    public BigDecimal getNdisplayprice() {
+        return ndisplayprice;
     }
 
-    public void setNdisplayPrice(BigDecimal ndisplayPrice) {
-        this.ndisplayPrice = ndisplayPrice;
+    public void setNdisplayprice(BigDecimal ndisplayprice) {
+        this.ndisplayprice = ndisplayprice;
     }
 
     public Integer getNinventory() {
@@ -77,11 +82,11 @@ public class REcSku {
         this.ninventory = ninventory;
     }
 
-    public Float getNdiscount() {
+    public Long getNdiscount() {
         return ndiscount;
     }
 
-    public void setNdiscount(Float ndiscount) {
+    public void setNdiscount(Long ndiscount) {
         this.ndiscount = ndiscount;
     }
 
@@ -91,5 +96,21 @@ public class REcSku {
 
     public void setScurrency(String scurrency) {
         this.scurrency = scurrency == null ? null : scurrency.trim();
+    }
+
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
     }
 }

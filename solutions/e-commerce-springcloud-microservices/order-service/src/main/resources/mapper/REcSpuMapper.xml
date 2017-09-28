@@ -2,16 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.htsat.order.dao.REcSpuMapper" >
   <resultMap id="BaseResultMap" type="com.htsat.order.model.REcSpu" >
-    <id column="nSPUID" property="nspuid" jdbcType="INTEGER" />
+    <id column="nSPUID" property="nspuid" jdbcType="BIGINT" />
+    <result column="sSPUBriefName" property="sspubriefname" jdbcType="VARCHAR" />
     <result column="sSPUName" property="sspuname" jdbcType="VARCHAR" />
-    <result column="sAvailable_on" property="savailableOn" jdbcType="VARCHAR" />
-    <result column="slug" property="slug" jdbcType="VARCHAR" />
-    <result column="sMeta_description" property="smetaDescription" jdbcType="VARCHAR" />
-    <result column="sMeta_keywords" property="smetaKeywords" jdbcType="VARCHAR" />
-    <result column="nCategoryID" property="ncategoryid" jdbcType="INTEGER" />
-    <result column="nBrandID" property="nbrandid" jdbcType="INTEGER" />
-    <result column="nImageID" property="nimageid" jdbcType="INTEGER" />
+    <result column="sMetaKeywords" property="smetakeywords" jdbcType="VARCHAR" />
+    <result column="nCategoryID" property="ncategoryid" jdbcType="BIGINT" />
+    <result column="nBrandID" property="nbrandid" jdbcType="BIGINT" />
+    <result column="nImageID" property="nimageid" jdbcType="BIGINT" />
     <result column="sDescription" property="sdescription" jdbcType="VARCHAR" />
+    <result column="sCode" property="scode" jdbcType="VARCHAR" />
+    <result column="sIsVirtual" property="sisvirtual" jdbcType="CHAR" />
+    <result column="dCreateTime" property="dcreatetime" jdbcType="TIMESTAMP" />
+    <result column="dUpdateTime" property="dupdatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    nSPUID, sSPUName, sAvailable_on, slug, sMeta_description, sMeta_keywords, nCategoryID, 
-    nBrandID, nImageID, sDescription
+    nSPUID, sSPUBriefName, sSPUName, sMetaKeywords, nCategoryID, nBrandID, nImageID, 
+    sDescription, sCode, sIsVirtual, dCreateTime, dUpdateTime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcSpuExample" >
     select
@@ -89,15 +91,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from r_ec_spu
-    where nSPUID = #{nspuid,jdbcType=INTEGER}
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from r_ec_spu
-    where nSPUID = #{nspuid,jdbcType=INTEGER}
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.htsat.order.model.REcSpuExample" >
     delete from r_ec_spu
@@ -106,14 +108,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.htsat.order.model.REcSpu" >
-    insert into r_ec_spu (nSPUID, sSPUName, sAvailable_on, 
-      slug, sMeta_description, sMeta_keywords, 
-      nCategoryID, nBrandID, nImageID, 
-      sDescription)
-    values (#{nspuid,jdbcType=INTEGER}, #{sspuname,jdbcType=VARCHAR}, #{savailableOn,jdbcType=VARCHAR}, 
-      #{slug,jdbcType=VARCHAR}, #{smetaDescription,jdbcType=VARCHAR}, #{smetaKeywords,jdbcType=VARCHAR}, 
-      #{ncategoryid,jdbcType=INTEGER}, #{nbrandid,jdbcType=INTEGER}, #{nimageid,jdbcType=INTEGER}, 
-      #{sdescription,jdbcType=VARCHAR})
+    insert into r_ec_spu (nSPUID, sSPUBriefName, sSPUName, 
+      sMetaKeywords, nCategoryID, nBrandID, 
+      nImageID, sDescription, sCode, 
+      sIsVirtual, dCreateTime, dUpdateTime
+      )
+    values (#{nspuid,jdbcType=BIGINT}, #{sspubriefname,jdbcType=VARCHAR}, #{sspuname,jdbcType=VARCHAR}, 
+      #{smetakeywords,jdbcType=VARCHAR}, #{ncategoryid,jdbcType=BIGINT}, #{nbrandid,jdbcType=BIGINT}, 
+      #{nimageid,jdbcType=BIGINT}, #{sdescription,jdbcType=VARCHAR}, #{scode,jdbcType=VARCHAR}, 
+      #{sisvirtual,jdbcType=CHAR}, #{dcreatetime,jdbcType=TIMESTAMP}, #{dupdatetime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.htsat.order.model.REcSpu" >
     insert into r_ec_spu
@@ -121,20 +125,14 @@
       <if test="nspuid != null" >
         nSPUID,
       </if>
+      <if test="sspubriefname != null" >
+        sSPUBriefName,
+      </if>
       <if test="sspuname != null" >
         sSPUName,
       </if>
-      <if test="savailableOn != null" >
-        sAvailable_on,
-      </if>
-      <if test="slug != null" >
-        slug,
-      </if>
-      <if test="smetaDescription != null" >
-        sMeta_description,
-      </if>
-      <if test="smetaKeywords != null" >
-        sMeta_keywords,
+      <if test="smetakeywords != null" >
+        sMetaKeywords,
       </if>
       <if test="ncategoryid != null" >
         nCategoryID,
@@ -148,37 +146,55 @@
       <if test="sdescription != null" >
         sDescription,
       </if>
+      <if test="scode != null" >
+        sCode,
+      </if>
+      <if test="sisvirtual != null" >
+        sIsVirtual,
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime,
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="nspuid != null" >
-        #{nspuid,jdbcType=INTEGER},
+        #{nspuid,jdbcType=BIGINT},
+      </if>
+      <if test="sspubriefname != null" >
+        #{sspubriefname,jdbcType=VARCHAR},
       </if>
       <if test="sspuname != null" >
         #{sspuname,jdbcType=VARCHAR},
       </if>
-      <if test="savailableOn != null" >
-        #{savailableOn,jdbcType=VARCHAR},
-      </if>
-      <if test="slug != null" >
-        #{slug,jdbcType=VARCHAR},
-      </if>
-      <if test="smetaDescription != null" >
-        #{smetaDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="smetaKeywords != null" >
-        #{smetaKeywords,jdbcType=VARCHAR},
+      <if test="smetakeywords != null" >
+        #{smetakeywords,jdbcType=VARCHAR},
       </if>
       <if test="ncategoryid != null" >
-        #{ncategoryid,jdbcType=INTEGER},
+        #{ncategoryid,jdbcType=BIGINT},
       </if>
       <if test="nbrandid != null" >
-        #{nbrandid,jdbcType=INTEGER},
+        #{nbrandid,jdbcType=BIGINT},
       </if>
       <if test="nimageid != null" >
-        #{nimageid,jdbcType=INTEGER},
+        #{nimageid,jdbcType=BIGINT},
       </if>
       <if test="sdescription != null" >
         #{sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="scode != null" >
+        #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="sisvirtual != null" >
+        #{sisvirtual,jdbcType=CHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        #{dupdatetime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -192,34 +208,40 @@
     update r_ec_spu
     <set >
       <if test="record.nspuid != null" >
-        nSPUID = #{record.nspuid,jdbcType=INTEGER},
+        nSPUID = #{record.nspuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sspubriefname != null" >
+        sSPUBriefName = #{record.sspubriefname,jdbcType=VARCHAR},
       </if>
       <if test="record.sspuname != null" >
         sSPUName = #{record.sspuname,jdbcType=VARCHAR},
       </if>
-      <if test="record.savailableOn != null" >
-        sAvailable_on = #{record.savailableOn,jdbcType=VARCHAR},
-      </if>
-      <if test="record.slug != null" >
-        slug = #{record.slug,jdbcType=VARCHAR},
-      </if>
-      <if test="record.smetaDescription != null" >
-        sMeta_description = #{record.smetaDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="record.smetaKeywords != null" >
-        sMeta_keywords = #{record.smetaKeywords,jdbcType=VARCHAR},
+      <if test="record.smetakeywords != null" >
+        sMetaKeywords = #{record.smetakeywords,jdbcType=VARCHAR},
       </if>
       <if test="record.ncategoryid != null" >
-        nCategoryID = #{record.ncategoryid,jdbcType=INTEGER},
+        nCategoryID = #{record.ncategoryid,jdbcType=BIGINT},
       </if>
       <if test="record.nbrandid != null" >
-        nBrandID = #{record.nbrandid,jdbcType=INTEGER},
+        nBrandID = #{record.nbrandid,jdbcType=BIGINT},
       </if>
       <if test="record.nimageid != null" >
-        nImageID = #{record.nimageid,jdbcType=INTEGER},
+        nImageID = #{record.nimageid,jdbcType=BIGINT},
       </if>
       <if test="record.sdescription != null" >
         sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scode != null" >
+        sCode = #{record.scode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sisvirtual != null" >
+        sIsVirtual = #{record.sisvirtual,jdbcType=CHAR},
+      </if>
+      <if test="record.dcreatetime != null" >
+        dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dupdatetime != null" >
+        dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -228,16 +250,18 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update r_ec_spu
-    set nSPUID = #{record.nspuid,jdbcType=INTEGER},
+    set nSPUID = #{record.nspuid,jdbcType=BIGINT},
+      sSPUBriefName = #{record.sspubriefname,jdbcType=VARCHAR},
       sSPUName = #{record.sspuname,jdbcType=VARCHAR},
-      sAvailable_on = #{record.savailableOn,jdbcType=VARCHAR},
-      slug = #{record.slug,jdbcType=VARCHAR},
-      sMeta_description = #{record.smetaDescription,jdbcType=VARCHAR},
-      sMeta_keywords = #{record.smetaKeywords,jdbcType=VARCHAR},
-      nCategoryID = #{record.ncategoryid,jdbcType=INTEGER},
-      nBrandID = #{record.nbrandid,jdbcType=INTEGER},
-      nImageID = #{record.nimageid,jdbcType=INTEGER},
-      sDescription = #{record.sdescription,jdbcType=VARCHAR}
+      sMetaKeywords = #{record.smetakeywords,jdbcType=VARCHAR},
+      nCategoryID = #{record.ncategoryid,jdbcType=BIGINT},
+      nBrandID = #{record.nbrandid,jdbcType=BIGINT},
+      nImageID = #{record.nimageid,jdbcType=BIGINT},
+      sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      sCode = #{record.scode,jdbcType=VARCHAR},
+      sIsVirtual = #{record.sisvirtual,jdbcType=CHAR},
+      dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -245,47 +269,55 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcSpu" >
     update r_ec_spu
     <set >
+      <if test="sspubriefname != null" >
+        sSPUBriefName = #{sspubriefname,jdbcType=VARCHAR},
+      </if>
       <if test="sspuname != null" >
         sSPUName = #{sspuname,jdbcType=VARCHAR},
       </if>
-      <if test="savailableOn != null" >
-        sAvailable_on = #{savailableOn,jdbcType=VARCHAR},
-      </if>
-      <if test="slug != null" >
-        slug = #{slug,jdbcType=VARCHAR},
-      </if>
-      <if test="smetaDescription != null" >
-        sMeta_description = #{smetaDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="smetaKeywords != null" >
-        sMeta_keywords = #{smetaKeywords,jdbcType=VARCHAR},
+      <if test="smetakeywords != null" >
+        sMetaKeywords = #{smetakeywords,jdbcType=VARCHAR},
       </if>
       <if test="ncategoryid != null" >
-        nCategoryID = #{ncategoryid,jdbcType=INTEGER},
+        nCategoryID = #{ncategoryid,jdbcType=BIGINT},
       </if>
       <if test="nbrandid != null" >
-        nBrandID = #{nbrandid,jdbcType=INTEGER},
+        nBrandID = #{nbrandid,jdbcType=BIGINT},
       </if>
       <if test="nimageid != null" >
-        nImageID = #{nimageid,jdbcType=INTEGER},
+        nImageID = #{nimageid,jdbcType=BIGINT},
       </if>
       <if test="sdescription != null" >
         sDescription = #{sdescription,jdbcType=VARCHAR},
       </if>
+      <if test="scode != null" >
+        sCode = #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="sisvirtual != null" >
+        sIsVirtual = #{sisvirtual,jdbcType=CHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
     </set>
-    where nSPUID = #{nspuid,jdbcType=INTEGER}
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcSpu" >
     update r_ec_spu
-    set sSPUName = #{sspuname,jdbcType=VARCHAR},
-      sAvailable_on = #{savailableOn,jdbcType=VARCHAR},
-      slug = #{slug,jdbcType=VARCHAR},
-      sMeta_description = #{smetaDescription,jdbcType=VARCHAR},
-      sMeta_keywords = #{smetaKeywords,jdbcType=VARCHAR},
-      nCategoryID = #{ncategoryid,jdbcType=INTEGER},
-      nBrandID = #{nbrandid,jdbcType=INTEGER},
-      nImageID = #{nimageid,jdbcType=INTEGER},
-      sDescription = #{sdescription,jdbcType=VARCHAR}
-    where nSPUID = #{nspuid,jdbcType=INTEGER}
+    set sSPUBriefName = #{sspubriefname,jdbcType=VARCHAR},
+      sSPUName = #{sspuname,jdbcType=VARCHAR},
+      sMetaKeywords = #{smetakeywords,jdbcType=VARCHAR},
+      nCategoryID = #{ncategoryid,jdbcType=BIGINT},
+      nBrandID = #{nbrandid,jdbcType=BIGINT},
+      nImageID = #{nimageid,jdbcType=BIGINT},
+      sDescription = #{sdescription,jdbcType=VARCHAR},
+      sCode = #{scode,jdbcType=VARCHAR},
+      sIsVirtual = #{sisvirtual,jdbcType=CHAR},
+      dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP}
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
   </update>
 </mapper>

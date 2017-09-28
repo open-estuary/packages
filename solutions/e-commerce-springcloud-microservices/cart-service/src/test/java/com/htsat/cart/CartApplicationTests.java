@@ -50,17 +50,17 @@ public class CartApplicationTests {
 
 	private static String sendCreateShoppingCartPost(String url) throws IOException {
 		ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
-		shoppingCart.setUserId(1);
+		shoppingCart.setUserId(1L);
 		shoppingCart.setCurrency("RMB");
 		SKUDTO sku1 = new SKUDTO();
-		sku1.setSkuId(10003);
-		sku1.setDiscount(99);
+		sku1.setSkuId(10001L);
+		sku1.setDiscount(new BigDecimal(99));
 		sku1.setDisplayPrice(new BigDecimal(700));
-		sku1.setQuantity(10);
+		sku1.setQuantity(5);
 		SKUDTO sku2 = new SKUDTO();
-		sku2.setSkuId(10004);
+		sku2.setSkuId(10002L);
 		sku2.setDisplayPrice(new BigDecimal(799));
-		sku2.setQuantity(10);
+		sku2.setQuantity(8);
 
 		List<SKUDTO> skuList = new ArrayList<>();
 		skuList.add(sku1);
@@ -128,13 +128,13 @@ public class CartApplicationTests {
 
 	private static String sendUpdateShoppingCartPost(String url) throws IOException {
 		ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
-		shoppingCart.setUserId(1);
+		shoppingCart.setUserId(1L);
 
 		SKUDTO sku1 = new SKUDTO();
-		sku1.setSkuId(10001);
+		sku1.setSkuId(10003L);
 		sku1.setDisplayPrice(new BigDecimal(799));
-		sku1.setDiscount(0);
-		sku1.setQuantity(8);
+		sku1.setDiscount(new BigDecimal(0));
+		sku1.setQuantity(10);
 
 
 //		SKUDTO sku2 = new SKUDTO();

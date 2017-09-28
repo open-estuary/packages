@@ -106,6 +106,66 @@ public class REcShoppingcartExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andNshoppingcartidIsNull() {
+            addCriterion("nShoppingCartID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidIsNotNull() {
+            addCriterion("nShoppingCartID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidEqualTo(Long value) {
+            addCriterion("nShoppingCartID =", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidNotEqualTo(Long value) {
+            addCriterion("nShoppingCartID <>", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidGreaterThan(Long value) {
+            addCriterion("nShoppingCartID >", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nShoppingCartID >=", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidLessThan(Long value) {
+            addCriterion("nShoppingCartID <", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidLessThanOrEqualTo(Long value) {
+            addCriterion("nShoppingCartID <=", value, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidIn(List<Long> values) {
+            addCriterion("nShoppingCartID in", values, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidNotIn(List<Long> values) {
+            addCriterion("nShoppingCartID not in", values, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidBetween(Long value1, Long value2) {
+            addCriterion("nShoppingCartID between", value1, value2, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNshoppingcartidNotBetween(Long value1, Long value2) {
+            addCriterion("nShoppingCartID not between", value1, value2, "nshoppingcartid");
+            return (Criteria) this;
+        }
+
         public Criteria andNuseridIsNull() {
             addCriterion("nUserID is null");
             return (Criteria) this;
@@ -116,52 +176,52 @@ public class REcShoppingcartExample {
             return (Criteria) this;
         }
 
-        public Criteria andNuseridEqualTo(Integer value) {
+        public Criteria andNuseridEqualTo(Long value) {
             addCriterion("nUserID =", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotEqualTo(Integer value) {
+        public Criteria andNuseridNotEqualTo(Long value) {
             addCriterion("nUserID <>", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThan(Integer value) {
+        public Criteria andNuseridGreaterThan(Long value) {
             addCriterion("nUserID >", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNuseridGreaterThanOrEqualTo(Long value) {
             addCriterion("nUserID >=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThan(Integer value) {
+        public Criteria andNuseridLessThan(Long value) {
             addCriterion("nUserID <", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridLessThanOrEqualTo(Integer value) {
+        public Criteria andNuseridLessThanOrEqualTo(Long value) {
             addCriterion("nUserID <=", value, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridIn(List<Integer> values) {
+        public Criteria andNuseridIn(List<Long> values) {
             addCriterion("nUserID in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotIn(List<Integer> values) {
+        public Criteria andNuseridNotIn(List<Long> values) {
             addCriterion("nUserID not in", values, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridBetween(Long value1, Long value2) {
             addCriterion("nUserID between", value1, value2, "nuserid");
             return (Criteria) this;
         }
 
-        public Criteria andNuseridNotBetween(Integer value1, Integer value2) {
+        public Criteria andNuseridNotBetween(Long value1, Long value2) {
             addCriterion("nUserID not between", value1, value2, "nuserid");
             return (Criteria) this;
         }
@@ -236,52 +296,52 @@ public class REcShoppingcartExample {
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountEqualTo(Float value) {
+        public Criteria andNdiscountEqualTo(BigDecimal value) {
             addCriterion("nDiscount =", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotEqualTo(Float value) {
+        public Criteria andNdiscountNotEqualTo(BigDecimal value) {
             addCriterion("nDiscount <>", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountGreaterThan(Float value) {
+        public Criteria andNdiscountGreaterThan(BigDecimal value) {
             addCriterion("nDiscount >", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountGreaterThanOrEqualTo(Float value) {
+        public Criteria andNdiscountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("nDiscount >=", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountLessThan(Float value) {
+        public Criteria andNdiscountLessThan(BigDecimal value) {
             addCriterion("nDiscount <", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountLessThanOrEqualTo(Float value) {
+        public Criteria andNdiscountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("nDiscount <=", value, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountIn(List<Float> values) {
+        public Criteria andNdiscountIn(List<BigDecimal> values) {
             addCriterion("nDiscount in", values, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotIn(List<Float> values) {
+        public Criteria andNdiscountNotIn(List<BigDecimal> values) {
             addCriterion("nDiscount not in", values, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountBetween(Float value1, Float value2) {
+        public Criteria andNdiscountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("nDiscount between", value1, value2, "ndiscount");
             return (Criteria) this;
         }
 
-        public Criteria andNdiscountNotBetween(Float value1, Float value2) {
+        public Criteria andNdiscountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("nDiscount not between", value1, value2, "ndiscount");
             return (Criteria) this;
         }
@@ -473,6 +533,66 @@ public class REcShoppingcartExample {
 
         public Criteria andNtotalpriceNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("nTotalPrice not between", value1, value2, "ntotalprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeIsNull() {
+            addCriterion("nCreateTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeIsNotNull() {
+            addCriterion("nCreateTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeEqualTo(Date value) {
+            addCriterion("nCreateTime =", value, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeNotEqualTo(Date value) {
+            addCriterion("nCreateTime <>", value, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeGreaterThan(Date value) {
+            addCriterion("nCreateTime >", value, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("nCreateTime >=", value, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeLessThan(Date value) {
+            addCriterion("nCreateTime <", value, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("nCreateTime <=", value, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeIn(List<Date> values) {
+            addCriterion("nCreateTime in", values, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeNotIn(List<Date> values) {
+            addCriterion("nCreateTime not in", values, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeBetween(Date value1, Date value2) {
+            addCriterion("nCreateTime between", value1, value2, "ncreatetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNcreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("nCreateTime not between", value1, value2, "ncreatetime");
             return (Criteria) this;
         }
     }

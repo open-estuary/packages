@@ -4,85 +4,81 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class REcOrderinfo {
-    private String sorderid;
+    private Long norderid;
 
-    private Integer nuserid;
+    private Long nuserid;
 
-    private String sparentorderid;
+    private Long sparentorderid;
 
-    private String cpaymentmethod;
+    private Short cpaymentmethod;
 
-    private String spaymentmethodtitle;
-
-    private Float ndiscount;
+    private BigDecimal ndiscount;
 
     private Integer ntotalquantity;
 
     private BigDecimal ntotalprice;
 
-    private String sversion;
+    private Short cstatus;
 
-    private Integer naddressno;
+    private Date screatetime;
 
-    private String cstatus;
+    private Date supdatetime;
 
-    private Date sdateCreated;
-
-    private Date sdateModified;
-
-    private Date sdatePaid;
-
-    private Date sdateCompleted;
+    private Date scompletedtime;
 
     private String scustomermark;
 
-    private String sdeliveryid;
+    private Long ndeliveryid;
 
-    public String getSorderid() {
-        return sorderid;
+    private String sordercode;
+
+    private String sshopcode;
+
+    private Short sordertype;
+
+    private Date dpaymenttime;
+
+    private Short sordersource;
+
+    private Long naddressid;
+
+    public Long getNorderid() {
+        return norderid;
     }
 
-    public void setSorderid(String sorderid) {
-        this.sorderid = sorderid == null ? null : sorderid.trim();
+    public void setNorderid(Long norderid) {
+        this.norderid = norderid;
     }
 
-    public Integer getNuserid() {
+    public Long getNuserid() {
         return nuserid;
     }
 
-    public void setNuserid(Integer nuserid) {
+    public void setNuserid(Long nuserid) {
         this.nuserid = nuserid;
     }
 
-    public String getSparentorderid() {
+    public Long getSparentorderid() {
         return sparentorderid;
     }
 
-    public void setSparentorderid(String sparentorderid) {
-        this.sparentorderid = sparentorderid == null ? null : sparentorderid.trim();
+    public void setSparentorderid(Long sparentorderid) {
+        this.sparentorderid = sparentorderid;
     }
 
-    public String getCpaymentmethod() {
+    public Short getCpaymentmethod() {
         return cpaymentmethod;
     }
 
-    public void setCpaymentmethod(String cpaymentmethod) {
-        this.cpaymentmethod = cpaymentmethod == null ? null : cpaymentmethod.trim();
+    public void setCpaymentmethod(Short cpaymentmethod) {
+        this.cpaymentmethod = cpaymentmethod;
     }
 
-    public String getSpaymentmethodtitle() {
-        return spaymentmethodtitle;
-    }
-
-    public void setSpaymentmethodtitle(String spaymentmethodtitle) {
-        this.spaymentmethodtitle = spaymentmethodtitle == null ? null : spaymentmethodtitle.trim();
-    }
-
-    public Float getNdiscount() {
+    public BigDecimal getNdiscount() {
         return ndiscount;
     }
 
-    public void setNdiscount(Float ndiscount) {
+    public void setNdiscount(BigDecimal ndiscount) {
         this.ndiscount = ndiscount;
     }
 
@@ -102,60 +98,36 @@ public class REcOrderinfo {
         this.ntotalprice = ntotalprice;
     }
 
-    public String getSversion() {
-        return sversion;
-    }
-
-    public void setSversion(String sversion) {
-        this.sversion = sversion == null ? null : sversion.trim();
-    }
-
-    public Integer getNaddressno() {
-        return naddressno;
-    }
-
-    public void setNaddressno(Integer naddressno) {
-        this.naddressno = naddressno;
-    }
-
-    public String getCstatus() {
+    public Short getCstatus() {
         return cstatus;
     }
 
-    public void setCstatus(String cstatus) {
-        this.cstatus = cstatus == null ? null : cstatus.trim();
+    public void setCstatus(Short cstatus) {
+        this.cstatus = cstatus;
     }
 
-    public Date getSdateCreated() {
-        return sdateCreated;
+    public Date getScreatetime() {
+        return screatetime;
     }
 
-    public void setSdateCreated(Date sdateCreated) {
-        this.sdateCreated = sdateCreated;
+    public void setScreatetime(Date screatetime) {
+        this.screatetime = screatetime;
     }
 
-    public Date getSdateModified() {
-        return sdateModified;
+    public Date getSupdatetime() {
+        return supdatetime;
     }
 
-    public void setSdateModified(Date sdateModified) {
-        this.sdateModified = sdateModified;
+    public void setSupdatetime(Date supdatetime) {
+        this.supdatetime = supdatetime;
     }
 
-    public Date getSdatePaid() {
-        return sdatePaid;
+    public Date getScompletedtime() {
+        return scompletedtime;
     }
 
-    public void setSdatePaid(Date sdatePaid) {
-        this.sdatePaid = sdatePaid;
-    }
-
-    public Date getSdateCompleted() {
-        return sdateCompleted;
-    }
-
-    public void setSdateCompleted(Date sdateCompleted) {
-        this.sdateCompleted = sdateCompleted;
+    public void setScompletedtime(Date scompletedtime) {
+        this.scompletedtime = scompletedtime;
     }
 
     public String getScustomermark() {
@@ -166,11 +138,59 @@ public class REcOrderinfo {
         this.scustomermark = scustomermark == null ? null : scustomermark.trim();
     }
 
-    public String getSdeliveryid() {
-        return sdeliveryid;
+    public Long getNdeliveryid() {
+        return ndeliveryid;
     }
 
-    public void setSdeliveryid(String sdeliveryid) {
-        this.sdeliveryid = sdeliveryid == null ? null : sdeliveryid.trim();
+    public void setNdeliveryid(Long ndeliveryid) {
+        this.ndeliveryid = ndeliveryid;
+    }
+
+    public String getSordercode() {
+        return sordercode;
+    }
+
+    public void setSordercode(String sordercode) {
+        this.sordercode = sordercode == null ? null : sordercode.trim();
+    }
+
+    public String getSshopcode() {
+        return sshopcode;
+    }
+
+    public void setSshopcode(String sshopcode) {
+        this.sshopcode = sshopcode == null ? null : sshopcode.trim();
+    }
+
+    public Short getSordertype() {
+        return sordertype;
+    }
+
+    public void setSordertype(Short sordertype) {
+        this.sordertype = sordertype;
+    }
+
+    public Date getDpaymenttime() {
+        return dpaymenttime;
+    }
+
+    public void setDpaymenttime(Date dpaymenttime) {
+        this.dpaymenttime = dpaymenttime;
+    }
+
+    public Short getSordersource() {
+        return sordersource;
+    }
+
+    public void setSordersource(Short sordersource) {
+        this.sordersource = sordersource;
+    }
+
+    public Long getNaddressid() {
+        return naddressid;
+    }
+
+    public void setNaddressid(Long naddressid) {
+        this.naddressid = naddressid;
     }
 }

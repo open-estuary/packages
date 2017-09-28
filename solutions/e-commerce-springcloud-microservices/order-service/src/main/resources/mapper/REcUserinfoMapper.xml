@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.htsat.order.dao.REcUserinfoMapper" >
   <resultMap id="BaseResultMap" type="com.htsat.order.model.REcUserinfo" >
-    <id column="nUserID" property="nuserid" jdbcType="INTEGER" />
+    <id column="nUserID" property="nuserid" jdbcType="BIGINT" />
     <result column="sLoginName" property="sloginname" jdbcType="VARCHAR" />
     <result column="sLoginPassword" property="sloginpassword" jdbcType="VARCHAR" />
     <result column="sFirstName" property="sfirstname" jdbcType="VARCHAR" />
@@ -90,15 +90,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from r_ec_userinfo
-    where nUserID = #{nuserid,jdbcType=INTEGER}
+    where nUserID = #{nuserid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from r_ec_userinfo
-    where nUserID = #{nuserid,jdbcType=INTEGER}
+    where nUserID = #{nuserid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.htsat.order.model.REcUserinfoExample" >
     delete from r_ec_userinfo
@@ -111,7 +111,7 @@
       sFirstName, sLastName, sPhoneNo, 
       sEmailAddress, cGender, sBirthday, 
       sRegisterTime, sPayPassword)
-    values (#{nuserid,jdbcType=INTEGER}, #{sloginname,jdbcType=VARCHAR}, #{sloginpassword,jdbcType=VARCHAR}, 
+    values (#{nuserid,jdbcType=BIGINT}, #{sloginname,jdbcType=VARCHAR}, #{sloginpassword,jdbcType=VARCHAR}, 
       #{sfirstname,jdbcType=VARCHAR}, #{slastname,jdbcType=VARCHAR}, #{sphoneno,jdbcType=VARCHAR}, 
       #{semailaddress,jdbcType=VARCHAR}, #{cgender,jdbcType=CHAR}, #{sbirthday,jdbcType=DATE}, 
       #{sregistertime,jdbcType=TIMESTAMP}, #{spaypassword,jdbcType=VARCHAR})
@@ -155,7 +155,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="nuserid != null" >
-        #{nuserid,jdbcType=INTEGER},
+        #{nuserid,jdbcType=BIGINT},
       </if>
       <if test="sloginname != null" >
         #{sloginname,jdbcType=VARCHAR},
@@ -199,7 +199,7 @@
     update r_ec_userinfo
     <set >
       <if test="record.nuserid != null" >
-        nUserID = #{record.nuserid,jdbcType=INTEGER},
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
       </if>
       <if test="record.sloginname != null" >
         sLoginName = #{record.sloginname,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update r_ec_userinfo
-    set nUserID = #{record.nuserid,jdbcType=INTEGER},
+    set nUserID = #{record.nuserid,jdbcType=BIGINT},
       sLoginName = #{record.sloginname,jdbcType=VARCHAR},
       sLoginPassword = #{record.sloginpassword,jdbcType=VARCHAR},
       sFirstName = #{record.sfirstname,jdbcType=VARCHAR},
@@ -287,7 +287,7 @@
         sPayPassword = #{spaypassword,jdbcType=VARCHAR},
       </if>
     </set>
-    where nUserID = #{nuserid,jdbcType=INTEGER}
+    where nUserID = #{nuserid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcUserinfo" >
     update r_ec_userinfo
@@ -301,6 +301,6 @@
       sBirthday = #{sbirthday,jdbcType=DATE},
       sRegisterTime = #{sregistertime,jdbcType=TIMESTAMP},
       sPayPassword = #{spaypassword,jdbcType=VARCHAR}
-    where nUserID = #{nuserid,jdbcType=INTEGER}
+    where nUserID = #{nuserid,jdbcType=BIGINT}
   </update>
 </mapper>

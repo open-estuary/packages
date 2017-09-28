@@ -10,7 +10,7 @@ public interface REcSkuMapper {
 
     int deleteByExample(REcSkuExample example);
 
-    int deleteByPrimaryKey(Integer nskuid);
+    int deleteByPrimaryKey(Long nskuid);
 
     int insert(REcSku record);
 
@@ -18,7 +18,7 @@ public interface REcSkuMapper {
 
     List<REcSku> selectByExample(REcSkuExample example);
 
-    REcSku selectByPrimaryKey(Integer nskuid);
+    REcSku selectByPrimaryKey(Long nskuid);
 
     int updateByExampleSelective(@Param("record") REcSku record, @Param("example") REcSkuExample example);
 
@@ -28,5 +28,5 @@ public interface REcSkuMapper {
 
     int updateByPrimaryKey(REcSku record);
 
-    List<REcSku> getSKUList(List<Integer> nskuidList);
+    List<REcSku> getSKUList(List<Long> skuIdList);
 }

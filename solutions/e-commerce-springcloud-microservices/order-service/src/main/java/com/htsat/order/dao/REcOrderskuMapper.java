@@ -2,8 +2,9 @@ package com.htsat.order.dao;
 
 import com.htsat.order.model.REcOrdersku;
 import com.htsat.order.model.REcOrderskuExample;
-import com.htsat.order.model.REcOrderskuKey;
 import java.util.List;
+
+import com.htsat.order.model.REcOrderskuKey;
 import org.apache.ibatis.annotations.Param;
 
 public interface REcOrderskuMapper {
@@ -11,7 +12,7 @@ public interface REcOrderskuMapper {
 
     int deleteByExample(REcOrderskuExample example);
 
-    int deleteByPrimaryKey(REcOrderskuKey key);
+    int deleteByPrimaryKey(Long norderskuid);
 
     int insert(REcOrdersku record);
 
@@ -19,7 +20,7 @@ public interface REcOrderskuMapper {
 
     List<REcOrdersku> selectByExample(REcOrderskuExample example);
 
-    REcOrdersku selectByPrimaryKey(REcOrderskuKey key);
+    REcOrdersku selectByPrimaryKey(Long norderskuid);
 
     int updateByExampleSelective(@Param("record") REcOrdersku record, @Param("example") REcOrderskuExample example);
 
@@ -29,5 +30,7 @@ public interface REcOrderskuMapper {
 
     int updateByPrimaryKey(REcOrdersku record);
 
-    List<REcOrdersku> selectByOrderId(String orderId);
+    List<REcOrdersku> selectByOrderId(Long orderId);
+
+    int deleteByOrderskuKey(REcOrderskuKey key);
 }

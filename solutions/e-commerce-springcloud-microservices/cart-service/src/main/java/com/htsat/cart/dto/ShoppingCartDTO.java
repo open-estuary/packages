@@ -7,11 +7,11 @@ import java.util.List;
 
 public class ShoppingCartDTO implements Serializable{
 
-    int userId;
+    Long nshoppingcartid;
 
-    Date date;
+    Long userId;
 
-    float discount;
+    BigDecimal discount;
 
     BigDecimal price;
 
@@ -21,27 +21,31 @@ public class ShoppingCartDTO implements Serializable{
 
     List<SKUDTO> skudtoList;
 
-    public int getUserId() {
+    Date supdatetime;
+
+    Date ncreatetime;
+
+    public Long getNshoppingcartid() {
+        return nshoppingcartid;
+    }
+
+    public void setNshoppingcartid(Long nshoppingcartid) {
+        this.nshoppingcartid = nshoppingcartid;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public float getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
@@ -77,16 +81,34 @@ public class ShoppingCartDTO implements Serializable{
         this.skudtoList = skudtoList;
     }
 
+    public Date getSupdatetime() {
+        return supdatetime;
+    }
+
+    public void setSupdatetime(Date supdatetime) {
+        this.supdatetime = supdatetime;
+    }
+
+    public Date getNcreatetime() {
+        return ncreatetime;
+    }
+
+    public void setNcreatetime(Date ncreatetime) {
+        this.ncreatetime = ncreatetime;
+    }
+
     @Override
     public String toString() {
         return "ShoppingCartDTO{" +
-                "userId=" + userId +
-                ", date=" + date +
+                "nshoppingcartid=" + nshoppingcartid +
+                ", userId=" + userId +
                 ", discount=" + discount +
                 ", price=" + price +
                 ", quantity=" + quantity +
                 ", currency='" + currency + '\'' +
                 ", skudtoList=" + skudtoList +
+                ", supdatetime=" + supdatetime +
+                ", ncreatetime=" + ncreatetime +
                 '}';
     }
 }

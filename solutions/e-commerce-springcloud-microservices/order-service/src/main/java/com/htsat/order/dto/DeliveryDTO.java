@@ -2,56 +2,117 @@ package com.htsat.order.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class DeliveryDTO implements Serializable{
 
-    private String deliveryId;
+    private Long ndeliveryid;
 
-    private String expressCompany;
+    private String sexpresscompany;
 
-    private BigDecimal deliveryPrice;
+    private BigDecimal ndeliveryprice;
 
-    private String status;
+    private Short cstatus;
 
-    public String getDeliveryId() {
-        return deliveryId;
+    private Date dcreatetime;
+
+    private Date dupdatetime;
+
+    private Date douttime;
+
+    private Long naddressid;
+
+    private String sconsignee;
+
+    private String sdeliverycomment;
+
+    private String sdeliverycode;
+
+    public Long getNdeliveryid() {
+        return ndeliveryid;
     }
 
-    public void setDeliveryId(String deliveryId) {
-        this.deliveryId = deliveryId;
+    public void setNdeliveryid(Long ndeliveryid) {
+        this.ndeliveryid = ndeliveryid;
     }
 
-    public String getExpressCompany() {
-        return expressCompany;
+    public String getSexpresscompany() {
+        return sexpresscompany;
     }
 
-    public void setExpressCompany(String expressCompany) {
-        this.expressCompany = expressCompany;
+    public void setSexpresscompany(String sexpresscompany) {
+        this.sexpresscompany = sexpresscompany;
     }
 
-    public BigDecimal getDeliveryPrice() {
-        return deliveryPrice;
+    public BigDecimal getNdeliveryprice() {
+        return ndeliveryprice;
     }
 
-    public void setDeliveryPrice(BigDecimal deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
+    public void setNdeliveryprice(BigDecimal ndeliveryprice) {
+        this.ndeliveryprice = ndeliveryprice;
     }
 
-    public String getStatus() {
-        return status;
+    public Short getCstatus() {
+        return cstatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCstatus(Short cstatus) {
+        this.cstatus = cstatus;
     }
 
-    @Override
-    public String toString() {
-        return "DeliveryDTO{" +
-                "deliveryId='" + deliveryId + '\'' +
-                ", expressCompany='" + expressCompany + '\'' +
-                ", deliveryPrice=" + deliveryPrice +
-                ", status='" + status + '\'' +
-                '}';
+    public Date getDcreatetime() {
+        return dcreatetime;
+    }
+
+    public void setDcreatetime(Date dcreatetime) {
+        this.dcreatetime = dcreatetime;
+    }
+
+    public Date getDupdatetime() {
+        return dupdatetime;
+    }
+
+    public void setDupdatetime(Date dupdatetime) {
+        this.dupdatetime = dupdatetime;
+    }
+
+    public Date getDouttime() {
+        return douttime;
+    }
+
+    public void setDouttime(Date douttime) {
+        this.douttime = douttime;
+    }
+
+    public Long getNaddressid() {
+        return naddressid;
+    }
+
+    public void setNaddressid(Long naddressid) {
+        this.naddressid = naddressid;
+    }
+
+    public String getSconsignee() {
+        return sconsignee;
+    }
+
+    public void setSconsignee(String sconsignee) {
+        this.sconsignee = sconsignee;
+    }
+
+    public String getSdeliverycomment() {
+        return sdeliverycomment;
+    }
+
+    public void setSdeliverycomment(String sdeliverycomment) {
+        this.sdeliverycomment = sdeliverycomment;
+    }
+
+    public String getSdeliverycode() {
+        return sdeliverycode;
+    }
+
+    public void setSdeliverycode(String sdeliverycode) {
+        this.sdeliverycode = sdeliverycode;
     }
 }

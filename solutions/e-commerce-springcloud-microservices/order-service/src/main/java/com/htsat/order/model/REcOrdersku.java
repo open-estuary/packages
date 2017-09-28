@@ -2,16 +2,46 @@ package com.htsat.order.model;
 
 import java.math.BigDecimal;
 
-public class REcOrdersku extends REcOrderskuKey {
+public class REcOrdersku {
+    private Long norderskuid;
+
+    private Long norderid;
+
+    private Long nskuid;
+
     private Integer nquantity;
 
     private BigDecimal norigprice;
 
-    private Float ndiscount;
+    private BigDecimal ndiscount;
 
     private String scurrency;
 
     private BigDecimal nprice;
+
+    public Long getNorderskuid() {
+        return norderskuid;
+    }
+
+    public void setNorderskuid(Long norderskuid) {
+        this.norderskuid = norderskuid;
+    }
+
+    public Long getNorderid() {
+        return norderid;
+    }
+
+    public void setNorderid(Long norderid) {
+        this.norderid = norderid;
+    }
+
+    public Long getNskuid() {
+        return nskuid;
+    }
+
+    public void setNskuid(Long nskuid) {
+        this.nskuid = nskuid;
+    }
 
     public Integer getNquantity() {
         return nquantity;
@@ -29,11 +59,11 @@ public class REcOrdersku extends REcOrderskuKey {
         this.norigprice = norigprice;
     }
 
-    public Float getNdiscount() {
+    public BigDecimal getNdiscount() {
         return ndiscount;
     }
 
-    public void setNdiscount(Float ndiscount) {
+    public void setNdiscount(BigDecimal ndiscount) {
         this.ndiscount = ndiscount;
     }
 

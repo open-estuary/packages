@@ -10,7 +10,7 @@ public interface REcUserdeliveryaddressMapper {
 
     int deleteByExample(REcUserdeliveryaddressExample example);
 
-    int deleteByPrimaryKey(Integer naddressno);
+    int deleteByPrimaryKey(Long naddressid);
 
     int insert(REcUserdeliveryaddress record);
 
@@ -18,7 +18,7 @@ public interface REcUserdeliveryaddressMapper {
 
     List<REcUserdeliveryaddress> selectByExample(REcUserdeliveryaddressExample example);
 
-    REcUserdeliveryaddress selectByPrimaryKey(Integer naddressno);
+    REcUserdeliveryaddress selectByPrimaryKey(Long naddressid);
 
     int updateByExampleSelective(@Param("record") REcUserdeliveryaddress record, @Param("example") REcUserdeliveryaddressExample example);
 

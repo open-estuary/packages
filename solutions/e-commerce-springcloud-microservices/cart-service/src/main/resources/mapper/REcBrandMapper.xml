@@ -4,6 +4,13 @@
   <resultMap id="BaseResultMap" type="com.htsat.cart.model.REcBrand" >
     <id column="nBrandID" property="nbrandid" jdbcType="INTEGER" />
     <result column="sBrandName" property="sbrandname" jdbcType="VARCHAR" />
+    <result column="sCode" property="scode" jdbcType="VARCHAR" />
+    <result column="sBriefName" property="sbriefname" jdbcType="VARCHAR" />
+    <result column="nStatus" property="nstatus" jdbcType="CHAR" />
+    <result column="sComment" property="scomment" jdbcType="VARCHAR" />
+    <result column="nOrderNum" property="nordernum" jdbcType="TINYINT" />
+    <result column="dCreateDate" property="dcreatedate" jdbcType="TIMESTAMP" />
+    <result column="dUpdateDate" property="dupdatedate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    nBrandID, sBrandName
+    nBrandID, sBrandName, sCode, sBriefName, nStatus, sComment, nOrderNum, dCreateDate, 
+    dUpdateDate
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcBrandExample" >
     select
@@ -97,8 +105,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.htsat.cart.model.REcBrand" >
-    insert into r_ec_brand (nBrandID, sBrandName)
-    values (#{nbrandid,jdbcType=INTEGER}, #{sbrandname,jdbcType=VARCHAR})
+    insert into r_ec_brand (nBrandID, sBrandName, sCode, 
+      sBriefName, nStatus, sComment, 
+      nOrderNum, dCreateDate, dUpdateDate
+      )
+    values (#{nbrandid,jdbcType=INTEGER}, #{sbrandname,jdbcType=VARCHAR}, #{scode,jdbcType=VARCHAR}, 
+      #{sbriefname,jdbcType=VARCHAR}, #{nstatus,jdbcType=CHAR}, #{scomment,jdbcType=VARCHAR}, 
+      #{nordernum,jdbcType=TINYINT}, #{dcreatedate,jdbcType=TIMESTAMP}, #{dupdatedate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.htsat.cart.model.REcBrand" >
     insert into r_ec_brand
@@ -109,6 +123,27 @@
       <if test="sbrandname != null" >
         sBrandName,
       </if>
+      <if test="scode != null" >
+        sCode,
+      </if>
+      <if test="sbriefname != null" >
+        sBriefName,
+      </if>
+      <if test="nstatus != null" >
+        nStatus,
+      </if>
+      <if test="scomment != null" >
+        sComment,
+      </if>
+      <if test="nordernum != null" >
+        nOrderNum,
+      </if>
+      <if test="dcreatedate != null" >
+        dCreateDate,
+      </if>
+      <if test="dupdatedate != null" >
+        dUpdateDate,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="nbrandid != null" >
@@ -116,6 +151,27 @@
       </if>
       <if test="sbrandname != null" >
         #{sbrandname,jdbcType=VARCHAR},
+      </if>
+      <if test="scode != null" >
+        #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="sbriefname != null" >
+        #{sbriefname,jdbcType=VARCHAR},
+      </if>
+      <if test="nstatus != null" >
+        #{nstatus,jdbcType=CHAR},
+      </if>
+      <if test="scomment != null" >
+        #{scomment,jdbcType=VARCHAR},
+      </if>
+      <if test="nordernum != null" >
+        #{nordernum,jdbcType=TINYINT},
+      </if>
+      <if test="dcreatedate != null" >
+        #{dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatedate != null" >
+        #{dupdatedate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -134,6 +190,27 @@
       <if test="record.sbrandname != null" >
         sBrandName = #{record.sbrandname,jdbcType=VARCHAR},
       </if>
+      <if test="record.scode != null" >
+        sCode = #{record.scode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbriefname != null" >
+        sBriefName = #{record.sbriefname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nstatus != null" >
+        nStatus = #{record.nstatus,jdbcType=CHAR},
+      </if>
+      <if test="record.scomment != null" >
+        sComment = #{record.scomment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nordernum != null" >
+        nOrderNum = #{record.nordernum,jdbcType=TINYINT},
+      </if>
+      <if test="record.dcreatedate != null" >
+        dCreateDate = #{record.dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dupdatedate != null" >
+        dUpdateDate = #{record.dupdatedate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +219,14 @@
   <update id="updateByExample" parameterType="map" >
     update r_ec_brand
     set nBrandID = #{record.nbrandid,jdbcType=INTEGER},
-      sBrandName = #{record.sbrandname,jdbcType=VARCHAR}
+      sBrandName = #{record.sbrandname,jdbcType=VARCHAR},
+      sCode = #{record.scode,jdbcType=VARCHAR},
+      sBriefName = #{record.sbriefname,jdbcType=VARCHAR},
+      nStatus = #{record.nstatus,jdbcType=CHAR},
+      sComment = #{record.scomment,jdbcType=VARCHAR},
+      nOrderNum = #{record.nordernum,jdbcType=TINYINT},
+      dCreateDate = #{record.dcreatedate,jdbcType=TIMESTAMP},
+      dUpdateDate = #{record.dupdatedate,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +237,40 @@
       <if test="sbrandname != null" >
         sBrandName = #{sbrandname,jdbcType=VARCHAR},
       </if>
+      <if test="scode != null" >
+        sCode = #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="sbriefname != null" >
+        sBriefName = #{sbriefname,jdbcType=VARCHAR},
+      </if>
+      <if test="nstatus != null" >
+        nStatus = #{nstatus,jdbcType=CHAR},
+      </if>
+      <if test="scomment != null" >
+        sComment = #{scomment,jdbcType=VARCHAR},
+      </if>
+      <if test="nordernum != null" >
+        nOrderNum = #{nordernum,jdbcType=TINYINT},
+      </if>
+      <if test="dcreatedate != null" >
+        dCreateDate = #{dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatedate != null" >
+        dUpdateDate = #{dupdatedate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where nBrandID = #{nbrandid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.htsat.cart.model.REcBrand" >
     update r_ec_brand
-    set sBrandName = #{sbrandname,jdbcType=VARCHAR}
+    set sBrandName = #{sbrandname,jdbcType=VARCHAR},
+      sCode = #{scode,jdbcType=VARCHAR},
+      sBriefName = #{sbriefname,jdbcType=VARCHAR},
+      nStatus = #{nstatus,jdbcType=CHAR},
+      sComment = #{scomment,jdbcType=VARCHAR},
+      nOrderNum = #{nordernum,jdbcType=TINYINT},
+      dCreateDate = #{dcreatedate,jdbcType=TIMESTAMP},
+      dUpdateDate = #{dupdatedate,jdbcType=TIMESTAMP}
     where nBrandID = #{nbrandid,jdbcType=INTEGER}
   </update>
 </mapper>
