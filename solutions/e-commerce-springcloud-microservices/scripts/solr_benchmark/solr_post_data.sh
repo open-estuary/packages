@@ -21,4 +21,4 @@ if [ -z "$(which post 2>/dev/null)" ] ; then
 fi
 
 #${post_cmd} -c "${core}" -p "${port}" -host "${host}" ${data} -filetypes csv -params "fieldnames=productid,cateid,title,description,manufacturer,price,quatity,size,url&header=true" -params "separator=%09"
-${post_cmd} -c "${core}" -p "${port}" -host "${host}" ${data} -filetypes -params "separator=%09"
+${post_cmd} -c "${core}" -p "${port}" -host "${host}" ${data} -filetypes csv -params "separator=%09"
