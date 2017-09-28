@@ -1,9 +1,9 @@
 package com.htsat.cart.serviceimpl;
 
-import com.htsat.cart.Exception.DeleteException;
-import com.htsat.cart.Exception.InsertException;
-import com.htsat.cart.Exception.SearchException;
-import com.htsat.cart.Exception.UpdateException;
+import com.htsat.cart.exception.DeleteException;
+import com.htsat.cart.exception.InsertException;
+import com.htsat.cart.exception.SearchException;
+import com.htsat.cart.exception.UpdateException;
 import com.htsat.cart.dao.REcCartskuMapper;
 import com.htsat.cart.dao.REcShoppingcartMapper;
 import com.htsat.cart.dao.REcSkuMapper;
@@ -20,7 +20,6 @@ import com.htsat.cart.utils.ConvertToDTO;
 import com.htsat.cart.utils.SerializeUtil;
 import com.htsat.cart.utils.SortList;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Update;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

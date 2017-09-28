@@ -1,4 +1,4 @@
-package com.htsat.cart.Exception;
+package com.htsat.cart.exception;
 
 public class UpdateException extends Exception {
 

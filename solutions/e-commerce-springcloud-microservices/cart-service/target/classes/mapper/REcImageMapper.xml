@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.cart.dao.REcImageMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.cart.model.REcImage" >
+    <id column="nImageID" property="nimageid" jdbcType="BIGINT" />
+    <result column="nImageType" property="nimagetype" jdbcType="VARCHAR" />
+    <result column="sImageName" property="simagename" jdbcType="VARCHAR" />
+    <result column="dUpdateTime" property="dupdatetime" jdbcType="TIMESTAMP" />
+    <result column="sDescription" property="sdescription" jdbcType="VARCHAR" />
+    <result column="sPath" property="spath" jdbcType="VARCHAR" />
+    <result column="dCreateTime" property="dcreatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nImageID, nImageType, sImageName, dUpdateTime, sDescription, sPath, dCreateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_image
+    where nImageID = #{nimageid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from r_ec_image
+    where nImageID = #{nimageid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.cart.model.REcImageExample" >
+    delete from r_ec_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.cart.model.REcImage" >
+    insert into r_ec_image (nImageID, nImageType, sImageName, 
+      dUpdateTime, sDescription, sPath, 
+      dCreateTime)
+    values (#{nimageid,jdbcType=BIGINT}, #{nimagetype,jdbcType=VARCHAR}, #{simagename,jdbcType=VARCHAR}, 
+      #{dupdatetime,jdbcType=TIMESTAMP}, #{sdescription,jdbcType=VARCHAR}, #{spath,jdbcType=VARCHAR}, 
+      #{dcreatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.cart.model.REcImage" >
+    insert into r_ec_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nimageid != null" >
+        nImageID,
+      </if>
+      <if test="nimagetype != null" >
+        nImageType,
+      </if>
+      <if test="simagename != null" >
+        sImageName,
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime,
+      </if>
+      <if test="sdescription != null" >
+        sDescription,
+      </if>
+      <if test="spath != null" >
+        sPath,
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nimageid != null" >
+        #{nimageid,jdbcType=BIGINT},
+      </if>
+      <if test="nimagetype != null" >
+        #{nimagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="simagename != null" >
+        #{simagename,jdbcType=VARCHAR},
+      </if>
+      <if test="dupdatetime != null" >
+        #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdescription != null" >
+        #{sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="spath != null" >
+        #{spath,jdbcType=VARCHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.cart.model.REcImageExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_image
+    <set >
+      <if test="record.nimageid != null" >
+        nImageID = #{record.nimageid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nimagetype != null" >
+        nImageType = #{record.nimagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.simagename != null" >
+        sImageName = #{record.simagename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dupdatetime != null" >
+        dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sdescription != null" >
+        sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spath != null" >
+        sPath = #{record.spath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dcreatetime != null" >
+        dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_image
+    set nImageID = #{record.nimageid,jdbcType=BIGINT},
+      nImageType = #{record.nimagetype,jdbcType=VARCHAR},
+      sImageName = #{record.simagename,jdbcType=VARCHAR},
+      dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      sPath = #{record.spath,jdbcType=VARCHAR},
+      dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.cart.model.REcImage" >
+    update r_ec_image
+    <set >
+      <if test="nimagetype != null" >
+        nImageType = #{nimagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="simagename != null" >
+        sImageName = #{simagename,jdbcType=VARCHAR},
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdescription != null" >
+        sDescription = #{sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="spath != null" >
+        sPath = #{spath,jdbcType=VARCHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where nImageID = #{nimageid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.cart.model.REcImage" >
+    update r_ec_image
+    set nImageType = #{nimagetype,jdbcType=VARCHAR},
+      sImageName = #{simagename,jdbcType=VARCHAR},
+      dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      sDescription = #{sdescription,jdbcType=VARCHAR},
+      sPath = #{spath,jdbcType=VARCHAR},
+      dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP}
+    where nImageID = #{nimageid,jdbcType=BIGINT}
+  </update>
+</mapper>

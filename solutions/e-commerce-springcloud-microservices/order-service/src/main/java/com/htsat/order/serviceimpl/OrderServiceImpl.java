@@ -4,6 +4,10 @@ import com.htsat.order.dao.*;
 import com.htsat.order.dto.DeliveryDTO;
 import com.htsat.order.dto.OrderDTO;
 import com.htsat.order.dto.OrderSKUDTO;
+import com.htsat.order.exception.DeleteException;
+import com.htsat.order.exception.InsertException;
+import com.htsat.order.exception.SearchException;
+import com.htsat.order.exception.UpdateException;
 import com.htsat.order.model.*;
 import com.htsat.order.service.IOrderService;
 import com.htsat.order.service.IRedisService;
@@ -60,13 +64,13 @@ public class OrderServiceImpl implements IOrderService {
      * create order
      */
     @Override
-    public void createOrderAndDeliveryAndOrderSKU(OrderDTO orderDTO) throws Exception {
+    public void createOrderAndDeliveryAndOrderSKU(OrderDTO orderDTO) throws InsertException {
         OrderDTO returnOrderDTO = createOrderAndDeliveryAndOrderSKUByMySQL(orderDTO);
         createOrderAndDeliveryAndOrderSKUToRedis(returnOrderDTO);
     }
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public OrderDTO createOrderAndDeliveryAndOrderSKUByMySQL(OrderDTO orderDTO) throws Exception {
+    public OrderDTO createOrderAndDeliveryAndOrderSKUByMySQL(OrderDTO orderDTO) throws InsertException {
         REcDeliveryinfo deliveryinfo = createDeliveryInfo(orderDTO);
         REcOrderinfo orderinfo = createOrder(orderDTO, deliveryinfo);
         List<REcOrdersku> orderskuList = createOrderSKU(orderDTO,orderinfo);
@@ -74,7 +78,7 @@ public class OrderServiceImpl implements IOrderService {
         return ConvertToDTO.convertToOrderDTO(deliveryinfo, orderinfo, orderskuList, address);
     }
 
-    private REcDeliveryinfo createDeliveryInfo(OrderDTO orderDTO) throws Exception{
+    private REcDeliveryinfo createDeliveryInfo(OrderDTO orderDTO) throws InsertException{
         Date timestamp = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         String timeStr = df.format(timestamp);
@@ -94,12 +98,12 @@ public class OrderServiceImpl implements IOrderService {
 
         int result = deliveryinfoMapper.insertSelective(deliveryinfo);
         if (result != 1) {
-            throw new Exception();
+            throw new InsertException("mysql : create  deliveryInfo failed!");
         }
         return deliveryinfo;
     }
 
-    private REcOrderinfo createOrder(OrderDTO orderDTO, REcDeliveryinfo deliveryinfo) throws Exception{
+    private REcOrderinfo createOrder(OrderDTO orderDTO, REcDeliveryinfo deliveryinfo) throws InsertException{
         REcOrderinfo orderinfo = new REcOrderinfo();
         Date timestamp = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
@@ -132,13 +136,13 @@ public class OrderServiceImpl implements IOrderService {
 
         int result = orderinfoMapper.insertSelective(orderinfo);
         if (result != 1) {
-            throw new Exception();
+            throw new InsertException("mysql : create order failed");
         }
         return orderinfo;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public List<REcOrdersku> createOrderSKU(OrderDTO orderDTO, REcOrderinfo orderinfo) throws Exception{
+    public List<REcOrdersku> createOrderSKU(OrderDTO orderDTO, REcOrderinfo orderinfo) throws InsertException{
         List<OrderSKUDTO> skudtoList = orderDTO.getOrderskudtoList();
         List<REcOrdersku> orderskuList = new ArrayList<>();
         for (OrderSKUDTO orderskuDTO : skudtoList) {
@@ -156,19 +160,19 @@ public class OrderServiceImpl implements IOrderService {
             orderskuList.add(ordersku);
             int resultAdd = orderskuMapper.insertSelective(ordersku);
             if (resultAdd != 1) {
-                throw new Exception();
+                throw new InsertException("mysql : create orderSKU failed");
             }
             REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
             sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
             int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
             if (resultUpdate != 1) {
-                throw new Exception();
+                throw new InsertException("mysql : update sku inventory failed");
             }
         }
         return orderskuList;
     }
 
-    private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws Exception{
+    private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
         getJedis().set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
     }
 
@@ -176,36 +180,36 @@ public class OrderServiceImpl implements IOrderService {
      * get order
      */
     @Override
-    public OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long orderId) throws Exception {
+    public OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long orderId) throws SearchException {
         OrderDTO orderDTO = getOrderInfoByRedis(orderId);
         if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(orderId);
         return orderDTO;
     }
 
-    private OrderDTO getOrderInfoByMySQL(Long orderId) throws Exception {
+    private OrderDTO getOrderInfoByMySQL(Long orderId) throws SearchException {
         REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
         if (orderinfo == null){
-            throw new Exception();
+            throw new SearchException("mysql : get orderInfo failed");
         } else {
             Long deliveryId = orderinfo.getNdeliveryid();
             REcDeliveryinfo deliveryinfo = deliveryinfoMapper.selectByPrimaryKey(deliveryId);
             if (deliveryinfo == null) {
-               throw new Exception();
+               throw new SearchException("mysql : get deliveryInfo failed");
             }
             Long addressId = orderinfo.getNaddressid();
             REcUserdeliveryaddress address = addressMapper.selectByPrimaryKey(addressId);
             if (address == null) {
-                throw new Exception();
+                throw new SearchException("mysql : get address failed");
             }
             List<REcOrdersku> orderskuList = orderskuMapper.selectByOrderId(orderId);
             if (orderskuList == null) {
-                throw new Exception();
+                throw new SearchException("mysql : get orderSKUList failed");
             }
             return ConvertToDTO.convertToOrderDTO(deliveryinfo, orderinfo, orderskuList, address);
         }
     }
 
-    private OrderDTO getOrderInfoByRedis(Long orderId) throws Exception {
+    private OrderDTO getOrderInfoByRedis(Long orderId) throws SearchException {
         Jedis jedis = getJedis();
         byte[] orderInfo = jedis.get((orderId + "").getBytes());
         Object orderObject = SerializeUtil.unserialize(orderInfo);
@@ -215,7 +219,7 @@ public class OrderServiceImpl implements IOrderService {
         if (orderObject instanceof OrderDTO){
             orderDTO = (OrderDTO) orderObject;
         } else{
-            throw new Exception();
+            throw new SearchException("redis : get failed");
         }
         return orderDTO;
     }
@@ -224,13 +228,13 @@ public class OrderServiceImpl implements IOrderService {
      * delete order
      */
     @Override
-    public void deleteOrderAndDeliveryAndOrderSKU(Long orderId) throws Exception {
+    public void deleteOrderAndDeliveryAndOrderSKU(Long orderId) throws DeleteException {
         deleteOrderInfoByMySQL(orderId);
         deleteOrderInfoByRedis(orderId);
     }
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public void deleteOrderInfoByMySQL(Long orderId) throws Exception {
+    public void deleteOrderInfoByMySQL(Long orderId) throws DeleteException {
         REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
         List<REcOrdersku> orderskuList = orderskuMapper.selectByOrderId(orderId);
 
@@ -240,18 +244,18 @@ public class OrderServiceImpl implements IOrderService {
             sku.setNinventory(sku.getNinventory() + ordersku.getNquantity());
             int resultInventory = skuMapper.updateByPrimaryKey(sku);
             if (resultInventory != 1) {
-                throw new Exception();
+                throw new DeleteException("mysql : update SKU inventory failed");
             }
         }
         //delete delivery
         int resultDelivery = deliveryinfoMapper.deleteByPrimaryKey(orderinfo.getNdeliveryid());
         if (resultDelivery != 1) {
-            throw new Exception();
+            throw new DeleteException("mysql : delete deliveryInfo failed");
         }
         //delete order
         int resultOrder = orderinfoMapper.deleteByPrimaryKey(orderId);
         if (resultOrder != 1) {
-            throw new Exception();
+            throw new DeleteException("mysql : delete orderInfo failed");
         }
         //delete ordersku
         for (REcOrdersku ordersku : orderskuList) {
@@ -261,12 +265,12 @@ public class OrderServiceImpl implements IOrderService {
 
             int resultOrderSKU = orderskuMapper.deleteByOrderskuKey(key);
             if (resultOrderSKU != 1) {
-                throw new Exception();
+                throw new DeleteException("mysql : delete orderSKUList failed");
             }
         }
     }
 
-    private void deleteOrderInfoByRedis(Long orderId) throws Exception {
+    private void deleteOrderInfoByRedis(Long orderId) throws DeleteException {
         getJedis().del(orderId + "");
     }
 
@@ -276,28 +280,28 @@ public class OrderServiceImpl implements IOrderService {
      * delivery  1：已收件;2：在途;3：待签收;4：已签收
      */
     @Override
-    public OrderDTO updateOrderDelivery(Long orderId, short deliveryStatus) throws Exception {
+    public OrderDTO updateOrderDelivery(Long orderId, short deliveryStatus) throws UpdateException {
         OrderDTO orderDTO = updateOrderDeliveryByMySQL(orderId, deliveryStatus);
         updateOrderDeliveryByRedis(orderDTO);
         return orderDTO;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public OrderDTO updateOrderDeliveryByMySQL(Long orderId, short deliveryStatus) throws Exception{
+    public OrderDTO updateOrderDeliveryByMySQL(Long orderId, short deliveryStatus) throws UpdateException{
         REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
         if (orderinfo == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get orderInfo failed");
         }
         REcDeliveryinfo deliveryinfo = deliveryinfoMapper.selectByPrimaryKey(orderinfo.getNdeliveryid());
         if (deliveryinfo == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get deliveryInfo failed");
         }
 
         //update delivery
         deliveryinfo.setCstatus(deliveryStatus);
         int resultDelivery = deliveryinfoMapper.updateByPrimaryKey(deliveryinfo);
         if (resultDelivery != 1) {
-            throw new Exception();
+            throw new UpdateException("mysql : update deliveryInfo status failed");
         }
 
         //update order
@@ -312,37 +316,46 @@ public class OrderServiceImpl implements IOrderService {
         }
         int resultOrder = orderinfoMapper.updateByPrimaryKey(orderinfo);
         if (resultOrder != 1) {
-            throw new Exception();
+            throw new UpdateException("mysql : update orderInfo status failed");
         }
 
         REcUserdeliveryaddress address = addressMapper.selectByPrimaryKey(orderinfo.getNaddressid());
         if (address == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get address failed");
         }
 
         List<REcOrdersku> orderskuList = orderskuMapper.selectByOrderId(orderId);
         if (orderskuList == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get orderSKUList failed");
         }
 
         return ConvertToDTO.convertToOrderDTO(deliveryinfo, orderinfo, orderskuList, address);
     }
 
-    private void updateOrderDeliveryByRedis(OrderDTO orderDTO) throws Exception{
+    private void updateOrderDeliveryByRedis(OrderDTO orderDTO) throws UpdateException{
         getJedis().set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
     }
 
     @Override
-    public OrderDTO updateOrderPayment(Long userId, Long orderId, String cardId, String paymentPassword) throws Exception{
+    public OrderDTO updateOrderPayment(Long userId, Long orderId, String cardId, String paymentPassword) throws UpdateException{
         OrderDTO orderDTO = updateOrderPaymentByMySQL(userId, orderId, cardId, paymentPassword);
         updateOrderPaymentByRedis(orderDTO);
         return orderDTO;
     }
 
-    private OrderDTO updateOrderPaymentByMySQL(Long userId, Long orderId, String cardId, String paymentPassword) throws Exception{
+    private OrderDTO updateOrderPaymentByMySQL(Long userId, Long orderId, String cardId, String paymentPassword) throws UpdateException{
         REcUserinfo userinfo = userinfoMapper.selectByPrimaryKey(userId);
+        if (userinfo == null) {
+            throw new UpdateException("mysql : update get userInfo failed");
+        }
         REcUserbankinfo userbankinfo = userbankinfoMapper.selectByPrimaryKey(cardId);
+        if (userbankinfo == null) {
+            throw new UpdateException("mysql : update get userbankInfo failed");
+        }
         REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
+        if (orderinfo == null) {
+            throw new UpdateException("mysql : update get orderInfo failed");
+        }
         if (paymentPassword.equals(userinfo.getSpaypassword()) && userbankinfo != null && cardId.equals(userbankinfo.getScardid()) && orderinfo != null) {
             if (orderinfo.getCstatus() == (short) 0){
                 orderinfo.setCstatus((short) 1);
@@ -351,7 +364,7 @@ public class OrderServiceImpl implements IOrderService {
 
                 int result = orderinfoMapper.updateByPrimaryKey(orderinfo);
                 if (result != 1) {
-                    throw new Exception();
+                    throw new UpdateException("mysql : update orderInfo status failed");
                 }
             }
 
@@ -359,21 +372,21 @@ public class OrderServiceImpl implements IOrderService {
 
         REcDeliveryinfo deliveryinfo = deliveryinfoMapper.selectByPrimaryKey(orderinfo.getNdeliveryid());
         if (deliveryinfo == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get deliveryInfo failed");
         }
         REcUserdeliveryaddress address = addressMapper.selectByPrimaryKey(orderinfo.getNaddressid());
         if (address == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get address failed");
         }
         List<REcOrdersku> orderskuList = orderskuMapper.selectByOrderId(orderId);
         if (orderskuList == null) {
-            throw new Exception();
+            throw new UpdateException("mysql : update get orderSKUList failed");
         }
 
         return ConvertToDTO.convertToOrderDTO(deliveryinfo, orderinfo, orderskuList, address);
     }
 
-    private void updateOrderPaymentByRedis(OrderDTO orderDTO) throws Exception{
+    private void updateOrderPaymentByRedis(OrderDTO orderDTO) throws UpdateException{
         getJedis().set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
     }
 

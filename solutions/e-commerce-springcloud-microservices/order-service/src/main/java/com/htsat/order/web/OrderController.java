@@ -34,7 +34,6 @@ public class OrderController {
     public StatusDTO createOrder(@RequestBody OrderDTO orderDTO){
         StatusDTO status = new StatusDTO();
         status.setUserId(orderDTO.getUserId());
-        OrderDTO returnOrderDTO = null;
         //check
         boolean checkUserResult = userService.checkUserAvailable(orderDTO.getUserId());
         boolean checkAddressResult = addressService.checkAddressAvailable(orderDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
