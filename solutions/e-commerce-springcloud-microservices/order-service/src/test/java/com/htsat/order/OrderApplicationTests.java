@@ -55,7 +55,6 @@ public class OrderApplicationTests {
 		deliveryDTO.setSexpresscompany("EMS");
 		deliveryDTO.setNdeliveryprice(new BigDecimal(100));
 		deliveryDTO.setNaddressid(addressDTO.getNaddressid());
-//		deliveryDTO.setStatus(DeliveryStatusEnum.NORECEIVE.toString());
 
 		List<OrderSKUDTO> orderskuDTOList = new ArrayList<>();
 		OrderSKUDTO ordersku = new OrderSKUDTO();
@@ -64,7 +63,16 @@ public class OrderApplicationTests {
 		ordersku.setPrice(new BigDecimal(700));
 		ordersku.setOriginPrice(new BigDecimal(799));
 		ordersku.setDiscount(new BigDecimal(99));
+
+		OrderSKUDTO ordersku2 = new OrderSKUDTO();
+		ordersku2.setSkuId(10002L);
+		ordersku2.setQuantity(7);
+		ordersku2.setPrice(new BigDecimal(799));
+		ordersku2.setOriginPrice(new BigDecimal(799));
+		ordersku2.setDiscount(new BigDecimal(0));
+
 		orderskuDTOList.add(ordersku);
+		orderskuDTOList.add(ordersku2);
 
 		OrderDTO orderDTO = new OrderDTO();
 		orderDTO.setUserId(1L);
@@ -98,7 +106,7 @@ public class OrderApplicationTests {
 	@Test
 	public void testDelete() throws IOException {
 
-		URL url = new URL("http://localhost:8000/orders/1/11");
+		URL url = new URL("http://localhost:8000/orders/1/12");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("DELETE");
 		connection.setDoInput(true);

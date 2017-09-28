@@ -29,14 +29,15 @@ public class ComputeUtils {
 
     public static BigDecimal computeTotalPrice(List<OrderSKUDTO> orderSKUDTOList, DeliveryDTO deliveryDTO) {
         BigDecimal totalPrice = new BigDecimal(0);
+        BigDecimal deliveryPrice = deliveryDTO.getNdeliveryprice();
         for (int i = 0; i < orderSKUDTOList.size(); i++) {
             BigDecimal displayPrice = orderSKUDTOList.get(i).getPrice();
             BigDecimal quantity = new BigDecimal(orderSKUDTOList.get(i).getQuantity());
-            BigDecimal deliveryPrice = deliveryDTO.getNdeliveryprice();
-            BigDecimal price = displayPrice.multiply(quantity).add(deliveryPrice);
+            BigDecimal price = displayPrice.multiply(quantity);
 
             totalPrice = totalPrice.add(price);
         }
+        totalPrice = totalPrice.add(deliveryPrice);
         return totalPrice;
     }
 }
