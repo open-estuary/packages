@@ -19,15 +19,15 @@ sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
 
 ######### update e-commerce cache_size ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.filterCache.size":1024, "query.filterCache.initialSize":1024, "query.filterCache.autowarmCount":512}}' \
+      '{"set-property": { "query.filterCache.size":1024, "query.filterCache.initialSize":1024, "query.filterCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.queryResultCache.size":1024, "query.queryResultCache.initialSize":1024, "query.queryResultCache.autowarmCount":512}}' \
+      '{"set-property": { "query.queryResultCache.size":1024, "query.queryResultCache.initialSize":1024, "query.queryResultCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.documentCache.size":4096, "query.documentCache.initialSize":4096, "query.documentCache.autowarmCount":512}}' \
+      '{"set-property": { "query.documentCache.size":2048, "query.documentCache.initialSize":1024, "query.documentCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
