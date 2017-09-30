@@ -120,7 +120,7 @@
           <stringProp name="variableName">row_num</stringProp>
           <stringProp name="outputFormat"></stringProp>
           <stringProp name="minimumValue">1</stringProp>
-          <stringProp name="maximumValue">100</stringProp>
+          <stringProp name="maximumValue">30</stringProp>
           <stringProp name="randomSeed"></stringProp>
           <boolProp name="perThread">true</boolProp>
         </RandomVariableConfig>
