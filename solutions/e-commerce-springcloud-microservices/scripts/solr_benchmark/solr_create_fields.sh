@@ -49,15 +49,15 @@ curl -X POST -H 'Content-type:application/json' --data-binary \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"title", "type":"text-smartcn", "stored":false, "indexed":true, "docValues":true}}'     \
+     '{"add-field": {"name":"title", "type":"text-smartcn", "stored":false, "indexed":true}}'     \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"description", "type":"text-smartcn", "stored":false, "indexed":true, "docValues":true}}'  \
+     '{"add-field": {"name":"description", "type":"text-smartcn", "stored":false, "indexed":true}}'  \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":true,"indexed":true, "docValues":true}}'  \
+     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":true,"indexed":true}}'  \
      http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary  \
