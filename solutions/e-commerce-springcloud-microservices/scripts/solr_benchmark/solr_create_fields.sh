@@ -41,27 +41,27 @@ curl -X POST -H 'Content-type:application/json' --data-binary \
 
 ######### create e-commerce core fields ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"add-field": { "name":"productid", "type":"int", "stored":true,  "indexed":true}}' \
+      '{"add-field": { "name":"productid", "type":"int", "stored":true,  "indexed":true, "docValues":true}}' \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"cateid", "type":"int", "stored":true, "indexed":true}}'       \
+     '{"add-field": {"name":"cateid", "type":"int", "stored":true, "indexed":true, "docValues":true}}'       \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"title", "type":"text-smartcn", "stored":false, "indexed":true}}'     \
+     '{"add-field": {"name":"title", "type":"text-smartcn", "stored":false, "indexed":true, "docValues":true}}'     \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"description", "type":"text-smartcn", "stored":false, "indexed":true}}'  \
+     '{"add-field": {"name":"description", "type":"text-smartcn", "stored":false, "indexed":true, "docValues":true}}'  \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":true,"indexed":true}}'  \
+     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":true,"indexed":true, "docValues":true}}'  \
      http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary  \
-     '{"add-field": {"name":"price","type":"int","stored":true, "indexed":true}}'            \
+     '{"add-field": {"name":"price","type":"int","stored":true, "indexed":true, "docValues":true}}'            \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary  \
