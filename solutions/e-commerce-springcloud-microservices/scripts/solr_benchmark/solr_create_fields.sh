@@ -19,19 +19,19 @@ sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
 
 ######### update e-commerce cache_size ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.filterCache.size":1024, "query.filterCache.initialSize":1024, "query.filterCache.autowarmCount":256}}' \
+      '{"set-property": { "query.filterCache.class":"solr.FastLRUCache", "query.filterCache.size":512, "query.filterCache.initialSize":1024, "query.filterCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.queryResultCache.size":1024, "query.queryResultCache.initialSize":1024, "query.queryResultCache.autowarmCount":256}}' \
+      '{"set-property": { "query.queryResultCache.class":"solr.FastLRUCache", "query.queryResultCache.size":512, "query.queryResultCache.initialSize":1024, "query.queryResultCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.documentCache.size":2048, "query.documentCache.initialSize":1024, "query.documentCache.autowarmCount":256}}' \
+      '{"set-property": { "query.documentCache.class":"solr.FastLRUCache", "query.documentCache.size":1024, "query.documentCache.initialSize":1024, "query.documentCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-      '{"set-property": { "query.fieldValueCache.size":1024, "query.fieldValueCache.initialSize":512, "query.fieldValueCache.autowarmCount":256}}' \
+      '{"set-property": { "query.fieldValueCache.class":"solr.FastLRUCache", "query.fieldValueCache.size":1024, "query.fieldValueCache.initialSize":512, "query.fieldValueCache.autowarmCount":256}}' \
       http://${host}:${port}/solr/${core}/config
 
 ######### create chinese field type ############################################################
