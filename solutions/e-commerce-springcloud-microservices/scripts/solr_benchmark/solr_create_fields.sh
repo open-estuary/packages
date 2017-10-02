@@ -57,23 +57,23 @@ curl -X POST -H 'Content-type:application/json' --data-binary \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":true,"indexed":true}}'  \
+     '{"add-field": {"name":"manufacturer","type":"text-smartcn", "stored":false,"indexed":true}}'  \
      http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary  \
-     '{"add-field": {"name":"price","type":"int","stored":true, "indexed":true, "docValues":true}}'            \
+     '{"add-field": {"name":"price","type":"int","stored":false, "indexed":true, "docValues":true}}'            \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary  \
-     '{"add-field": {"name":"quatity","type":"int","stored":true,"indexed":false}}'          \
+     '{"add-field": {"name":"quatity","type":"int","stored":false,"indexed":false}}'          \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"size","type":"text-smartcn","stored":true,"indexed":false}}'           \
+     '{"add-field": {"name":"size","type":"text-smartcn","stored":false,"indexed":false}}'           \
       http://${host}:${port}/solr/${core}/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary \
-     '{"add-field": {"name":"url","type":"string","stored":true,"indexed":false}}'           \
+     '{"add-field": {"name":"url","type":"string","stored":false,"indexed":false}}'           \
       http://${host}:${port}/solr/${core}/schema
 
 echo "\n\n====================================================================================="
