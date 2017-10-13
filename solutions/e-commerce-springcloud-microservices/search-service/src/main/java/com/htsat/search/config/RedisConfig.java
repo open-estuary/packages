@@ -17,13 +17,13 @@ import redis.clients.jedis.JedisPoolConfig;
 //@EnableAutoConfiguration
 //@ConfigurationProperties(prefix = "spring.redis", locations = "classpath:application.properties")
 @Component
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yml")
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
 	private static Logger logger = Logger.getLogger(RedisConfig.class);
 
-	private String hostName;
+	private String host;
 
 	private int port;
 
@@ -40,17 +40,17 @@ public class RedisConfig {
 	@Bean
 	public JedisPool getJedisPool(){
 		JedisPoolConfig config = getRedisConfig();
-		JedisPool pool = new JedisPool(config,hostName,port,timeout,password);
+		JedisPool pool = new JedisPool(config,host,port,timeout,password);
 		logger.info("init JredisPool ...");
 		return pool;
 	}
 
-	public String getHostName() {
-		return hostName;
+	public String getHost() {
+		return host;
 	}
 
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
+	public void setHost(String host) {
+		this.host = host;
 	}
 
 	public int getPort() {
