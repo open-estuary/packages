@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htsat.order.dao.REcOrderskuMapper">
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcOrdersku">
+    <id column="nOrderSKUID" jdbcType="BIGINT" property="norderskuid" />
+    <result column="nOrderID" jdbcType="BIGINT" property="norderid" />
+    <result column="nSKUID" jdbcType="BIGINT" property="nskuid" />
+    <result column="nQuantity" jdbcType="INTEGER" property="nquantity" />
+    <result column="nOrigPrice" jdbcType="DECIMAL" property="norigprice" />
+    <result column="nDiscount" jdbcType="DECIMAL" property="ndiscount" />
+    <result column="sCurrency" jdbcType="VARCHAR" property="scurrency" />
+    <result column="nPrice" jdbcType="DECIMAL" property="nprice" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    nOrderSKUID, nOrderID, nSKUID, nQuantity, nOrigPrice, nDiscount, sCurrency, nPrice
+  </sql>
+  <select id="selectByExample" parameterType="com.htsat.order.model.REcOrderskuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_ordersku
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_ordersku
+    where nOrderSKUID = #{norderskuid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from r_ec_ordersku
+    where nOrderSKUID = #{norderskuid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcOrderskuExample">
+    delete from r_ec_ordersku
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcOrdersku">
+    insert into r_ec_ordersku (nOrderSKUID, nOrderID, nSKUID, 
+      nQuantity, nOrigPrice, nDiscount, 
+      sCurrency, nPrice)
+    values (#{norderskuid,jdbcType=BIGINT}, #{norderid,jdbcType=BIGINT}, #{nskuid,jdbcType=BIGINT}, 
+      #{nquantity,jdbcType=INTEGER}, #{norigprice,jdbcType=DECIMAL}, #{ndiscount,jdbcType=DECIMAL}, 
+      #{scurrency,jdbcType=VARCHAR}, #{nprice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcOrdersku">
+    insert into r_ec_ordersku
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="norderskuid != null">
+        nOrderSKUID,
+      </if>
+      <if test="norderid != null">
+        nOrderID,
+      </if>
+      <if test="nskuid != null">
+        nSKUID,
+      </if>
+      <if test="nquantity != null">
+        nQuantity,
+      </if>
+      <if test="norigprice != null">
+        nOrigPrice,
+      </if>
+      <if test="ndiscount != null">
+        nDiscount,
+      </if>
+      <if test="scurrency != null">
+        sCurrency,
+      </if>
+      <if test="nprice != null">
+        nPrice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="norderskuid != null">
+        #{norderskuid,jdbcType=BIGINT},
+      </if>
+      <if test="norderid != null">
+        #{norderid,jdbcType=BIGINT},
+      </if>
+      <if test="nskuid != null">
+        #{nskuid,jdbcType=BIGINT},
+      </if>
+      <if test="nquantity != null">
+        #{nquantity,jdbcType=INTEGER},
+      </if>
+      <if test="norigprice != null">
+        #{norigprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ndiscount != null">
+        #{ndiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="scurrency != null">
+        #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="nprice != null">
+        #{nprice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcOrderskuExample" resultType="java.lang.Integer">
+    select count(*) from r_ec_ordersku
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update r_ec_ordersku
+    <set>
+      <if test="record.norderskuid != null">
+        nOrderSKUID = #{record.norderskuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.norderid != null">
+        nOrderID = #{record.norderid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nskuid != null">
+        nSKUID = #{record.nskuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nquantity != null">
+        nQuantity = #{record.nquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.norigprice != null">
+        nOrigPrice = #{record.norigprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ndiscount != null">
+        nDiscount = #{record.ndiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scurrency != null">
+        sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nprice != null">
+        nPrice = #{record.nprice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update r_ec_ordersku
+    set nOrderSKUID = #{record.norderskuid,jdbcType=BIGINT},
+      nOrderID = #{record.norderid,jdbcType=BIGINT},
+      nSKUID = #{record.nskuid,jdbcType=BIGINT},
+      nQuantity = #{record.nquantity,jdbcType=INTEGER},
+      nOrigPrice = #{record.norigprice,jdbcType=DECIMAL},
+      nDiscount = #{record.ndiscount,jdbcType=DECIMAL},
+      sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      nPrice = #{record.nprice,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcOrdersku">
+    update r_ec_ordersku
+    <set>
+      <if test="norderid != null">
+        nOrderID = #{norderid,jdbcType=BIGINT},
+      </if>
+      <if test="nskuid != null">
+        nSKUID = #{nskuid,jdbcType=BIGINT},
+      </if>
+      <if test="nquantity != null">
+        nQuantity = #{nquantity,jdbcType=INTEGER},
+      </if>
+      <if test="norigprice != null">
+        nOrigPrice = #{norigprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ndiscount != null">
+        nDiscount = #{ndiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="scurrency != null">
+        sCurrency = #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="nprice != null">
+        nPrice = #{nprice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where nOrderSKUID = #{norderskuid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcOrdersku">
+    update r_ec_ordersku
+    set nOrderID = #{norderid,jdbcType=BIGINT},
+      nSKUID = #{nskuid,jdbcType=BIGINT},
+      nQuantity = #{nquantity,jdbcType=INTEGER},
+      nOrigPrice = #{norigprice,jdbcType=DECIMAL},
+      nDiscount = #{ndiscount,jdbcType=DECIMAL},
+      sCurrency = #{scurrency,jdbcType=VARCHAR},
+      nPrice = #{nprice,jdbcType=DECIMAL}
+    where nOrderSKUID = #{norderskuid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_ordersku
+    where nOrderID = #{norderid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByOrderskuKey" parameterType="com.htsat.order.model.REcOrderskuKey">
+    delete from r_ec_ordersku
+    where nOrderID = #{norderid,jdbcType=BIGINT}
+    and nSKUID = #{nskuid,jdbcType=BIGINT}
+  </delete>
+</mapper>

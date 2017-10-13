@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.cart.dao.REcShoppingcartMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.cart.model.REcShoppingcart" >
+    <id column="nShoppingCartID" property="nshoppingcartid" jdbcType="BIGINT" />
+    <result column="nUserID" property="nuserid" jdbcType="BIGINT" />
+    <result column="sUpdateTime" property="supdatetime" jdbcType="TIMESTAMP" />
+    <result column="nDiscount" property="ndiscount" jdbcType="DECIMAL" />
+    <result column="nTotalQuantity" property="ntotalquantity" jdbcType="INTEGER" />
+    <result column="sCurrency" property="scurrency" jdbcType="VARCHAR" />
+    <result column="nTotalPrice" property="ntotalprice" jdbcType="DECIMAL" />
+    <result column="nCreateTime" property="ncreatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nShoppingCartID, nUserID, sUpdateTime, nDiscount, nTotalQuantity, sCurrency, nTotalPrice, 
+    nCreateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.cart.model.REcShoppingcartExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_shoppingcart
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_shoppingcart
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from r_ec_shoppingcart
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.cart.model.REcShoppingcartExample" >
+    delete from r_ec_shoppingcart
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.cart.model.REcShoppingcart" >
+    insert into r_ec_shoppingcart (nShoppingCartID, nUserID, sUpdateTime, 
+      nDiscount, nTotalQuantity, sCurrency, 
+      nTotalPrice, nCreateTime)
+    values (#{nshoppingcartid,jdbcType=BIGINT}, #{nuserid,jdbcType=BIGINT}, #{supdatetime,jdbcType=TIMESTAMP}, 
+      #{ndiscount,jdbcType=DECIMAL}, #{ntotalquantity,jdbcType=INTEGER}, #{scurrency,jdbcType=VARCHAR}, 
+      #{ntotalprice,jdbcType=DECIMAL}, #{ncreatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.cart.model.REcShoppingcart" useGeneratedKeys="true" keyProperty="nshoppingcartid">
+    insert into r_ec_shoppingcart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nshoppingcartid != null" >
+        nShoppingCartID,
+      </if>
+      <if test="nuserid != null" >
+        nUserID,
+      </if>
+      <if test="supdatetime != null" >
+        sUpdateTime,
+      </if>
+      <if test="ndiscount != null" >
+        nDiscount,
+      </if>
+      <if test="ntotalquantity != null" >
+        nTotalQuantity,
+      </if>
+      <if test="scurrency != null" >
+        sCurrency,
+      </if>
+      <if test="ntotalprice != null" >
+        nTotalPrice,
+      </if>
+      <if test="ncreatetime != null" >
+        nCreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nshoppingcartid != null" >
+        #{nshoppingcartid,jdbcType=BIGINT},
+      </if>
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="supdatetime != null" >
+        #{supdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ndiscount != null" >
+        #{ndiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="ntotalquantity != null" >
+        #{ntotalquantity,jdbcType=INTEGER},
+      </if>
+      <if test="scurrency != null" >
+        #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="ntotalprice != null" >
+        #{ntotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ncreatetime != null" >
+        #{ncreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.cart.model.REcShoppingcartExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_shoppingcart
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_shoppingcart
+    <set >
+      <if test="record.nshoppingcartid != null" >
+        nShoppingCartID = #{record.nshoppingcartid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.supdatetime != null" >
+        sUpdateTime = #{record.supdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ndiscount != null" >
+        nDiscount = #{record.ndiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ntotalquantity != null" >
+        nTotalQuantity = #{record.ntotalquantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.scurrency != null" >
+        sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ntotalprice != null" >
+        nTotalPrice = #{record.ntotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ncreatetime != null" >
+        nCreateTime = #{record.ncreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_shoppingcart
+    set nShoppingCartID = #{record.nshoppingcartid,jdbcType=BIGINT},
+      nUserID = #{record.nuserid,jdbcType=BIGINT},
+      sUpdateTime = #{record.supdatetime,jdbcType=TIMESTAMP},
+      nDiscount = #{record.ndiscount,jdbcType=DECIMAL},
+      nTotalQuantity = #{record.ntotalquantity,jdbcType=INTEGER},
+      sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      nTotalPrice = #{record.ntotalprice,jdbcType=DECIMAL},
+      nCreateTime = #{record.ncreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.cart.model.REcShoppingcart" >
+    update r_ec_shoppingcart
+    <set >
+      <if test="nuserid != null" >
+        nUserID = #{nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="supdatetime != null" >
+        sUpdateTime = #{supdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ndiscount != null" >
+        nDiscount = #{ndiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="ntotalquantity != null" >
+        nTotalQuantity = #{ntotalquantity,jdbcType=INTEGER},
+      </if>
+      <if test="scurrency != null" >
+        sCurrency = #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="ntotalprice != null" >
+        nTotalPrice = #{ntotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ncreatetime != null" >
+        nCreateTime = #{ncreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.cart.model.REcShoppingcart" >
+    update r_ec_shoppingcart
+    set nUserID = #{nuserid,jdbcType=BIGINT},
+      sUpdateTime = #{supdatetime,jdbcType=TIMESTAMP},
+      nDiscount = #{ndiscount,jdbcType=DECIMAL},
+      nTotalQuantity = #{ntotalquantity,jdbcType=INTEGER},
+      sCurrency = #{scurrency,jdbcType=VARCHAR},
+      nTotalPrice = #{ntotalprice,jdbcType=DECIMAL},
+      nCreateTime = #{ncreatetime,jdbcType=TIMESTAMP}
+    where nShoppingCartID = #{nshoppingcartid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_shoppingcart
+    where nUserID = #{nuserid,jdbcType=BIGINT}
+  </select>
+</mapper>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcUserbankinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcUserbankinfo" >
+    <id column="sCardID" property="scardid" jdbcType="VARCHAR" />
+    <result column="nUserID" property="nuserid" jdbcType="BIGINT" />
+    <result column="sBank" property="sbank" jdbcType="SMALLINT" />
+    <result column="sCardType" property="scardtype" jdbcType="SMALLINT" />
+    <result column="sCurrency" property="scurrency" jdbcType="VARCHAR" />
+    <result column="sCardNumber" property="scardnumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sCardID, nUserID, sBank, sCardType, sCurrency, sCardNumber
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcUserbankinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_userbankinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_userbankinfo
+    where sCardID = #{scardid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from r_ec_userbankinfo
+    where sCardID = #{scardid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcUserbankinfoExample" >
+    delete from r_ec_userbankinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcUserbankinfo" >
+    insert into r_ec_userbankinfo (sCardID, nUserID, sBank, 
+      sCardType, sCurrency, sCardNumber
+      )
+    values (#{scardid,jdbcType=VARCHAR}, #{nuserid,jdbcType=BIGINT}, #{sbank,jdbcType=SMALLINT}, 
+      #{scardtype,jdbcType=SMALLINT}, #{scurrency,jdbcType=VARCHAR}, #{scardnumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcUserbankinfo" >
+    insert into r_ec_userbankinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scardid != null" >
+        sCardID,
+      </if>
+      <if test="nuserid != null" >
+        nUserID,
+      </if>
+      <if test="sbank != null" >
+        sBank,
+      </if>
+      <if test="scardtype != null" >
+        sCardType,
+      </if>
+      <if test="scurrency != null" >
+        sCurrency,
+      </if>
+      <if test="scardnumber != null" >
+        sCardNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scardid != null" >
+        #{scardid,jdbcType=VARCHAR},
+      </if>
+      <if test="nuserid != null" >
+        #{nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="sbank != null" >
+        #{sbank,jdbcType=SMALLINT},
+      </if>
+      <if test="scardtype != null" >
+        #{scardtype,jdbcType=SMALLINT},
+      </if>
+      <if test="scurrency != null" >
+        #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="scardnumber != null" >
+        #{scardnumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcUserbankinfoExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_userbankinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_userbankinfo
+    <set >
+      <if test="record.scardid != null" >
+        sCardID = #{record.scardid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nuserid != null" >
+        nUserID = #{record.nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sbank != null" >
+        sBank = #{record.sbank,jdbcType=SMALLINT},
+      </if>
+      <if test="record.scardtype != null" >
+        sCardType = #{record.scardtype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.scurrency != null" >
+        sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scardnumber != null" >
+        sCardNumber = #{record.scardnumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_userbankinfo
+    set sCardID = #{record.scardid,jdbcType=VARCHAR},
+      nUserID = #{record.nuserid,jdbcType=BIGINT},
+      sBank = #{record.sbank,jdbcType=SMALLINT},
+      sCardType = #{record.scardtype,jdbcType=SMALLINT},
+      sCurrency = #{record.scurrency,jdbcType=VARCHAR},
+      sCardNumber = #{record.scardnumber,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcUserbankinfo" >
+    update r_ec_userbankinfo
+    <set >
+      <if test="nuserid != null" >
+        nUserID = #{nuserid,jdbcType=BIGINT},
+      </if>
+      <if test="sbank != null" >
+        sBank = #{sbank,jdbcType=SMALLINT},
+      </if>
+      <if test="scardtype != null" >
+        sCardType = #{scardtype,jdbcType=SMALLINT},
+      </if>
+      <if test="scurrency != null" >
+        sCurrency = #{scurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="scardnumber != null" >
+        sCardNumber = #{scardnumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sCardID = #{scardid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcUserbankinfo" >
+    update r_ec_userbankinfo
+    set nUserID = #{nuserid,jdbcType=BIGINT},
+      sBank = #{sbank,jdbcType=SMALLINT},
+      sCardType = #{scardtype,jdbcType=SMALLINT},
+      sCurrency = #{scurrency,jdbcType=VARCHAR},
+      sCardNumber = #{scardnumber,jdbcType=VARCHAR}
+    where sCardID = #{scardid,jdbcType=VARCHAR}
+  </update>
+</mapper>

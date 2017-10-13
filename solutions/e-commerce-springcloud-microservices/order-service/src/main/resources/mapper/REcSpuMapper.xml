@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcSpuMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcSpu" >
+    <id column="nSPUID" property="nspuid" jdbcType="BIGINT" />
+    <result column="sSPUBriefName" property="sspubriefname" jdbcType="VARCHAR" />
+    <result column="sSPUName" property="sspuname" jdbcType="VARCHAR" />
+    <result column="sMetaKeywords" property="smetakeywords" jdbcType="VARCHAR" />
+    <result column="nCategoryID" property="ncategoryid" jdbcType="BIGINT" />
+    <result column="nBrandID" property="nbrandid" jdbcType="BIGINT" />
+    <result column="nImageID" property="nimageid" jdbcType="BIGINT" />
+    <result column="sDescription" property="sdescription" jdbcType="VARCHAR" />
+    <result column="sCode" property="scode" jdbcType="VARCHAR" />
+    <result column="sIsVirtual" property="sisvirtual" jdbcType="CHAR" />
+    <result column="dCreateTime" property="dcreatetime" jdbcType="TIMESTAMP" />
+    <result column="dUpdateTime" property="dupdatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nSPUID, sSPUBriefName, sSPUName, sMetaKeywords, nCategoryID, nBrandID, nImageID, 
+    sDescription, sCode, sIsVirtual, dCreateTime, dUpdateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcSpuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_spu
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from r_ec_spu
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcSpuExample" >
+    delete from r_ec_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcSpu" >
+    insert into r_ec_spu (nSPUID, sSPUBriefName, sSPUName, 
+      sMetaKeywords, nCategoryID, nBrandID, 
+      nImageID, sDescription, sCode, 
+      sIsVirtual, dCreateTime, dUpdateTime
+      )
+    values (#{nspuid,jdbcType=BIGINT}, #{sspubriefname,jdbcType=VARCHAR}, #{sspuname,jdbcType=VARCHAR}, 
+      #{smetakeywords,jdbcType=VARCHAR}, #{ncategoryid,jdbcType=BIGINT}, #{nbrandid,jdbcType=BIGINT}, 
+      #{nimageid,jdbcType=BIGINT}, #{sdescription,jdbcType=VARCHAR}, #{scode,jdbcType=VARCHAR}, 
+      #{sisvirtual,jdbcType=CHAR}, #{dcreatetime,jdbcType=TIMESTAMP}, #{dupdatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcSpu" >
+    insert into r_ec_spu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nspuid != null" >
+        nSPUID,
+      </if>
+      <if test="sspubriefname != null" >
+        sSPUBriefName,
+      </if>
+      <if test="sspuname != null" >
+        sSPUName,
+      </if>
+      <if test="smetakeywords != null" >
+        sMetaKeywords,
+      </if>
+      <if test="ncategoryid != null" >
+        nCategoryID,
+      </if>
+      <if test="nbrandid != null" >
+        nBrandID,
+      </if>
+      <if test="nimageid != null" >
+        nImageID,
+      </if>
+      <if test="sdescription != null" >
+        sDescription,
+      </if>
+      <if test="scode != null" >
+        sCode,
+      </if>
+      <if test="sisvirtual != null" >
+        sIsVirtual,
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime,
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nspuid != null" >
+        #{nspuid,jdbcType=BIGINT},
+      </if>
+      <if test="sspubriefname != null" >
+        #{sspubriefname,jdbcType=VARCHAR},
+      </if>
+      <if test="sspuname != null" >
+        #{sspuname,jdbcType=VARCHAR},
+      </if>
+      <if test="smetakeywords != null" >
+        #{smetakeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="ncategoryid != null" >
+        #{ncategoryid,jdbcType=BIGINT},
+      </if>
+      <if test="nbrandid != null" >
+        #{nbrandid,jdbcType=BIGINT},
+      </if>
+      <if test="nimageid != null" >
+        #{nimageid,jdbcType=BIGINT},
+      </if>
+      <if test="sdescription != null" >
+        #{sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="scode != null" >
+        #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="sisvirtual != null" >
+        #{sisvirtual,jdbcType=CHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcSpuExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_spu
+    <set >
+      <if test="record.nspuid != null" >
+        nSPUID = #{record.nspuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sspubriefname != null" >
+        sSPUBriefName = #{record.sspubriefname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sspuname != null" >
+        sSPUName = #{record.sspuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smetakeywords != null" >
+        sMetaKeywords = #{record.smetakeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ncategoryid != null" >
+        nCategoryID = #{record.ncategoryid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nbrandid != null" >
+        nBrandID = #{record.nbrandid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nimageid != null" >
+        nImageID = #{record.nimageid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sdescription != null" >
+        sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scode != null" >
+        sCode = #{record.scode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sisvirtual != null" >
+        sIsVirtual = #{record.sisvirtual,jdbcType=CHAR},
+      </if>
+      <if test="record.dcreatetime != null" >
+        dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dupdatetime != null" >
+        dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_spu
+    set nSPUID = #{record.nspuid,jdbcType=BIGINT},
+      sSPUBriefName = #{record.sspubriefname,jdbcType=VARCHAR},
+      sSPUName = #{record.sspuname,jdbcType=VARCHAR},
+      sMetaKeywords = #{record.smetakeywords,jdbcType=VARCHAR},
+      nCategoryID = #{record.ncategoryid,jdbcType=BIGINT},
+      nBrandID = #{record.nbrandid,jdbcType=BIGINT},
+      nImageID = #{record.nimageid,jdbcType=BIGINT},
+      sDescription = #{record.sdescription,jdbcType=VARCHAR},
+      sCode = #{record.scode,jdbcType=VARCHAR},
+      sIsVirtual = #{record.sisvirtual,jdbcType=CHAR},
+      dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcSpu" >
+    update r_ec_spu
+    <set >
+      <if test="sspubriefname != null" >
+        sSPUBriefName = #{sspubriefname,jdbcType=VARCHAR},
+      </if>
+      <if test="sspuname != null" >
+        sSPUName = #{sspuname,jdbcType=VARCHAR},
+      </if>
+      <if test="smetakeywords != null" >
+        sMetaKeywords = #{smetakeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="ncategoryid != null" >
+        nCategoryID = #{ncategoryid,jdbcType=BIGINT},
+      </if>
+      <if test="nbrandid != null" >
+        nBrandID = #{nbrandid,jdbcType=BIGINT},
+      </if>
+      <if test="nimageid != null" >
+        nImageID = #{nimageid,jdbcType=BIGINT},
+      </if>
+      <if test="sdescription != null" >
+        sDescription = #{sdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="scode != null" >
+        sCode = #{scode,jdbcType=VARCHAR},
+      </if>
+      <if test="sisvirtual != null" >
+        sIsVirtual = #{sisvirtual,jdbcType=CHAR},
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcSpu" >
+    update r_ec_spu
+    set sSPUBriefName = #{sspubriefname,jdbcType=VARCHAR},
+      sSPUName = #{sspuname,jdbcType=VARCHAR},
+      sMetaKeywords = #{smetakeywords,jdbcType=VARCHAR},
+      nCategoryID = #{ncategoryid,jdbcType=BIGINT},
+      nBrandID = #{nbrandid,jdbcType=BIGINT},
+      nImageID = #{nimageid,jdbcType=BIGINT},
+      sDescription = #{sdescription,jdbcType=VARCHAR},
+      sCode = #{scode,jdbcType=VARCHAR},
+      sIsVirtual = #{sisvirtual,jdbcType=CHAR},
+      dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP}
+    where nSPUID = #{nspuid,jdbcType=BIGINT}
+  </update>
+</mapper>

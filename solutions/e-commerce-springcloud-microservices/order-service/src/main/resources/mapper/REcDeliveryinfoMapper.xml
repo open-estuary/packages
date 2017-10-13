@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htsat.order.dao.REcDeliveryinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.htsat.order.model.REcDeliveryinfo" >
+    <id column="nDeliveryID" property="ndeliveryid" jdbcType="BIGINT" />
+    <result column="sExpressCompany" property="sexpresscompany" jdbcType="VARCHAR" />
+    <result column="nDeliveryPrice" property="ndeliveryprice" jdbcType="DECIMAL" />
+    <result column="cStatus" property="cstatus" jdbcType="SMALLINT" />
+    <result column="dCreateTime" property="dcreatetime" jdbcType="TIMESTAMP" />
+    <result column="dUpdateTime" property="dupdatetime" jdbcType="TIMESTAMP" />
+    <result column="dOutTime" property="douttime" jdbcType="TIMESTAMP" />
+    <result column="nAddressID" property="naddressid" jdbcType="BIGINT" />
+    <result column="sConsignee" property="sconsignee" jdbcType="VARCHAR" />
+    <result column="sDeliveryComment" property="sdeliverycomment" jdbcType="VARCHAR" />
+    <result column="sDeliveryCode" property="sdeliverycode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nDeliveryID, sExpressCompany, nDeliveryPrice, cStatus, dCreateTime, dUpdateTime, 
+    dOutTime, nAddressID, sConsignee, sDeliveryComment, sDeliveryCode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.htsat.order.model.REcDeliveryinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from r_ec_deliveryinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from r_ec_deliveryinfo
+    where nDeliveryID = #{ndeliveryid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from r_ec_deliveryinfo
+    where nDeliveryID = #{ndeliveryid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.htsat.order.model.REcDeliveryinfoExample" >
+    delete from r_ec_deliveryinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    insert into r_ec_deliveryinfo (nDeliveryID, sExpressCompany, nDeliveryPrice, 
+      cStatus, dCreateTime, dUpdateTime, 
+      dOutTime, nAddressID, sConsignee, 
+      sDeliveryComment, sDeliveryCode)
+    values (#{ndeliveryid,jdbcType=BIGINT}, #{sexpresscompany,jdbcType=VARCHAR}, #{ndeliveryprice,jdbcType=DECIMAL}, 
+      #{cstatus,jdbcType=SMALLINT}, #{dcreatetime,jdbcType=TIMESTAMP}, #{dupdatetime,jdbcType=TIMESTAMP}, 
+      #{douttime,jdbcType=TIMESTAMP}, #{naddressid,jdbcType=BIGINT}, #{sconsignee,jdbcType=VARCHAR}, 
+      #{sdeliverycomment,jdbcType=VARCHAR}, #{sdeliverycode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htsat.order.model.REcDeliveryinfo"  useGeneratedKeys="true" keyProperty="ndeliveryid">
+    insert into r_ec_deliveryinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ndeliveryid != null" >
+        nDeliveryID,
+      </if>
+      <if test="sexpresscompany != null" >
+        sExpressCompany,
+      </if>
+      <if test="ndeliveryprice != null" >
+        nDeliveryPrice,
+      </if>
+      <if test="cstatus != null" >
+        cStatus,
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime,
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime,
+      </if>
+      <if test="douttime != null" >
+        dOutTime,
+      </if>
+      <if test="naddressid != null" >
+        nAddressID,
+      </if>
+      <if test="sconsignee != null" >
+        sConsignee,
+      </if>
+      <if test="sdeliverycomment != null" >
+        sDeliveryComment,
+      </if>
+      <if test="sdeliverycode != null" >
+        sDeliveryCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ndeliveryid != null" >
+        #{ndeliveryid,jdbcType=BIGINT},
+      </if>
+      <if test="sexpresscompany != null" >
+        #{sexpresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ndeliveryprice != null" >
+        #{ndeliveryprice,jdbcType=DECIMAL},
+      </if>
+      <if test="cstatus != null" >
+        #{cstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="dcreatetime != null" >
+        #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="douttime != null" >
+        #{douttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="naddressid != null" >
+        #{naddressid,jdbcType=BIGINT},
+      </if>
+      <if test="sconsignee != null" >
+        #{sconsignee,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeliverycomment != null" >
+        #{sdeliverycomment,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeliverycode != null" >
+        #{sdeliverycode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.htsat.order.model.REcDeliveryinfoExample" resultType="java.lang.Integer" >
+    select count(*) from r_ec_deliveryinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update r_ec_deliveryinfo
+    <set >
+      <if test="record.ndeliveryid != null" >
+        nDeliveryID = #{record.ndeliveryid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sexpresscompany != null" >
+        sExpressCompany = #{record.sexpresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ndeliveryprice != null" >
+        nDeliveryPrice = #{record.ndeliveryprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cstatus != null" >
+        cStatus = #{record.cstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.dcreatetime != null" >
+        dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dupdatetime != null" >
+        dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.douttime != null" >
+        dOutTime = #{record.douttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.naddressid != null" >
+        nAddressID = #{record.naddressid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sconsignee != null" >
+        sConsignee = #{record.sconsignee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sdeliverycomment != null" >
+        sDeliveryComment = #{record.sdeliverycomment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sdeliverycode != null" >
+        sDeliveryCode = #{record.sdeliverycode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update r_ec_deliveryinfo
+    set nDeliveryID = #{record.ndeliveryid,jdbcType=BIGINT},
+      sExpressCompany = #{record.sexpresscompany,jdbcType=VARCHAR},
+      nDeliveryPrice = #{record.ndeliveryprice,jdbcType=DECIMAL},
+      cStatus = #{record.cstatus,jdbcType=SMALLINT},
+      dCreateTime = #{record.dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{record.dupdatetime,jdbcType=TIMESTAMP},
+      dOutTime = #{record.douttime,jdbcType=TIMESTAMP},
+      nAddressID = #{record.naddressid,jdbcType=BIGINT},
+      sConsignee = #{record.sconsignee,jdbcType=VARCHAR},
+      sDeliveryComment = #{record.sdeliverycomment,jdbcType=VARCHAR},
+      sDeliveryCode = #{record.sdeliverycode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    update r_ec_deliveryinfo
+    <set >
+      <if test="sexpresscompany != null" >
+        sExpressCompany = #{sexpresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ndeliveryprice != null" >
+        nDeliveryPrice = #{ndeliveryprice,jdbcType=DECIMAL},
+      </if>
+      <if test="cstatus != null" >
+        cStatus = #{cstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="dcreatetime != null" >
+        dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dupdatetime != null" >
+        dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="douttime != null" >
+        dOutTime = #{douttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="naddressid != null" >
+        nAddressID = #{naddressid,jdbcType=BIGINT},
+      </if>
+      <if test="sconsignee != null" >
+        sConsignee = #{sconsignee,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeliverycomment != null" >
+        sDeliveryComment = #{sdeliverycomment,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeliverycode != null" >
+        sDeliveryCode = #{sdeliverycode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nDeliveryID = #{ndeliveryid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.htsat.order.model.REcDeliveryinfo" >
+    update r_ec_deliveryinfo
+    set sExpressCompany = #{sexpresscompany,jdbcType=VARCHAR},
+      nDeliveryPrice = #{ndeliveryprice,jdbcType=DECIMAL},
+      cStatus = #{cstatus,jdbcType=SMALLINT},
+      dCreateTime = #{dcreatetime,jdbcType=TIMESTAMP},
+      dUpdateTime = #{dupdatetime,jdbcType=TIMESTAMP},
+      dOutTime = #{douttime,jdbcType=TIMESTAMP},
+      nAddressID = #{naddressid,jdbcType=BIGINT},
+      sConsignee = #{sconsignee,jdbcType=VARCHAR},
+      sDeliveryComment = #{sdeliverycomment,jdbcType=VARCHAR},
+      sDeliveryCode = #{sdeliverycode,jdbcType=VARCHAR}
+    where nDeliveryID = #{ndeliveryid,jdbcType=BIGINT}
+  </update>
+</mapper>

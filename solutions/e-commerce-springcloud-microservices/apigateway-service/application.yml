@@ -1,0 +1,20 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: api-gateway-service
+
+zuul:
+  routes:
+    api-cart:
+      path: /cart/**
+      serviceId: cart-service
+    api-order:
+      path: /order/**
+      serviceId: order-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+
