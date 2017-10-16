@@ -80,6 +80,12 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-solr</artifactId>
 		</dependency>
+		<!--actuator begin-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!--actuator end-->
 	</dependencies>
 
 	<dependencyManagement>
