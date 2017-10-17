@@ -172,4 +172,51 @@
 //		return "";
 //	}
 //
+//
+//    @Test
+//    public void createShoppingCartTestByCart() {
+//        try {
+//            sendCreateShoppingCartPostByCart("http://localhost:8000/ordersCart");
+//        } catch (Exception e) {
+//
+//        }
+//    }
+//
+//    private static String sendCreateShoppingCartPostByCart(String url) throws IOException {
+//
+//        AddressDTO addressDTO = new AddressDTO();
+//        addressDTO.setNaddressid(101L);
+//
+//        DeliveryDTO deliveryDTO = new DeliveryDTO();
+//        deliveryDTO.setSexpresscompany("EMS");
+//        deliveryDTO.setNdeliveryprice(new BigDecimal(100));
+//        deliveryDTO.setNaddressid(addressDTO.getNaddressid());
+//
+//        OrderDTO orderDTO = new OrderDTO();
+//        orderDTO.setUserId(1L);
+//        orderDTO.setAddressDTO(addressDTO);
+//        orderDTO.setScustomermark("everything is good!");
+//        orderDTO.setDeliveryDTO(deliveryDTO);
+//
+//        DefaultHttpClient httpClient = new DefaultHttpClient();
+//        HttpPost httpPost = new HttpPost(url);
+//        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+//        String jsonstr = JSON.toJSONString(orderDTO);
+//        StringEntity se = new StringEntity(jsonstr);
+//        se.setContentType("text/json");
+//        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//        httpPost.setEntity(se);
+//        HttpResponse response = httpClient.execute(httpPost);
+//        //输出调用结果
+//        if (response != null && response.getStatusLine().getStatusCode() == 200) {
+//            String result = EntityUtils.toString(response.getEntity());
+//            // 生成 JSON 对象
+//            JSONObject obj = JSONObject.parseObject(result);
+//            String errorcode = obj.getString("errorcode");
+//            if ("000".equals(errorcode)) {
+//                System.out.println("addHkfishOrder_request_success");
+//            }
+//        }
+//        return "";
+//    }
 //}

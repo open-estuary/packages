@@ -11,10 +11,10 @@ spring:
     port: 6379
     password: 123456
     pool:
-      max-active: 8
-      max-wait: 1
-      max-idle: 8
-      min-idle: 0
+      maxActive: -1
+      maxWait: -1
+      maxIdle: 100
+      minIdle: 0
     timeout: 0
 
 server:
@@ -31,3 +31,4 @@ mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.htsat.cart.model
+

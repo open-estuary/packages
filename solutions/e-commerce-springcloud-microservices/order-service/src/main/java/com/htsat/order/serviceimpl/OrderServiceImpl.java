@@ -1,21 +1,20 @@
 package com.htsat.order.serviceimpl;
 
+import com.htsat.order.config.RedisConfig;
 import com.htsat.order.dao.*;
-import com.htsat.order.dto.DeliveryDTO;
-import com.htsat.order.dto.OrderDTO;
-import com.htsat.order.dto.OrderSKUDTO;
+import com.htsat.order.dto.*;
 import com.htsat.order.exception.DeleteException;
 import com.htsat.order.exception.InsertException;
 import com.htsat.order.exception.SearchException;
 import com.htsat.order.exception.UpdateException;
 import com.htsat.order.model.*;
 import com.htsat.order.service.IOrderService;
-import com.htsat.order.service.IRedisService;
 import com.htsat.order.utils.ComputeUtils;
 import com.htsat.order.utils.ConvertToDTO;
 import com.htsat.order.utils.SerializeUtil;
 import com.htsat.order.utils.SortList;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,6 +30,8 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
+
+    private Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
     @Autowired
     REcDeliveryinfoMapper deliveryinfoMapper;
@@ -54,11 +55,7 @@ public class OrderServiceImpl implements IOrderService {
     REcUserbankinfoMapper userbankinfoMapper;
 
     @Autowired
-    private IRedisService redisService;
-
-    private Jedis getJedis(){
-        return redisService.getResource();
-    }
+    private RedisConfig redisConfig;
 
     /**
      * create order
@@ -173,7 +170,18 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
-        getJedis().set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+        Jedis jedis = redisConfig.getJedis();
+        String code = null;
+        try {
+            code = jedis.set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+        } catch (Exception e) {
+            logger.error("Redis insert error: "+ e.getMessage() +" - " + orderDTO.getUserId() + ", value:" + orderDTO);
+        } finally{
+            redisConfig.returnResource(jedis);
+        }
+        if (StringUtils.isEmpty(code)) {
+            throw new InsertException("redis : create failed");
+        }
     }
 
     /**
@@ -210,9 +218,20 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     private OrderDTO getOrderInfoByRedis(Long orderId) throws SearchException {
-        Jedis jedis = getJedis();
-        byte[] orderInfo = jedis.get((orderId + "").getBytes());
-        Object orderObject = SerializeUtil.unserialize(orderInfo);
+        Jedis jedis = redisConfig.getJedis();
+        if(jedis == null || !jedis.exists(orderId + "")){
+            return null;
+        }
+        Object orderObject = null;
+        try {
+            byte[] orderInfo = jedis.get((orderId + "").getBytes());
+            orderObject = SerializeUtil.unserialize(orderInfo);
+        } catch (Exception e) {
+            logger.error("Redis get error: "+ e.getMessage() +" - key : " + orderId);
+        } finally {
+            redisConfig.returnResource(jedis);
+        }
+
         if (orderObject == null)
             return null;
         OrderDTO orderDTO = null;
@@ -271,7 +290,17 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     private void deleteOrderInfoByRedis(Long orderId) throws DeleteException {
-        getJedis().del(orderId + "");
+        Jedis jedis = redisConfig.getJedis();
+        try {
+            Long reply = jedis.del(orderId + "");
+        } catch (Exception e) {
+            logger.error("Redis delete error: "+ e.getMessage() +" - key : " + orderId);
+        }finally{
+            redisConfig.returnResource(jedis);
+        }
+        if (false) {
+            throw new DeleteException("redis : delete failed");
+        }
     }
 
     /**
@@ -333,7 +362,19 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     private void updateOrderDeliveryByRedis(OrderDTO orderDTO) throws UpdateException{
-        getJedis().set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+        Jedis jedis = redisConfig.getJedis();
+        String reply = null;
+        try {
+            reply = jedis.set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+        } catch (Exception e) {
+            logger.error("Redis update error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + "" + ", value:" + orderDTO);
+        }finally{
+            redisConfig.returnResource(jedis);
+        }
+
+        if (StringUtils.isEmpty(reply)) {
+            throw new UpdateException("redis : update failed");
+        }
     }
 
     @Override
@@ -387,9 +428,103 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     private void updateOrderPaymentByRedis(OrderDTO orderDTO) throws UpdateException{
-        getJedis().set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+        Jedis jedis = redisConfig.getJedis();
+        String reply = null;
+        try {
+            reply = jedis.set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+        } catch (Exception e) {
+            logger.error("Redis update error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + "" + ", value:" + orderDTO);
+        }finally{
+            redisConfig.returnResource(jedis);
+        }
+
+        if (StringUtils.isEmpty(reply)) {
+            throw new UpdateException("redis : update failed");
+        }
     }
 
+
+    @Override
+    public void createOrderAndDeliveryAndOrderSKUByShoppingCart(OrderDTO orderDTO, ShoppingCartDTO shoppingCartDTO) throws InsertException{
+        OrderDTO returnOrderDTO = createOrderAndDeliveryAndOrderSKUByMySQLShoppingCart(orderDTO, shoppingCartDTO);
+        createOrderAndDeliveryAndOrderSKUToRedis(returnOrderDTO);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
+    public OrderDTO createOrderAndDeliveryAndOrderSKUByMySQLShoppingCart(OrderDTO orderDTO, ShoppingCartDTO shoppingCartDTO) throws InsertException {
+        REcDeliveryinfo deliveryinfo = createDeliveryInfo(orderDTO);
+        REcOrderinfo orderinfo = createOrderByCart(orderDTO, deliveryinfo, shoppingCartDTO);
+        List<REcOrdersku> orderskuList = createOrderSKUByCart(shoppingCartDTO,orderinfo);
+        REcUserdeliveryaddress address = addressMapper.selectByPrimaryKey(orderDTO.getAddressDTO().getNaddressid());
+        return ConvertToDTO.convertToOrderDTO(deliveryinfo, orderinfo, orderskuList, address);
+    }
+
+    private REcOrderinfo createOrderByCart(OrderDTO orderDTO, REcDeliveryinfo deliveryinfo, ShoppingCartDTO shoppingCartDTO) throws InsertException{
+        REcOrderinfo orderinfo = new REcOrderinfo();
+        Date timestamp = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        String timeStr = df.format(timestamp);
+        String orderCode = orderDTO.getUserId() + "-order-" + timeStr;
+
+        orderinfo.setNaddressid(orderDTO.getAddressDTO().getNaddressid());
+        orderinfo.setNdeliveryid(deliveryinfo.getNdeliveryid());
+        orderinfo.setNuserid(shoppingCartDTO.getUserId());
+        orderinfo.setSordercode(orderCode);
+        orderinfo.setScustomermark(orderDTO.getScustomermark());
+        orderinfo.setSordersource(orderDTO.getSordersource());
+        orderinfo.setSordertype(orderDTO.getSordertype());
+        orderinfo.setSparentorderid(orderDTO.getParentOrderid());
+        orderinfo.setCpaymentmethod(orderDTO.getPaymentMethod());
+
+        if (orderinfo.getDpaymenttime() == null) {
+            orderinfo.setCstatus((short) 0);
+        } else {
+            orderinfo.setDpaymenttime(orderDTO.getDpaymenttime());
+            orderinfo.setCstatus((short) 1);
+        }
+
+        //compute and get result
+        orderinfo.setNdiscount(ComputeUtils.computeDiscountByCart(shoppingCartDTO.getSkudtoList()));
+        orderinfo.setNtotalprice(ComputeUtils.computeTotalPriceByCart(shoppingCartDTO.getSkudtoList(), orderDTO.getDeliveryDTO()));
+        orderinfo.setNtotalquantity(ComputeUtils.computeNumberByCart(shoppingCartDTO.getSkudtoList()));
+
+        int result = orderinfoMapper.insertSelective(orderinfo);
+        if (result != 1) {
+            throw new InsertException("mysql : create order by cart failed");
+        }
+        return orderinfo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
+    public List<REcOrdersku> createOrderSKUByCart(ShoppingCartDTO shoppingCartDTO, REcOrderinfo orderinfo) throws InsertException{
+        List<SKUDTO> skudtoList = shoppingCartDTO.getSkudtoList();
+        List<REcOrdersku> orderskuList = new ArrayList<>();
+        for (SKUDTO skudto : skudtoList) {
+            REcOrdersku ordersku = new REcOrdersku();
+            ordersku.setNskuid(skudto.getSkuId());
+            ordersku.setNorderid(orderinfo.getNorderid());
+
+            if (StringUtils.isNotEmpty(skudto.getCurrency()))
+                ordersku.setScurrency(skudto.getCurrency());
+            ordersku.setNdiscount(skudto.getDiscount());
+            ordersku.setNquantity(skudto.getQuantity());
+            ordersku.setNorigprice(skudto.getPrice());
+            ordersku.setNprice(skudto.getDisplayPrice());
+
+            orderskuList.add(ordersku);
+            int resultAdd = orderskuMapper.insertSelective(ordersku);
+            if (resultAdd != 1) {
+                throw new InsertException("mysql : create orderSKU by cart failed");
+            }
+            REcSku sku = skuMapper.selectByPrimaryKey(skudto.getSkuId());
+            sku.setNinventory(sku.getNinventory() - skudto.getQuantity());
+            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
+            if (resultUpdate != 1) {
+                throw new InsertException("mysql : update sku inventory by cart failed");
+            }
+        }
+        return orderskuList;
+    }
 
     /**
      * check method

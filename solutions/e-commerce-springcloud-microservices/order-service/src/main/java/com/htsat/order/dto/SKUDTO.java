@@ -22,7 +22,7 @@ public class SKUDTO implements Serializable{
 
     BigDecimal discount;
 
-    int inventory;
+    int quantity;
 
     Date dcreatetime;
 
@@ -92,12 +92,12 @@ public class SKUDTO implements Serializable{
         this.discount = discount;
     }
 
-    public int getInventory() {
-        return inventory;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Date getDcreatetime() {
@@ -116,20 +116,5 @@ public class SKUDTO implements Serializable{
         this.dupdatetime = dupdatetime;
     }
 
-    @Override
-    public String toString() {
-        return "SKUDTO{" +
-                "skuId=" + skuId +
-                ", spuId=" + spuId +
-                ", color='" + color + '\'' +
-                ", size='" + size + '\'' +
-                ", price=" + price +
-                ", displayPrice=" + displayPrice +
-                ", currency='" + currency + '\'' +
-                ", discount=" + discount +
-                ", inventory=" + inventory +
-                ", dcreatetime=" + dcreatetime +
-                ", dupdatetime=" + dupdatetime +
-                '}';
-    }
+
 }
