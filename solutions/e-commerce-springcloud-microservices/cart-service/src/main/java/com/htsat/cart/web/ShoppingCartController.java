@@ -8,6 +8,7 @@ import com.htsat.cart.dto.ShoppingCartDTO;
 import com.htsat.cart.dto.StatusDTO;
 import com.htsat.cart.enums.ExcuteStatusEnum;
 import com.htsat.cart.model.REcSku;
+import com.htsat.cart.service.ILoadBalanceService;
 import com.htsat.cart.service.IShoppingCartService;
 import com.htsat.cart.service.IUserService;
 import org.apache.log4j.Logger;
@@ -138,4 +139,11 @@ public class ShoppingCartController {
         return status;
     }
 
+    @Autowired
+    ILoadBalanceService loadBalanceService;
+
+    @RequestMapping(value = "/loadbalance")
+    public String loadbalance(@RequestParam String name){
+        return loadBalanceService.loadbalanceService(name);
+    }
 }

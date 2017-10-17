@@ -1,26 +1,17 @@
 package com.htsat.order.web;
 
-import com.htsat.order.dto.DeliveryDTO;
 import com.htsat.order.dto.OrderDTO;
+import com.htsat.order.dto.ShoppingCartDTO;
 import com.htsat.order.dto.StatusDTO;
 import com.htsat.order.enums.ExcuteStatusEnum;
 import com.htsat.order.exception.DeleteException;
 import com.htsat.order.exception.InsertException;
 import com.htsat.order.exception.SearchException;
 import com.htsat.order.exception.UpdateException;
-import com.htsat.order.service.IAddressService;
-import com.htsat.order.service.IOrderService;
-import com.htsat.order.service.IUserService;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Update;
+import com.htsat.order.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class OrderController {
@@ -153,4 +144,47 @@ public class OrderController {
         return orderDTO;
     }
 
+    @Autowired
+    ILoadBalanceService loadbalanceService;
+
+    @RequestMapping(value = "/loadbalance")
+    public String loadbalance(@RequestParam String name){
+        return loadbalanceService.loadbalanceService(name);
+    }
+
+    @Autowired
+    IShoppingCartService shoppingCartService;
+
+    @RequestMapping(value = "/ordersCart", method = RequestMethod.POST)
+    public StatusDTO createOrderByShoppingCart(@RequestBody OrderDTO orderDTO) {
+        StatusDTO status = new StatusDTO();
+        status.setUserId(orderDTO.getUserId());
+
+        ShoppingCartDTO shoppingCartDTO = shoppingCartService.getShoppingCart(orderDTO.getUserId());
+
+        boolean checkUserResult = userService.checkUserAvailable(shoppingCartDTO.getUserId());
+        boolean checkAddressResult = addressService.checkAddressAvailable(shoppingCartDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
+//        boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
+
+        if (!(checkUserResult && checkAddressResult/* && checkcheckSKUPResult*/)) {
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        }
+
+        try {
+            orderService.createOrderAndDeliveryAndOrderSKUByShoppingCart(orderDTO, shoppingCartDTO);
+        } catch (InsertException e) {
+            e.printStackTrace();
+            logger.error("create by cart exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        }
+        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        return status;
+    }
 }

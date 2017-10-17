@@ -1,12 +1,17 @@
 package com.htsat.order.config;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -21,28 +26,116 @@ import redis.clients.jedis.JedisPoolConfig;
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
-	private static Logger logger = Logger.getLogger(RedisConfig.class);
+	private  Logger logger = Logger.getLogger(RedisConfig.class);
 
-	private String host;
+	private  String host;
 
-	private int port;
+	private  int port;
 
-	private String password;
+	private  String password;
 
-	private int timeout;
+	private  int timeout;
 
-	@Bean
-	public JedisPoolConfig getRedisConfig(){
+	private Map<String, Integer> pool = new HashMap<>();
+
+	private  JedisPool jedisPool = null;
+
+	private  JedisPool initialPool(){
 		JedisPoolConfig config = new JedisPoolConfig();
-		return config;
+		config.setMaxIdle(pool.get("maxIdle"));
+		config.setMaxTotal(pool.get("maxActive"));
+		config.setMaxWaitMillis(pool.get("maxWait"));
+
+		try {
+			jedisPool = new JedisPool(config,host.split(",")[0],port,timeout,password);
+		} catch (Exception e1) {
+			logger.error("first create JedisPool error : " + e1);
+			try {
+				jedisPool = new JedisPool(config,host.split(",")[1],port,timeout,password);
+			} catch (Exception e2){
+				logger.error("second create JedisPool error : " + e2);
+				e2.printStackTrace();
+			}
+		}
+		return jedisPool;
 	}
 
-	@Bean
-	public JedisPool getJedisPool(){
-		JedisPoolConfig config = getRedisConfig();
-		JedisPool pool = new JedisPool(config,host,port,timeout,password);
-		logger.info("init JredisPool ...");
-		return pool;
+	/**
+	 * 多线程环境同步初始化
+	 */
+	private  synchronized void poolInit() {
+		if (jedisPool == null) {
+			initialPool();
+		}
+	}
+
+	public synchronized Jedis getJedis(){
+		if (jedisPool == null) {
+			poolInit();
+		}
+		Jedis jedis = null;
+		try {
+			if (jedisPool != null) {
+				jedis = jedisPool.getResource();
+			}
+		} catch (Exception e) {
+			logger.error("Get jedis error : "+e);
+			e.printStackTrace();
+		}
+		return jedis;
+	}
+
+	@SuppressWarnings("deprecation")
+	public  void returnResource(final Jedis jedis) {
+		if (jedis != null && jedisPool !=null) {
+			jedisPool.returnResource(jedis);
+		}
+	}
+
+	public  void set(String key, String value) {
+		Jedis jedis = getJedis();
+		try{
+			value = StringUtils.isEmpty(value) ? "" : value;
+			jedis.set(key, value);
+			logger.info("Redis set success - " + key + ", value:" + value);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Redis set error: "+ e.getMessage() +" - " + key + ", value:" + value);
+		}finally{
+			returnResource(jedis);
+		}
+	}
+
+	public  void set(String key ,int seconds,String value){
+		Jedis jedis = getJedis();
+		try {
+			value = StringUtils.isEmpty(value) ? "" : value;
+			jedis.setex(key, seconds, value);
+			logger.info("Redis set success - " + key + ", value:" + value);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Redis set error: "+ e.getMessage() +" - " + key + ", value:" + value);
+		}finally{
+			returnResource(jedis);
+		}
+	}
+
+	public  String get(String key) {
+		if(getJedis() == null || !getJedis().exists(key)){
+			return null;
+		}
+		String result = null;
+		Jedis jedis = getJedis();
+		try{
+			result = jedis.get(key);
+			logger.info("Redis get success - " + key + ", value:" + result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Redis set error: "+ e.getMessage() +" - " + key + ", value:" + result);
+		}finally{
+			returnResource(jedis);
+		}
+		return result;
 	}
 
 	public String getHost() {
@@ -75,5 +168,13 @@ public class RedisConfig {
 
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	public Map<String, Integer> getPool() {
+		return pool;
+	}
+
+	public void setPool(Map<String, Integer> pool) {
+		this.pool = pool;
 	}
 }

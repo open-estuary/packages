@@ -2,6 +2,7 @@ package com.htsat.search.web;
 
 import com.htsat.search.dto.SearchResultDTO;
 import com.htsat.search.dto.TestSearchResultDTO;
+import com.htsat.search.service.ILoadBalanceService;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -94,59 +95,12 @@ public class SearchController {
         return list;
     }
 
+    @Autowired
+    ILoadBalanceService loadbalanceService;
 
-//    @RequestMapping(value = "/test_search", method = RequestMethod.GET)
-//    public List<TestSearchResultDTO> searchBySolrTest(@RequestParam(value = "query", required = false) String query, @RequestParam(value = "page_size", required = false) Integer page_size,
-//                             @RequestParam(value = "page_num", required = false) Integer page_num, @RequestParam(value = "sort", required = false) String sort,
-//                             @RequestParam(value = "order", required = false) String order) {
-//
-//        ModifiableSolrParams params =new ModifiableSolrParams();
-//        if (!StringUtils.isEmpty(query))
-//            params.add("q",query);
-//
-//        params.add("wt","json");
-//
-//        int start;
-//        if(page_num != null && page_num > 0 && page_size != null && page_size >= 0) {
-//            start = page_size * (page_num - 1) ;
-//            params.add("start", (start + ""));
-//        }
-//
-//        if(page_size != null && page_size >= 0) {
-//            params.add("rows",(page_size + ""));
-//        }
-//
-//        if (!StringUtils.isEmpty(sort))
-//            params.add("sort", sort);
-//
-//        QueryResponse response=null;
-//
-//        List<TestSearchResultDTO> list = new ArrayList<>();
-//        try{
-//            response=client.query(params);
-//            SolrDocumentList results = response.getResults();
-//            logger.info("results : " + results.toString());
-//
-//            for (SolrDocument solrDocument : results) {
-//                String id = (String) solrDocument.getFieldValue("id");
-//                Integer vip = (Integer) solrDocument.getFieldValue("vip");
-//                Date add_time = (Date) solrDocument.getFieldValue("add_time");
-//                Integer point = (Integer) solrDocument.getFieldValue("point");
-//                String content = (String) solrDocument.getFieldValue("content");
-//
-//                TestSearchResultDTO resultDTO = new TestSearchResultDTO();
-//                resultDTO.setId(id);
-//                resultDTO.setVip(vip);
-//                resultDTO.setPoint(point);
-//                resultDTO.setContent(content);
-//                resultDTO.setAdd_time(add_time);
-//
-//                list.add(resultDTO);
-//            }
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        return list;
-//    }
+    @RequestMapping(value = "/loadbalance")
+    public String loadbalance(@RequestParam String name){
+        return loadbalanceService.loadbalanceService(name);
+    }
+
 }

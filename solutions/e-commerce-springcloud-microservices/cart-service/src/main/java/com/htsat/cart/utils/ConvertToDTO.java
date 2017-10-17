@@ -36,7 +36,7 @@ public class ConvertToDTO {
         skudto.setColor(sku.getNcolor());
         skudto.setSize(sku.getSsize());
         skudto.setPrice(sku.getNprice());
-        skudto.setDisplayPrice(sku.getNprice());
+        skudto.setDisplayPrice(sku.getNdisplayprice());
         //
         skudto.setQuantity(sku.getNinventory());
         skudto.setDiscount(sku.getNdiscount());

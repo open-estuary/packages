@@ -1,5 +1,6 @@
 package com.htsat.cart.serviceimpl;
 
+import com.htsat.cart.config.RedisConfig;
 import com.htsat.cart.exception.DeleteException;
 import com.htsat.cart.exception.InsertException;
 import com.htsat.cart.exception.SearchException;
@@ -13,7 +14,7 @@ import com.htsat.cart.model.REcCartsku;
 import com.htsat.cart.model.REcCartskuKey;
 import com.htsat.cart.model.REcShoppingcart;
 import com.htsat.cart.model.REcSku;
-import com.htsat.cart.service.IRedisService;
+//import com.htsat.cart.service.IRedisService;
 import com.htsat.cart.service.IShoppingCartService;
 import com.htsat.cart.utils.ComputeUtils;
 import com.htsat.cart.utils.ConvertToDTO;
@@ -48,11 +49,14 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     private REcSkuMapper skuMapper;
 
     @Autowired
-    private IRedisService redisService;
+    private RedisConfig redisConfig;
 
-    private Jedis getJedis(){
-        return redisService.getResource();
-    }
+//    @Autowired
+//    private IRedisService redisService;
+//
+//    private Jedis getJedis(){
+//        return redisService.getResource();
+//    }
 
     /******************************************create*********************************************/
 
@@ -115,9 +119,18 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     private void addShoppCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws InsertException{
-        String code = getJedis().set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
-        if (StringUtils.isEmpty(code))
+        Jedis jedis = redisConfig.getJedis();
+        String code = null;
+        try {
+            code = jedis.set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
+        } catch (Exception e) {
+            logger.error("Redis insert error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getUserId() + ", value:" + returnShoppingCartDTO);
+        } finally{
+            redisConfig.returnResource(jedis);
+        }
+        if (StringUtils.isEmpty(code)) {
             throw new InsertException("redis : create failed");
+        }
     }
 
     /*********************************************search******************************************/
@@ -159,9 +172,20 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     private ShoppingCartDTO getShoppingCartFromRedis(Long userId) throws SearchException{
-        Jedis jedis = getJedis();
-        byte[] shoppingCart = jedis.get((userId + "").getBytes());
-        Object shoppingCartObject = SerializeUtil.unserialize(shoppingCart);
+        Jedis jedis = redisConfig.getJedis();
+        if(jedis == null || !jedis.exists(userId + "")){
+            return null;
+        }
+        Object shoppingCartObject = null;
+        try {
+            byte[] shoppingCart = jedis.get((userId + "").getBytes());
+            shoppingCartObject = SerializeUtil.unserialize(shoppingCart);
+        } catch (Exception e) {
+            logger.error("Redis get error: "+ e.getMessage() +" - key : " + userId);
+        } finally{
+            redisConfig.returnResource(jedis);
+        }
+
         if (shoppingCartObject == null)
             return null;
         ShoppingCartDTO shoppingCartDTO = null;
@@ -215,7 +239,14 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     private void deleteShoppingCartAndSKUToRedis(Long userId) throws DeleteException {
-        Long reply = getJedis().del(userId + "");
+        Jedis jedis = redisConfig.getJedis();
+        try {
+            Long reply = jedis.del(userId + "");
+        } catch (Exception e) {
+            logger.error("Redis delete error: "+ e.getMessage() +" - key : " + userId);
+        }finally{
+            redisConfig.returnResource(jedis);
+        }
         if (false) {
             throw new DeleteException("redis : delete failed");
         }
@@ -355,7 +386,16 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     private void updateShoppingCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws UpdateException {
-        String reply = getJedis().set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
+        Jedis jedis = redisConfig.getJedis();
+        String reply = null;
+        try {
+            reply = jedis.set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
+        } catch (Exception e) {
+            logger.error("Redis update error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getUserId() + "" + ", value:" + returnShoppingCartDTO);
+        }finally{
+            redisConfig.returnResource(jedis);
+        }
+
         if (StringUtils.isEmpty(reply)) {
             throw new UpdateException("redis : update failed");
         }

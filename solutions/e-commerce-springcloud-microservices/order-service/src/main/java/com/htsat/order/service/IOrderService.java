@@ -2,6 +2,7 @@ package com.htsat.order.service;
 
 import com.htsat.order.dto.OrderDTO;
 import com.htsat.order.dto.OrderSKUDTO;
+import com.htsat.order.dto.ShoppingCartDTO;
 import com.htsat.order.exception.DeleteException;
 import com.htsat.order.exception.InsertException;
 import com.htsat.order.exception.SearchException;
@@ -36,6 +37,11 @@ public interface IOrderService {
      *  update order payment
      */
     OrderDTO updateOrderPayment(Long userId, Long orderId, String cardId, String paymentPassword) throws UpdateException;
+
+    /**
+     *  ceate order cart
+     */
+    void createOrderAndDeliveryAndOrderSKUByShoppingCart(OrderDTO orderDTO, ShoppingCartDTO shoppingCartDTO) throws InsertException;
 
     /**
      *  check method
