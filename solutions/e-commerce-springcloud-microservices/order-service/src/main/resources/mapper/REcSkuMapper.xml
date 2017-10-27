@@ -314,4 +314,9 @@
     </foreach>
     ORDER BY nSKUID
   </select>
+  <update id="updateInventory" >
+    update r_ec_sku
+    set nInventory = nInventory - #{1}
+    where nSKUID = #{0}
+  </update>
 </mapper>

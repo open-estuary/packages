@@ -112,7 +112,6 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>htsat-search</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

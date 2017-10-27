@@ -29,4 +29,6 @@ public interface REcSkuMapper {
     int updateByPrimaryKey(REcSku record);
 
     List<REcSku> getSKUList(List<Long> skuIdList);
+
+    int updateInventory(Long nskuid, int inventory);
 }
