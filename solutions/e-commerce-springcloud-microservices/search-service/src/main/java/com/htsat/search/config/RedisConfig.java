@@ -31,7 +31,7 @@ public class RedisConfig {
 
 	private  int port;
 
-	private  String password;
+//	private  String password;
 
 	private  int timeout;
 
@@ -46,11 +46,11 @@ public class RedisConfig {
 		config.setMaxWaitMillis(pool.get("maxWait"));
 
 		try {
-			jedisPool = new JedisPool(config,host.split(",")[0],port,timeout,password);
+			jedisPool = new JedisPool(config,host.split(",")[0],port,timeout);
 		} catch (Exception e1) {
 			logger.error("first create JedisPool error : " + e1);
 			try {
-				jedisPool = new JedisPool(config,host.split(",")[1],port,timeout,password);
+				jedisPool = new JedisPool(config,host.split(",")[1],port,timeout);
 			} catch (Exception e2){
 				logger.error("second create JedisPool error : " + e2);
 				e2.printStackTrace();
@@ -153,13 +153,13 @@ public class RedisConfig {
 		this.port = port;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
 
 	public int getTimeout() {
 		return timeout;
