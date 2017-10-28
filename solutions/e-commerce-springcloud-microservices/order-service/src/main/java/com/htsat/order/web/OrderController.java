@@ -59,9 +59,9 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDTO getOrder(@PathVariable("orderId") Long orderId){
+    public OrderDTO getOrder(@RequestParam("orderId") Long orderId){
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderId);

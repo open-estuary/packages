@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -56,6 +58,8 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private RedisConfig redisConfig;
+
+    private static Lock lock = new ReentrantLock();
 
     /**
      * create order
@@ -159,6 +163,37 @@ public class OrderServiceImpl implements IOrderService {
             if (resultAdd != 1) {
                 throw new InsertException("mysql : create orderSKU failed");
             }
+
+//            updateSKUInventory(orderskuDTO);
+            skuMapper.updateInventory(orderskuDTO.getSkuId(), orderskuDTO.getQuantity());
+//            lock.lock();
+//            try {
+//                REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
+//                sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
+//                int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
+//                if (resultUpdate != 1) {
+//                    throw new InsertException("mysql : update sku inventory failed");
+//                }
+//            }
+//            finally {
+//                lock.unlock();
+//            }
+
+//            synchronized(this) {
+//                REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
+//                sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
+//                int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
+//                if (resultUpdate != 1) {
+//                    throw new InsertException("mysql : update sku inventory failed");
+//                }
+//            }
+        }
+        return orderskuList;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE,timeout=60,rollbackFor=Exception.class)
+    public void updateSKUInventory(OrderSKUDTO orderskuDTO) throws InsertException {
+        synchronized(this) {
             REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
             sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
             int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
@@ -166,7 +201,6 @@ public class OrderServiceImpl implements IOrderService {
                 throw new InsertException("mysql : update sku inventory failed");
             }
         }
-        return orderskuList;
     }
 
     private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
@@ -516,11 +550,13 @@ public class OrderServiceImpl implements IOrderService {
             if (resultAdd != 1) {
                 throw new InsertException("mysql : create orderSKU by cart failed");
             }
-            REcSku sku = skuMapper.selectByPrimaryKey(skudto.getSkuId());
-            sku.setNinventory(sku.getNinventory() - skudto.getQuantity());
-            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
-            if (resultUpdate != 1) {
-                throw new InsertException("mysql : update sku inventory by cart failed");
+            synchronized(this) {
+                REcSku sku = skuMapper.selectByPrimaryKey(skudto.getSkuId());
+                sku.setNinventory(sku.getNinventory() - skudto.getQuantity());
+                int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
+                if (resultUpdate != 1) {
+                    throw new InsertException("mysql : update sku inventory by cart failed");
+                }
             }
         }
         return orderskuList;
