@@ -24,7 +24,7 @@ fi
 num_shards=3
 repl_factor=1
 maxshard_pernode=1
-config_name="solr"
+config_name="e-commerce"
 ######### Create core or collections (if solrcloud) ###########################################
 if [ ${solrcloud_enable} -eq 0 ] ; then
     sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
@@ -32,6 +32,8 @@ else
       curl -X POST -H 'Content-type:application/json'  \
       http://${host}:${port}/solr/admin/collections?"action=CREATE&name=${core}&numShards=${num_shards}&replicationFactor=${repl_factor}&maxShardsPerNode=${maxshard_pernode}&collection.configName=${config_name}"
 fi
+
+#exit 0
 
 ######### update e-commerce cache_size ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
