@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "${1}" ] ; then
-    echo "Usage:please input solr server ip"
+    echo "Usage: solr_create_fields.sh <solr ip> <solr port> <solr user> <solrcloud_enable>"
     exit 0
 fi
 
@@ -10,12 +10,28 @@ port=${2:-8983}
 user="${3:-solr}"
 core="e-commerce"
 
+solrcloud_enable=0
 solr_cmd="solr"
 if [ -z "$(which solr 2>/dev/null)" ] ; then
     solr_cmd="/opt/solr/bin/solr"
 fi
 
-sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
+if [ ! -z "${4}" ] && [ ${4} -eq 1 ] ; then
+    solrcloud_enable=1
+    echo "Enable SolrCloud Mode..."
+fi
+
+num_shards=3
+repl_factor=1
+maxshard_pernode=1
+config_name="solr"
+######### Create core or collections (if solrcloud) ###########################################
+if [ ${solrcloud_enable} -eq 0 ] ; then
+    sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
+else
+      curl -X POST -H 'Content-type:application/json'  \
+      http://${host}:${port}/solr/admin/collections?"action=CREATE&name=${core}&numShards=${num_shards}&replicationFactor=${repl_factor}&maxShardsPerNode=${maxshard_pernode}&collection.configName=${config_name}"
+fi
 
 ######### update e-commerce cache_size ########################################################
 curl -X POST -H 'Content-type:application/json' --data-binary \
