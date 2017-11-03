@@ -21,5 +21,5 @@ As for how to install packages on ARM64 servers, please refer to [Estuary Reposi
 As for Application System Solutions for typical application scenarios, please refer to [ARM64 Application Solutions](
 https://github.com/open-estuary/packages/tree/master/solutions)
 
-## <a name="4">Typical Application Solutions</a>
+## <a name="4">Estuary Docker Hub</a>
 Usually, the docker images could be pulled viar `docker pull openestuary/<image name>:<image tag>`. For details, please refer to https://hub.docker.com/u/openestuary/.
