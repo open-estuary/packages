@@ -1,4 +1,4 @@
-# Application Solution Based on ARM64 Server
+# Application Solutions Based on ARM64 Server
 
 * [Introduction](#1)
 * [Typical Application Solutions ](#2)
