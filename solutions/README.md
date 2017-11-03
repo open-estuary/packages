@@ -14,11 +14,15 @@ In addition, these solutions contains:
   * ...
  
 ## <a name="2">Typical Application Solutions</a>
-   * [E-Commerce Solution Based on Spring Cloud MicroServices](https://github.com/open-estuary/packages/tree/master/solutions/e-commerce-springcloud-microservices)
-   * [E-Commerce Solution Based on Kubernetes System](https://github.com/open-estuary/packages/tree/master/solutions/e-commerce-kubernetes)
-   * [Real-time BigData processing system based on Spark Streaming](https://github.com/open-estuary/packages/tree/master/solutions/realtime_sparkstreaming) 
-   * [BigData Batch Processing System Solution]
-   * [BigData Streaming System Solution]
+
+[E-Commerce Solution Based on Spring Cloud MicroServices](https://github.com/open-estuary/packages/tree/master/solutions/e-commerce-springcloud-microservices)
+   
+[E-Commerce Solution Based on Kubernetes System](https://github.com/open-estuary/packages/tree/master/solutions/e-commerce-kubernetes)
+   
+[Real-time BigData processing system based on Spark Streaming](https://github.com/open-estuary/packages/tree/master/solutions/realtime_sparkstreaming) 
+   
+   *  [BigData Batch Processing System Solution]
+   *  [BigData Streaming System Solution]
 
 
 
