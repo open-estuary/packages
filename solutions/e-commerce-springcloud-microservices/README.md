@@ -4,7 +4,7 @@
 * [Software Architecture ](#2)
 * [Installation](#3)
 * [Start](#4)
-* [Remove](#5)
+* [Others](#5)
 
 ## <a name="1">Introduction</a>
 
@@ -24,8 +24,8 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
 * $ mvn clean install
 
 ## <a name="4">Start</a>
-*　$ mvn spring-boot:run
+* $ mvn spring-boot:run
 
-## <a name="5">Remove</a>
+## <a name="5">Others</a>
 
 
