@@ -27,8 +27,11 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
   > As for how to deploy the whole solution on server clusters automatically and intelligently, please refer to [E-Commerce MircoService Ansible Deployment Solution](https://github.com/open-estuary/appbenchmark/tree/master/apps/e-commerce-solutions/e-commerce-springcloud-microservice)
   
 ## <a name="4">Start</a>
-* `mvn spring-boot:run`
-
+* Execute the sub package 
+  * `mvn spring-boot:run`
+* Setup the whole solution 
+  > As mentioned above, please refer to [E-Commerce MircoService Ansible Deployment Solution](https://github.com/open-estuary/appbenchmark/tree/master/apps/e-commerce-solutions/e-commerce-springcloud-microservice)
+  
 ## <a name="5">Others</a>
 
 
