@@ -20,11 +20,11 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
 <center><a href="docs/estuary_e_commerce_micro_service_software_architecture.png"><img src="https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/docs/estuary_e_commerce_micro_service_software_architecture.png" border=0 width=1200></a></center>
 
 ## <a name="3">Installation</a>
-* $ mvn clean package
-* $ mvn clean install
+* `mvn clean package`
+* `mvn clean install`
 
 ## <a name="4">Start</a>
-* $ mvn spring-boot:run
+* `mvn spring-boot:run`
 
 ## <a name="5">Others</a>
 
