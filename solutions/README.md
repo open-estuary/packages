@@ -10,6 +10,8 @@ It is to demonstrate application solutions with high performance、high scalabil
 In addition, these solutions contains: 
   * Application system solution based on MicroServices; 
   * Application system solution based on Docker Containers and related deployment and management system such as Kubernetes;
+  * Application system solution based on Cloud Native 
+  * ...
  
 ## <a name="2">Typical Application Solutions</a>
    * [E-Commerce Solution Based on Spring Cloud MicroServices](https://github.com/open-estuary/packages/tree/master/solutions/e-commerce-springcloud-microservices)
