@@ -17,7 +17,7 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
 
 ## <a name="2">Software Architecture</a>
 
-<center><a href="docs/estuary_e_commerce_micro_service_software_architecture.png"><img src="https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/docs/estuary_e_commerce_micro_service_software_architecture.png" border=0 width=1200></a></center>
+<center><a href="docs/estuary_e_commerce_micro_service_software_architecture.png"><img src="https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/docs/estuary_e_commerce_micro_service_software_architecture.png" border=0 width=1600></a></center>
 
 ## <a name="3">Installation</a>
 * `mvn clean package`
