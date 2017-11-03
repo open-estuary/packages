@@ -24,7 +24,7 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
 * $ mvn clean install
 
 ## <a name="4">Start</a>
-$ mvn spring-boot:run
+*　$ mvn spring-boot:run
 
 ## <a name="5">Remove</a>
 
