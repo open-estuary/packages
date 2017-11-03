@@ -24,7 +24,7 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
   * `mvn clean package`
   * `mvn clean install`
 * Automatic Deployement based on `Ansible` framework
-  > As for how to deploy the whole system automatically and intelligently, please refer to [E-Commerce MircoService Ansible Deployment Solution](https://github.com/open-estuary/appbenchmark/tree/master/apps/e-commerce-solutions/e-commerce-springcloud-microservice)
+  > As for how to deploy the whole solution on server clusters automatically and intelligently, please refer to [E-Commerce MircoService Ansible Deployment Solution](https://github.com/open-estuary/appbenchmark/tree/master/apps/e-commerce-solutions/e-commerce-springcloud-microservice)
   
 ## <a name="4">Start</a>
 * `mvn spring-boot:run`
