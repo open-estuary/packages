@@ -42,6 +42,25 @@ public class ShoppingCartController {
             return status;
         }
 
+        ShoppingCartDTO shoppingCartDTOCheck;
+        try {
+            shoppingCartDTOCheck = shoppingCartService.getShoppingCart(shoppingCartDTO.getUserId());
+        } catch (SearchException e) {
+            e.printStackTrace();
+            logger.error("check exception !");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("exception !");
+            return null;
+        }
+
+        if (shoppingCartDTOCheck != null) {
+            logger.error("create replication !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        }
+
         try {
             shoppingCartService.addShoppingCartAndSKU(shoppingCartDTO);
         } catch (InsertException e) {
@@ -59,15 +78,15 @@ public class ShoppingCartController {
         return status;
     }
 
-    @RequestMapping(value = "/carts/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/carts", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartDTO getShoppingCart(@PathVariable("userId") Long userId){
+    public ShoppingCartDTO getShoppingCart(@RequestParam("userId") Long userId, @RequestParam("shoppingcartid") Long shoppingcartid){
         ShoppingCartDTO shoppingCartDTO = null;
         if (!userService.checkUserAvailable(userId)) {
             return null;
         }
         try {
-            shoppingCartDTO = shoppingCartService.getShoppingCart(userId);
+            shoppingCartDTO = shoppingCartService.getShoppingCart(shoppingcartid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("get exception !");
@@ -80,14 +99,15 @@ public class ShoppingCartController {
         return shoppingCartDTO;
     }
 
-    @RequestMapping(value = "/carts/{userId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/carts", method = RequestMethod.DELETE)
     @ResponseBody
-    public StatusDTO deleteShoppingCart(@PathVariable("userId") Long userId){
+    public StatusDTO deleteShoppingCart(@RequestParam("userId") Long userId){
         StatusDTO status = new StatusDTO();
         status.setUserId(userId);
 
         if (!userService.checkUserAvailable(userId)) {
-            return null;
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
         }
 
         try {

@@ -3,6 +3,7 @@ package com.htsat.search.web;
 import com.htsat.search.dto.SearchResultDTO;
 import com.htsat.search.dto.TestSearchResultDTO;
 import com.htsat.search.service.ILoadBalanceService;
+import com.htsat.search.service.ISearchService;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -27,8 +28,11 @@ public class SearchController {
     @Autowired
     private SolrClient client;
 
+    @Autowired
+    private ISearchService searchService;
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public List<SearchResultDTO> searchBySolr(@RequestParam(value = "query", required = false) String query, @RequestParam(value = "page_size", required = false) Integer page_size,
+    public List<String> searchBySolr(@RequestParam(value = "query", required = false) String query, @RequestParam(value = "page_size", required = false) Integer page_size,
                              @RequestParam(value = "page_num", required = false) Integer page_num, @RequestParam(value = "sort", required = false) String sort) {
 
         logger.info("query : " + query + "     " + "page_size : " + page_size + "     " + "page_num : " + page_num + "     " + "sort : " + sort);
@@ -54,7 +58,7 @@ public class SearchController {
 
         QueryResponse response=null;
 
-        List<SearchResultDTO> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         try{
             response=client.query(params);
             SolrDocumentList results = response.getResults();
@@ -62,29 +66,16 @@ public class SearchController {
 
             for (SolrDocument solrDocument : results) {
                 String id = (String) solrDocument.getFieldValue("id");
-                Integer productId = (Integer) solrDocument.getFieldValue("productid");
-                Integer cateId = (Integer) solrDocument.getFieldValue("cateid");
-                Integer price = (Integer) solrDocument.getFieldValue("price");
-                String title = (String) solrDocument.getFieldValue("title");
-                String url = (String) solrDocument.getFieldValue("url");
-                String manufacturer = (String) solrDocument.getFieldValue("manufacturer");
-                String description = (String) solrDocument.getFieldValue("description");
-                Integer quantity = (Integer) solrDocument.getFieldValue("quatity");
-                String size = (String) solrDocument.getFieldValue("size");
+//                Integer productId = (Integer) solrDocument.getFieldValue("productid");
+//                Integer cateId = (Integer) solrDocument.getFieldValue("cateid");
+//                Integer price = (Integer) solrDocument.getFieldValue("price");
+//                String url = (String) solrDocument.getFieldValue("url");
+//                String version = (String) solrDocument.getFieldValue("_version_");
+//                Integer quantity = (Integer) solrDocument.getFieldValue("quatity");
+                String skuJson = searchService.getskuByRedis(id);
 
-                SearchResultDTO resultDTO = new SearchResultDTO();
-                resultDTO.setId(id);
-                resultDTO.setProductId(productId);
-                resultDTO.setCateId(cateId);
-                resultDTO.setPrice(price);
-                resultDTO.setTitle(title);
-                resultDTO.setUrl(url);
-                resultDTO.setManufacturer(manufacturer);
-                resultDTO.setDescription(description);
-                resultDTO.setQuantity(quantity);
-                resultDTO.setSize(size);
 
-                list.add(resultDTO);
+                list.add(skuJson);
             }
         }catch(Exception e){
             e.printStackTrace();

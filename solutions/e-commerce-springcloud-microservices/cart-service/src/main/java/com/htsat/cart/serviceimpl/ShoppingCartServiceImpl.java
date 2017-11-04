@@ -1,5 +1,6 @@
 package com.htsat.cart.serviceimpl;
 
+import com.alibaba.fastjson.JSON;
 import com.htsat.cart.config.RedisConfig;
 import com.htsat.cart.exception.DeleteException;
 import com.htsat.cart.exception.InsertException;
@@ -121,8 +122,9 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     private void addShoppCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws InsertException{
         Jedis jedis = redisConfig.getJedis();
         String code = null;
+        String dtoJson = JSON.toJSONString(returnShoppingCartDTO);
         try {
-            code = jedis.set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
+            code = jedis.set((returnShoppingCartDTO.getNshoppingcartid() + ""), dtoJson);
         } catch (Exception e) {
             logger.error("Redis insert error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getUserId() + ", value:" + returnShoppingCartDTO);
         } finally{
@@ -136,17 +138,19 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     /*********************************************search******************************************/
     /**
      *
-     * @param userId
+     * @param shoppingcartid
      * @return
      * @throws SearchException
      */
     @Override
-    public ShoppingCartDTO getShoppingCart(Long userId) throws SearchException{
+    public ShoppingCartDTO getShoppingCart(Long shoppingcartid) throws SearchException{
 
-        ShoppingCartDTO shoppingCartDTO = getShoppingCartFromRedis(userId);
+        ShoppingCartDTO shoppingCartDTO = getShoppingCartFromRedis(shoppingcartid);
 
         if (shoppingCartDTO == null) {
-            REcShoppingcart shoppingcart = getShoppingCartByMySQL(userId);
+            REcShoppingcart shoppingcart = getShoppingCartByMySQL(shoppingcartid);
+            if (shoppingcart == null)
+                return null;
             List<REcSku> skuList = getSKUListByMySQL(shoppingcart.getNshoppingcartid());
             shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
         }
@@ -154,12 +158,11 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         return shoppingCartDTO;
     }
 
-    private REcShoppingcart getShoppingCartByMySQL(Long userId) throws SearchException{
-        List<REcShoppingcart> shoppingcartList = shoppingcartMapper.selectByUserId(userId);
-        if (shoppingcartList == null || shoppingcartList.size() != 1) {
-            throw new SearchException("mysql : search ShoppingCart failed");
-        }
-        return shoppingcartList.get(0);
+    private REcShoppingcart getShoppingCartByMySQL(Long shoppingcartid) throws SearchException{
+        REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(shoppingcartid);
+        if(shoppingcart == null)
+            return null;
+        return shoppingcart;
     }
 
     private List<REcSku> getSKUListByMySQL(Long shoppingcartId) throws SearchException{
@@ -171,30 +174,27 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         return skuList;
     }
 
-    private ShoppingCartDTO getShoppingCartFromRedis(Long userId) throws SearchException{
+    private ShoppingCartDTO getShoppingCartFromRedis(Long shoppingcartid) throws SearchException{
         Jedis jedis = redisConfig.getJedis();
-        if(jedis == null || !jedis.exists(userId + "")){
+        if(jedis == null || !jedis.exists(shoppingcartid + "")){
             return null;
         }
-        Object shoppingCartObject = null;
+        String shoppingCart = null;
         try {
-            byte[] shoppingCart = jedis.get((userId + "").getBytes());
-            shoppingCartObject = SerializeUtil.unserialize(shoppingCart);
+            shoppingCart = jedis.get(shoppingcartid + "");
         } catch (Exception e) {
-            logger.error("Redis get error: "+ e.getMessage() +" - key : " + userId);
+            logger.error("Redis get error: "+ e.getMessage() +" - key : " + shoppingcartid);
         } finally{
             redisConfig.returnResource(jedis);
         }
 
-        if (shoppingCartObject == null)
+        if (StringUtils.isEmpty(shoppingCart)) {
             return null;
-        ShoppingCartDTO shoppingCartDTO = null;
-        if (shoppingCartObject instanceof ShoppingCartDTO){
-            shoppingCartDTO = (ShoppingCartDTO) shoppingCartObject;
-        } else{
-            throw new SearchException("redis : search failed");
+        } else {
+            ShoppingCartDTO shoppingCartDTO = JSON.parseObject(shoppingCart, ShoppingCartDTO.class);
+            return shoppingCartDTO;
         }
-        return shoppingCartDTO;
+
     }
 
     /*********************************************delete******************************************/
@@ -238,12 +238,12 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         return true;
     }
 
-    private void deleteShoppingCartAndSKUToRedis(Long userId) throws DeleteException {
+    private void deleteShoppingCartAndSKUToRedis(Long shoppingcartid) throws DeleteException {
         Jedis jedis = redisConfig.getJedis();
         try {
-            Long reply = jedis.del(userId + "");
+            Long reply = jedis.del(shoppingcartid + "");
         } catch (Exception e) {
-            logger.error("Redis delete error: "+ e.getMessage() +" - key : " + userId);
+            logger.error("Redis delete error: "+ e.getMessage() +" - key : " + shoppingcartid);
         }finally{
             redisConfig.returnResource(jedis);
         }
@@ -388,10 +388,11 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     private void updateShoppingCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws UpdateException {
         Jedis jedis = redisConfig.getJedis();
         String reply = null;
+        String dtoJson = JSON.toJSONString(returnShoppingCartDTO);
         try {
-            reply = jedis.set((returnShoppingCartDTO.getUserId() + "").getBytes(), SerializeUtil.serialize(returnShoppingCartDTO));
+            reply = jedis.set((returnShoppingCartDTO.getNshoppingcartid() + ""), dtoJson);
         } catch (Exception e) {
-            logger.error("Redis update error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getUserId() + "" + ", value:" + returnShoppingCartDTO);
+            logger.error("Redis update error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getNshoppingcartid() + "" + ", value:" + returnShoppingCartDTO);
         }finally{
             redisConfig.returnResource(jedis);
         }

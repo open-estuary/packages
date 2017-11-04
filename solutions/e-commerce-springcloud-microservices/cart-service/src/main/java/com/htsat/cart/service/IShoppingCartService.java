@@ -25,7 +25,7 @@ public interface IShoppingCartService {
 
     /*********************************************search******************************************/
 
-    ShoppingCartDTO getShoppingCart(Long userId) throws SearchException;
+    ShoppingCartDTO getShoppingCart(Long shoppingcartid) throws SearchException;
 
     /*********************************************delete******************************************/
 
