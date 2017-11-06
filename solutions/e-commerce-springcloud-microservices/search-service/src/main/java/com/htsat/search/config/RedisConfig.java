@@ -31,8 +31,6 @@ public class RedisConfig {
 
 	private  int port;
 
-//	private  String password;
-
 	private  int timeout;
 
 	private Map<String, Integer> pool = new HashMap<>();
@@ -152,14 +150,6 @@ public class RedisConfig {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
-//	public String getPassword() {
-//		return password;
-//	}
-//
-//	public void setPassword(String password) {
-//		this.password = password;
-//	}
 
 	public int getTimeout() {
 		return timeout;

@@ -95,7 +95,7 @@
 //	@Test
 //	public void testDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8001/carts/1");
+//		URL url = new URL("http://localhost:8001/carts?userId=1");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);

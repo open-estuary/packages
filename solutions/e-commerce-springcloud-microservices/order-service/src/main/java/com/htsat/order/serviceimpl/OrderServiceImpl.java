@@ -1,5 +1,6 @@
 package com.htsat.order.serviceimpl;
 
+import com.alibaba.fastjson.JSON;
 import com.htsat.order.config.RedisConfig;
 import com.htsat.order.dao.*;
 import com.htsat.order.dto.*;
@@ -206,10 +207,11 @@ public class OrderServiceImpl implements IOrderService {
     private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
         Jedis jedis = redisConfig.getJedis();
         String code = null;
+        String dtoJson = JSON.toJSONString(orderDTO);
         try {
-            code = jedis.set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+            code = jedis.set((orderDTO.getOrderId() + ""), dtoJson);
         } catch (Exception e) {
-            logger.error("Redis insert error: "+ e.getMessage() +" - " + orderDTO.getUserId() + ", value:" + orderDTO);
+            logger.error("Redis insert error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + ", value:" + orderDTO);
         } finally{
             redisConfig.returnResource(jedis);
         }
@@ -256,25 +258,23 @@ public class OrderServiceImpl implements IOrderService {
         if(jedis == null || !jedis.exists(orderId + "")){
             return null;
         }
-        Object orderObject = null;
+
+        String orderInfo = null;
         try {
-            byte[] orderInfo = jedis.get((orderId + "").getBytes());
-            orderObject = SerializeUtil.unserialize(orderInfo);
+            orderInfo = jedis.get(orderId + "");
         } catch (Exception e) {
             logger.error("Redis get error: "+ e.getMessage() +" - key : " + orderId);
         } finally {
             redisConfig.returnResource(jedis);
         }
 
-        if (orderObject == null)
+        if (StringUtils.isEmpty(orderInfo)) {
             return null;
-        OrderDTO orderDTO = null;
-        if (orderObject instanceof OrderDTO){
-            orderDTO = (OrderDTO) orderObject;
-        } else{
-            throw new SearchException("redis : get failed");
+        } else {
+            OrderDTO orderDTO = JSON.parseObject(orderInfo, OrderDTO.class);
+            return orderDTO;
         }
-        return orderDTO;
+
     }
 
     /**
@@ -398,8 +398,9 @@ public class OrderServiceImpl implements IOrderService {
     private void updateOrderDeliveryByRedis(OrderDTO orderDTO) throws UpdateException{
         Jedis jedis = redisConfig.getJedis();
         String reply = null;
+        String dtoJson = JSON.toJSONString(orderDTO);
         try {
-            reply = jedis.set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+            reply = jedis.set((orderDTO.getOrderId() + ""), dtoJson);
         } catch (Exception e) {
             logger.error("Redis update error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + "" + ", value:" + orderDTO);
         }finally{
@@ -464,8 +465,10 @@ public class OrderServiceImpl implements IOrderService {
     private void updateOrderPaymentByRedis(OrderDTO orderDTO) throws UpdateException{
         Jedis jedis = redisConfig.getJedis();
         String reply = null;
+
+        String dtoJson = JSON.toJSONString(orderDTO);
         try {
-            reply = jedis.set((orderDTO.getOrderId() + "").getBytes(), SerializeUtil.serialize(orderDTO));
+            reply = jedis.set((orderDTO.getOrderId() + ""), dtoJson);
         } catch (Exception e) {
             logger.error("Redis update error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + "" + ", value:" + orderDTO);
         }finally{
