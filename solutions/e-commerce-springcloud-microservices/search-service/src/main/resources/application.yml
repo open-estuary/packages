@@ -40,3 +40,4 @@ logging:
 
 
 #spring.data.solr.host=http://192.168.1.44:8983/solr/e-commerce
+#spring.data.solr.host=http://localhost:8983/solr/mycore

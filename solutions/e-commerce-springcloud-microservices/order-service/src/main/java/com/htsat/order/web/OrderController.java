@@ -77,9 +77,9 @@ public class OrderController {
         return orderDTO;
     }
 
-    @RequestMapping(value = "/orders/{userId}/{orderId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/orders", method = RequestMethod.DELETE)
     @ResponseBody
-    public StatusDTO deleteOrder(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId){
+    public StatusDTO deleteOrder(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId){
         StatusDTO status = new StatusDTO();
         status.setUserId(userId);
         if (!userService.checkUserAvailable(userId)) {
@@ -102,9 +102,9 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/orders/delivery/{userId}/{orderId}/{deliveryStatus}", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/delivery", method = RequestMethod.POST)
     @ResponseBody
-    public OrderDTO updateOrderStatusByDelivery(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId, @PathVariable("deliveryStatus") short deliveryStatus) {
+    public OrderDTO updateOrderStatusByDelivery(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId, @RequestParam("deliveryStatus") short deliveryStatus) {
         if (!userService.checkUserAvailable(userId) || orderId == null ) {
             return null;
         }
@@ -123,9 +123,9 @@ public class OrderController {
         return orderDTO;
     }
 
-    @RequestMapping(value = "/orders/payment/{userId}/{orderId}/{cardId}/{paymentPassword}", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/payment", method = RequestMethod.POST)
     @ResponseBody
-    public OrderDTO updateOrderStatusByPayment(@PathVariable("userId") Long userId, @PathVariable("orderId") Long orderId, @PathVariable("cardId") String cardId, @PathVariable("paymentPassword") String paymentPassword) {
+    public OrderDTO updateOrderStatusByPayment(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId, @RequestParam("cardId") String cardId, @RequestParam("paymentPassword") String paymentPassword) {
         if (!userService.checkUserAvailable(userId) || orderId == null ) {
             return null;
         }
