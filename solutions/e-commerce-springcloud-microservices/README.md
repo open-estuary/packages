@@ -25,13 +25,17 @@ In addition, it uses many middlewares provided by Spring Cloud such as:
 E-Commerce MicroService REST API
 
 Method | URI | Description | Parameters | Request JSON | Response JSON
---- | --- | ---| --- | --- | ---
-`GET` | */order/* | | | | 
-`POST` | /order/* | | | |
-`GET`  | /cart/*  | | | |
-`POST` | /cart/*  | | | |
-`GET`  | /search/* | | | |
-`POST` | /search/* | | | |
+--- | --- | ----- | --- | --- | ---
+`GET` | /orders/ |get order |orderId|-| [OrderRes](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`POST` | /orders/ |create order |-|[OrderReq](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md) | [Status](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`DELETE`  | /orders/  |delete order |userId,orderId |-|[Stauts](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`POST` | /orders/delivery  |update order delivery |userId,orderId,deliveryStatus|- |[OrderRes](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`POST` | /orders/payment  |update order payment |userId,orderId,cardId,paymentPassword|- |[OrderRes](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`GET`  | /carts/  |get cart |userId,shoppingcartid |-|[CartRes](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`POST` | /carts/  |create cart |-|[CartReq](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md) | [Status](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`DELETE`  | /carts/  |delete cart |userId |-|[Stauts](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`POST` | /carts/{type}  |update cart |type |[CartReq](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md) |[CartRes](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
+`GET`  | /search/ |search sku |query,page_size,page_num,sort|-|[Sku](https://github.com/open-estuary/packages/blob/master/solutions/e-commerce-springcloud-microservices/RESTAPIJSON.md)
 
 Eureka Service Example: 
 
