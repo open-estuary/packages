@@ -10,5 +10,5 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
-logging:
-  file: eureka.log
+#logging:
+#  file: eureka.log

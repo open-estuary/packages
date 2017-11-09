@@ -31,7 +31,7 @@ mybatis:
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.htsat.cart.model
 
-logging:
-  file: cart.log
+#logging:
+#  file: cart.log
 
 
