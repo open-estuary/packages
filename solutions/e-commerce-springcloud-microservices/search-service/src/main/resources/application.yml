@@ -34,8 +34,8 @@ mybatis:
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.htsat.search.model
 
-logging:
-  file: search.log
+#logging:
+#  file: search.log
 
 
 

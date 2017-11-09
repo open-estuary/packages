@@ -1,7 +1,8 @@
 package com.htsat.cart.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
-	private  Logger logger = Logger.getLogger(RedisConfig.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private  String host;
 
