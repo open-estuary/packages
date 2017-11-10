@@ -13,6 +13,8 @@ import java.util.List;
 public interface IShoppingCartService {
     /*********************************************check******************************************/
 
+    boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku);
+
     boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList);
 
     List<REcSku> getSKUListByDTOList(List<SKUDTO> skudtoList);
@@ -33,6 +35,10 @@ public interface IShoppingCartService {
 
     /*********************************************update******************************************/
 
-    ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException;
+//    ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException;
+
+    void updateShoppingCartSKU(ShoppingCartDTO shoppingCartDTO) throws UpdateException;
+
+    void deleteShoppingCartSKU(Long cartid, Long skuid) throws UpdateException;
 
 }
