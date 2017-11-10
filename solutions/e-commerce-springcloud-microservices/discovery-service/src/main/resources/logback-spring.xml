@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
 <configuration>
-    <property name="logDir" value="/opt/micro-services/logs" />
+    <property name="logDir" value="${logging.path}" />
     <!--<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
     <!--<destination>192.168.226.132:4560</destination>-->
     <!--<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />-->
@@ -20,7 +20,7 @@
 
     <root level="INFO">
         <appender-ref ref="LOGSTASH" />
-        <!--<appender-ref ref="CONSOLE" />-->
+        <appender-ref ref="CONSOLE" />
     </root>
 
 </configuration>

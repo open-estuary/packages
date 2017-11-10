@@ -11,4 +11,4 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 #logging:
-#  file: eureka.log
+#  path: E:/untitled

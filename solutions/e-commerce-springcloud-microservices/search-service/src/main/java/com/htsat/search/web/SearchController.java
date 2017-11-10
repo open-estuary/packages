@@ -32,7 +32,7 @@ public class SearchController {
     @Autowired
     private ISearchService searchService;
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/search", method = RequestMethod.GET)
     public List<String> searchBySolr(@RequestParam(value = "query", required = false) String query, @RequestParam(value = "page_size", required = false) Integer page_size,
                              @RequestParam(value = "page_num", required = false) Integer page_num, @RequestParam(value = "sort", required = false) String sort) {
 

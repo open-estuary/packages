@@ -45,7 +45,7 @@
 //	@Test
 //	public void createShoppingCartTest() {
 //		try {
-//			sendCreateShoppingCartPost("http://localhost:8001/carts");
+//			sendCreateShoppingCartPost("http://localhost:8001/v1/cart");
 //		} catch (Exception e) {
 //
 //		}
@@ -95,7 +95,36 @@
 //	@Test
 //	public void testDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8001/carts?userId=1");
+//		URL url = new URL("http://localhost:8001/v1/cart/1/27");
+//		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//		connection.setRequestMethod("DELETE");
+//		connection.setDoInput(true);
+//		connection.setDoOutput(true);
+////		connection.setRequestProperty("name", "robben");
+//		connection.setRequestProperty("content-type", "text/html");
+//		OutputStreamWriter out = new OutputStreamWriter(
+//				connection.getOutputStream(), "8859_1");
+//		// 将要传递的集合转换成JSON格式
+//		// 组织要传递的参数
+//		out.flush();
+//		out.close();
+//		// 获取返回的数据
+//		BufferedReader in = new BufferedReader(new InputStreamReader(
+//				connection.getInputStream()));
+//		String line = null;
+//		StringBuffer content = new StringBuffer();
+//		while ((line = in.readLine()) != null) {
+//			// line 为返回值，这就可以判断是否成功
+//			content.append(line);
+//		}
+//		in.close();
+//	}
+//
+//
+//    @Test
+//	public void testUpdateDelete() throws IOException {
+//
+//		URL url = new URL("http://localhost:8001//v1/cart/1/29/skus/10002");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);
@@ -123,31 +152,24 @@
 //	@Test
 //	public void updateShoppingCartTest() {
 //		try {
-//			sendUpdateShoppingCartPost("http://localhost:8001/carts/3");
+//			sendUpdateShoppingCartPostupdate("http://localhost:8001//v1/cart/1/29/skus/10001");
 //		} catch (Exception e) {
 //
 //		}
 //	}
 //
-//	private static String sendUpdateShoppingCartPost(String url) throws IOException {
+//	private static String sendUpdateShoppingCartPostupdate(String url) throws IOException {
 //		ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
 //		shoppingCart.setUserId(1L);
-//
+//        shoppingCart.setNshoppingcartid(29L);
 //		SKUDTO sku1 = new SKUDTO();
-//		sku1.setSkuId(10003L);
-//		sku1.setDisplayPrice(new BigDecimal(799));
-//		sku1.setDiscount(new BigDecimal(0));
-//		sku1.setQuantity(10);
-//
-//
-////		SKUDTO sku2 = new SKUDTO();
-////		sku2.setSkuId(10002);
-////		sku2.setDisplayPrice(new BigDecimal(799));
-////		sku2.setQuantity(6);
+//		sku1.setSkuId(10001L);
+//		sku1.setDisplayPrice(new BigDecimal(700));
+//		sku1.setDiscount(new BigDecimal(99));
+//		sku1.setQuantity(5);
 //
 //		List<SKUDTO> skuList = new ArrayList<>();
 //		skuList.add(sku1);
-////		skuList.add(sku2);
 //		shoppingCart.setSkudtoList(skuList);
 //
 //		DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -171,5 +193,50 @@
 //		}
 //		return "";
 //	}
+//
+//    @Test
+//    public void updateShoppingCartTest2() {
+//        try {
+//            sendUpdateShoppingCartPostadd("http://localhost:8001//v1/cart/1/29/skus/10002");
+//        } catch (Exception e) {
+//
+//        }
+//    }
+//
+//    private static String sendUpdateShoppingCartPostadd(String url) throws IOException {
+//        ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
+//        shoppingCart.setUserId(1L);
+//        shoppingCart.setNshoppingcartid(29L);
+//        SKUDTO sku1 = new SKUDTO();
+//        sku1.setSkuId(10002L);
+//        sku1.setDisplayPrice(new BigDecimal(799));
+//        sku1.setDiscount(new BigDecimal(0));
+//        sku1.setQuantity(10);
+//
+//        List<SKUDTO> skuList = new ArrayList<>();
+//        skuList.add(sku1);
+//        shoppingCart.setSkudtoList(skuList);
+//
+//        DefaultHttpClient httpClient = new DefaultHttpClient();
+//        HttpPost httpPost = new HttpPost(url);
+//        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+//        String jsonstr = JSON.toJSONString(shoppingCart);
+//        StringEntity se = new StringEntity(jsonstr);
+//        se.setContentType("text/json");
+//        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//        httpPost.setEntity(se);
+//        HttpResponse response = httpClient.execute(httpPost);
+//        //输出调用结果
+//        if (response != null && response.getStatusLine().getStatusCode() == 200) {
+//            String result = EntityUtils.toString(response.getEntity());
+//            // 生成 JSON 对象
+//            JSONObject obj = JSONObject.parseObject(result);
+//            String errorcode = obj.getString("errorcode");
+//            if ("000".equals(errorcode)) {
+//                System.out.println("addHkfishOrder_request_success");
+//            }
+//        }
+//        return "";
+//    }
 //
 //}

@@ -28,7 +28,7 @@ public class OrderController {
     @Autowired
     IOrderService orderService;
 
-    @RequestMapping(value = "/orders", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/order", method = RequestMethod.POST)
     @ResponseBody
     public StatusDTO createOrder(@RequestBody OrderDTO orderDTO){
         StatusDTO status = new StatusDTO();
@@ -60,12 +60,12 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/order/{orderid}", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDTO getOrder(@RequestParam("orderId") Long orderId){
+    public OrderDTO getOrder(@PathVariable("orderid") Long orderid){
         OrderDTO orderDTO = null;
         try {
-            orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderId);
+            orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("search exception !");
@@ -78,16 +78,16 @@ public class OrderController {
         return orderDTO;
     }
 
-    @RequestMapping(value = "/orders", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/order/{userid}/{orderid}", method = RequestMethod.DELETE)
     @ResponseBody
-    public StatusDTO deleteOrder(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId){
+    public StatusDTO deleteOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
         StatusDTO status = new StatusDTO();
-        status.setUserId(userId);
-        if (!userService.checkUserAvailable(userId)) {
+        status.setUserId(userid);
+        if (!userService.checkUserAvailable(userid)) {
             return null;
         }
         try {
-            orderService.deleteOrderAndDeliveryAndOrderSKU(orderId);
+            orderService.deleteOrderAndDeliveryAndOrderSKU(orderid);
         } catch (DeleteException e) {
             e.printStackTrace();
             logger.error("delete exception !");
@@ -103,89 +103,89 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/orders/delivery", method = RequestMethod.POST)
-    @ResponseBody
-    public OrderDTO updateOrderStatusByDelivery(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId, @RequestParam("deliveryStatus") short deliveryStatus) {
-        if (!userService.checkUserAvailable(userId) || orderId == null ) {
-            return null;
-        }
-        OrderDTO orderDTO = null;
-        try {
-            orderDTO = orderService.updateOrderDelivery(orderId, deliveryStatus);
-        } catch (UpdateException e) {
-            e.printStackTrace();
-            logger.error("update delivery exception !");
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("delivery exception !");
-            return null;
-        }
-        return orderDTO;
-    }
+//    @RequestMapping(value = "/orders/delivery", method = RequestMethod.POST)
+//    @ResponseBody
+//    public OrderDTO updateOrderStatusByDelivery(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId, @RequestParam("deliveryStatus") short deliveryStatus) {
+//        if (!userService.checkUserAvailable(userId) || orderId == null ) {
+//            return null;
+//        }
+//        OrderDTO orderDTO = null;
+//        try {
+//            orderDTO = orderService.updateOrderDelivery(orderId, deliveryStatus);
+//        } catch (UpdateException e) {
+//            e.printStackTrace();
+//            logger.error("update delivery exception !");
+//            return null;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.error("delivery exception !");
+//            return null;
+//        }
+//        return orderDTO;
+//    }
+//
+//    @RequestMapping(value = "/orders/payment", method = RequestMethod.POST)
+//    @ResponseBody
+//    public OrderDTO updateOrderStatusByPayment(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId, @RequestParam("cardId") String cardId, @RequestParam("paymentPassword") String paymentPassword) {
+//        if (!userService.checkUserAvailable(userId) || orderId == null ) {
+//            return null;
+//        }
+//        OrderDTO orderDTO = null;
+//        try {
+//            orderDTO = orderService.updateOrderPayment(userId, orderId, cardId, paymentPassword);
+//        } catch (UpdateException e) {
+//            e.printStackTrace();
+//            logger.error("update payment exception !");
+//            return null;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.error("payment exception !");
+//            return null;
+//        }
+//        return orderDTO;
+//    }
 
-    @RequestMapping(value = "/orders/payment", method = RequestMethod.POST)
-    @ResponseBody
-    public OrderDTO updateOrderStatusByPayment(@RequestParam("userId") Long userId, @RequestParam("orderId") Long orderId, @RequestParam("cardId") String cardId, @RequestParam("paymentPassword") String paymentPassword) {
-        if (!userService.checkUserAvailable(userId) || orderId == null ) {
-            return null;
-        }
-        OrderDTO orderDTO = null;
-        try {
-            orderDTO = orderService.updateOrderPayment(userId, orderId, cardId, paymentPassword);
-        } catch (UpdateException e) {
-            e.printStackTrace();
-            logger.error("update payment exception !");
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("payment exception !");
-            return null;
-        }
-        return orderDTO;
-    }
+//    @Autowired
+//    ILoadBalanceService loadbalanceService;
+//
+//    @RequestMapping(value = "/loadbalance")
+//    public String loadbalance(@RequestParam String name){
+//        return loadbalanceService.loadbalanceService(name);
+//    }
 
-    @Autowired
-    ILoadBalanceService loadbalanceService;
-
-    @RequestMapping(value = "/loadbalance")
-    public String loadbalance(@RequestParam String name){
-        return loadbalanceService.loadbalanceService(name);
-    }
-
-    @Autowired
-    IShoppingCartService shoppingCartService;
-
-    @RequestMapping(value = "/ordersCart", method = RequestMethod.POST)
-    public StatusDTO createOrderByShoppingCart(@RequestBody OrderDTO orderDTO) {
-        StatusDTO status = new StatusDTO();
-        status.setUserId(orderDTO.getUserId());
-
-        ShoppingCartDTO shoppingCartDTO = shoppingCartService.getShoppingCart(orderDTO.getUserId());
-
-        boolean checkUserResult = userService.checkUserAvailable(shoppingCartDTO.getUserId());
-        boolean checkAddressResult = addressService.checkAddressAvailable(shoppingCartDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
-//        boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
-
-        if (!(checkUserResult && checkAddressResult/* && checkcheckSKUPResult*/)) {
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
-
-        try {
-            orderService.createOrderAndDeliveryAndOrderSKUByShoppingCart(orderDTO, shoppingCartDTO);
-        } catch (InsertException e) {
-            e.printStackTrace();
-            logger.error("create by cart exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
-        status.setStatus(ExcuteStatusEnum.SUCCESS);
-        return status;
-    }
+//    @Autowired
+//    IShoppingCartService shoppingCartService;
+//
+//    @RequestMapping(value = "/ordersCart", method = RequestMethod.POST)
+//    public StatusDTO createOrderByShoppingCart(@RequestBody OrderDTO orderDTO) {
+//        StatusDTO status = new StatusDTO();
+//        status.setUserId(orderDTO.getUserId());
+//
+//        ShoppingCartDTO shoppingCartDTO = shoppingCartService.getShoppingCart(orderDTO.getUserId());
+//
+//        boolean checkUserResult = userService.checkUserAvailable(shoppingCartDTO.getUserId());
+//        boolean checkAddressResult = addressService.checkAddressAvailable(shoppingCartDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
+////        boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
+//
+//        if (!(checkUserResult && checkAddressResult/* && checkcheckSKUPResult*/)) {
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
+//
+//        try {
+//            orderService.createOrderAndDeliveryAndOrderSKUByShoppingCart(orderDTO, shoppingCartDTO);
+//        } catch (InsertException e) {
+//            e.printStackTrace();
+//            logger.error("create by cart exception !");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.error("exception !");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
+//        status.setStatus(ExcuteStatusEnum.SUCCESS);
+//        return status;
+//    }
 }
