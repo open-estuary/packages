@@ -3,7 +3,8 @@ package com.htsat.search.serviceimpl;
 import com.htsat.search.config.RedisConfig;
 import com.htsat.search.service.ISearchService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -11,7 +12,7 @@ import redis.clients.jedis.Jedis;
 @Service
 public class SearchServiceImpl implements ISearchService {
 
-    private Logger logger = Logger.getLogger(com.htsat.search.serviceimpl.SearchServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RedisConfig redisConfig;

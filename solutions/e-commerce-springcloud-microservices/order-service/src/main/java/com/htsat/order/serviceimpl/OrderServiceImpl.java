@@ -15,7 +15,8 @@ import com.htsat.order.utils.ConvertToDTO;
 import com.htsat.order.utils.SerializeUtil;
 import com.htsat.order.utils.SortList;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -34,7 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class OrderServiceImpl implements IOrderService {
 
-    private Logger logger = Logger.getLogger(OrderServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     REcDeliveryinfoMapper deliveryinfoMapper;

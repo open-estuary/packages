@@ -18,6 +18,8 @@ spring:
   data:
     solr:
       host: http://localhost:8983/solr/mycore
+  zipkin:
+      base-url: http://localhost:9411
 
 server:
   port: 8002
@@ -34,8 +36,8 @@ mybatis:
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.htsat.search.model
 
-logging:
-  file: search.log
+#logging:
+#  file: search.log
 
 
 
