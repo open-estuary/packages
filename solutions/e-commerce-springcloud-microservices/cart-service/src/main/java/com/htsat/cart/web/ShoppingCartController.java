@@ -11,7 +11,8 @@ import com.htsat.cart.model.REcSku;
 import com.htsat.cart.service.ILoadBalanceService;
 import com.htsat.cart.service.IShoppingCartService;
 import com.htsat.cart.service.IUserService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @RestController
 public class ShoppingCartController {
 
-    Logger logger = Logger.getLogger(ShoppingCartController.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     IUserService userService;

@@ -9,14 +9,15 @@ import com.htsat.order.exception.InsertException;
 import com.htsat.order.exception.SearchException;
 import com.htsat.order.exception.UpdateException;
 import com.htsat.order.service.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OrderController {
 
-    Logger logger = Logger.getLogger(OrderController.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     IUserService userService;

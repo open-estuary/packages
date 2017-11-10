@@ -22,7 +22,8 @@ import com.htsat.cart.utils.ConvertToDTO;
 import com.htsat.cart.utils.SerializeUtil;
 import com.htsat.cart.utils.SortList;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -38,7 +39,7 @@ import java.util.List;
 @Service
 public class ShoppingCartServiceImpl implements IShoppingCartService {
 
-    private Logger logger = Logger.getLogger(ShoppingCartServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private REcShoppingcartMapper shoppingcartMapper;
