@@ -21,7 +21,9 @@ public interface IOrderService {
     /**
      * get order
      */
-    public OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long orderId) throws SearchException;
+    OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long orderId) throws SearchException;
+
+    List<OrderDTO> getAllOrderAndDeliveryAndOrderSKUAndAddress(Long userid) throws SearchException;
 
     /**
      * delete order
