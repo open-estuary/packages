@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class OrderController {
 
@@ -39,6 +41,7 @@ public class OrderController {
         boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
 
         if (!(checkUserResult && checkAddressResult && checkcheckSKUPResult)) {
+            logger.error("check failed !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -60,9 +63,13 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/v1/order/{orderid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/order/{userid}/{orderid}", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDTO getOrder(@PathVariable("orderid") Long orderid){
+    public OrderDTO getOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("check user failed !");
+            return null;
+        }
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderid);
@@ -78,12 +85,35 @@ public class OrderController {
         return orderDTO;
     }
 
+    @RequestMapping(value = "/v1/order/{userid}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<OrderDTO> getAllOrder(@PathVariable("userid") Long userid){
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("check user failed !");
+            return null;
+        }
+        List<OrderDTO> orderDTOList = null;
+        try {
+            orderDTOList = orderService.getAllOrderAndDeliveryAndOrderSKUAndAddress(userid);
+        } catch (SearchException e) {
+            e.printStackTrace();
+            logger.error("search all exception !");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("exception !");
+            return null;
+        }
+        return orderDTOList;
+    }
+
     @RequestMapping(value = "/v1/order/{userid}/{orderid}", method = RequestMethod.DELETE)
     @ResponseBody
     public StatusDTO deleteOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
         if (!userService.checkUserAvailable(userid)) {
+            logger.error("check user failed !");
             return null;
         }
         try {
