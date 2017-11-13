@@ -11,4 +11,8 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 #logging:
-#  file: eureka.log
+#   config: classpath:logback-spring.xml
+#   file: E:/untitled/e.log
+
+#logging:
+#  path: E:/untitled
