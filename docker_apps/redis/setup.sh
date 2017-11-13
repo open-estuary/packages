@@ -25,7 +25,7 @@ fi
 
 #Step 3: Try to pull 3.2.4 redis docker image
 if [ -z "$(docker images | grep 'openestuary/redis' | grep "3.2.4" | grep -v grep)" ]  ; then
-    docker pull openestuary/redis:3.2.4
+    docker pull openestuary/redis:4.0.2
 else 
     echo "Redis-3.2.4 docker image has been pulled"
 fi

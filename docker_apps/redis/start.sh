@@ -4,7 +4,7 @@
 #description: To start redis docker 
 
 #Default mode, it will map the host 6379 to docker container port 6379
-docker run -p 6379:6379 --name redis-3.2.4 -d openestuary/redis:3.2.4
+docker run -p 6379:6379 --name redis-4.0.2 -d openestuary/redis:4.0.2
 
 #
 #Mode 1: Use "-P" to choose host port dynamically 
