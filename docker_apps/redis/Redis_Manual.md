@@ -6,7 +6,7 @@
 
 ## <a name="1">Introduction</a>
 
-This Redis [docker image](https://docs.docker.com/) is based on [Redis 3.2](http://download.redis.io/releases/redis-3.2.4.tar.gz).
+This Redis [docker image](https://docs.docker.com/) is based on [Redis 4.0](http://download.redis.io/releases/redis-4.0.2.tar.gz).
 
 
 ## <a name="2">Build</a>
@@ -19,21 +19,21 @@ Redis docker image could be installed through one of following ways:
 - Use docker `pull openestuary/redis` to install the Redis docker image  
 
 ### Versions 
-- v300/3.2.4 : based on Open-Estuary V300 CentOS and Redis3.2.4.
-- latest: currently it is the same as v300 or 3.2.4. 
+- v300/4.0.2 : based on Open-Estuary v500 CentOS and Redis4.0.2.
+- latest: currently it is the same as v500 or 4.0.2. 
 
 ## <a name="4">Start</a>
 There are several of ways to start Redis docker container as follows:
 - Start one container whose port 6379 is mapped to the host specific port such as 6379
-  - Examples: `docker run -p 6379:6379 --name redis -d openestuary/redis:3.2.4`
+  - Examples: `docker run -p 6379:6379 --name redis -d openestuary/redis:4.0.2`
 - Start one container whose port 6379 is mapped to the host port dynamically
   - Examples:
-    - Execute `docker run -P --name redis -d openestuary/redis:3.2.4` to start the container
+    - Execute `docker run -P --name redis -d openestuary/redis:4.0.2` to start the container
     - Execute `docker port redis` to check the dynamic port
 - Start one container which uses the specified host data diretory 
-  - Examples:`docker run -p 6379:6379 -v /host/datadir:/usr/local/redis/db -d openestuary/redis:3.2.4`
+  - Examples:`docker run -p 6379:6379 -v /host/datadir:/usr/local/redis/db -d openestuary/redis:4.0.2`
 - Start one container which uses the specified configuration, that is /host/configdir/redis.conf
-  - Examples:`docker run -p 6379:6379 -v /host/configdir:/usr/local/redis/config -d openestuary/redis:3.2.4`
+  - Examples:`docker run -p 6379:6379 -v /host/configdir:/usr/local/redis/config -d openestuary/redis:4.0.2`
 
 By default, the docker container only has 10G disk size. Therefore, it is suggested to specify data directory and the recommended [redis.conf](https://github.com/open-estuary/packages/blob/master/docker_apps/redis/redis.conf) . 
 As for more examples, please refer to [start.sh](https://github.com/open-estuary/packages/blob/master/docker_apps/redis/start.sh).
