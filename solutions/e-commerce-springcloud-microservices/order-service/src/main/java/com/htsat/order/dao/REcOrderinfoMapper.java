@@ -27,4 +27,6 @@ public interface REcOrderinfoMapper {
     int updateByPrimaryKeySelective(REcOrderinfo record);
 
     int updateByPrimaryKey(REcOrderinfo record);
+
+    List<REcOrderinfo> selectByUserId(Long userid);
 }
