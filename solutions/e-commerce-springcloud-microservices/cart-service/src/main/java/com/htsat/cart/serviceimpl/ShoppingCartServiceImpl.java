@@ -137,6 +137,18 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     /*********************************************search******************************************/
+
+    @Override
+    public ShoppingCartDTO getShoppingCartByUser(Long userid) throws SearchException{
+        List<REcShoppingcart> shoppingcartList = shoppingcartMapper.selectByUserId(userid);
+        if (shoppingcartList == null || shoppingcartList.size() != 1) {
+            logger.error("this user has too many or no shoppingcart");
+            throw new SearchException("mysql : too many or no shoppingcart");
+        }
+        ShoppingCartDTO shoppingCartDTO = getShoppingCart(shoppingcartList.get(0).getNshoppingcartid());
+        return shoppingCartDTO;
+    }
+
     /**
      *
      * @param shoppingcartid
