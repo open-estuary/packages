@@ -430,4 +430,10 @@
       nAddressID = #{naddressid,jdbcType=BIGINT}
     where nOrderID = #{norderid,jdbcType=BIGINT}
   </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_orderinfo
+    where nUserID = #{nuserid,jdbcType=BIGINT}
+  </select>
 </mapper>
