@@ -25,7 +25,7 @@ else
 fi
 
 CUR_DIR="$(cd `dirname $0`; pwd)"
-BENCHMARK_JMX="${CUR_DIR}/api_benchmark.jmx"
+BENCHMARK_JMX="${CUR_DIR}/e_commerce_restapi_benchmark.jmx"
 
 HOST="${1}"
 PORT=${2:-9000}
