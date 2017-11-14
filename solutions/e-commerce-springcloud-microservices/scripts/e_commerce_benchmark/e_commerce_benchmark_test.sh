@@ -4,7 +4,7 @@
 # Warning : Please make sure Jmeter client and Jmeter-server belong to the same subnetwork !
 #
 
-if [ -z "${2}" ] ; then
+if [ -z "${1}" ] ; then
     echo "Usage: <e-commerce server ip> <e-commerce server port> <number_of_user> <time_in_sec> <remote_agent_hosts> <result_save_dir>"
     exit 0
 fi
@@ -14,9 +14,22 @@ echo "Please make sure LOCAL_HOST and REMOTE_HOST have been set properly during 
 echo "                                  ********                                                      "
 
 #Jmeter client which triggers Jmeter servers to start tests and manage test results. 
-LOCAL_HOST="192.168.11.247"
+LOCAL_HOST="192.168.12.11"
+echo "Use local IP address :${LOCAL_HOST}"
+
+if [ -z "$(ps -aux | grep jmeter-server |  grep ${LOCAL_HOST} | grep -v grep)"] ; then
+    echo "Please execute /opt/jmeter/bin/jmeter-server -Djava.rmi.server.hostname=${LOCAL_HOST} on all remote jmeter servers firstly"
+    exit 0
+fi
+
+#########################################################################################
+# Please make sure jmeter-server have been started in all remote_hosts !
+#
+# /opt/jmeter/bin/jmeter-server -Djava.rmi.server.hostname=${LOCAL_HOST} &
+# 
 #Jmeter server (or agents) which perform real test works
-REMOTE_HOST="192.168.11.247"
+#########################################################################################
+REMOTE_HOST="192.168.12.11"
 
 if [ -z "$(which jmeter 2>/dev/null)" ] ; then
     JMETER="/opt/jmeter/bin/jmeter"
@@ -27,7 +40,7 @@ fi
 CUR_DIR="$(cd `dirname $0`; pwd)"
 BENCHMARK_JMX="${CUR_DIR}/api_benchmark.jmx"
 
-HOST="${1}"
+HOST=${1:-"192.168.12.100"}
 PORT=${2:-9000}
 USER_NUM=${3:-1000}
 DUR_TIME_INSEC=${4:-240}
