@@ -103,6 +103,28 @@ public class ShoppingCartController {
         return shoppingCartDTO;
     }
 
+    @RequestMapping(value = "/v1/cart/{userid}", method = RequestMethod.GET)
+    @ResponseBody
+    public ShoppingCartDTO getShoppingCartByUser(@PathVariable("userid") Long userid){
+        ShoppingCartDTO shoppingCartDTO = null;
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("User request invalid");
+            return null;
+        }
+        try {
+            shoppingCartDTO = shoppingCartService.getShoppingCartByUser(userid);
+        } catch (SearchException e) {
+            e.printStackTrace();
+            logger.error("get exception !");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("exception !");
+            return null;
+        }
+        return shoppingCartDTO;
+    }
+
     @RequestMapping(value = "/v1/cart/{userid}/{cartid}", method = RequestMethod.DELETE)
     @ResponseBody
     public StatusDTO deleteShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
