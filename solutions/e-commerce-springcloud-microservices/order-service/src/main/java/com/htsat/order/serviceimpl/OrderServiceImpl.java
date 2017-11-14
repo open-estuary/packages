@@ -279,6 +279,24 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     /**
+     * get all order
+     * @param userid
+     * @return
+     * @throws SearchException
+     */
+    @Override
+    public List<OrderDTO> getAllOrderAndDeliveryAndOrderSKUAndAddress(Long userid) throws SearchException {
+        List<REcOrderinfo> orderinfoList = orderinfoMapper.selectByUserId(userid);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        for ( REcOrderinfo orderinfo : orderinfoList) {
+            OrderDTO orderDTO = getOrderInfoByRedis(orderinfo.getNorderid());
+            if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(orderinfo.getNorderid());
+            orderDTOList.add(orderDTO);
+        }
+        return orderDTOList;
+    }
+
+    /**
      * delete order
      */
     @Override

@@ -256,135 +256,137 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
 
     /*********************************************udpate******************************************/
 
-    @Override
-    public ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException {
-        ShoppingCartDTO returnShoppingCartDTO = updateShoppingCartAndSKUByMySQL(type, shoppingCartDTO);
-        updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
-        return returnShoppingCartDTO;
-    }
+//    @Override
+//    public ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException {
+//        ShoppingCartDTO returnShoppingCartDTO = updateShoppingCartAndSKUByMySQL(type, shoppingCartDTO);
+//        updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
+//        return returnShoppingCartDTO;
+//    }
+//
+//
+//    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
+//    public ShoppingCartDTO updateShoppingCartAndSKUByMySQL(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException{
+//
+//        if (type == 1) {//add
+//            if (!checkSKUParam(shoppingCartDTO.getSkudtoList(), getSKUListByDTOList(shoppingCartDTO.getSkudtoList()))) {
+//                return null;
+//            }
+//            REcShoppingcart shoppingcart = updateShoppingCart(type, shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
+//            List<REcSku> skuList = updateAddCartSKU(shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
+//            shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
+//        } else if (type == 2) {//update
+//            if (!checkSKUParam(shoppingCartDTO.getSkudtoList(), getSKUListByDTOList(shoppingCartDTO.getSkudtoList()))) {
+//                return null;
+//            }
+//            REcShoppingcart shoppingcart = updateShoppingCart(type, shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
+//            List<REcSku> skuList = updateRefreshCartSKU(shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
+//            shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
+//        } else if (type == 3) {//delete
+//            List<SKUDTO> skudtoList = shoppingCartDTO.getSkudtoList();
+//            List<REcSku> skuListCheck = getSKUListByDTOList(skudtoList);
+//            if (skudtoList.size() != skuListCheck.size())
+//                return null;
+//            Collections.sort(skudtoList, new SortList<SKUDTO>("SkuId",true));
+//            for (int i = 0; i < skudtoList.size(); i++) {
+//                if (!skudtoList.get(i).getSkuId().equals(skuListCheck.get(i).getNskuid())) {
+//                    return null;
+//                }
+//            }
+//            REcShoppingcart shoppingcart = updateShoppingCart(type, shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
+//            List<REcSku> skuList = updateDeleteCartSKU(shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
+//            shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
+//        } else {
+//            return null;
+//        }
+//
+//        return shoppingCartDTO;
+//    }
+//
+//    private REcShoppingcart updateShoppingCart(int type, Long userId, List<SKUDTO> skuDTOList) throws UpdateException{
+//        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
+//        int quantity = ComputeUtils.computeNumber(skuDTOList);
+//        BigDecimal discount = ComputeUtils.computeDiscount(skuDTOList);
+//        BigDecimal totalPrice = ComputeUtils.computeTotalPrice(skuDTOList);
+//
+////        REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(userId);
+//        if (type == 1) {//add
+//            shoppingcart.setNtotalquantity(shoppingcart.getNtotalquantity() + quantity);
+//            shoppingcart.setNdiscount(shoppingcart.getNdiscount().add(discount));
+//            shoppingcart.setNtotalprice(shoppingcart.getNtotalprice().add(totalPrice));
+//        } else if (type == 2) {//update
+//            computeQuantityDiscountTotalPrice(skuDTOList, shoppingcart);
+//        } else if (type == 3) {//delete
+//            shoppingcart.setNtotalquantity(shoppingcart.getNtotalquantity() - quantity);
+//            shoppingcart.setNdiscount(shoppingcart.getNdiscount().subtract(discount));
+//            shoppingcart.setNtotalprice(shoppingcart.getNtotalprice().subtract(totalPrice));
+//        }
+//
+//        int updateResult = shoppingcartMapper.updateByPrimaryKeySelective(shoppingcart);
+//        if (updateResult != 1) {
+//            throw new UpdateException("mysql : update ShoppingCart failed");
+//        }
+//        REcShoppingcart shoppingcartResult = shoppingcartMapper.selectByPrimaryKey(shoppingcart.getNshoppingcartid());
+//        if (shoppingcartResult == null) {
+//            throw new UpdateException("mysql : update search ShoppingCart failed");
+//        }
+//        return shoppingcartResult;
+//    }
+//
+//    private List<REcSku> updateAddCartSKU(Long userId, List<SKUDTO> skuDTOList) throws UpdateException {
+//        REcShoppingcart shoppingcartResult = getShoppingCartByUserId(userId);
+//        for (SKUDTO skuDTO : skuDTOList) {
+//            REcCartsku cartsku = new REcCartsku();
+//            cartsku.setNuserid(userId);
+//            cartsku.setNshoppingcartid(shoppingcartResult.getNshoppingcartid());
+//            cartsku.setNskuid(skuDTO.getSkuId());
+//            cartsku.setNquantity(skuDTO.getQuantity());
+//            int result = cartskuMapper.insert(cartsku);
+//            if (result != 1) {
+//                throw new UpdateException("mysql : update add CartSKU failed");
+//            }
+//        }
+//        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcartResult.getNshoppingcartid());
+//        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
+//        return skuList;
+//    }
+//
+//    private List<REcSku> updateRefreshCartSKU(Long userId, List<SKUDTO> skuDTOList) throws UpdateException {
+//        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
+//        for (SKUDTO skuDTO : skuDTOList) {
+//            REcCartskuKey key = new REcCartskuKey();
+//            key.setNshoppingcartid(shoppingcart.getNshoppingcartid());
+//            key.setNskuid(skuDTO.getSkuId());
+//            REcCartsku cartsku = cartskuMapper.selectByREcCartskuKey(key);
+//            cartsku.setNquantity(skuDTO.getQuantity());//update quantity
+//            int result = cartskuMapper.updateByPrimaryKey(cartsku);
+//            if (result != 1) {
+//                throw new UpdateException("mysql : update refresh CartSKU failed");
+//            }
+//        }
+//        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcart.getNshoppingcartid());
+//        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
+//        return skuList;
+//    }
+//
+//    private List<REcSku> updateDeleteCartSKU(Long userId, List<SKUDTO> skuDTOList) throws UpdateException {
+//        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
+//        for (SKUDTO skuDTO : skuDTOList) {
+//            REcCartskuKey key = new REcCartskuKey();
+//            key.setNshoppingcartid(shoppingcart.getNshoppingcartid());
+//            key.setNskuid(skuDTO.getSkuId());
+//            REcCartsku cartsku = cartskuMapper.selectByREcCartskuKey(key);
+//            cartsku.setNquantity(skuDTO.getQuantity());//delete quantity
+//            int result = cartskuMapper.deleteByPrimaryKey(cartsku.getNcartskuid());
+//            if (result != 1) {
+//                throw new UpdateException("mysql : update delete CartSKU failed");
+//            }
+//        }
+//        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcart.getNshoppingcartid());
+//        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
+//        return skuList;
+//    }
+//
 
-
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public ShoppingCartDTO updateShoppingCartAndSKUByMySQL(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException{
-
-        if (type == 1) {//add
-            if (!checkSKUParam(shoppingCartDTO.getSkudtoList(), getSKUListByDTOList(shoppingCartDTO.getSkudtoList()))) {
-                return null;
-            }
-            REcShoppingcart shoppingcart = updateShoppingCart(type, shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
-            List<REcSku> skuList = updateAddCartSKU(shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
-            shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
-        } else if (type == 2) {//update
-            if (!checkSKUParam(shoppingCartDTO.getSkudtoList(), getSKUListByDTOList(shoppingCartDTO.getSkudtoList()))) {
-                return null;
-            }
-            REcShoppingcart shoppingcart = updateShoppingCart(type, shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
-            List<REcSku> skuList = updateRefreshCartSKU(shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
-            shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
-        } else if (type == 3) {//delete
-            List<SKUDTO> skudtoList = shoppingCartDTO.getSkudtoList();
-            List<REcSku> skuListCheck = getSKUListByDTOList(skudtoList);
-            if (skudtoList.size() != skuListCheck.size())
-                return null;
-            Collections.sort(skudtoList, new SortList<SKUDTO>("SkuId",true));
-            for (int i = 0; i < skudtoList.size(); i++) {
-                if (!skudtoList.get(i).getSkuId().equals(skuListCheck.get(i).getNskuid())) {
-                    return null;
-                }
-            }
-            REcShoppingcart shoppingcart = updateShoppingCart(type, shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
-            List<REcSku> skuList = updateDeleteCartSKU(shoppingCartDTO.getUserId(), shoppingCartDTO.getSkudtoList());
-            shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
-        } else {
-            return null;
-        }
-
-        return shoppingCartDTO;
-    }
-
-    private REcShoppingcart updateShoppingCart(int type, Long userId, List<SKUDTO> skuDTOList) throws UpdateException{
-        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
-        int quantity = ComputeUtils.computeNumber(skuDTOList);
-        BigDecimal discount = ComputeUtils.computeDiscount(skuDTOList);
-        BigDecimal totalPrice = ComputeUtils.computeTotalPrice(skuDTOList);
-
-//        REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(userId);
-        if (type == 1) {//add
-            shoppingcart.setNtotalquantity(shoppingcart.getNtotalquantity() + quantity);
-            shoppingcart.setNdiscount(shoppingcart.getNdiscount().add(discount));
-            shoppingcart.setNtotalprice(shoppingcart.getNtotalprice().add(totalPrice));
-        } else if (type == 2) {//update
-            computeQuantityDiscountTotalPrice(skuDTOList, shoppingcart);
-        } else if (type == 3) {//delete
-            shoppingcart.setNtotalquantity(shoppingcart.getNtotalquantity() - quantity);
-            shoppingcart.setNdiscount(shoppingcart.getNdiscount().subtract(discount));
-            shoppingcart.setNtotalprice(shoppingcart.getNtotalprice().subtract(totalPrice));
-        }
-
-        int updateResult = shoppingcartMapper.updateByPrimaryKeySelective(shoppingcart);
-        if (updateResult != 1) {
-            throw new UpdateException("mysql : update ShoppingCart failed");
-        }
-        REcShoppingcart shoppingcartResult = shoppingcartMapper.selectByPrimaryKey(shoppingcart.getNshoppingcartid());
-        if (shoppingcartResult == null) {
-            throw new UpdateException("mysql : update search ShoppingCart failed");
-        }
-        return shoppingcartResult;
-    }
-
-    private List<REcSku> updateAddCartSKU(Long userId, List<SKUDTO> skuDTOList) throws UpdateException {
-        REcShoppingcart shoppingcartResult = getShoppingCartByUserId(userId);
-        for (SKUDTO skuDTO : skuDTOList) {
-            REcCartsku cartsku = new REcCartsku();
-            cartsku.setNuserid(userId);
-            cartsku.setNshoppingcartid(shoppingcartResult.getNshoppingcartid());
-            cartsku.setNskuid(skuDTO.getSkuId());
-            cartsku.setNquantity(skuDTO.getQuantity());
-            int result = cartskuMapper.insert(cartsku);
-            if (result != 1) {
-                throw new UpdateException("mysql : update add CartSKU failed");
-            }
-        }
-        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcartResult.getNshoppingcartid());
-        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
-        return skuList;
-    }
-
-    private List<REcSku> updateRefreshCartSKU(Long userId, List<SKUDTO> skuDTOList) throws UpdateException {
-        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
-        for (SKUDTO skuDTO : skuDTOList) {
-            REcCartskuKey key = new REcCartskuKey();
-            key.setNshoppingcartid(shoppingcart.getNshoppingcartid());
-            key.setNskuid(skuDTO.getSkuId());
-            REcCartsku cartsku = cartskuMapper.selectByREcCartskuKey(key);
-            cartsku.setNquantity(skuDTO.getQuantity());//update quantity
-            int result = cartskuMapper.updateByPrimaryKey(cartsku);
-            if (result != 1) {
-                throw new UpdateException("mysql : update refresh CartSKU failed");
-            }
-        }
-        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcart.getNshoppingcartid());
-        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
-        return skuList;
-    }
-
-    private List<REcSku> updateDeleteCartSKU(Long userId, List<SKUDTO> skuDTOList) throws UpdateException {
-        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
-        for (SKUDTO skuDTO : skuDTOList) {
-            REcCartskuKey key = new REcCartskuKey();
-            key.setNshoppingcartid(shoppingcart.getNshoppingcartid());
-            key.setNskuid(skuDTO.getSkuId());
-            REcCartsku cartsku = cartskuMapper.selectByREcCartskuKey(key);
-            cartsku.setNquantity(skuDTO.getQuantity());//delete quantity
-            int result = cartskuMapper.deleteByPrimaryKey(cartsku.getNcartskuid());
-            if (result != 1) {
-                throw new UpdateException("mysql : update delete CartSKU failed");
-            }
-        }
-        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcart.getNshoppingcartid());
-        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
-        return skuList;
-    }
 
     private void updateShoppingCartAndSKUToRedis(ShoppingCartDTO returnShoppingCartDTO) throws UpdateException {
         Jedis jedis = redisConfig.getJedis();
@@ -403,7 +405,159 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         }
     }
 
+    @Override
+    public void updateShoppingCartSKU(ShoppingCartDTO shoppingCartDTO) throws UpdateException {
+        ShoppingCartDTO returnShoppingCartDTO = updateShoppingCartAndSKUByMySQL(shoppingCartDTO);
+        updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
+    public ShoppingCartDTO updateShoppingCartAndSKUByMySQL(ShoppingCartDTO shoppingCartDTO) throws UpdateException{
+        REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(shoppingCartDTO.getNshoppingcartid());
+
+        if (shoppingCartDTO == null || shoppingCartDTO.getSkudtoList() == null || shoppingCartDTO.getSkudtoList().size() != 1 || shoppingcart == null) {
+            logger.error("ShoppingCartDTO request invalid");
+            throw new UpdateException("mysql : update product, shoppingCartDTO request invalid");
+        }
+        SKUDTO skudto = shoppingCartDTO.getSkudtoList().get(0);
+        List<REcSku> skuList = getSKUListByDTOList(shoppingCartDTO.getSkudtoList());
+        if (skuList == null || skuList.size() != 1){
+            logger.error("ShoppingCartDTO SKUDTO request invalid");
+            throw new UpdateException("mysql : update product, no sku matched or too many sku matched");
+        }
+        if (!checkSingleSKUParam(shoppingCartDTO.getSkudtoList().get(0), skuList.get(0))) {
+            logger.error("ShoppingCartDTO SKUDTO request invalid");
+            throw new UpdateException("mysql : update product, skudto param don't match sku param");
+        }
+
+        int quantity = ComputeUtils.computeNumber(shoppingCartDTO.getSkudtoList());
+        BigDecimal discount = ComputeUtils.computeDiscount(shoppingCartDTO.getSkudtoList());
+        BigDecimal totalPrice = ComputeUtils.computeTotalPrice(shoppingCartDTO.getSkudtoList());
+
+        REcCartskuKey key = new REcCartskuKey();
+        key.setNshoppingcartid(shoppingCartDTO.getNshoppingcartid());
+        key.setNskuid(skudto.getSkuId());
+        REcCartsku cartsku = cartskuMapper.selectByREcCartskuKey(key);
+        if (cartsku == null) {
+            //update cartsku, insert product
+            cartsku = new REcCartsku();
+            cartsku.setNuserid(shoppingCartDTO.getUserId());
+            cartsku.setNshoppingcartid(shoppingCartDTO.getNshoppingcartid());
+            cartsku.setNskuid(skudto.getSkuId());
+            cartsku.setNquantity(skudto.getQuantity());
+            int result = cartskuMapper.insert(cartsku);
+            if (result != 1) {
+                throw new UpdateException("mysql : update add CartSKU failed");
+            }
+
+            //update shoopingcart
+            shoppingcart.setNtotalquantity(shoppingcart.getNtotalquantity() + quantity);
+            shoppingcart.setNdiscount(shoppingcart.getNdiscount().add(discount));
+            shoppingcart.setNtotalprice(shoppingcart.getNtotalprice().add(totalPrice));
+        } else{
+            //update cartsku, update product
+            computeQuantityDiscountTotalPrice(shoppingCartDTO.getSkudtoList(), shoppingcart);
+
+            cartsku.setNquantity(skudto.getQuantity());//update quantity
+            int result = cartskuMapper.updateByPrimaryKey(cartsku);
+            if (result != 1) {
+                throw new UpdateException("mysql : update refresh CartSKU failed");
+            }
+        }
+
+        int updateResult = shoppingcartMapper.updateByPrimaryKeySelective(shoppingcart);
+        if (updateResult != 1) {
+            throw new UpdateException("mysql : update ShoppingCart failed");
+        }
+        REcShoppingcart shoppingcartResult = shoppingcartMapper.selectByPrimaryKey(shoppingcart.getNshoppingcartid());
+        if (shoppingcartResult == null) {
+            throw new UpdateException("mysql : update search ShoppingCart failed");
+        }
+
+        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcartResult.getNshoppingcartid());
+        List<REcSku> returnSkuList = getSKUListBycarskuList(cartskuList);
+
+        ShoppingCartDTO returnShoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, returnSkuList);
+        return returnShoppingCartDTO;
+    }
+
+    @Override
+    public void deleteShoppingCartSKU(Long cartid, Long skuid) throws UpdateException {
+        ShoppingCartDTO returnShoppingCartDTO = updateShoppingCartAndSKUByMySQL(cartid, skuid);
+        updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
+    public ShoppingCartDTO updateShoppingCartAndSKUByMySQL(Long cartid, Long skuid) throws UpdateException{
+        REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(cartid);
+        if (shoppingcart == null) {
+            logger.error("cartid request invalid");
+            throw new UpdateException("mysql : delete product, cartid request invalid");
+        }
+        REcSku sku = skuMapper.selectByPrimaryKey(skuid);
+        if (shoppingcart == null) {
+            logger.error("skuid request invalid");
+            throw new UpdateException("mysql : delete product, skuid request invalid");
+        }
+
+        //delete cartsku
+        REcCartskuKey key = new REcCartskuKey();
+        key.setNshoppingcartid(cartid);
+        key.setNskuid(skuid);
+        REcCartsku cartsku = cartskuMapper.selectByREcCartskuKey(key);
+        int result = cartskuMapper.deleteByPrimaryKey(cartsku.getNcartskuid());
+        if (result != 1) {
+            throw new UpdateException("mysql : update delete CartSKU failed");
+        }
+        List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcart.getNshoppingcartid());
+        List<REcSku> skuList = getSKUListBycarskuList(cartskuList);
+
+        List<SKUDTO> skuDTOList = new ArrayList<>();
+        //change sku inventory to skudto incentory
+        sku.setNinventory(cartsku.getNquantity());
+        SKUDTO skudto = ConvertToDTO.convertToSKUDTO(sku);
+        skuDTOList.add(skudto);
+
+        //update shoppingcart
+        int quantity = ComputeUtils.computeNumber(skuDTOList);
+        BigDecimal discount = ComputeUtils.computeDiscount(skuDTOList);
+        BigDecimal totalPrice = ComputeUtils.computeTotalPrice(skuDTOList);
+
+        shoppingcart.setNtotalquantity(shoppingcart.getNtotalquantity() - quantity);
+        shoppingcart.setNdiscount(shoppingcart.getNdiscount().subtract(discount));
+        shoppingcart.setNtotalprice(shoppingcart.getNtotalprice().subtract(totalPrice));
+
+        int updateResult = shoppingcartMapper.updateByPrimaryKeySelective(shoppingcart);
+        if (updateResult != 1) {
+            throw new UpdateException("mysql : update ShoppingCart failed");
+        }
+        REcShoppingcart shoppingcartResult = shoppingcartMapper.selectByPrimaryKey(shoppingcart.getNshoppingcartid());
+        if (shoppingcartResult == null) {
+            throw new UpdateException("mysql : update search ShoppingCart failed");
+        }
+        ShoppingCartDTO shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
+        return shoppingCartDTO;
+    }
+
+
     /*********************************************check******************************************/
+
+    /**
+     *
+     * @param skudto
+     * @param sku
+     * @return
+     */
+    @Override
+    public boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku) {
+        if (!skudto.getSkuId().equals(sku.getNskuid())
+                || skudto.getQuantity() > sku.getNinventory() || skudto.getQuantity() <= 0
+                || skudto.getDisplayPrice().compareTo(sku.getNdisplayprice()) != 0) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * check sku param include price, quantity, id
      * @param skudtoList

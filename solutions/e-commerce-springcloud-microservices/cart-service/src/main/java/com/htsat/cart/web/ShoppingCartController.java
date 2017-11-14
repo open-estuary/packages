@@ -11,6 +11,7 @@ import com.htsat.cart.model.REcSku;
 import com.htsat.cart.service.ILoadBalanceService;
 import com.htsat.cart.service.IShoppingCartService;
 import com.htsat.cart.service.IUserService;
+import jdk.net.SocketFlow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ShoppingCartController {
     @Autowired
     IShoppingCartService shoppingCartService;
 
-    @RequestMapping(value = "/carts", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/cart", method = RequestMethod.POST)
     @ResponseBody
     public StatusDTO createShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO){
         StatusDTO status = new StatusDTO();
@@ -39,6 +40,7 @@ public class ShoppingCartController {
         //用户 sku 校验
         if (!userService.checkUserAvailable(shoppingCartDTO.getUserId())
                 || !shoppingCartService.checkSKUParam(shoppingCartDTO.getSkudtoList(), skuList)) {
+            logger.error("User or SKU request invalid");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
@@ -79,15 +81,16 @@ public class ShoppingCartController {
         return status;
     }
 
-    @RequestMapping(value = "/carts", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/cart/{userid}/{cartid}", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartDTO getShoppingCart(@RequestParam("userId") Long userId, @RequestParam("shoppingcartid") Long shoppingcartid){
+    public ShoppingCartDTO getShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
         ShoppingCartDTO shoppingCartDTO = null;
-        if (!userService.checkUserAvailable(userId)) {
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("User request invalid");
             return null;
         }
         try {
-            shoppingCartDTO = shoppingCartService.getShoppingCart(shoppingcartid);
+            shoppingCartDTO = shoppingCartService.getShoppingCart(cartid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("get exception !");
@@ -100,19 +103,20 @@ public class ShoppingCartController {
         return shoppingCartDTO;
     }
 
-    @RequestMapping(value = "/carts", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/v1/cart/{userid}/{cartid}", method = RequestMethod.DELETE)
     @ResponseBody
-    public StatusDTO deleteShoppingCart(@RequestParam("userId") Long userId){
+    public StatusDTO deleteShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
         StatusDTO status = new StatusDTO();
-        status.setUserId(userId);
+        status.setUserId(userid);
 
-        if (!userService.checkUserAvailable(userId)) {
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("User request invalid");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
         }
 
         try {
-            shoppingCartService.deleteShoppingCartAndSKU(userId);
+            shoppingCartService.deleteShoppingCartAndSKU(userid);
         } catch (DeleteException e) {
             e.printStackTrace();
             logger.error("delete exception !");
@@ -128,26 +132,92 @@ public class ShoppingCartController {
         return status;
     }
 
-    @RequestMapping(value = "/carts/{type}", method = RequestMethod.POST)
+//    @RequestMapping(value = "/carts/{type}", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ShoppingCartDTO updateShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO, @PathVariable("type") Integer type) {
+//        if (!userService.checkUserAvailable(shoppingCartDTO.getUserId()) || type > 3 || type < 1) {
+//            return null;
+//        }
+//        ShoppingCartDTO returnShoppingCartDTO = null;
+//        try {
+//            returnShoppingCartDTO = shoppingCartService.updateShoppingCartAndSKU(type, shoppingCartDTO);
+//        } catch (UpdateException e) {
+//            e.printStackTrace();
+//            logger.error("update exception !");
+//            return null;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.error("exception !");
+//            return null;
+//        }
+//        return returnShoppingCartDTO;
+//    }
+
+
+    @RequestMapping(value = "/v1/cart/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.POST)
     @ResponseBody
-    public ShoppingCartDTO updateShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO, @PathVariable("type") Integer type) {
-        if (!userService.checkUserAvailable(shoppingCartDTO.getUserId()) || type > 3 || type < 1) {
-            return null;
+    public StatusDTO updateShoppingCartProduct(@RequestBody ShoppingCartDTO shoppingCartDTO, @PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid, @PathVariable("skuid") Long skuid){
+        StatusDTO status = new StatusDTO();
+        status.setUserId(userid);
+
+        //用户 sku 校验
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("User or SKU request invalid");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
         }
-        ShoppingCartDTO returnShoppingCartDTO = null;
+
         try {
-            returnShoppingCartDTO = shoppingCartService.updateShoppingCartAndSKU(type, shoppingCartDTO);
+            shoppingCartService.updateShoppingCartSKU(shoppingCartDTO);
         } catch (UpdateException e) {
             e.printStackTrace();
-            logger.error("update exception !");
-            return null;
+            logger.error("update post exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            return null;
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
         }
-        return returnShoppingCartDTO;
+        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        return status;
     }
+
+    @RequestMapping(value = "/v1/cart/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public StatusDTO deleteShoppingCartProduct(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid, @PathVariable("skuid") Long skuid){
+        StatusDTO status = new StatusDTO();
+        status.setUserId(userid);
+
+        //用户 sku 校验
+        if (!userService.checkUserAvailable(userid)) {
+            logger.error("User or SKU request invalid");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        }
+
+        try {
+            shoppingCartService.deleteShoppingCartSKU(cartid, skuid);
+        } catch (UpdateException e) {
+            e.printStackTrace();
+            logger.error("update delete exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("exception !");
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            return status;
+        }
+        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        return status;
+    }
+
+
+
+
+
 
     private StatusDTO returnStatus(boolean result, StatusDTO status) {
         if (result) {
@@ -159,12 +229,12 @@ public class ShoppingCartController {
         }
         return status;
     }
-
-    @Autowired
-    ILoadBalanceService loadBalanceService;
-
-    @RequestMapping(value = "/loadbalance")
-    public String loadbalance(@RequestParam String name){
-        return loadBalanceService.loadbalanceService(name);
-    }
+//
+//    @Autowired
+//    ILoadBalanceService loadBalanceService;
+//
+//    @RequestMapping(value = "/loadbalance")
+//    public String loadbalance(@RequestParam String name){
+//        return loadBalanceService.loadbalanceService(name);
+//    }
 }

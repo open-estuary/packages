@@ -11,4 +11,4 @@ fi
 
 #Step 2: Delete redis container and image
 docker rm redis
-docker rmi openestuary/redis:3.2.4
+docker rmi openestuary/redis:4.0.2
