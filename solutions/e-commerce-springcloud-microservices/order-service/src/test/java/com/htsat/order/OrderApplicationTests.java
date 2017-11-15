@@ -40,7 +40,7 @@
 //	@Test
 //	public void createShoppingCartTest() {
 //		try {
-//			sendCreateShoppingCartPost("http://localhost:8000/v1/order");
+//			sendCreateShoppingCartPost("http://localhost:8000/");
 //		} catch (Exception e) {
 //
 //		}
@@ -106,7 +106,7 @@
 //	@Test
 //	public void testDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8000/v1/order/1/6");
+//		URL url = new URL("http://localhost:8000/1/7");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);

@@ -30,10 +30,15 @@ public class ShoppingCartController {
     @Autowired
     IShoppingCartService shoppingCartService;
 
-    @RequestMapping(value = "/v1/cart", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public StatusDTO createShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO){
         StatusDTO status = new StatusDTO();
+        if (shoppingCartDTO == null || shoppingCartDTO.getUserId() == null) {
+            logger.error("shoppingCartDTO or shoppingCartDTO's userid is null");
+            status.setUserId(null);
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+        }
         status.setUserId(shoppingCartDTO.getUserId());
 
         List<REcSku> skuList = shoppingCartService.getSKUListByDTOList(shoppingCartDTO.getSkudtoList());
@@ -45,20 +50,20 @@ public class ShoppingCartController {
             return status;
         }
 
-        ShoppingCartDTO shoppingCartDTOCheck;
-        try {
-            shoppingCartDTOCheck = shoppingCartService.getShoppingCart(shoppingCartDTO.getUserId());
-        } catch (SearchException e) {
-            e.printStackTrace();
-            logger.error("check exception !");
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("exception !");
-            return null;
-        }
+//        ShoppingCartDTO shoppingCartDTOCheck;
+//        try {
+//            shoppingCartDTOCheck = shoppingCartService.getShoppingCart(shoppingCartDTO.getUserId());
+//        } catch (SearchException e) {
+//            e.printStackTrace();
+//            logger.error("check exception !");
+//            return null;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.error("exception !");
+//            return null;
+//        }
 
-        if (shoppingCartDTOCheck != null) {
+        if (!shoppingCartService.checkShoppingCartByUserId(shoppingCartDTO.getUserId())) {
             logger.error("create replication !");
             status.setStatus(ExcuteStatusEnum.FAILURE);
             return status;
@@ -81,7 +86,7 @@ public class ShoppingCartController {
         return status;
     }
 
-    @RequestMapping(value = "/v1/cart/{userid}/{cartid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userid}/{cartid}", method = RequestMethod.GET)
     @ResponseBody
     public ShoppingCartDTO getShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
         ShoppingCartDTO shoppingCartDTO = null;
@@ -103,7 +108,7 @@ public class ShoppingCartController {
         return shoppingCartDTO;
     }
 
-    @RequestMapping(value = "/v1/cart/{userid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
     @ResponseBody
     public ShoppingCartDTO getShoppingCartByUser(@PathVariable("userid") Long userid){
         ShoppingCartDTO shoppingCartDTO = null;
@@ -125,7 +130,7 @@ public class ShoppingCartController {
         return shoppingCartDTO;
     }
 
-    @RequestMapping(value = "/v1/cart/{userid}/{cartid}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{userid}/{cartid}", method = RequestMethod.DELETE)
     @ResponseBody
     public StatusDTO deleteShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
         StatusDTO status = new StatusDTO();
@@ -138,7 +143,7 @@ public class ShoppingCartController {
         }
 
         try {
-            shoppingCartService.deleteShoppingCartAndSKU(userid);
+            shoppingCartService.deleteShoppingCartAndSKU(cartid);
         } catch (DeleteException e) {
             e.printStackTrace();
             logger.error("delete exception !");
@@ -176,7 +181,7 @@ public class ShoppingCartController {
 //    }
 
 
-    @RequestMapping(value = "/v1/cart/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.POST)
     @ResponseBody
     public StatusDTO updateShoppingCartProduct(@RequestBody ShoppingCartDTO shoppingCartDTO, @PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid, @PathVariable("skuid") Long skuid){
         StatusDTO status = new StatusDTO();
@@ -206,7 +211,7 @@ public class ShoppingCartController {
         return status;
     }
 
-    @RequestMapping(value = "/v1/cart/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.DELETE)
     @ResponseBody
     public StatusDTO deleteShoppingCartProduct(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid, @PathVariable("skuid") Long skuid){
         StatusDTO status = new StatusDTO();
@@ -244,10 +249,10 @@ public class ShoppingCartController {
     private StatusDTO returnStatus(boolean result, StatusDTO status) {
         if (result) {
             status.setStatus(ExcuteStatusEnum.SUCCESS);
-            logger.info("create success !");
+            logger.info("execute success !");
         } else{
             status.setStatus(ExcuteStatusEnum.FAILURE);
-            logger.error("create fail !");
+            logger.error("execute fail !");
         }
         return status;
     }

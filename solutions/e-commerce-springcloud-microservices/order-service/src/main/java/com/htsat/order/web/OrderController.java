@@ -30,7 +30,7 @@ public class OrderController {
     @Autowired
     IOrderService orderService;
 
-    @RequestMapping(value = "/v1/order", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public StatusDTO createOrder(@RequestBody OrderDTO orderDTO){
         StatusDTO status = new StatusDTO();
@@ -63,7 +63,7 @@ public class OrderController {
         return status;
     }
 
-    @RequestMapping(value = "/v1/order/{userid}/{orderid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userid}/{orderid}", method = RequestMethod.GET)
     @ResponseBody
     public OrderDTO getOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
         if (!userService.checkUserAvailable(userid)) {
@@ -85,7 +85,7 @@ public class OrderController {
         return orderDTO;
     }
 
-    @RequestMapping(value = "/v1/order/{userid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
     @ResponseBody
     public List<OrderDTO> getAllOrder(@PathVariable("userid") Long userid){
         if (!userService.checkUserAvailable(userid)) {
@@ -107,7 +107,7 @@ public class OrderController {
         return orderDTOList;
     }
 
-    @RequestMapping(value = "/v1/order/{userid}/{orderid}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{userid}/{orderid}", method = RequestMethod.DELETE)
     @ResponseBody
     public StatusDTO deleteOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
         StatusDTO status = new StatusDTO();
