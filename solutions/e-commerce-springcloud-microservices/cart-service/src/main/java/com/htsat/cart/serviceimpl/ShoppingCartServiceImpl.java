@@ -213,10 +213,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     /*********************************************delete******************************************/
 
     @Override
-    public void deleteShoppingCartAndSKU(Long userId) throws DeleteException {
-        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
-        deleteShoppingCartAndSKUByMySQL(shoppingcart.getNshoppingcartid());
-        deleteShoppingCartAndSKUToRedis(shoppingcart.getNshoppingcartid());
+    public void deleteShoppingCartAndSKU(Long cartid) throws DeleteException {
+//        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
+        deleteShoppingCartAndSKUByMySQL(cartid);
+        deleteShoppingCartAndSKUToRedis(cartid);
     }
 
 
@@ -667,6 +667,15 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             return null;
         }
         return shoppingcartList.get(0);
+    }
+
+    @Override
+    public boolean checkShoppingCartByUserId(Long userId){
+        List<REcShoppingcart> shoppingcartList = shoppingcartMapper.selectByUserId(userId);
+        if (shoppingcartList == null || shoppingcartList.size() != 0) {
+            return false;
+        }
+        return true;
     }
 
 }
