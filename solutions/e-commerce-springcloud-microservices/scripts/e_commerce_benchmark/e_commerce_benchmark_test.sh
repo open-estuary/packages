@@ -56,10 +56,6 @@ CART_PERCENT=${6:-30}
 SEARCH_PERCENT=${7:-30}
 ORDER_DEL_PERCENT=${8:-10}
 
-CART_PERCENT=0
-SEARCH_PERCENT=0
-ORDER_DEL_PERCENT=0
-
 QUERY_FILE=${9:-"/home/estuaryapp/solr_benchmark/solr_query"}
 
 #By default, the solr ansible scripts will install solr_query file under /home/estuaryapp/solr_benchmark directory
