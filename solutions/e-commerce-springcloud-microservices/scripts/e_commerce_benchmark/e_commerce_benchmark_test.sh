@@ -35,7 +35,7 @@ fi
 # 
 #Jmeter server (or agents) which perform real test works
 #########################################################################################
-REMOTE_HOST="192.168.12.11"
+REMOTE_HOST=${10:-"192.168.12.11"}
 
 if [ -z "$(which jmeter 2>/dev/null)" ] ; then
     JMETER="/opt/jmeter/bin/jmeter"
@@ -52,10 +52,9 @@ USER_NUM=${3:-1000}
 DUR_TIME_INSEC=${4:-240}
 
 ORDER_CREATE_GET_PERCENT=${5:-30}
-
-#CART_PERCENT=${6:-30}
-#SEARCH_PERCENT=${7:-30}
-#ORDER_DEL_PERCENT=${8:-10}
+CART_PERCENT=${6:-30}
+SEARCH_PERCENT=${7:-30}
+ORDER_DEL_PERCENT=${8:-10}
 
 CART_PERCENT=0
 SEARCH_PERCENT=0
@@ -76,7 +75,7 @@ fi
 echo "Perform New E-commerce Test(LOCAL_HOST:${LOCAL_HOST}, REMOTE_HOST:${REMOTE_HOST}, Target Server:${HOST}, Target Port:${PORT}, NumberofUser:${USER_NUM}, TestTimeInSecs:${DUR_TIME_INSEC}, QUERYFILE:${QUERYFILE}"
 taskset -c 2-60 ${JMETER} -n -t ${BENCHMARK_JMX} -Djava.rmi.server.hostname=${LOCAL_HOST} -Ghost=${HOST} -Gport=${PORT} -Gquery_filename="${QUERYFILE}" -Gusers ${USER_NUM} -Gduration_in_secs ${DUR_TIME_INSEC} -Gsearch_percent ${SEARCH_PERCENT} -Gcart_percent ${CART_PERCENT} -Gorder_del_percent ${ORDER_DEL_PERCENT} -Gorder_create_get_percent ${ORDER_CREATE_GET_PERCENT} -l ${CUR_DIR}/e_commerce_benchmark_result.jtl -o ${CUR_DIR}/e_commerce_benchmark_report -e -R"${REMOTE_HOST}"
 
-OUT_DIR="${10:-/estuarytest/e_commerce_testresults/}"
+OUT_DIR="${11:-/estuarytest/e_commerce_testresults/}"
 if [ ! -d ${OUT_DIR} ] ; then
     mkdir -p ${OUT_DIR}
 fi
