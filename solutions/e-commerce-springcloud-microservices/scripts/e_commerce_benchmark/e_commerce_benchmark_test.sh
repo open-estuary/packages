@@ -80,7 +80,7 @@ else
     rm -fr ${OUT_DIR}/${OUT_FILE}
 fi
 
-if [ -d ./e_commerce_benchmark_report ] ; then
-    mv ./e_commerce_benchmark_report ${OUT_DIR}/${OUT_FILE}
+if [ -d ${CUR_DIR}/e_commerce_benchmark_report ] ; then
+    mv ${CUR_DIR}/e_commerce_benchmark_report ${OUT_DIR}/${OUT_FILE}
     echo "Please check test report under ${OUT_DIR}/${OUT_FILE}"
 fi
