@@ -4,6 +4,12 @@
 # Warning : Please make sure Jmeter client and Jmeter-server belong to the same subnetwork !
 #
 
+echo "Download json.jar for Jmeter ..."
+if [ ! -f "/opt/jmeter/lib/java-json.jar" ] ; then
+   wget -O /tmp/java-json.jar.zip http://www.java2s.com/Code/JarDownload/java-json/java-json.jar.zip
+   unzip -d /opt/jmeter/lib/ /tmp/java-json.jar.zip 
+fi
+
 if [ -z "${1}" ] ; then
     echo "Usage: <e-commerce server ip> <e-commerce server port> <number_of_user> <time_in_sec> <remote_agent_hosts> <result_save_dir>"
     exit 0
@@ -46,9 +52,14 @@ USER_NUM=${3:-1000}
 DUR_TIME_INSEC=${4:-240}
 
 ORDER_CREATE_GET_PERCENT=${5:-30}
-CART_PERCENT=${6:-30}
-SEARCH_PERCENT=${7:-30}
-ORDER_DEL_PERCENT=${8:-10}
+
+#CART_PERCENT=${6:-30}
+#SEARCH_PERCENT=${7:-30}
+#ORDER_DEL_PERCENT=${8:-10}
+
+CART_PERCENT=0
+SEARCH_PERCENT=0
+ORDER_DEL_PERCENT=0
 
 QUERY_FILE=${9:-"/home/estuaryapp/solr_benchmark/solr_query"}
 
