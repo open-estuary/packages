@@ -42,7 +42,7 @@ public interface IShoppingCartService {
 
 //    ShoppingCartDTO updateShoppingCartAndSKU(int type, ShoppingCartDTO shoppingCartDTO) throws UpdateException;
 
-    void updateShoppingCartSKU(ShoppingCartDTO shoppingCartDTO) throws UpdateException;
+    void updateShoppingCartSKU(ShoppingCartDTO shoppingCartDTO, Long userid, Long cartid, Long skuid) throws UpdateException;
 
     void deleteShoppingCartSKU(Long cartid, Long skuid) throws UpdateException;
 

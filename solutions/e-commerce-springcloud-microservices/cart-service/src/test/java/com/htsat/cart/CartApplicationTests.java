@@ -95,7 +95,7 @@
 //	@Test
 //	public void testDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8001/1/32");
+//		URL url = new URL("http://localhost:8001/1/34");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);
@@ -124,7 +124,7 @@
 //    @Test
 //	public void testUpdateDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8001/1/34/skus/10002");
+//		URL url = new URL("http://localhost:8001/1/34/skus/10003");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);
@@ -160,13 +160,13 @@
 //
 //	private static String sendUpdateShoppingCartPostupdate(String url) throws IOException {
 //		ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
-//		shoppingCart.setUserId(1L);
-//        shoppingCart.setNshoppingcartid(34L);
+////		shoppingCart.setUserId(1L);
+////        shoppingCart.setNshoppingcartid(34L);
 //		SKUDTO sku1 = new SKUDTO();
-//		sku1.setSkuId(10001L);
+////		sku1.setSkuId(10001L);
 //		sku1.setDisplayPrice(new BigDecimal(700));
 //		sku1.setDiscount(new BigDecimal(99));
-//		sku1.setQuantity(10);
+//		sku1.setQuantity(5);
 //
 //		List<SKUDTO> skuList = new ArrayList<>();
 //		skuList.add(sku1);
@@ -197,7 +197,7 @@
 //    @Test
 //    public void updateShoppingCartTest2() {
 //        try {
-//            sendUpdateShoppingCartPostadd("http://localhost:8001/1/34/skus/10002");
+//            sendUpdateShoppingCartPostadd("http://localhost:8001/1/34/skus/10003");
 //        } catch (Exception e) {
 //
 //        }
@@ -205,10 +205,10 @@
 //
 //    private static String sendUpdateShoppingCartPostadd(String url) throws IOException {
 //        ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
-//        shoppingCart.setUserId(1L);
-//        shoppingCart.setNshoppingcartid(34L);
+////        shoppingCart.setUserId(1L);
+////        shoppingCart.setNshoppingcartid(34L);
 //        SKUDTO sku1 = new SKUDTO();
-//        sku1.setSkuId(10002L);
+////        sku1.setSkuId(10002L);
 //        sku1.setDisplayPrice(new BigDecimal(799));
 //        sku1.setDiscount(new BigDecimal(0));
 //        sku1.setQuantity(10);

@@ -195,7 +195,7 @@ public class ShoppingCartController {
         }
 
         try {
-            shoppingCartService.updateShoppingCartSKU(shoppingCartDTO);
+            shoppingCartService.updateShoppingCartSKU(shoppingCartDTO, userid, cartid, skuid);
         } catch (UpdateException e) {
             e.printStackTrace();
             logger.error("update post exception !");
