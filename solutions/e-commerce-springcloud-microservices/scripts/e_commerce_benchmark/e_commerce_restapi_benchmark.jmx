@@ -53,34 +53,29 @@
             <stringProp name="Argument.value">${__P(userid_filename,&quot;&quot;)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="report_save_path" elementType="Argument">
-            <stringProp name="Argument.name">report_save_path</stringProp>
-            <stringProp name="Argument.value"></stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="order_del_percent" elementType="Argument">
             <stringProp name="Argument.name">order_del_percent</stringProp>
-            <stringProp name="Argument.value">${_P(order_del_percent,10)}</stringProp>
+            <stringProp name="Argument.value">${__P(order_del_percent,10)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="order_create_get_percent" elementType="Argument">
             <stringProp name="Argument.name">order_create_get_percent</stringProp>
-            <stringProp name="Argument.value">${_P(order_create_get_percent,30)}</stringProp>
+            <stringProp name="Argument.value">${__P(order_create_get_percent,30)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="port" elementType="Argument">
             <stringProp name="Argument.name">port</stringProp>
-            <stringProp name="Argument.value">${_P(port, 9000)}</stringProp>
+            <stringProp name="Argument.value">${__P(port, 9000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="query_filename" elementType="Argument">
             <stringProp name="Argument.name">query_filename</stringProp>
-            <stringProp name="Argument.value">${_P(query_filename, &quot;&quot;)}</stringProp>
+            <stringProp name="Argument.value">${__P(query_filename, &quot;&quot;)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration_in_secs" elementType="Argument">
             <stringProp name="Argument.name">duration_in_secs</stringProp>
-            <stringProp name="Argument.value">${_P(duration_in_secs, 300)}</stringProp>
+            <stringProp name="Argument.value">${__P(duration_in_secs, 300)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -130,7 +125,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(props.get(&quot;users&quot;)*${order_create_get_percent}/100&gt;&gt;0))}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${order_create_get_percent}/100)&gt;&gt;0)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_period}</stringProp>
         <longProp name="ThreadGroup.start_time">1437409133000</longProp>
         <longProp name="ThreadGroup.end_time">1437409133000</longProp>
@@ -153,37 +148,42 @@
           <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
 import org.json.JSONObject;
 
-JSONObject order_json = new JSONObject;
 
-JSONObject address = new JSONObject;
+JSONObject order_json = new JSONObject();
+JSONObject address = new JSONObject();
 address.put(&quot;naddressid&quot;, 1);
 order_json.put(&quot;addressDTO&quot;, address);
 
-JSONObject delivery = new JSONObject;
+JSONObject delivery = new JSONObject();
 delivery.put(&quot;naddressid&quot;, 1);
 delivery.put(&quot;ndeliveryprice&quot;, 100);
 order_json.put(&quot;deliveryDTO&quot;, delivery);
 
-JSONArray skulist = new JSONArray;
+JSONArray skulist = new JSONArray();
 
 int sku_num = ${__Random(1,10)};
 for (int index = 0; index &lt; sku_num; ++index)
 {
-    JSONObject sku = new JSONObject;
-	sku.put(&quot;discount&quot;, );
-	sku.put(&quot;originPrice&quot;, ${__Random(1, 1000)});
-	sku.put(&quot;price&quot;, ${__Random(1, 1000)});
-	sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
-	sku.put(&quot;skuId&quot;, ${__Random(10000000, 99999999)});
-    skulist.add(sku);
+    JSONObject sku = new JSONObject();
+    sku.put(&quot;discount&quot;, ${__Random(0, 100)});
+    sku.put(&quot;originPrice&quot;, ${__Random(1, 1000)});
+    sku.put(&quot;price&quot;, ${__Random(1, 1000)});
+    sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
+    sku.put(&quot;skuId&quot;, ${__Random(10000000, 99999999)});
+    skulist.put(sku);
 }
 order_json.put(&quot;orderskudtoList&quot;, skulist);
 
 String userid = vars.get(&quot;userid&quot;);
-order_json.put(&quot;totalQuantity&quot;: sku_num);
-order_json.put(&quot;userId&quot;: userid);
+order_json.put(&quot;totalQuantity&quot;,  sku_num);
+order_json.put(&quot;userId&quot;, userid);
 
-vars.put(&quot;order_json&quot;, order_json.toString());</stringProp>
+vars.put(&quot;order_json&quot;, order_json.toString());
+
+
+
+
+</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">true</boolProp>
@@ -292,7 +292,7 @@ vars.put(&quot;order_json&quot;, order_json.toString());</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(props.get(&quot;users&quot;)*${order_del_percent}/100&gt;&gt;0))}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${order_del_percent}/100)&gt;&gt;0)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_period}</stringProp>
         <longProp name="ThreadGroup.start_time">1511194733000</longProp>
         <longProp name="ThreadGroup.end_time">1448036333000</longProp>
@@ -347,7 +347,7 @@ vars.put(&quot;order_json&quot;, order_json.toString());</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(props.get(&quot;users&quot;)*${cart_percent}/100&gt;&gt;0))}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${cart_percent}/100)&gt;&gt;0)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_period}</stringProp>
         <longProp name="ThreadGroup.start_time">1508518675000</longProp>
         <longProp name="ThreadGroup.end_time">1511197075000</longProp>
@@ -374,37 +374,30 @@ vars.put(&quot;order_json&quot;, order_json.toString());</stringProp>
           <boolProp name="perThread">true</boolProp>
         </RandomVariableConfig>
         <hashTree/>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Cart JSON Request" enabled="true">
           <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
 import org.json.JSONObject;
 
-JSONObject cart_json = new JSONObject;
-
+JSONObject cart_json = new JSONObject();
 cart_json.put(&quot;currency&quot;, ${__Random(1, 1000)});
 
-JSONObject delivery = new JSONObject;
-delivery.put(&quot;naddressid&quot;, 1);
-delivery.put(&quot;ndeliveryprice&quot;, 100);
-cart_json.put(&quot;deliveryDTO&quot;, delivery);
-
-JSONArray skulist = new JSONArray;
-
+JSONArray skulist = new JSONArray();
 int sku_num = ${__Random(1,10)};
 for (int index = 0; index &lt; sku_num; ++index)
 {
-    JSONObject sku = new JSONObject;
-	sku.put(&quot;discount&quot;,  ${__Random(1, 1000)});
-	sku.put(&quot;displayPrice&quot;, ${__Random(1, 1000)});
-	sku.put(&quot;price&quot;, ${__Random(1, 1000)});
-	sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
-	sku.put(&quot;skuId&quot;, ${__Random(10000000, 99999999)});
-    skulist.add(sku);
+    JSONObject sku = new JSONObject();
+    sku.put(&quot;discount&quot;,  ${__Random(0, 100)});
+    sku.put(&quot;displayPrice&quot;, ${__Random(1, 1000)});
+    sku.put(&quot;price&quot;, ${__Random(1, 1000)});
+    sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
+    sku.put(&quot;skuId&quot;, ${__Random(10000000, 99999999)});
+    skulist.put(sku);
 }
 cart_json.put(&quot;skudtoList&quot;, skulist);
 
 String userid = vars.get(&quot;userid&quot;);
-cart_json.put(&quot;quantity&quot;: sku_num);
-cart_json.put(&quot;userId&quot;: userid);
+cart_json.put(&quot;quantity&quot;, sku_num);
+cart_json.put(&quot;userId&quot;, userid);
 
 vars.put(&quot;cart_json&quot;, cart_json.toString());
 </stringProp>
@@ -516,7 +509,7 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(props.get(&quot;users&quot;)*${search_percent}/100&gt;&gt;0))}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${search_percent}/100)&gt;&gt;0)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_period}</stringProp>
         <longProp name="ThreadGroup.start_time">1510935533000</longProp>
         <longProp name="ThreadGroup.end_time">1511194733000</longProp>
@@ -660,7 +653,7 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
             <sampleCount>true</sampleCount>
           </value>
         </objProp>
-        <stringProp name="filename">${report_save_path}/summary-report.log</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
     </hashTree>
