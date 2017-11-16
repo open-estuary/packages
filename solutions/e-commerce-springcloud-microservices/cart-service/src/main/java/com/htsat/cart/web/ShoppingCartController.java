@@ -41,14 +41,14 @@ public class ShoppingCartController {
         }
         status.setUserId(shoppingCartDTO.getUserId());
 
-        List<REcSku> skuList = shoppingCartService.getSKUListByDTOList(shoppingCartDTO.getSkudtoList());
-        //用户 sku 校验
-        if (!userService.checkUserAvailable(shoppingCartDTO.getUserId())
-                || !shoppingCartService.checkSKUParam(shoppingCartDTO.getSkudtoList(), skuList)) {
-            logger.error("User or SKU request invalid");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
+//        List<REcSku> skuList = shoppingCartService.getSKUListByDTOList(shoppingCartDTO.getSkudtoList());
+//        //用户 sku 校验
+//        if (!userService.checkUserAvailable(shoppingCartDTO.getUserId())
+//                || !shoppingCartService.checkSKUParam(shoppingCartDTO.getSkudtoList(), skuList)) {
+//            logger.error("User or SKU request invalid");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
 
 //        ShoppingCartDTO shoppingCartDTOCheck;
 //        try {
@@ -90,10 +90,10 @@ public class ShoppingCartController {
     @ResponseBody
     public ShoppingCartDTO getShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
         ShoppingCartDTO shoppingCartDTO = null;
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("User request invalid");
-            return null;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("User request invalid");
+//            return null;
+//        }
         try {
             shoppingCartDTO = shoppingCartService.getShoppingCart(cartid);
         } catch (SearchException e) {
@@ -112,10 +112,10 @@ public class ShoppingCartController {
     @ResponseBody
     public ShoppingCartDTO getShoppingCartByUser(@PathVariable("userid") Long userid){
         ShoppingCartDTO shoppingCartDTO = null;
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("User request invalid");
-            return null;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("User request invalid");
+//            return null;
+//        }
         try {
             shoppingCartDTO = shoppingCartService.getShoppingCartByUser(userid);
         } catch (SearchException e) {
@@ -136,11 +136,11 @@ public class ShoppingCartController {
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
 
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("User request invalid");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("User request invalid");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
 
         try {
             shoppingCartService.deleteShoppingCartAndSKU(cartid);
@@ -188,11 +188,11 @@ public class ShoppingCartController {
         status.setUserId(userid);
 
         //用户 sku 校验
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("User or SKU request invalid");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("User or SKU request invalid");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
 
         try {
             shoppingCartService.updateShoppingCartSKU(shoppingCartDTO, userid, cartid, skuid);
@@ -218,11 +218,11 @@ public class ShoppingCartController {
         status.setUserId(userid);
 
         //用户 sku 校验
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("User or SKU request invalid");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("User or SKU request invalid");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
 
         try {
             shoppingCartService.deleteShoppingCartSKU(cartid, skuid);

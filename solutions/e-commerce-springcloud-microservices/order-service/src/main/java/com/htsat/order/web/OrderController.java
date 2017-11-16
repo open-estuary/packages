@@ -36,15 +36,15 @@ public class OrderController {
         StatusDTO status = new StatusDTO();
         status.setUserId(orderDTO.getUserId());
         //check
-        boolean checkUserResult = userService.checkUserAvailable(orderDTO.getUserId());
-        boolean checkAddressResult = addressService.checkAddressAvailable(orderDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
-        boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
-
-        if (!(checkUserResult && checkAddressResult && checkcheckSKUPResult)) {
-            logger.error("check failed !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-            return status;
-        }
+//        boolean checkUserResult = userService.checkUserAvailable(orderDTO.getUserId());
+//        boolean checkAddressResult = addressService.checkAddressAvailable(orderDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
+//        boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
+//
+//        if (!(checkUserResult && checkAddressResult && checkcheckSKUPResult)) {
+//            logger.error("check failed !");
+//            status.setStatus(ExcuteStatusEnum.FAILURE);
+//            return status;
+//        }
 
         try {
             orderService.createOrderAndDeliveryAndOrderSKU(orderDTO);
@@ -66,10 +66,10 @@ public class OrderController {
     @RequestMapping(value = "/{userid}/{orderid}", method = RequestMethod.GET)
     @ResponseBody
     public OrderDTO getOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("check user failed !");
-            return null;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("check user failed !");
+//            return null;
+//        }
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderid);
@@ -88,10 +88,10 @@ public class OrderController {
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
     @ResponseBody
     public List<OrderDTO> getAllOrder(@PathVariable("userid") Long userid){
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("check user failed !");
-            return null;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("check user failed !");
+//            return null;
+//        }
         List<OrderDTO> orderDTOList = null;
         try {
             orderDTOList = orderService.getAllOrderAndDeliveryAndOrderSKUAndAddress(userid);
@@ -112,10 +112,10 @@ public class OrderController {
     public StatusDTO deleteOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
-        if (!userService.checkUserAvailable(userid)) {
-            logger.error("check user failed !");
-            return null;
-        }
+//        if (!userService.checkUserAvailable(userid)) {
+//            logger.error("check user failed !");
+//            return null;
+//        }
         try {
             orderService.deleteOrderAndDeliveryAndOrderSKU(orderid);
         } catch (DeleteException e) {

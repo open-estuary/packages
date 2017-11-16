@@ -67,17 +67,7 @@ public class SearchController {
 
             for (SolrDocument solrDocument : results) {
                 Integer id = (Integer) solrDocument.getFieldValue("productid");
-//                String id2 = (String) solrDocument.getFieldValue("id");
-//                logger.info(id2);
-//                Integer productId = (Integer) solrDocument.getFieldValue("productid");
-//                Integer cateId = (Integer) solrDocument.getFieldValue("cateid");
-//                Integer price = (Integer) solrDocument.getFieldValue("price");
-//                String url = (String) solrDocument.getFieldValue("url");
-//                String version = (String) solrDocument.getFieldValue("_version_");
-//                Integer quantity = (Integer) solrDocument.getFieldValue("quatity");
-                String skuJson = searchService.getskuByRedis(id + "");
-
-
+                String skuJson = searchService.getskuByRedis("SKU:" + id);
                 list.add(skuJson);
             }
         }catch(Exception e){

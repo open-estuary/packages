@@ -53,6 +53,8 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Autowired
     private RedisConfig redisConfig;
 
+    private static final String cartRedisKey = "ShoppingCart:";
+
 //    @Autowired
 //    private IRedisService redisService;
 //
@@ -125,7 +127,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         String code = null;
         String dtoJson = JSON.toJSONString(returnShoppingCartDTO);
         try {
-            code = jedis.set((returnShoppingCartDTO.getNshoppingcartid() + ""), dtoJson);
+            code = jedis.set((cartRedisKey + returnShoppingCartDTO.getNshoppingcartid()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis insert error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getUserId() + ", value:" + returnShoppingCartDTO);
         } finally{
@@ -194,7 +196,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         }
         String shoppingCart = null;
         try {
-            shoppingCart = jedis.get(shoppingcartid + "");
+            shoppingCart = jedis.get(cartRedisKey + shoppingcartid);
         } catch (Exception e) {
             logger.error("Redis get error: "+ e.getMessage() +" - key : " + shoppingcartid);
         } finally{
@@ -254,7 +256,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     private void deleteShoppingCartAndSKUToRedis(Long shoppingcartid) throws DeleteException {
         Jedis jedis = redisConfig.getJedis();
         try {
-            Long reply = jedis.del(shoppingcartid + "");
+            Long reply = jedis.del(cartRedisKey + shoppingcartid);
         } catch (Exception e) {
             logger.error("Redis delete error: "+ e.getMessage() +" - key : " + shoppingcartid);
         }finally{
@@ -405,7 +407,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         String reply = null;
         String dtoJson = JSON.toJSONString(returnShoppingCartDTO);
         try {
-            reply = jedis.set((returnShoppingCartDTO.getNshoppingcartid() + ""), dtoJson);
+            reply = jedis.set((cartRedisKey + returnShoppingCartDTO.getNshoppingcartid()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis update error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getNshoppingcartid() + "" + ", value:" + returnShoppingCartDTO);
         }finally{
@@ -439,10 +441,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             logger.error("ShoppingCartDTO SKUDTO request invalid, no sku matched");
             throw new UpdateException("mysql : update product, no sku matched");
         }
-        if (!checkSingleSKUParam(skudto, sku)) {
-            logger.error("ShoppingCartDTO SKUDTO request invalid, skudto param don't match sku param");
-            throw new UpdateException("mysql : update product, skudto param don't match sku param");
-        }
+//        if (!checkSingleSKUParam(skudto, sku)) {
+//            logger.error("ShoppingCartDTO SKUDTO request invalid, skudto param don't match sku param");
+//            throw new UpdateException("mysql : update product, skudto param don't match sku param");
+//        }
 
 //        if (skuList == null || skuList.size() != 1){
 //            logger.error("ShoppingCartDTO SKUDTO request invalid");
@@ -573,15 +575,15 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
      * @param sku
      * @return
      */
-    @Override
-    public boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku) {
-        if (!skudto.getSkuId().equals(sku.getNskuid())
-                || skudto.getQuantity() > sku.getNinventory() || skudto.getQuantity() <= 0
-                || skudto.getDisplayPrice().compareTo(sku.getNdisplayprice()) != 0) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku) {
+//        if (!skudto.getSkuId().equals(sku.getNskuid())
+//                || skudto.getQuantity() > sku.getNinventory() || skudto.getQuantity() <= 0
+//                || skudto.getDisplayPrice().compareTo(sku.getNdisplayprice()) != 0) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     /**
      * check sku param include price, quantity, id
@@ -589,20 +591,20 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
      * @param skuList
      * @return
      */
-    @Override
-    public boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList) {
-        if (skudtoList.size() != skuList.size())
-            return false;
-        Collections.sort(skudtoList, new SortList<SKUDTO>("SkuId",true));
-        for (int i = 0; i < skudtoList.size(); i++) {
-            if (!skudtoList.get(i).getSkuId().equals(skuList.get(i).getNskuid())
-                    || skudtoList.get(i).getQuantity() > skuList.get(i).getNinventory() || skudtoList.get(i).getQuantity() <= 0
-                    || skudtoList.get(i).getDisplayPrice().compareTo(skuList.get(i).getNdisplayprice()) != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    @Override
+//    public boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList) {
+//        if (skudtoList.size() != skuList.size())
+//            return false;
+//        Collections.sort(skudtoList, new SortList<SKUDTO>("SkuId",true));
+//        for (int i = 0; i < skudtoList.size(); i++) {
+//            if (!skudtoList.get(i).getSkuId().equals(skuList.get(i).getNskuid())
+//                    || skudtoList.get(i).getQuantity() > skuList.get(i).getNinventory() || skudtoList.get(i).getQuantity() <= 0
+//                    || skudtoList.get(i).getDisplayPrice().compareTo(skuList.get(i).getNdisplayprice()) != 0) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * get skuList by dtoList

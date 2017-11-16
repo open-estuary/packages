@@ -16,9 +16,9 @@ public interface IShoppingCartService {
 
     boolean checkShoppingCartByUserId(Long userId);
 
-    boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku);
+//    boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku);
 
-    boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList);
+//    boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList);
 
     List<REcSku> getSKUListByDTOList(List<SKUDTO> skudtoList);
 

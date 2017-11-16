@@ -53,23 +53,23 @@
 //
 //		DeliveryDTO deliveryDTO = new DeliveryDTO();
 //		deliveryDTO.setSexpresscompany("EMS");
-//		deliveryDTO.setNdeliveryprice(new BigDecimal(100));
+//		deliveryDTO.setNdeliveryprice(new BigDecimal(500));
 //		deliveryDTO.setNaddressid(addressDTO.getNaddressid());
 //
 //		List<OrderSKUDTO> orderskuDTOList = new ArrayList<>();
 //		OrderSKUDTO ordersku = new OrderSKUDTO();
 //		ordersku.setSkuId(10001L);
-//		ordersku.setQuantity(5);
-//		ordersku.setPrice(new BigDecimal(700));
-//		ordersku.setOriginPrice(new BigDecimal(799));
-//		ordersku.setDiscount(new BigDecimal(99));
+//		ordersku.setQuantity(10);
+//		ordersku.setPrice(new BigDecimal(800));
+//		ordersku.setOriginPrice(new BigDecimal(1000));
+//		ordersku.setDiscount(new BigDecimal(1000));
 //
 //		OrderSKUDTO ordersku2 = new OrderSKUDTO();
 //		ordersku2.setSkuId(10002L);
-//		ordersku2.setQuantity(7);
-//		ordersku2.setPrice(new BigDecimal(799));
-//		ordersku2.setOriginPrice(new BigDecimal(799));
-//		ordersku2.setDiscount(new BigDecimal(0));
+//		ordersku2.setQuantity(10);
+//		ordersku2.setPrice(new BigDecimal(900));
+//		ordersku2.setOriginPrice(new BigDecimal(1200));
+//		ordersku2.setDiscount(new BigDecimal(500));
 //
 //		orderskuDTOList.add(ordersku);
 //		orderskuDTOList.add(ordersku2);
