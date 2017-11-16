@@ -1,6 +1,6 @@
 #!/bin/bash
-#author: Huang Jinhua
-#date: 01/05/2017
+#author: Wang Yu
+#date: 10/11/2017
 #description: To remove docker container and images
 
 #Step 1: Make sure docker has started 
@@ -9,6 +9,6 @@ if [ -z "$(ps -aux | grep docker | grep -v grep)" ] ; then
     exit 0
 fi
 
-#Step 2: Delete redis container and image
-docker rm redis
-docker rmi openestuary/redis:4.0.2
+#Step 2: Delete mysql container and image
+docker rm twemproxy
+docker rmi openestuary/twemproxy
