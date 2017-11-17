@@ -84,7 +84,15 @@
     <hashTree>
       <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-          <collectionProp name="Arguments.arguments"/>
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="Accept" elementType="HTTPArgument">
+              <boolProp name="HTTPArgument.always_encode">false</boolProp>
+              <stringProp name="Argument.value">application/json;charset=utf-8</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+              <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              <stringProp name="Argument.name">Accept</stringProp>
+            </elementProp>
+          </collectionProp>
         </elementProp>
         <stringProp name="HTTPSampler.domain">${host}</stringProp>
         <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -99,10 +107,6 @@
       <hashTree/>
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
         <collectionProp name="HeaderManager.headers">
-          <elementProp name="Accept" elementType="Header">
-            <stringProp name="Header.name">Accept</stringProp>
-            <stringProp name="Header.value">application/json</stringProp>
-          </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">Content-Type</stringProp>
             <stringProp name="Header.value">application/json</stringProp>
@@ -119,7 +123,7 @@
         <boolProp name="perThread">true</boolProp>
       </RandomVariableConfig>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service API (Create and Get)" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service Create API" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -202,13 +206,12 @@ vars.put(&quot;order_json&quot;, order_json.toString());
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service API (Delete)" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service DELETE API" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -244,7 +247,7 @@ vars.put(&quot;order_json&quot;, order_json.toString());
         <hashTree/>
         <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
           <stringProp name="JSONPostProcessor.referenceNames">ret_order</stringProp>
-          <stringProp name="JSONPostProcessor.jsonPathExprs">$..orderId</stringProp>
+          <stringProp name="JSONPostProcessor.jsonPathExprs">$..orderId[0]</stringProp>
           <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
           <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
         </JSONPostProcessor>
@@ -257,7 +260,7 @@ vars.put(&quot;order_json&quot;, order_json.toString());
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/v1/order/${userid}/${ret_order_1}</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/order/${userid}/${ret_order}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -367,15 +370,6 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Cart Id" enabled="true">
-          <stringProp name="variableName">cartid</stringProp>
-          <stringProp name="outputFormat"></stringProp>
-          <stringProp name="minimumValue">1</stringProp>
-          <stringProp name="maximumValue">999999999</stringProp>
-          <stringProp name="randomSeed">1024</stringProp>
-          <boolProp name="perThread">true</boolProp>
-        </RandomVariableConfig>
-        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Cart" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
@@ -384,7 +378,7 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/v1/cart/${userid}/${cartid}</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/cart/${userid}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -397,12 +391,12 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
         <hashTree/>
         <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
           <stringProp name="JSONPostProcessor.referenceNames">ret_cartid</stringProp>
-          <stringProp name="JSONPostProcessor.jsonPathExprs">$..nshoppingcartid</stringProp>
+          <stringProp name="JSONPostProcessor.jsonPathExprs">$..nshoppingcartid[0]</stringProp>
           <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
           <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
         </JSONPostProcessor>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Sku" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Cart" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -410,7 +404,7 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/v1/cart/${userid}/${ret_cartid_1}</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/cart/${userid}/${ret_cartid}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -496,7 +490,7 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
           <stringProp name="HTTPSampler.domain"></stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
           <stringProp name="HTTPSampler.path">/v1/search</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
