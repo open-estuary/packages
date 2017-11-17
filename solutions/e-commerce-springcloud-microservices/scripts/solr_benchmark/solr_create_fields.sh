@@ -29,6 +29,10 @@ config_name="e-commerce"
 if [ ${solrcloud_enable} -eq 0 ] ; then
     sudo -u ${user} ${solr_cmd} create -c "${core}" -p "${port}"
 else
+      #In case that old collection exist, just delete it before creating new one.
+      curl -X POST -H 'Content-type:application/json'  \
+      http://${host}:${port}/solr/admin/collections?"action=DELETE&name=${core}&numShards=${num_shards}&replicationFactor=${repl_factor}&maxShardsPerNode=${maxshard_pernode}&collection.configName=${config_name}"
+
       curl -X POST -H 'Content-type:application/json'  \
       http://${host}:${port}/solr/admin/collections?"action=CREATE&name=${core}&numShards=${num_shards}&replicationFactor=${repl_factor}&maxShardsPerNode=${maxshard_pernode}&collection.configName=${config_name}"
 fi

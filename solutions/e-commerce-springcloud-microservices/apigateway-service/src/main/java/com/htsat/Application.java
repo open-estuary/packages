@@ -1,10 +1,10 @@
 package com.htsat;
 
-import com.htsat.filter.AccessFilter;
+//import com.htsat.filter.AccessFilter;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Bean;
 
 @EnableZuulProxy
 @SpringCloudApplication
@@ -14,9 +14,9 @@ public class Application {
 		new SpringApplicationBuilder(Application.class).web(true).run(args);
 	}
 
-	@Bean
-	public AccessFilter accessFilter() {
-		return new AccessFilter();
-	}
+//	@Bean
+//	public AccessFilter accessFilter() {
+//		return new AccessFilter();
+//	}
 
 }

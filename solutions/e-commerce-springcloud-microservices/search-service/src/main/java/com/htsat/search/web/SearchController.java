@@ -32,7 +32,7 @@ public class SearchController {
     @Autowired
     private ISearchService searchService;
 
-    @RequestMapping(value = "/v1/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<String> searchBySolr(@RequestParam(value = "query", required = false) String query, @RequestParam(value = "page_size", required = false) Integer page_size,
                              @RequestParam(value = "page_num", required = false) Integer page_num, @RequestParam(value = "sort", required = false) String sort) {
 
@@ -66,14 +66,16 @@ public class SearchController {
             logger.info("results : " + results.toString());
 
             for (SolrDocument solrDocument : results) {
-                String id = (String) solrDocument.getFieldValue("id");
+                Integer id = (Integer) solrDocument.getFieldValue("productid");
+//                String id2 = (String) solrDocument.getFieldValue("id");
+//                logger.info(id2);
 //                Integer productId = (Integer) solrDocument.getFieldValue("productid");
 //                Integer cateId = (Integer) solrDocument.getFieldValue("cateid");
 //                Integer price = (Integer) solrDocument.getFieldValue("price");
 //                String url = (String) solrDocument.getFieldValue("url");
 //                String version = (String) solrDocument.getFieldValue("_version_");
 //                Integer quantity = (Integer) solrDocument.getFieldValue("quatity");
-                String skuJson = searchService.getskuByRedis(id);
+                String skuJson = searchService.getskuByRedis(id + "");
 
 
                 list.add(skuJson);
@@ -87,12 +89,12 @@ public class SearchController {
         return list;
     }
 
-    @Autowired
-    ILoadBalanceService loadbalanceService;
-
-    @RequestMapping(value = "/loadbalance")
-    public String loadbalance(@RequestParam String name){
-        return loadbalanceService.loadbalanceService(name);
-    }
+//    @Autowired
+//    ILoadBalanceService loadbalanceService;
+//
+//    @RequestMapping(value = "/loadbalance")
+//    public String loadbalance(@RequestParam String name){
+//        return loadbalanceService.loadbalanceService(name);
+//    }
 
 }
