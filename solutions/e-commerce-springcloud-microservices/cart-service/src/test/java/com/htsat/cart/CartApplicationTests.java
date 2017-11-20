@@ -53,17 +53,17 @@
 //
 //	private static String sendCreateShoppingCartPost(String url) throws IOException {
 //		ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
-//		shoppingCart.setUserId(10L);
+//		shoppingCart.setUserId(1L);
 //		shoppingCart.setCurrency("RMB");
 //		SKUDTO sku1 = new SKUDTO();
-//		sku1.setSkuId(100000001L);
-//		sku1.setDiscount(new BigDecimal(99));
-//		sku1.setDisplayPrice(new BigDecimal(700));
-//		sku1.setQuantity(5);
+//		sku1.setSkuId(1000000001L);
+//		sku1.setDiscount(new BigDecimal(100));
+//		sku1.setDisplayPrice(new BigDecimal(800));
+//		sku1.setQuantity(10);
 //		SKUDTO sku2 = new SKUDTO();
 //		sku2.setSkuId(10002L);
 //		sku2.setDisplayPrice(new BigDecimal(799));
-//		sku2.setQuantity(8);
+//		sku2.setQuantity(10);
 //
 //		List<SKUDTO> skuList = new ArrayList<>();
 //		skuList.add(sku1);
