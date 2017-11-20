@@ -123,8 +123,89 @@
         <boolProp name="perThread">true</boolProp>
       </RandomVariableConfig>
       <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1510898024000</longProp>
+        <longProp name="ThreadGroup.end_time">1510898024000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="incr_userid" elementType="Argument">
+              <stringProp name="Argument.name">incr_userid</stringProp>
+              <stringProp name="Argument.value">0</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">1000000</stringProp>
+        </LoopController>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Cart JSON Request" enabled="true">
+          <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
+import org.json.JSONObject;
+
+JSONObject cart_json = new JSONObject();
+cart_json.put(&quot;currency&quot;, ${__Random(1, 1000)});
+
+JSONArray skulist = new JSONArray();
+cart_json.put(&quot;skudtoList&quot;, skulist);
+cart_json.put(&quot;quantity&quot;, 0);
+
+String userid = vars.get(&quot;incr_userid&quot;);
+int value = Integer.parseInt(userid);
+value++;
+cart_json.put(&quot;userId&quot;, value);
+valus.put(&quot;incr_userid&quot;, value.toString());
+
+vars.put(&quot;cart_json&quot;, cart_json.toString());
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">true</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Empty Cart" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${cart_json}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/v1/cart</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service Create API" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
@@ -212,7 +293,7 @@ vars.put(&quot;order_json&quot;, order_json.toString());
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service DELETE API" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
@@ -272,13 +353,13 @@ vars.put(&quot;order_json&quot;, order_json.toString());
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Cart Servcie  Create  API" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Cart Servcie Update API" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${cart_percent}*0.9/100)&gt;&gt;0)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${cart_percent}/100)&gt;&gt;0)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_period}</stringProp>
         <longProp name="ThreadGroup.start_time">1508518675000</longProp>
         <longProp name="ThreadGroup.end_time">1511197075000</longProp>
@@ -287,54 +368,47 @@ vars.put(&quot;order_json&quot;, order_json.toString());
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Cart Id" enabled="true">
-          <stringProp name="variableName">cartid</stringProp>
+        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random SKU Id" enabled="true">
+          <stringProp name="variableName">skuid</stringProp>
           <stringProp name="outputFormat"></stringProp>
           <stringProp name="minimumValue">1</stringProp>
-          <stringProp name="maximumValue">999999999</stringProp>
-          <stringProp name="randomSeed">1024</stringProp>
-          <boolProp name="perThread">true</boolProp>
+          <stringProp name="maximumValue">10000000</stringProp>
+          <stringProp name="randomSeed">11</stringProp>
+          <boolProp name="perThread">false</boolProp>
         </RandomVariableConfig>
         <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Cart JSON Request" enabled="true">
           <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
 import org.json.JSONObject;
 
-JSONObject cart_json = new JSONObject();
-cart_json.put(&quot;currency&quot;, ${__Random(1, 1000)});
+JSONObject sku_json = new JSONObject();
 
-JSONArray skulist = new JSONArray();
-int sku_num = ${__Random(1,10)};
-for (int index = 0; index &lt; sku_num; ++index)
-{
-    JSONObject sku = new JSONObject();
-    sku.put(&quot;discount&quot;,  ${__Random(0, 100)});
-    sku.put(&quot;displayPrice&quot;, ${__Random(1, 1000)});
-    sku.put(&quot;price&quot;, ${__Random(1, 1000)});
-    sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
-    sku.put(&quot;skuId&quot;, ${__Random(10000000, 99999999)});
-    skulist.put(sku);
-}
-cart_json.put(&quot;skudtoList&quot;, skulist);
+String skuid = vars.get(&quot;skuid&quot;);
+sku_json.put(&quot;nskuid&quot;, skuid);
+sku_json.put(&quot;nspuid&quot;, ${__Random(1, 10000000)});
 
-String userid = vars.get(&quot;userid&quot;);
-cart_json.put(&quot;quantity&quot;, sku_num);
-cart_json.put(&quot;userId&quot;, userid);
+sku_json.put(&quot;ncolor&quot;, &quot;red&quot;);
+sku_json.put(&quot;ssize&quot;, ${__Random(1, 100)});
+sku_json.put(&quot;ndisplayprice&quot;, ${__Random(1, 1000)});
+sku_json.put(&quot;nprice&quot;, ${__Random(1, 1000)});
+sku_json.put(&quot;ninventory&quot;, &quot;Estuary&quot;);
+sku_json.put(&quot;ndiscount&quot;, ${__Random(1, 1000)});
+sku_json.put(&quot;scurrency&quot;, ${__Random(1, 1000)});
 
-vars.put(&quot;cart_json&quot;, cart_json.toString());
+vars.put(&quot;sku_json&quot;, sku_json.toString());
 </stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">true</boolProp>
         </BeanShellSampler>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Cart" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Cart " enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${cart_json}</stringProp>
+                <stringProp name="Argument.value"></stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -343,8 +417,60 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/v1/cart</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/cart/${userid}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+          <stringProp name="JSONPostProcessor.referenceNames">ret_cartid</stringProp>
+          <stringProp name="JSONPostProcessor.jsonPathExprs">$..nshoppingcartid[0]</stringProp>
+          <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+          <stringProp name="JSONPostProcessor.defaultValues">0</stringProp>
+        </JSONPostProcessor>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Sku To  Cart " enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${sku_json}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/v1/cart/${userid}/${ret_cartid}/skus/${skuid}</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Sku from  Cart" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/v1/cart/${userid}/${ret_cartid}/skus/${skuid}</stringProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -356,12 +482,12 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Cart Servcie  DELETE API" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__javaScript(Math.round(${users}*${cart_percent}*0.1/100)&gt;&gt;0)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">0</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_period}</stringProp>
         <longProp name="ThreadGroup.start_time">1508518675000</longProp>
         <longProp name="ThreadGroup.end_time">1511197075000</longProp>
@@ -417,7 +543,7 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Search Service API" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
