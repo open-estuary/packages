@@ -11,7 +11,7 @@ if [ ! -f "/opt/jmeter/lib/java-json.jar" ] ; then
 fi
 
 if [ -z "${1}" ] ; then
-    echo "Usage: <e-commerce server ip> <e-commerce server port> <number_of_user> <time_in_sec> <remote_agent_hosts> <result_save_dir>"
+    echo "Usage: <e-commerce server ip> <e-commerce server port> <number_of_user> <time_in_sec> <order_create_percent> <cart_percent> <search_percent> <order_del_percent> <query_file> <remote_agent_hosts> <result_save_dir>"
     exit 0
 fi
 
