@@ -58,14 +58,14 @@
 //
 //		List<OrderSKUDTO> orderskuDTOList = new ArrayList<>();
 //		OrderSKUDTO ordersku = new OrderSKUDTO();
-//		ordersku.setSkuId(10001L);
+//		ordersku.setSkuId(1234L);
 //		ordersku.setQuantity(10);
 //		ordersku.setPrice(new BigDecimal(800));
 //		ordersku.setOriginPrice(new BigDecimal(1000));
 //		ordersku.setDiscount(new BigDecimal(1000));
 //
 //		OrderSKUDTO ordersku2 = new OrderSKUDTO();
-//		ordersku2.setSkuId(10002L);
+//		ordersku2.setSkuId(4321L);
 //		ordersku2.setQuantity(10);
 //		ordersku2.setPrice(new BigDecimal(900));
 //		ordersku2.setOriginPrice(new BigDecimal(1200));
@@ -106,7 +106,7 @@
 //	@Test
 //	public void testDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8000/1/7");
+//		URL url = new URL("http://localhost:8000/1/25");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);

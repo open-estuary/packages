@@ -32,57 +32,36 @@ public class ShoppingCartController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public StatusDTO createShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO){
+    public StatusDTO createShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO) {
         StatusDTO status = new StatusDTO();
         if (shoppingCartDTO == null || shoppingCartDTO.getUserId() == null) {
             logger.error("shoppingCartDTO or shoppingCartDTO's userid is null");
             status.setUserId(null);
-            status.setStatus(ExcuteStatusEnum.FAILURE);
-        }
-        status.setUserId(shoppingCartDTO.getUserId());
-
-//        List<REcSku> skuList = shoppingCartService.getSKUListByDTOList(shoppingCartDTO.getSkudtoList());
-//        //用户 sku 校验
-//        if (!userService.checkUserAvailable(shoppingCartDTO.getUserId())
-//                || !shoppingCartService.checkSKUParam(shoppingCartDTO.getSkudtoList(), skuList)) {
-//            logger.error("User or SKU request invalid");
-//            status.setStatus(ExcuteStatusEnum.FAILURE);
-//            return status;
-//        }
-
-//        ShoppingCartDTO shoppingCartDTOCheck;
-//        try {
-//            shoppingCartDTOCheck = shoppingCartService.getShoppingCart(shoppingCartDTO.getUserId());
-//        } catch (SearchException e) {
-//            e.printStackTrace();
-//            logger.error("check exception !");
-//            return null;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            logger.error("exception !");
-//            return null;
-//        }
-
-        if (!shoppingCartService.checkShoppingCartByUserId(shoppingCartDTO.getUserId())) {
-            logger.error("create replication !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            status.setInfo("shoppingCartDTO or shoppingCartDTO's userid is null !");
+            returnStatus(false, status);
             return status;
         }
-
+        status.setUserId(shoppingCartDTO.getUserId());
         try {
-            shoppingCartService.addShoppingCartAndSKU(shoppingCartDTO);
+            shoppingCartService.createShoppingCartAndSKU(shoppingCartDTO);
         } catch (InsertException e) {
             e.printStackTrace();
             logger.error("create exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getMessage());
+            status.setInfo("create exception !");
+            status.setError(e.getMessage());
+            returnStatus(false, status);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getClass().getName());
+            status.setInfo("exception !");
+            status.setError(e.getClass().getName());
+            returnStatus(false, status);
             return status;
         }
-        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        returnStatus(true, status);
         return status;
     }
 
@@ -99,10 +78,12 @@ public class ShoppingCartController {
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("get exception !");
+            logger.error(e.getMessage());
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
+            logger.error(e.getClass().getName());
             return null;
         }
         return shoppingCartDTO;
@@ -121,10 +102,12 @@ public class ShoppingCartController {
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("get exception !");
+            logger.error(e.getMessage());
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
+            logger.error(e.getClass().getName());
             return null;
         }
         return shoppingCartDTO;
@@ -136,49 +119,28 @@ public class ShoppingCartController {
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
 
-//        if (!userService.checkUserAvailable(userid)) {
-//            logger.error("User request invalid");
-//            status.setStatus(ExcuteStatusEnum.FAILURE);
-//            return status;
-//        }
-
         try {
             shoppingCartService.deleteShoppingCartAndSKU(cartid);
         } catch (DeleteException e) {
             e.printStackTrace();
             logger.error("delete exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getMessage());
+            status.setInfo("delete exception !");
+            status.setError(e.getMessage());
+            returnStatus(false, status);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getClass().getName());
+            status.setInfo("exception !");
+            status.setError(e.getClass().getName());
+            returnStatus(false, status);
             return status;
         }
         returnStatus(true, status);
         return status;
     }
-
-//    @RequestMapping(value = "/carts/{type}", method = RequestMethod.POST)
-//    @ResponseBody
-//    public ShoppingCartDTO updateShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO, @PathVariable("type") Integer type) {
-//        if (!userService.checkUserAvailable(shoppingCartDTO.getUserId()) || type > 3 || type < 1) {
-//            return null;
-//        }
-//        ShoppingCartDTO returnShoppingCartDTO = null;
-//        try {
-//            returnShoppingCartDTO = shoppingCartService.updateShoppingCartAndSKU(type, shoppingCartDTO);
-//        } catch (UpdateException e) {
-//            e.printStackTrace();
-//            logger.error("update exception !");
-//            return null;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            logger.error("exception !");
-//            return null;
-//        }
-//        return returnShoppingCartDTO;
-//    }
 
 
     @RequestMapping(value = "/{userid}/{cartid}/skus/{skuid}", method = RequestMethod.POST)
@@ -187,27 +149,26 @@ public class ShoppingCartController {
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
 
-        //用户 sku 校验
-//        if (!userService.checkUserAvailable(userid)) {
-//            logger.error("User or SKU request invalid");
-//            status.setStatus(ExcuteStatusEnum.FAILURE);
-//            return status;
-//        }
-
         try {
             shoppingCartService.updateShoppingCartSKU(shoppingCartDTO, userid, cartid, skuid);
         } catch (UpdateException e) {
             e.printStackTrace();
             logger.error("update post exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getMessage());
+            status.setInfo("update post exception !");
+            status.setError(e.getMessage());
+            returnStatus(false, status);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getClass().getName());
+            status.setInfo("exception !");
+            status.setError(e.getClass().getName());
+            returnStatus(false, status);
             return status;
         }
-        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        returnStatus(true, status);
         return status;
     }
 
@@ -217,33 +178,28 @@ public class ShoppingCartController {
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
 
-        //用户 sku 校验
-//        if (!userService.checkUserAvailable(userid)) {
-//            logger.error("User or SKU request invalid");
-//            status.setStatus(ExcuteStatusEnum.FAILURE);
-//            return status;
-//        }
-
         try {
             shoppingCartService.deleteShoppingCartSKU(cartid, skuid);
         } catch (UpdateException e) {
             e.printStackTrace();
             logger.error("update delete exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getMessage());
+            status.setInfo("update delete exception !");
+            status.setError(e.getMessage());
+            returnStatus(false, status);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getClass().getName());
+            status.setInfo("exception !");
+            status.setError(e.getClass().getName());
+            returnStatus(false, status);
             return status;
         }
-        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        returnStatus(true, status);
         return status;
     }
-
-
-
-
 
 
     private StatusDTO returnStatus(boolean result, StatusDTO status) {

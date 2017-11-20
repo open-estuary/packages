@@ -1,6 +1,7 @@
 package com.htsat.cart.service;
 
 import com.htsat.cart.exception.DeleteException;
+import com.htsat.cart.exception.InsertException;
 import com.htsat.cart.exception.SearchException;
 import com.htsat.cart.exception.UpdateException;
 import com.htsat.cart.dto.SKUDTO;
@@ -26,7 +27,9 @@ public interface IShoppingCartService {
 
     /*********************************************create******************************************/
 
-    void addShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws Exception;
+    void createShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws InsertException;
+
+//    void addShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws InsertException;
 
     /*********************************************search******************************************/
 

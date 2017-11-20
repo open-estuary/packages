@@ -53,10 +53,10 @@
 //
 //	private static String sendCreateShoppingCartPost(String url) throws IOException {
 //		ShoppingCartDTO shoppingCart = new ShoppingCartDTO();
-//		shoppingCart.setUserId(3L);
+//		shoppingCart.setUserId(10L);
 //		shoppingCart.setCurrency("RMB");
 //		SKUDTO sku1 = new SKUDTO();
-//		sku1.setSkuId(10001L);
+//		sku1.setSkuId(100000001L);
 //		sku1.setDiscount(new BigDecimal(99));
 //		sku1.setDisplayPrice(new BigDecimal(700));
 //		sku1.setQuantity(5);
@@ -95,7 +95,7 @@
 //	@Test
 //	public void testDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8001/1/39");
+//		URL url = new URL("http://localhost:8001/2/2");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);
@@ -124,7 +124,7 @@
 //    @Test
 //	public void testUpdateDelete() throws IOException {
 //
-//		URL url = new URL("http://localhost:8001/1/37/skus/10003");
+//		URL url = new URL("http://localhost:8001/1/1/skus/10002");
 //		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		connection.setRequestMethod("DELETE");
 //		connection.setDoInput(true);
@@ -152,7 +152,7 @@
 //	@Test
 //	public void updateShoppingCartTest() {
 //		try {
-//			sendUpdateShoppingCartPostupdate("http://localhost:8001/1/37/skus/10002");
+//			sendUpdateShoppingCartPostupdate("http://localhost:8001/1/1/skus/100000001");
 //		} catch (Exception e) {
 //
 //		}
@@ -163,9 +163,9 @@
 ////		shoppingCart.setUserId(1L);
 ////        shoppingCart.setNshoppingcartid(34L);
 //		SKUDTO sku1 = new SKUDTO();
-////		sku1.setSkuId(10001L);
-//		sku1.setDisplayPrice(new BigDecimal(800));
-//		sku1.setDiscount(new BigDecimal(100));
+//		sku1.setSkuId(10001L);
+//		sku1.setDisplayPrice(new BigDecimal(700));
+//		sku1.setDiscount(new BigDecimal(99));
 //		sku1.setQuantity(10);
 //
 //		List<SKUDTO> skuList = new ArrayList<>();
@@ -197,7 +197,7 @@
 //    @Test
 //    public void updateShoppingCartTest2() {
 //        try {
-//            sendUpdateShoppingCartPostadd("http://localhost:8001/1/37/skus/10003");
+//            sendUpdateShoppingCartPostadd("http://localhost:8001/1/1/skus/10002");
 //        } catch (Exception e) {
 //
 //        }
@@ -209,7 +209,7 @@
 ////        shoppingCart.setNshoppingcartid(34L);
 //        SKUDTO sku1 = new SKUDTO();
 ////        sku1.setSkuId(10002L);
-//        sku1.setDisplayPrice(new BigDecimal(1000));
+//        sku1.setDisplayPrice(new BigDecimal(799));
 //        sku1.setDiscount(new BigDecimal(0));
 //        sku1.setQuantity(10);
 //

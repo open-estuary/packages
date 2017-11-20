@@ -194,18 +194,18 @@ public class OrderServiceImpl implements IOrderService {
         }
         return orderskuList;
     }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE,timeout=60,rollbackFor=Exception.class)
-    public void updateSKUInventory(OrderSKUDTO orderskuDTO) throws InsertException {
-        synchronized(this) {
-            REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
-            sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
-            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
-            if (resultUpdate != 1) {
-                throw new InsertException("mysql : update sku inventory failed");
-            }
-        }
-    }
+//
+//    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE,timeout=60,rollbackFor=Exception.class)
+//    public void updateSKUInventory(OrderSKUDTO orderskuDTO) throws InsertException {
+//        synchronized(this) {
+//            REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
+//            sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
+//            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
+//            if (resultUpdate != 1) {
+//                throw new InsertException("mysql : update sku inventory failed");
+//            }
+//        }
+//    }
 
     private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
         Jedis jedis = redisConfig.getJedis();
@@ -258,7 +258,7 @@ public class OrderServiceImpl implements IOrderService {
 
     private OrderDTO getOrderInfoByRedis(Long orderId) throws SearchException {
         Jedis jedis = redisConfig.getJedis();
-        if(jedis == null || !jedis.exists(orderId + "")){
+        if(jedis == null){
             return null;
         }
 
@@ -314,12 +314,14 @@ public class OrderServiceImpl implements IOrderService {
 
         //add inventory of sku
         for (REcOrdersku ordersku : orderskuList) {
-            REcSku sku = skuMapper.selectByPrimaryKey(ordersku.getNskuid());
-            sku.setNinventory(sku.getNinventory() + ordersku.getNquantity());
-            int resultInventory = skuMapper.updateByPrimaryKey(sku);
-            if (resultInventory != 1) {
-                throw new DeleteException("mysql : update SKU inventory failed");
-            }
+//            REcSku sku = skuMapper.selectByPrimaryKey(ordersku.getNskuid());
+//            sku.setNinventory(sku.getNinventory() + ordersku.getNquantity());
+//            int resultInventory = skuMapper.updateByPrimaryKey(sku);
+            skuMapper.updateInventory(ordersku.getNskuid(), 0 - ordersku.getNquantity());
+//
+//            if (resultInventory != 1) {
+//                throw new DeleteException("mysql : update SKU inventory failed");
+//            }
         }
         //delete delivery
         int resultDelivery = deliveryinfoMapper.deleteByPrimaryKey(orderinfo.getNdeliveryid());

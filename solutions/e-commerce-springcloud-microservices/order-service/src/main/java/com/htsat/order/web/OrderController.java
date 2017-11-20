@@ -35,51 +35,46 @@ public class OrderController {
     public StatusDTO createOrder(@RequestBody OrderDTO orderDTO){
         StatusDTO status = new StatusDTO();
         status.setUserId(orderDTO.getUserId());
-        //check
-//        boolean checkUserResult = userService.checkUserAvailable(orderDTO.getUserId());
-//        boolean checkAddressResult = addressService.checkAddressAvailable(orderDTO.getUserId(), orderDTO.getAddressDTO().getNaddressid());
-//        boolean checkcheckSKUPResult = orderService.checkSKUParam(orderDTO.getOrderskudtoList(), orderService.getSKUListByDTOList(orderDTO.getOrderskudtoList()));
-//
-//        if (!(checkUserResult && checkAddressResult && checkcheckSKUPResult)) {
-//            logger.error("check failed !");
-//            status.setStatus(ExcuteStatusEnum.FAILURE);
-//            return status;
-//        }
 
         try {
             orderService.createOrderAndDeliveryAndOrderSKU(orderDTO);
         } catch (InsertException e) {
             e.printStackTrace();
             logger.error("create exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getMessage());
+            status.setInfo("create exception !");
+            status.setError(e.getMessage());
+            returnStatus(false, status);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getClass().getName());
+            status.setInfo("exception !");
+            status.setError(e.getClass().getName());
+            returnStatus(false, status);
             return status;
         }
-        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        returnStatus(true, status);
         return status;
     }
 
     @RequestMapping(value = "/{userid}/{orderid}", method = RequestMethod.GET)
     @ResponseBody
     public OrderDTO getOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
-//        if (!userService.checkUserAvailable(userid)) {
-//            logger.error("check user failed !");
-//            return null;
-//        }
+
         OrderDTO orderDTO = null;
         try {
             orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("search exception !");
+            logger.error(e.getMessage());
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
+            logger.error(e.getClass().getName());
             return null;
         }
         return orderDTO;
@@ -88,20 +83,19 @@ public class OrderController {
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
     @ResponseBody
     public List<OrderDTO> getAllOrder(@PathVariable("userid") Long userid){
-//        if (!userService.checkUserAvailable(userid)) {
-//            logger.error("check user failed !");
-//            return null;
-//        }
+
         List<OrderDTO> orderDTOList = null;
         try {
             orderDTOList = orderService.getAllOrderAndDeliveryAndOrderSKUAndAddress(userid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("search all exception !");
+            logger.error(e.getMessage());
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
+            logger.error(e.getClass().getName());
             return null;
         }
         return orderDTOList;
@@ -112,24 +106,38 @@ public class OrderController {
     public StatusDTO deleteOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
         StatusDTO status = new StatusDTO();
         status.setUserId(userid);
-//        if (!userService.checkUserAvailable(userid)) {
-//            logger.error("check user failed !");
-//            return null;
-//        }
+
         try {
             orderService.deleteOrderAndDeliveryAndOrderSKU(orderid);
         } catch (DeleteException e) {
             e.printStackTrace();
             logger.error("delete exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getMessage());
+            status.setInfo("delete exception !");
+            status.setError(e.getMessage());
+            returnStatus(false, status);
             return status;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
-            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error(e.getClass().getName());
+            status.setInfo("exception !");
+            status.setError(e.getClass().getName());
+            returnStatus(true, status);
             return status;
         }
-        status.setStatus(ExcuteStatusEnum.SUCCESS);
+        returnStatus(false, status);
+        return status;
+    }
+
+    private StatusDTO returnStatus(boolean result, StatusDTO status) {
+        if (result) {
+            status.setStatus(ExcuteStatusEnum.SUCCESS);
+            logger.info("execute success !");
+        } else{
+            status.setStatus(ExcuteStatusEnum.FAILURE);
+            logger.error("execute fail !");
+        }
         return status;
     }
 
