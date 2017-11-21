@@ -25,9 +25,9 @@ import java.util.Map;
 @Component
 @PropertySource("classpath:application.yml")
 @ConfigurationProperties(prefix = "spring.redis")
-public class RedisConfig {
+public class  RedisConfig {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private  Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private  String host;
 
@@ -37,11 +37,13 @@ public class RedisConfig {
 
 	private  int timeout;
 
-	private Map<String, Integer> pool = new HashMap<>();
+	private  Map<String, Integer> pool = new HashMap<>();
+
+//	private static JedisPool jedisPool = null;
 
 	private  JedisPool jedisPool = null;
-
-	private  JedisPool initialPool(){
+	//静态工厂方法
+	public  JedisPool initPool() {
 		JedisPoolConfig config = new JedisPoolConfig();
 		config.setMaxIdle(pool.get("maxIdle"));
 		config.setMaxTotal(pool.get("maxActive"));
@@ -61,16 +63,38 @@ public class RedisConfig {
 		return jedisPool;
 	}
 
+//	private  JedisPool initialPool(){
+//		JedisPoolConfig config = new JedisPoolConfig();
+//		config.setMaxIdle(pool.get("maxIdle"));
+//		config.setMaxTotal(pool.get("maxActive"));
+//		config.setMaxWaitMillis(pool.get("maxWait"));
+//
+//		try {
+//			jedisPool = new JedisPool(config,host.split(",")[0],port,timeout);
+//		} catch (Exception e1) {
+//			logger.error("first create JedisPool error : " + e1);
+//			try {
+//				jedisPool = new JedisPool(config,host.split(",")[1],port,timeout);
+//			} catch (Exception e2){
+//				logger.error("second create JedisPool error : " + e2);
+//				e2.printStackTrace();
+//			}
+//		}
+//		return jedisPool;
+//	}
+
 	/**
 	 * 多线程环境同步初始化
 	 */
 	private  synchronized void poolInit() {
 		if (jedisPool == null) {
-			initialPool();
+			logger.info("create jedis!");
+			initPool();
 		}
 	}
 
 	public synchronized Jedis getJedis(){
+//	public Jedis getJedis(){
 		if (jedisPool == null) {
 			poolInit();
 		}

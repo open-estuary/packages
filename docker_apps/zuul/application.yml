@@ -1,0 +1,34 @@
+server:
+  port: 8765
+spring:
+  application:
+    name: api-gateway-service
+  zipkin:
+      base-url: http://192.168.11.215:9411
+  cloud:
+    inetutils:
+       ignored-interfaces:
+                - eth0
+                - enp2s0f0
+                - eth1
+
+zuul:
+  routes:
+    api-cart:
+      path: /v1/cart/**
+      serviceId: cart-service
+    api-order:
+      path: /v1/order/**
+      serviceId: order-service
+    api-search:
+      path: /v1/search/**
+      serviceId: search-service
+
+
+eureka:
+  instance:
+    preferIpAddress: True
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://192.168.11.223:8761/eureka/

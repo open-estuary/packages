@@ -1,6 +1,7 @@
 package com.htsat.cart.service;
 
 import com.htsat.cart.exception.DeleteException;
+import com.htsat.cart.exception.InsertException;
 import com.htsat.cart.exception.SearchException;
 import com.htsat.cart.exception.UpdateException;
 import com.htsat.cart.dto.SKUDTO;
@@ -16,9 +17,9 @@ public interface IShoppingCartService {
 
     boolean checkShoppingCartByUserId(Long userId);
 
-    boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku);
+//    boolean checkSingleSKUParam(SKUDTO skudto, REcSku sku);
 
-    boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList);
+//    boolean checkSKUParam(List<SKUDTO> skudtoList, List<REcSku> skuList);
 
     List<REcSku> getSKUListByDTOList(List<SKUDTO> skudtoList);
 
@@ -26,7 +27,9 @@ public interface IShoppingCartService {
 
     /*********************************************create******************************************/
 
-    void addShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws Exception;
+    void createShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws InsertException;
+
+//    void addShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws InsertException;
 
     /*********************************************search******************************************/
 

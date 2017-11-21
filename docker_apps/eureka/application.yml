@@ -1,0 +1,22 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: eureka-service-discovery
+  cloud:
+    inetutils:
+       ignored-interfaces:
+                - eth0
+                - eth1
+                - enp2s0f0
+
+eureka:
+  instance:
+    preferIpAddress: True
+    instance-id: ${spring.cloud.client.ipAddress}.${server.port}
+    hostname: ${spring.cloud.client.ipAddress}
+  client:
+    registerWithEureka: False
+    fetchRegistry: False
+    serviceUrl:
+      defaultZone: http://192.168.11.223:8761/eureka/

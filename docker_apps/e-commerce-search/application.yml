@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: search-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.11.244:3307/e-commerce-search?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password:
+  redis:
+    host: 192.168.11.223
+    port: 22151
+    pool:
+      maxActive: -1
+      maxWait: -1
+      maxIdle: 100
+      minIdle: 0
+    timeout: 100
+  data:
+    solr:
+      host: http://192.168.11.231:8983/solr/e-commerce
+  zipkin:
+      base-url: http://192.168.11.215:9411
+  cloud:
+    inetutils:
+       ignored-interfaces:
+                - eth0
+                - enp2s0f0
+                - eth1
+
+server:
+  port: 8002
+eureka:
+ instance:
+    preferIpAddress: True
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+ client:
+    service-url:
+      defaultZone: http://192.168.11.223:8761/eureka/
+
+management:
+  security:
+    enabled: false
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.htsat.order.model

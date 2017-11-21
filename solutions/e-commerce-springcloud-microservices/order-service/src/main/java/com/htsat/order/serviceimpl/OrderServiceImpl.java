@@ -63,6 +63,8 @@ public class OrderServiceImpl implements IOrderService {
 
     private static Lock lock = new ReentrantLock();
 
+    private static final String orderRedisKey = "OrderInfo:";
+
     /**
      * create order
      */
@@ -192,25 +194,25 @@ public class OrderServiceImpl implements IOrderService {
         }
         return orderskuList;
     }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE,timeout=60,rollbackFor=Exception.class)
-    public void updateSKUInventory(OrderSKUDTO orderskuDTO) throws InsertException {
-        synchronized(this) {
-            REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
-            sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
-            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
-            if (resultUpdate != 1) {
-                throw new InsertException("mysql : update sku inventory failed");
-            }
-        }
-    }
+//
+//    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE,timeout=60,rollbackFor=Exception.class)
+//    public void updateSKUInventory(OrderSKUDTO orderskuDTO) throws InsertException {
+//        synchronized(this) {
+//            REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
+//            sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
+//            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
+//            if (resultUpdate != 1) {
+//                throw new InsertException("mysql : update sku inventory failed");
+//            }
+//        }
+//    }
 
     private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
         Jedis jedis = redisConfig.getJedis();
         String code = null;
         String dtoJson = JSON.toJSONString(orderDTO);
         try {
-            code = jedis.set((orderDTO.getOrderId() + ""), dtoJson);
+            code = jedis.set((orderRedisKey + orderDTO.getOrderId()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis insert error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + ", value:" + orderDTO);
         } finally{
@@ -256,13 +258,13 @@ public class OrderServiceImpl implements IOrderService {
 
     private OrderDTO getOrderInfoByRedis(Long orderId) throws SearchException {
         Jedis jedis = redisConfig.getJedis();
-        if(jedis == null || !jedis.exists(orderId + "")){
+        if(jedis == null){
             return null;
         }
 
         String orderInfo = null;
         try {
-            orderInfo = jedis.get(orderId + "");
+            orderInfo = jedis.get(orderRedisKey + orderId);
         } catch (Exception e) {
             logger.error("Redis get error: "+ e.getMessage() +" - key : " + orderId);
         } finally {
@@ -312,12 +314,14 @@ public class OrderServiceImpl implements IOrderService {
 
         //add inventory of sku
         for (REcOrdersku ordersku : orderskuList) {
-            REcSku sku = skuMapper.selectByPrimaryKey(ordersku.getNskuid());
-            sku.setNinventory(sku.getNinventory() + ordersku.getNquantity());
-            int resultInventory = skuMapper.updateByPrimaryKey(sku);
-            if (resultInventory != 1) {
-                throw new DeleteException("mysql : update SKU inventory failed");
-            }
+//            REcSku sku = skuMapper.selectByPrimaryKey(ordersku.getNskuid());
+//            sku.setNinventory(sku.getNinventory() + ordersku.getNquantity());
+//            int resultInventory = skuMapper.updateByPrimaryKey(sku);
+            skuMapper.updateInventory(ordersku.getNskuid(), 0 - ordersku.getNquantity());
+//
+//            if (resultInventory != 1) {
+//                throw new DeleteException("mysql : update SKU inventory failed");
+//            }
         }
         //delete delivery
         int resultDelivery = deliveryinfoMapper.deleteByPrimaryKey(orderinfo.getNdeliveryid());
@@ -345,7 +349,7 @@ public class OrderServiceImpl implements IOrderService {
     private void deleteOrderInfoByRedis(Long orderId) throws DeleteException {
         Jedis jedis = redisConfig.getJedis();
         try {
-            Long reply = jedis.del(orderId + "");
+            Long reply = jedis.del(orderRedisKey + orderId);
         } catch (Exception e) {
             logger.error("Redis delete error: "+ e.getMessage() +" - key : " + orderId);
         }finally{
@@ -419,7 +423,7 @@ public class OrderServiceImpl implements IOrderService {
         String reply = null;
         String dtoJson = JSON.toJSONString(orderDTO);
         try {
-            reply = jedis.set((orderDTO.getOrderId() + ""), dtoJson);
+            reply = jedis.set((orderRedisKey + orderDTO.getOrderId()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis update error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + "" + ", value:" + orderDTO);
         }finally{
@@ -487,7 +491,7 @@ public class OrderServiceImpl implements IOrderService {
 
         String dtoJson = JSON.toJSONString(orderDTO);
         try {
-            reply = jedis.set((orderDTO.getOrderId() + ""), dtoJson);
+            reply = jedis.set((orderRedisKey + orderDTO.getOrderId()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis update error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + "" + ", value:" + orderDTO);
         }finally{
@@ -587,20 +591,20 @@ public class OrderServiceImpl implements IOrderService {
     /**
      * check method
      */
-    @Override
-    public boolean checkSKUParam(List<OrderSKUDTO> orderskudtoList, List<REcSku> skuList) {
-        if (orderskudtoList.size() != skuList.size())
-            return false;
-        Collections.sort(orderskudtoList, new SortList<OrderSKUDTO>("SkuId",true));
-        for (int i = 0; i < orderskudtoList.size(); i++) {
-            if (!skuList.get(i).getNskuid().equals(orderskudtoList.get(i).getSkuId())
-                    || orderskudtoList.get(i).getQuantity() > skuList.get(i).getNinventory() || orderskudtoList.get(i).getQuantity() <= 0
-                    || orderskudtoList.get(i).getPrice().compareTo(skuList.get(i).getNdisplayprice()) != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    @Override
+//    public boolean checkSKUParam(List<OrderSKUDTO> orderskudtoList, List<REcSku> skuList) {
+//        if (orderskudtoList.size() != skuList.size())
+//            return false;
+//        Collections.sort(orderskudtoList, new SortList<OrderSKUDTO>("SkuId",true));
+//        for (int i = 0; i < orderskudtoList.size(); i++) {
+//            if (!skuList.get(i).getNskuid().equals(orderskudtoList.get(i).getSkuId())
+//                    || orderskudtoList.get(i).getQuantity() > skuList.get(i).getNinventory() || orderskudtoList.get(i).getQuantity() <= 0
+//                    || orderskudtoList.get(i).getPrice().compareTo(skuList.get(i).getNdisplayprice()) != 0) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     @Override
     public List<REcSku> getSKUListByDTOList(List<OrderSKUDTO> orderskudtoList) {
