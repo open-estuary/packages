@@ -318,10 +318,7 @@ for (int index = 0; index &lt; sku_num; ++index)
 cart_json.put(&quot;skudtoList&quot;, skulist);
 cart_json.put(&quot;quantity&quot;, 1);
 
-int incr_userid = Integer.parseInt(vars.get(&quot;incr_userid&quot;).trim());
-incr_userid = incr_userid + 1;
-cart_json.put(&quot;userId&quot;, incr_userid);
-vars.put(&quot;incr_userid&quot;, incr_userid.toString());
+cart_json.put(&quot;userId&quot;, ${userid});
 vars.put(&quot;cart_json&quot;, cart_json.toString());
 </stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
