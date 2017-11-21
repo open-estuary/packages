@@ -123,92 +123,6 @@
         <boolProp name="perThread">true</boolProp>
       </RandomVariableConfig>
       <hashTree/>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">-1</intProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1000</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
-        <longProp name="ThreadGroup.start_time">1510898024000</longProp>
-        <longProp name="ThreadGroup.end_time">1510898024000</longProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-      </SetupThreadGroup>
-      <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="incr_userid" elementType="Argument">
-              <stringProp name="Argument.name">incr_userid</stringProp>
-              <stringProp name="Argument.value">0</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-          </collectionProp>
-        </Arguments>
-        <hashTree/>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">1000000</stringProp>
-        </LoopController>
-        <hashTree/>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Cart JSON Request" enabled="true">
-          <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
-import org.json.JSONObject;
-
-JSONObject cart_json = new JSONObject();
-cart_json.put(&quot;currency&quot;, ${__Random(1, 1000)});
-
-JSONArray skulist = new JSONArray();
-JSONObject sku = new JSONObject();
-sku.put(&quot;discount&quot;, ${__Random(0, 100)});
-sku.put(&quot;displayPrice&quot;, ${__Random(1, 1000)}); 
-sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
-sku.put(&quot;skuId&quot;, 1);
-skulist.put(sku);
-
-cart_json.put(&quot;skudtoList&quot;, skulist);
-cart_json.put(&quot;quantity&quot;, 1);
-
-String userid = vars.get(&quot;incr_userid&quot;);
-int value = Integer.parseInt(userid);
-value++;
-cart_json.put(&quot;userId&quot;, value);
-vars.put(&quot;incr_userid&quot;, value.toString());
-vars.put(&quot;cart_json&quot;, cart_json.toString());
-</stringProp>
-          <stringProp name="BeanShellSampler.filename"></stringProp>
-          <stringProp name="BeanShellSampler.parameters"></stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate SKU  JSON Request" enabled="true">
-          <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
-import org.json.JSONObject;
-
-JSONObject sku_json = new JSONObject();
-
-String skuid = vars.get(&quot;skuid&quot;);
-sku_json.put(&quot;nskuid&quot;, skuid);
-sku_json.put(&quot;nspuid&quot;, ${__Random(1, 10000000)});
-
-sku_json.put(&quot;ncolor&quot;, &quot;red&quot;);
-sku_json.put(&quot;ssize&quot;, ${__Random(1, 100)});
-sku_json.put(&quot;ndisplayprice&quot;, ${__Random(1, 1000)});
-sku_json.put(&quot;nprice&quot;, ${__Random(1, 1000)});
-sku_json.put(&quot;ninventory&quot;, &quot;Estuary&quot;);
-sku_json.put(&quot;ndiscount&quot;, ${__Random(1, 1000)});
-sku_json.put(&quot;scurrency&quot;, ${__Random(1, 1000)});
-
-vars.put(&quot;sku_json&quot;, sku_json.toString());
-</stringProp>
-          <stringProp name="BeanShellSampler.filename"></stringProp>
-          <stringProp name="BeanShellSampler.parameters"></stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">true</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service Create API" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -404,11 +318,10 @@ for (int index = 0; index &lt; sku_num; ++index)
 cart_json.put(&quot;skudtoList&quot;, skulist);
 cart_json.put(&quot;quantity&quot;, 1);
 
-String userid = vars.get(&quot;incr_userid&quot;);
-int value = Integer.parseInt(userid);
-value++;
-cart_json.put(&quot;userId&quot;, value);
-vars.put(&quot;incr_userid&quot;, value.toString());
+int incr_userid = Integer.parseInt(vars.get(&quot;incr_userid&quot;).trim());
+incr_userid = incr_userid + 1;
+cart_json.put(&quot;userId&quot;, incr_userid);
+vars.put(&quot;incr_userid&quot;, incr_userid.toString());
 vars.put(&quot;cart_json&quot;, cart_json.toString());
 </stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>

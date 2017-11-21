@@ -23,7 +23,7 @@ echo "                                  ********                                
 LOCAL_HOST="192.168.12.11"
 echo "Use local IP address :${LOCAL_HOST}"
 
-if [ -z "$(ps -aux | grep jmeter-server |  grep ${LOCAL_HOST} | grep -v grep)"] ; then
+if [ -z "$(ps -aux | grep jmeter-server |  grep ${LOCAL_HOST} | grep -v grep)" ] ; then
     echo "Please execute /opt/jmeter/bin/jmeter-server -Djava.rmi.server.hostname=${LOCAL_HOST} on all remote jmeter servers firstly"
     exit 0
 fi
