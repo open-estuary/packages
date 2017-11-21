@@ -22,6 +22,8 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     RedisConfig redisConfig;
 
+    private static final String userRedisKey = "UserInfo:";
+
     @Override
     public boolean checkUserAvailable(Long userId) {
         Jedis jedis = redisConfig.getJedis();
@@ -30,7 +32,7 @@ public class UserServiceImpl implements IUserService {
         }
         String userJson = null;
         try {
-            userJson = jedis.get(userId + "");
+            userJson = jedis.get(userRedisKey + userId);
         } catch (Exception e) {
             logger.error("Redis get error: " + e.getMessage() + " - key : " + userId);
         } finally {

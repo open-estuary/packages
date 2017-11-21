@@ -10,6 +10,10 @@ public class StatusDTO implements Serializable{
 
     ExcuteStatusEnum status;
 
+    String info;
+
+    String error;
+
     public Long getUserId() {
         return userId;
     }
@@ -26,11 +30,29 @@ public class StatusDTO implements Serializable{
         this.status = status;
     }
 
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     @Override
     public String toString() {
         return "StatusDTO{" +
                 "userId=" + userId +
                 ", status=" + status +
+                ", info='" + info + '\'' +
+                ", error='" + error + '\'' +
                 '}';
     }
 }

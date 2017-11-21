@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: cart-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.11.219:8067/e-commerce-cart?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password:
+  redis:
+    host: 192.168.11.219
+    port: 22136
+    pool:
+      maxActive: -1
+      maxWait: -1
+      maxIdle: 100
+      minIdle: 0
+    timeout: 100
+  zipkin:
+      base-url: http://192.168.11.215:9411
+  cloud:
+    inetutils:
+       ignored-interfaces:
+                - eth0
+                - eth1
+                - enp2s0f0
+
+server:
+  port: 8001
+eureka:
+  instance:
+    preferIpAddress: True
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://192.168.11.223:8761/eureka/
+management:
+  security:
+    enabled: false
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.htsat.cart.model

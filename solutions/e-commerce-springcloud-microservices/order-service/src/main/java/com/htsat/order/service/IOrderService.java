@@ -48,7 +48,7 @@ public interface IOrderService {
     /**
      *  check method
      */
-    boolean checkSKUParam(List<OrderSKUDTO> orderskudtoList, List<REcSku> skuList);
+//    boolean checkSKUParam(List<OrderSKUDTO> orderskudtoList, List<REcSku> skuList);
 
     List<REcSku> getSKUListByDTOList(List<OrderSKUDTO> orderskudtoList);
 
