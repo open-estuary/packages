@@ -1,8 +1,5 @@
 package com.htsat.search.web;
 
-import com.htsat.search.dto.SearchResultDTO;
-import com.htsat.search.dto.TestSearchResultDTO;
-import com.htsat.search.service.ILoadBalanceService;
 import com.htsat.search.service.ISearchService;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -10,15 +7,11 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.StringUtils;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.bouncycastle.util.test.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -72,6 +65,7 @@ public class SearchController {
             }
         }catch(Exception e){
             e.printStackTrace();
+            logger.error(e.getClass().getName());
             logger.error("search failed");
             return null;
         }
