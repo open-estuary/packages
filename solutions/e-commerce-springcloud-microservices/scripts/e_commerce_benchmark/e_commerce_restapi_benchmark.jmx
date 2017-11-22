@@ -48,11 +48,6 @@
             <stringProp name="Argument.value">${__P(search_percent,30)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="userid_filename" elementType="Argument">
-            <stringProp name="Argument.name">userid_filename</stringProp>
-            <stringProp name="Argument.value">${__P(userid_filename,&quot;&quot;)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="order_del_percent" elementType="Argument">
             <stringProp name="Argument.name">order_del_percent</stringProp>
             <stringProp name="Argument.value">${__P(order_del_percent,10)}</stringProp>
@@ -70,7 +65,7 @@
           </elementProp>
           <elementProp name="query_filename" elementType="Argument">
             <stringProp name="Argument.name">query_filename</stringProp>
-            <stringProp name="Argument.value">${__P(query_filename, &quot;&quot;)}</stringProp>
+            <stringProp name="Argument.value">${__P(query_filename, &quot;/home/&quot;)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration_in_secs" elementType="Argument">

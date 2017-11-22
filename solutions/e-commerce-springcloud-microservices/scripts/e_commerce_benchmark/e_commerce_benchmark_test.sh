@@ -72,8 +72,8 @@ if [ -d ${CUR_DIR}/e_commerce_benchmark_report ] ; then
     rm -fr ${CUR_DIR}/e_commerce_benchmark_report 
 fi
 
-echo "Perform New E-commerce Test(LOCAL_HOST:${LOCAL_HOST}, REMOTE_HOST:${REMOTE_HOST}, Target Server:${HOST}, Target Port:${PORT}, NumberofUser:${USER_NUM}, TestTimeInSecs:${DUR_TIME_INSEC}, QUERYFILE:${QUERYFILE}"
-taskset -c 2-60 ${JMETER} -n -t ${BENCHMARK_JMX} -Djava.rmi.server.hostname=${LOCAL_HOST} -Ghost=${HOST} -Gport=${PORT} -Gquery_filename="${QUERYFILE}" -Gusers ${USER_NUM} -Gduration_in_secs ${DUR_TIME_INSEC} -Gsearch_percent ${SEARCH_PERCENT} -Gcart_percent ${CART_PERCENT} -Gorder_del_percent ${ORDER_DEL_PERCENT} -Gorder_create_get_percent ${ORDER_CREATE_GET_PERCENT} -l ${CUR_DIR}/e_commerce_benchmark_result.jtl -o ${CUR_DIR}/e_commerce_benchmark_report -e -R"${REMOTE_HOST}"
+echo "Perform New E-commerce Test(LOCAL_HOST:${LOCAL_HOST}, REMOTE_HOST:${REMOTE_HOST}, Target Server:${HOST}, Target Port:${PORT}, NumberofUser:${USER_NUM}, TestTimeInSecs:${DUR_TIME_INSEC}, QUERY_FILE:${QUERY_FILE}"
+taskset -c 2-60 ${JMETER} -n -t ${BENCHMARK_JMX} -Djava.rmi.server.hostname=${LOCAL_HOST} -Ghost=${HOST} -Gport=${PORT} -Gquery_filename="${QUERY_FILE}" -Gusers ${USER_NUM} -Gduration_in_secs ${DUR_TIME_INSEC} -Gsearch_percent ${SEARCH_PERCENT} -Gcart_percent ${CART_PERCENT} -Gorder_del_percent ${ORDER_DEL_PERCENT} -Gorder_create_get_percent ${ORDER_CREATE_GET_PERCENT} -l ${CUR_DIR}/e_commerce_benchmark_result.jtl -o ${CUR_DIR}/e_commerce_benchmark_report -e -R"${REMOTE_HOST}"
 
 OUT_DIR="${11:-/estuarytest/e_commerce_testresults/}"
 OUT_FILE="e_commerce_benchmark_report_${USER_NUM}users"
