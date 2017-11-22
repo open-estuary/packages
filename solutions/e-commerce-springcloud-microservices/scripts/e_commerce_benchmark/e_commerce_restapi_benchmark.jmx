@@ -311,7 +311,7 @@ for (int index = 0; index &lt; sku_num; ++index)
 }
 
 cart_json.put(&quot;skudtoList&quot;, skulist);
-cart_json.put(&quot;quantity&quot;, 1);
+cart_json.put(&quot;quantity&quot;, sku_num);
 
 String userid = vars.get(&quot;userid&quot;);
 cart_json.put(&quot;userId&quot;, userid);
@@ -348,29 +348,31 @@ vars.put(&quot;cart_json&quot;, cart_json.toString());
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate SKU  JSON Request" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Single SKU  JSON Request" enabled="true">
           <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
 import org.json.JSONObject;
 
-JSONObject sku_json = new JSONObject();
+JSONObject cart_json = new JSONObject();
+cart_json.put(&quot;currency&quot;, ${__Random(1, 1000)});
 
-String skuid = vars.get(&quot;skuid&quot;);
-sku_json.put(&quot;nskuid&quot;, skuid);
-sku_json.put(&quot;nspuid&quot;, ${__Random(1, 10000000)});
+JSONArray skulist = new JSONArray();
+SONObject sku = new JSONObject();
+sku.put(&quot;discount&quot;, ${__Random(0, 100)});
+sku.put(&quot;displayPrice&quot;, ${__Random(1, 1000)}); 
+sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
+sku.put(&quot;skuId&quot;, ${__Random(1, 100000)});
+skulist.put(sku);
 
-sku_json.put(&quot;ncolor&quot;, &quot;red&quot;);
-sku_json.put(&quot;ssize&quot;, ${__Random(1, 100)});
-sku_json.put(&quot;ndisplayprice&quot;, ${__Random(1, 1000)});
-sku_json.put(&quot;nprice&quot;, ${__Random(1, 1000)});
-sku_json.put(&quot;ninventory&quot;, &quot;Estuary&quot;);
-sku_json.put(&quot;ndiscount&quot;, ${__Random(1, 1000)});
-sku_json.put(&quot;scurrency&quot;, ${__Random(1, 1000)});
+cart_json.put(&quot;skudtoList&quot;, skulist);
+cart_json.put(&quot;quantity&quot;, 1);
 
-vars.put(&quot;sku_json&quot;, sku_json.toString());
+String userid = vars.get(&quot;userid&quot;);
+cart_json.put(&quot;userId&quot;, userid);
+vars.put(&quot;cart_sku_json&quot;, cart_json.toString());
 </stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">true</boolProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Sku To  Cart " enabled="true">
@@ -379,7 +381,7 @@ vars.put(&quot;sku_json&quot;, sku_json.toString());
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${sku_json}</stringProp>
+                <stringProp name="Argument.value">${cart_sku_json}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
