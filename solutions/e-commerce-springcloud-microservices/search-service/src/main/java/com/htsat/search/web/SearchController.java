@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,17 +63,24 @@ public class SearchController {
 
             for (SolrDocument solrDocument : results) {
                 Integer id = (Integer) solrDocument.getFieldValue("productid");
-                String skuJson = searchService.getskuByRedis("SKU:" + id);
+                String skuJson = searchService.getskuByRedis("" + id);
                 list.add(skuJson);
             }
         }catch(Exception e){
             e.printStackTrace();
             logger.error(e.getClass().getName());
             logger.error("search failed");
+            logger.error(printStackTraceToString(e));
             return null;
         }
 
         return list;
+    }
+
+    public static String printStackTraceToString(Throwable t) {
+        StringWriter sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw, true));
+        return sw.getBuffer().toString();
     }
 
 //    @Autowired

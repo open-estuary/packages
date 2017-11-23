@@ -29,4 +29,6 @@ public interface REcOrderinfoMapper {
     int updateByPrimaryKey(REcOrderinfo record);
 
     List<REcOrderinfo> selectByUserId(Long userid);
+
+    REcOrderinfo selectByOrderIdAndUserId(Long userid, Long norderid);
 }

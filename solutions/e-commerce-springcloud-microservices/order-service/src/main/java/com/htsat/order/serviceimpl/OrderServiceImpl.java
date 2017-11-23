@@ -227,14 +227,19 @@ public class OrderServiceImpl implements IOrderService {
      * get order
      */
     @Override
-    public OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long orderId) throws SearchException {
-        OrderDTO orderDTO = getOrderInfoByRedis(orderId);
-        if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(orderId);
+    public OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long userId, Long orderId) throws SearchException {
+        OrderDTO orderDTO = getOrderInfoByRedis(userId, orderId);
+        if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(userId, orderId);
         return orderDTO;
     }
 
-    private OrderDTO getOrderInfoByMySQL(Long orderId) throws SearchException {
-        REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
+    private OrderDTO getOrderInfoByMySQL(Long userId, Long orderId) throws SearchException {
+        REcOrderinfo orderinfo = null;
+        try {
+            orderinfo = orderinfoMapper.selectByOrderIdAndUserId(userId, orderId);
+        } catch (Exception e){
+            throw new SearchException("mysql : get orderInfo failed");
+        }
         if (orderinfo == null){
             throw new SearchException("mysql : get orderInfo failed");
         } else {
@@ -256,7 +261,7 @@ public class OrderServiceImpl implements IOrderService {
         }
     }
 
-    private OrderDTO getOrderInfoByRedis(Long orderId) throws SearchException {
+    private OrderDTO getOrderInfoByRedis(Long userId, Long orderId) throws SearchException {
         Jedis jedis = redisConfig.getJedis();
         if(jedis == null){
             return null;
@@ -275,7 +280,12 @@ public class OrderServiceImpl implements IOrderService {
             return null;
         } else {
             OrderDTO orderDTO = JSON.parseObject(orderInfo, OrderDTO.class);
-            return orderDTO;
+            if (userId == null)
+                return orderDTO;
+            else if (userId.equals(orderDTO.getUserId()))
+                return orderDTO;
+            else
+                return null;
         }
 
     }
@@ -291,8 +301,8 @@ public class OrderServiceImpl implements IOrderService {
         List<REcOrderinfo> orderinfoList = orderinfoMapper.selectByUserId(userid);
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for ( REcOrderinfo orderinfo : orderinfoList) {
-            OrderDTO orderDTO = getOrderInfoByRedis(orderinfo.getNorderid());
-            if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(orderinfo.getNorderid());
+            OrderDTO orderDTO = getOrderInfoByRedis(userid, orderinfo.getNorderid());
+            if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(userid, orderinfo.getNorderid());
             orderDTOList.add(orderDTO);
         }
         return orderDTOList;
