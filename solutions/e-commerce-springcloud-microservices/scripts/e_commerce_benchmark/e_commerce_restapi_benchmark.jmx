@@ -374,7 +374,7 @@ JSONObject cart_json = new JSONObject();
 cart_json.put(&quot;currency&quot;, ${__Random(1, 1000)});
 
 JSONArray skulist = new JSONArray();
-SONObject sku = new JSONObject();
+JSONObject sku = new JSONObject();
 sku.put(&quot;discount&quot;, ${__Random(0, 100)});
 sku.put(&quot;displayPrice&quot;, ${__Random(1, 1000)}); 
 sku.put(&quot;quantity&quot;, ${__Random(1, 100)});
