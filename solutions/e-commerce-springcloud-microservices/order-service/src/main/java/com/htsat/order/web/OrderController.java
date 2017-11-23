@@ -65,7 +65,7 @@ public class OrderController {
 
         OrderDTO orderDTO = null;
         try {
-            orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(orderid);
+            orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(userid,orderid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("search exception !");
