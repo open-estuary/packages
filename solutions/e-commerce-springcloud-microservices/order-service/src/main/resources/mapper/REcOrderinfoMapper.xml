@@ -434,6 +434,13 @@
     select
     <include refid="Base_Column_List" />
     from r_ec_orderinfo
-    where nUserID = #{nuserid,jdbcType=BIGINT}
+    where nUserID = #{nuserid,jdbcType=BIGINT} limit 10
+  </select>
+
+  <select id="selectByOrderIdAndUserId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_orderinfo
+    where nUserID = #{nuserid,jdbcType=BIGINT} and nOrderID = #{norderid,jdbcType=BIGINT}
   </select>
 </mapper>

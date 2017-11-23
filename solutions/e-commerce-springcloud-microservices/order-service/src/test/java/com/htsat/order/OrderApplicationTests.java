@@ -58,18 +58,18 @@
 //
 //		List<OrderSKUDTO> orderskuDTOList = new ArrayList<>();
 //		OrderSKUDTO ordersku = new OrderSKUDTO();
-//		ordersku.setSkuId(1234L);
+//		ordersku.setSkuId(10001L);
 //		ordersku.setQuantity(10);
-//		ordersku.setPrice(new BigDecimal(800));
-//		ordersku.setOriginPrice(new BigDecimal(1000));
-//		ordersku.setDiscount(new BigDecimal(1000));
+//		ordersku.setPrice(new BigDecimal(700));
+//		ordersku.setOriginPrice(new BigDecimal(799));
+//		ordersku.setDiscount(new BigDecimal(99));
 //
 //		OrderSKUDTO ordersku2 = new OrderSKUDTO();
-//		ordersku2.setSkuId(4321L);
+//		ordersku2.setSkuId(10002L);
 //		ordersku2.setQuantity(10);
-//		ordersku2.setPrice(new BigDecimal(900));
-//		ordersku2.setOriginPrice(new BigDecimal(1200));
-//		ordersku2.setDiscount(new BigDecimal(500));
+//		ordersku2.setPrice(new BigDecimal(799));
+//		ordersku2.setOriginPrice(new BigDecimal(799));
+//		ordersku2.setDiscount(new BigDecimal(0));
 //
 //		orderskuDTOList.add(ordersku);
 //		orderskuDTOList.add(ordersku2);

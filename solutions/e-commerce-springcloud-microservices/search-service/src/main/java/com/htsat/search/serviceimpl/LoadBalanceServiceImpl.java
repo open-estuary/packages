@@ -4,7 +4,7 @@ import com.htsat.search.service.ILoadBalanceService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientHystrix implements ILoadBalanceService{
+public class LoadBalanceServiceImpl implements ILoadBalanceService{
 
     @Override
     public String loadbalanceService(String name) {

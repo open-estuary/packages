@@ -17,16 +17,18 @@ public class SearchServiceImpl implements ISearchService {
     @Autowired
     private RedisConfig redisConfig;
 
+    private static final String skuRedisKey = "SKU:";
+
     @Override
     public String getskuByRedis(String skuId) {
 
         Jedis jedis = redisConfig.getJedis();
-        if (jedis == null || !jedis.exists(skuId + "")) {
+        if (jedis == null) {
             return null;
         }
         String skuJson = null;
         try {
-            skuJson = jedis.get(skuId);
+            skuJson = jedis.get(skuRedisKey + skuId);
         } catch (Exception e) {
             logger.error("Redis get error: " + e.getMessage() + " - key : " + skuId);
         } finally {
