@@ -109,15 +109,6 @@
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random UserID Variable" enabled="true">
-        <stringProp name="variableName">userid</stringProp>
-        <stringProp name="outputFormat"></stringProp>
-        <stringProp name="minimumValue">1</stringProp>
-        <stringProp name="maximumValue">1000000</stringProp>
-        <stringProp name="randomSeed">1234</stringProp>
-        <boolProp name="perThread">true</boolProp>
-      </RandomVariableConfig>
-      <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="E-Commerce Order Service Create API" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -133,6 +124,15 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random UserID Variable" enabled="true">
+          <stringProp name="variableName">userid</stringProp>
+          <stringProp name="outputFormat"></stringProp>
+          <stringProp name="minimumValue">1</stringProp>
+          <stringProp name="maximumValue">1000000</stringProp>
+          <stringProp name="randomSeed">1234</stringProp>
+          <boolProp name="perThread">false</boolProp>
+        </RandomVariableConfig>
+        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Order JSON Request" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">import org.json.JSONArray;
@@ -221,6 +221,15 @@ vars.put(&quot;order_json&quot;, order_json.toString());
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random UserID Variable" enabled="true">
+          <stringProp name="variableName">userid</stringProp>
+          <stringProp name="outputFormat"></stringProp>
+          <stringProp name="minimumValue">1</stringProp>
+          <stringProp name="maximumValue">1000000</stringProp>
+          <stringProp name="randomSeed">1234</stringProp>
+          <boolProp name="perThread">false</boolProp>
+        </RandomVariableConfig>
+        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Orders for Specific User" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
@@ -289,6 +298,15 @@ vars.put(&quot;order_json&quot;, order_json.toString());
           <stringProp name="maximumValue">10000000</stringProp>
           <stringProp name="randomSeed">11</stringProp>
           <boolProp name="perThread">true</boolProp>
+        </RandomVariableConfig>
+        <hashTree/>
+        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random UserID Variable" enabled="true">
+          <stringProp name="variableName">userid</stringProp>
+          <stringProp name="outputFormat"></stringProp>
+          <stringProp name="minimumValue">1</stringProp>
+          <stringProp name="maximumValue">1000000</stringProp>
+          <stringProp name="randomSeed">1234</stringProp>
+          <boolProp name="perThread">false</boolProp>
         </RandomVariableConfig>
         <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Generate Cart JSON Request" enabled="true">
