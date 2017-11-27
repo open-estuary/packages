@@ -30,5 +30,5 @@ public interface REcOrderinfoMapper {
 
     List<REcOrderinfo> selectByUserId(Long userid);
 
-    REcOrderinfo selectByOrderIdAndUserId(Long userid, Long norderid);
+    REcOrderinfo selectByOrderIdAndUserId(Long nuserid, Long norderid);
 }
