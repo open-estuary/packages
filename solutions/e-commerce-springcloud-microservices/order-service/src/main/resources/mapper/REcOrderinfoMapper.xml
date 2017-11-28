@@ -441,6 +441,6 @@
     select
     <include refid="Base_Column_List" />
     from r_ec_orderinfo
-    where nUserID = #{nuserid,jdbcType=BIGINT} and nOrderID = #{norderid,jdbcType=BIGINT}
+    where nUserID =  #{0} and nOrderID =  #{1}
   </select>
 </mapper>
