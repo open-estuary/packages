@@ -75,8 +75,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="5" />
-    <option name="width" value="830" />
+    <option name="x" value="-21" />
+    <option name="y" value="10" />
+    <option name="width" value="859" />
     <option name="height" value="1011" />
   </component>
   <component name="ProjectView">

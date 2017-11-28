@@ -33,9 +33,9 @@ public interface IShoppingCartService {
 
     /*********************************************search******************************************/
 
-    ShoppingCartDTO getShoppingCartByUser(Long userid) throws SearchException;
+    String getShoppingCartByUser(Long userid) throws SearchException;
 
-    ShoppingCartDTO getShoppingCart(Long shoppingcartid) throws SearchException;
+    String getShoppingCart(Long userid, Long shoppingcartid) throws SearchException;
 
     /*********************************************delete******************************************/
 

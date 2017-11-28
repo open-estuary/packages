@@ -29,4 +29,6 @@ public interface REcShoppingcartMapper {
     int updateByPrimaryKey(REcShoppingcart record);
 
     List<REcShoppingcart> selectByUserId(Long userId);
+
+    REcShoppingcart selectByUserIdAndCartId(Long userId, Long shoppingcartid);
 }
