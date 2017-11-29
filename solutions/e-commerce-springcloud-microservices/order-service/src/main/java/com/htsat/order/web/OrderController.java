@@ -61,44 +61,44 @@ public class OrderController {
 
     @RequestMapping(value = "/{userid}/{orderid}", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDTO getOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
+    public String getOrder(@PathVariable("userid") Long userid, @PathVariable("orderid") Long orderid){
 
-        OrderDTO orderDTO = null;
+        String orderDTOJSON = null;
         try {
-            orderDTO = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(userid,orderid);
+            orderDTOJSON = orderService.getOrderAndDeliveryAndOrderSKUAndAddress(userid,orderid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("search exception !");
             logger.error(e.getMessage());
-            return null;
+            return "None Order Matched";
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
             logger.error(e.getClass().getName());
-            return null;
+            return "Get Order Exception:" + e.getClass().getName();
         }
-        return orderDTO;
+        return orderDTOJSON;
     }
 
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
     @ResponseBody
-    public List<OrderDTO> getAllOrder(@PathVariable("userid") Long userid){
+    public String getAllOrder(@PathVariable("userid") Long userid){
 
-        List<OrderDTO> orderDTOList = null;
+        String orderListDTOJSON = null;
         try {
-            orderDTOList = orderService.getAllOrderAndDeliveryAndOrderSKUAndAddress(userid);
+            orderListDTOJSON = orderService.getAllOrderAndDeliveryAndOrderSKUAndAddress(userid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("search all exception !");
             logger.error(e.getMessage());
-            return null;
+            return "None Orders Matched";
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
             logger.error(e.getClass().getName());
-            return null;
+            return "Get Orders Exception:" + e.getClass().getName();
         }
-        return orderDTOList;
+        return orderListDTOJSON;
     }
 
     @RequestMapping(value = "/{userid}/{orderid}", method = RequestMethod.DELETE)

@@ -69,13 +69,13 @@ public class OrderServiceImpl implements IOrderService {
      * create order
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void createOrderAndDeliveryAndOrderSKU(OrderDTO orderDTO) throws InsertException {
         OrderDTO returnOrderDTO = createOrderAndDeliveryAndOrderSKUByMySQL(orderDTO);
         createOrderAndDeliveryAndOrderSKUToRedis(returnOrderDTO);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public OrderDTO createOrderAndDeliveryAndOrderSKUByMySQL(OrderDTO orderDTO) throws InsertException {
+    private OrderDTO createOrderAndDeliveryAndOrderSKUByMySQL(OrderDTO orderDTO) throws InsertException {
         REcDeliveryinfo deliveryinfo = createDeliveryInfo(orderDTO);
         REcOrderinfo orderinfo = createOrder(orderDTO, deliveryinfo);
         List<REcOrdersku> orderskuList = createOrderSKU(orderDTO,orderinfo);
@@ -146,8 +146,7 @@ public class OrderServiceImpl implements IOrderService {
         return orderinfo;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public List<REcOrdersku> createOrderSKU(OrderDTO orderDTO, REcOrderinfo orderinfo) throws InsertException{
+    private List<REcOrdersku> createOrderSKU(OrderDTO orderDTO, REcOrderinfo orderinfo) throws InsertException{
         List<OrderSKUDTO> skudtoList = orderDTO.getOrderskudtoList();
         List<REcOrdersku> orderskuList = new ArrayList<>();
         for (OrderSKUDTO orderskuDTO : skudtoList) {
@@ -168,44 +167,11 @@ public class OrderServiceImpl implements IOrderService {
                 throw new InsertException("mysql : create orderSKU failed");
             }
 
-//            updateSKUInventory(orderskuDTO);
             skuMapper.updateInventory(orderskuDTO.getSkuId(), orderskuDTO.getQuantity());
-//            lock.lock();
-//            try {
-//                REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
-//                sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
-//                int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
-//                if (resultUpdate != 1) {
-//                    throw new InsertException("mysql : update sku inventory failed");
-//                }
-//            }
-//            finally {
-//                lock.unlock();
-//            }
 
-//            synchronized(this) {
-//                REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
-//                sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
-//                int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
-//                if (resultUpdate != 1) {
-//                    throw new InsertException("mysql : update sku inventory failed");
-//                }
-//            }
         }
         return orderskuList;
     }
-//
-//    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE,timeout=60,rollbackFor=Exception.class)
-//    public void updateSKUInventory(OrderSKUDTO orderskuDTO) throws InsertException {
-//        synchronized(this) {
-//            REcSku sku = skuMapper.selectByPrimaryKey(orderskuDTO.getSkuId());
-//            sku.setNinventory(sku.getNinventory() - orderskuDTO.getQuantity());
-//            int resultUpdate = skuMapper.updateByPrimaryKeySelective(sku);
-//            if (resultUpdate != 1) {
-//                throw new InsertException("mysql : update sku inventory failed");
-//            }
-//        }
-//    }
 
     private void createOrderAndDeliveryAndOrderSKUToRedis(OrderDTO orderDTO) throws InsertException{
         Jedis jedis = redisConfig.getJedis();
@@ -215,6 +181,7 @@ public class OrderServiceImpl implements IOrderService {
             code = jedis.set((orderRedisKey + orderDTO.getOrderId()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis insert error: "+ e.getMessage() +" - " + orderDTO.getOrderId() + ", value:" + orderDTO);
+            throw new InsertException("redis : create exception");
         } finally{
             redisConfig.returnResource(jedis);
         }
@@ -227,10 +194,16 @@ public class OrderServiceImpl implements IOrderService {
      * get order
      */
     @Override
-    public OrderDTO getOrderAndDeliveryAndOrderSKUAndAddress(Long userId, Long orderId) throws SearchException {
+    public String getOrderAndDeliveryAndOrderSKUAndAddress(Long userId, Long orderId) throws SearchException {
         OrderDTO orderDTO = getOrderInfoByRedis(userId, orderId);
         if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(userId, orderId);
-        return orderDTO;
+
+        if (orderDTO != null) {
+            String orderDTOJSON = JSON.toJSONString(orderDTO);
+            return orderDTOJSON;
+        } else {
+            return "None Order Matched";
+        }
     }
 
     private OrderDTO getOrderInfoByMySQL(Long userId, Long orderId) throws SearchException {
@@ -272,6 +245,7 @@ public class OrderServiceImpl implements IOrderService {
             orderInfo = jedis.get(orderRedisKey + orderId);
         } catch (Exception e) {
             logger.error("Redis get error: "+ e.getMessage() +" - key : " + orderId);
+            throw new SearchException("redis : search exception");
         } finally {
             redisConfig.returnResource(jedis);
         }
@@ -297,7 +271,7 @@ public class OrderServiceImpl implements IOrderService {
      * @throws SearchException
      */
     @Override
-    public List<OrderDTO> getAllOrderAndDeliveryAndOrderSKUAndAddress(Long userid) throws SearchException {
+    public String getAllOrderAndDeliveryAndOrderSKUAndAddress(Long userid) throws SearchException {
         List<REcOrderinfo> orderinfoList = orderinfoMapper.selectByUserId(userid);
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for ( REcOrderinfo orderinfo : orderinfoList) {
@@ -305,33 +279,31 @@ public class OrderServiceImpl implements IOrderService {
             if (orderDTO == null )  orderDTO = getOrderInfoByMySQL(userid, orderinfo.getNorderid());
             orderDTOList.add(orderDTO);
         }
-        return orderDTOList;
+        if (orderDTOList.size() > 0){
+            String orderListDTOJSON = JSON.toJSONString(orderDTOList);
+            return orderListDTOJSON;
+        } else {
+            return "None Orders Matched";
+        }
     }
 
     /**
      * delete order
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void deleteOrderAndDeliveryAndOrderSKU(Long orderId) throws DeleteException {
         deleteOrderInfoByMySQL(orderId);
         deleteOrderInfoByRedis(orderId);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public void deleteOrderInfoByMySQL(Long orderId) throws DeleteException {
+    private void deleteOrderInfoByMySQL(Long orderId) throws DeleteException {
         REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
         List<REcOrdersku> orderskuList = orderskuMapper.selectByOrderId(orderId);
 
         //add inventory of sku
         for (REcOrdersku ordersku : orderskuList) {
-//            REcSku sku = skuMapper.selectByPrimaryKey(ordersku.getNskuid());
-//            sku.setNinventory(sku.getNinventory() + ordersku.getNquantity());
-//            int resultInventory = skuMapper.updateByPrimaryKey(sku);
             skuMapper.updateInventory(ordersku.getNskuid(), 0 - ordersku.getNquantity());
-//
-//            if (resultInventory != 1) {
-//                throw new DeleteException("mysql : update SKU inventory failed");
-//            }
         }
         //delete delivery
         int resultDelivery = deliveryinfoMapper.deleteByPrimaryKey(orderinfo.getNdeliveryid());
@@ -362,11 +334,9 @@ public class OrderServiceImpl implements IOrderService {
             Long reply = jedis.del(orderRedisKey + orderId);
         } catch (Exception e) {
             logger.error("Redis delete error: "+ e.getMessage() +" - key : " + orderId);
+            throw new DeleteException("redis : delete exception");
         }finally{
             redisConfig.returnResource(jedis);
-        }
-        if (false) {
-            throw new DeleteException("redis : delete failed");
         }
     }
 
@@ -376,14 +346,14 @@ public class OrderServiceImpl implements IOrderService {
      * delivery  1：已收件;2：在途;3：待签收;4：已签收
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public OrderDTO updateOrderDelivery(Long orderId, short deliveryStatus) throws UpdateException {
         OrderDTO orderDTO = updateOrderDeliveryByMySQL(orderId, deliveryStatus);
         updateOrderDeliveryByRedis(orderDTO);
         return orderDTO;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public OrderDTO updateOrderDeliveryByMySQL(Long orderId, short deliveryStatus) throws UpdateException{
+    private OrderDTO updateOrderDeliveryByMySQL(Long orderId, short deliveryStatus) throws UpdateException{
         REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
         if (orderinfo == null) {
             throw new UpdateException("mysql : update get orderInfo failed");
@@ -514,14 +484,20 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 
+    /**
+     * create order by ShoppingCart
+     * @param orderDTO
+     * @param shoppingCartDTO
+     * @throws InsertException
+     */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void createOrderAndDeliveryAndOrderSKUByShoppingCart(OrderDTO orderDTO, ShoppingCartDTO shoppingCartDTO) throws InsertException{
         OrderDTO returnOrderDTO = createOrderAndDeliveryAndOrderSKUByMySQLShoppingCart(orderDTO, shoppingCartDTO);
         createOrderAndDeliveryAndOrderSKUToRedis(returnOrderDTO);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public OrderDTO createOrderAndDeliveryAndOrderSKUByMySQLShoppingCart(OrderDTO orderDTO, ShoppingCartDTO shoppingCartDTO) throws InsertException {
+    private OrderDTO createOrderAndDeliveryAndOrderSKUByMySQLShoppingCart(OrderDTO orderDTO, ShoppingCartDTO shoppingCartDTO) throws InsertException {
         REcDeliveryinfo deliveryinfo = createDeliveryInfo(orderDTO);
         REcOrderinfo orderinfo = createOrderByCart(orderDTO, deliveryinfo, shoppingCartDTO);
         List<REcOrdersku> orderskuList = createOrderSKUByCart(shoppingCartDTO,orderinfo);
@@ -565,8 +541,7 @@ public class OrderServiceImpl implements IOrderService {
         return orderinfo;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public List<REcOrdersku> createOrderSKUByCart(ShoppingCartDTO shoppingCartDTO, REcOrderinfo orderinfo) throws InsertException{
+    private List<REcOrdersku> createOrderSKUByCart(ShoppingCartDTO shoppingCartDTO, REcOrderinfo orderinfo) throws InsertException{
         List<SKUDTO> skudtoList = shoppingCartDTO.getSkudtoList();
         List<REcOrdersku> orderskuList = new ArrayList<>();
         for (SKUDTO skudto : skudtoList) {

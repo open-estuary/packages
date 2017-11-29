@@ -55,23 +55,16 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
 
     private static final String cartRedisKey = "ShoppingCart:";
 
-//    @Autowired
-//    private IRedisService redisService;
-//
-//    private Jedis getJedis(){
-//        return redisService.getResource();
-//    }
-
     /******************************************create*********************************************/
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void createShoppingCartAndSKU(ShoppingCartDTO shoppingCartDTO) throws InsertException {
         ShoppingCartDTO returnShoppingCartDTO = createShoppingCartAndSKUToMySQL(shoppingCartDTO);
         createShoppCartAndSKUToRedis(returnShoppingCartDTO);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=InsertException.class)
-    public ShoppingCartDTO createShoppingCartAndSKUToMySQL(ShoppingCartDTO shoppingCartDTO) throws InsertException {
+    private ShoppingCartDTO createShoppingCartAndSKUToMySQL(ShoppingCartDTO shoppingCartDTO) throws InsertException {
         int totalquantity = 0;
         BigDecimal totaldiscount = new BigDecimal(0);
         BigDecimal totalPrice = new BigDecimal(0);
@@ -184,6 +177,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             code = jedis.set((cartRedisKey + returnShoppingCartDTO.getNshoppingcartid()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis insert error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getUserId() + ", value:" + returnShoppingCartDTO);
+            throw new InsertException("redis : create exception");
         } finally{
             redisConfig.returnResource(jedis);
         }
@@ -269,14 +263,14 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     /*********************************************search******************************************/
 
     @Override
-    public ShoppingCartDTO getShoppingCartByUser(Long userid) throws SearchException{
+    public String getShoppingCartByUser(Long userid) throws SearchException{
         List<REcShoppingcart> shoppingcartList = shoppingcartMapper.selectByUserId(userid);
         if (shoppingcartList == null || shoppingcartList.size() != 1) {
             logger.error("this user has too many or no shoppingcart");
             throw new SearchException("mysql : too many or no shoppingcart");
         }
-        ShoppingCartDTO shoppingCartDTO = getShoppingCart(shoppingcartList.get(0).getNshoppingcartid());
-        return shoppingCartDTO;
+        String shoppingCartDTOJSON = getShoppingCart(userid, shoppingcartList.get(0).getNshoppingcartid());
+        return shoppingCartDTOJSON;
     }
 
     /**
@@ -286,23 +280,29 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
      * @throws SearchException
      */
     @Override
-    public ShoppingCartDTO getShoppingCart(Long shoppingcartid) throws SearchException{
+    public String getShoppingCart(Long userid, Long shoppingcartid) throws SearchException{
 
-        ShoppingCartDTO shoppingCartDTO = getShoppingCartFromRedis(shoppingcartid);
+        ShoppingCartDTO shoppingCartDTO = getShoppingCartFromRedis(userid, shoppingcartid);
 
         if (shoppingCartDTO == null) {
-            REcShoppingcart shoppingcart = getShoppingCartByMySQL(shoppingcartid);
+            REcShoppingcart shoppingcart = getShoppingCartByMySQL(userid, shoppingcartid);
             if (shoppingcart == null)
-                return null;
+                return "None ShoppingCart Matched";
             List<REcSku> skuList = getSKUListByMySQL(shoppingcart.getNshoppingcartid());
             shoppingCartDTO = ConvertToDTO.convertToShoppingDTO(shoppingcart, skuList);
         }
 
-        return shoppingCartDTO;
+        if (shoppingCartDTO != null) {
+            String orderDTOJSON = JSON.toJSONString(shoppingCartDTO);
+            return orderDTOJSON;
+        } else {
+            return "None ShoppingCart Matched";
+        }
+
     }
 
-    private REcShoppingcart getShoppingCartByMySQL(Long shoppingcartid) throws SearchException{
-        REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(shoppingcartid);
+    private REcShoppingcart getShoppingCartByMySQL(Long userid, Long shoppingcartid) throws SearchException{
+        REcShoppingcart shoppingcart = shoppingcartMapper.selectByUserIdAndCartId(userid, shoppingcartid);
         if(shoppingcart == null)
             return null;
         return shoppingcart;
@@ -317,7 +317,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         return skuList;
     }
 
-    private ShoppingCartDTO getShoppingCartFromRedis(Long shoppingcartid) throws SearchException{
+    private ShoppingCartDTO getShoppingCartFromRedis(Long userid, Long shoppingcartid) throws SearchException{
         Jedis jedis = redisConfig.getJedis();
         if(jedis == null){
             return null;
@@ -327,6 +327,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             shoppingCart = jedis.get(cartRedisKey + shoppingcartid);
         } catch (Exception e) {
             logger.error("Redis get error: "+ e.getMessage() +" - key : " + shoppingcartid);
+            throw new SearchException("redis : search exception");
         } finally{
             redisConfig.returnResource(jedis);
         }
@@ -335,7 +336,12 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             return null;
         } else {
             ShoppingCartDTO shoppingCartDTO = JSON.parseObject(shoppingCart, ShoppingCartDTO.class);
-            return shoppingCartDTO;
+            if (userid == null)
+                return shoppingCartDTO;
+            else if (userid.equals(shoppingCartDTO.getUserId()))
+                return shoppingCartDTO;
+            else
+                return null;
         }
 
     }
@@ -343,15 +349,13 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     /*********************************************delete******************************************/
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void deleteShoppingCartAndSKU(Long cartid) throws DeleteException {
-//        REcShoppingcart shoppingcart = getShoppingCartByUserId(userId);
         deleteShoppingCartAndSKUByMySQL(cartid);
         deleteShoppingCartAndSKUToRedis(cartid);
     }
 
-
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public void deleteShoppingCartAndSKUByMySQL(Long shoppingcartId) throws DeleteException {
+    private void deleteShoppingCartAndSKUByMySQL(Long shoppingcartId) throws DeleteException {
         List<REcCartsku> cartskuList = cartskuMapper.selectByShoppingCartId(shoppingcartId);
         List<Long> skuIdList = new ArrayList<>();
         cartskuList.forEach(n -> skuIdList.add(n.getNskuid()));
@@ -388,6 +392,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             Long reply = jedis.del(cartRedisKey + shoppingcartid);
         } catch (Exception e) {
             logger.error("Redis delete error: "+ e.getMessage() +" - key : " + shoppingcartid);
+            throw new DeleteException("redis : delete exception");
         }finally{
             redisConfig.returnResource(jedis);
         }
@@ -536,6 +541,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             reply = jedis.set((cartRedisKey + returnShoppingCartDTO.getNshoppingcartid()), dtoJson);
         } catch (Exception e) {
             logger.error("Redis update error: "+ e.getMessage() +" - " + returnShoppingCartDTO.getNshoppingcartid() + "" + ", value:" + returnShoppingCartDTO);
+            throw new UpdateException("redis : update exception");
         }finally{
             redisConfig.returnResource(jedis);
         }
@@ -546,13 +552,13 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void updateShoppingCartSKU(ShoppingCartDTO shoppingCartDTO, Long userid, Long cartid, Long skuid) throws UpdateException {
         ShoppingCartDTO returnShoppingCartDTO = updateShoppingCartAndSKUByMySQL(shoppingCartDTO, userid, cartid, skuid);
         updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=UpdateException.class)
-    public ShoppingCartDTO updateShoppingCartAndSKUByMySQL(ShoppingCartDTO shoppingCartDTO, Long userid, Long cartid, Long skuid) throws UpdateException{
+    private ShoppingCartDTO updateShoppingCartAndSKUByMySQL(ShoppingCartDTO shoppingCartDTO, Long userid, Long cartid, Long skuid) throws UpdateException{
         REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(cartid);
 
         if (shoppingCartDTO == null || shoppingCartDTO.getSkudtoList() == null || shoppingCartDTO.getSkudtoList().size() != 1 || shoppingcart == null) {
@@ -641,12 +647,12 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public void deleteShoppingCartSKU(Long cartid, Long skuid) throws UpdateException {
         ShoppingCartDTO returnShoppingCartDTO = updateShoppingCartAndSKUByMySQL(cartid, skuid);
         updateShoppingCartAndSKUToRedis(returnShoppingCartDTO);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
     public ShoppingCartDTO updateShoppingCartAndSKUByMySQL(Long cartid, Long skuid) throws UpdateException{
         REcShoppingcart shoppingcart = shoppingcartMapper.selectByPrimaryKey(cartid);
         if (shoppingcart == null) {

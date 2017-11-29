@@ -67,50 +67,50 @@ public class ShoppingCartController {
 
     @RequestMapping(value = "/{userid}/{cartid}", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartDTO getShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
-        ShoppingCartDTO shoppingCartDTO = null;
+    public String getShoppingCart(@PathVariable("userid") Long userid, @PathVariable("cartid") Long cartid){
+        String shoppingCartDTOJSON = null;
 //        if (!userService.checkUserAvailable(userid)) {
 //            logger.error("User request invalid");
 //            return null;
 //        }
         try {
-            shoppingCartDTO = shoppingCartService.getShoppingCart(cartid);
+            shoppingCartDTOJSON = shoppingCartService.getShoppingCart(userid, cartid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("get exception !");
             logger.error(e.getMessage());
-            return null;
+            return "None ShoppingCart Matched";
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
             logger.error(e.getClass().getName());
-            return null;
+            return "Get ShoppingCart Exception:" + e.getClass().getName();
         }
-        return shoppingCartDTO;
+        return shoppingCartDTOJSON;
     }
 
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartDTO getShoppingCartByUser(@PathVariable("userid") Long userid){
-        ShoppingCartDTO shoppingCartDTO = null;
+    public String getShoppingCartByUser(@PathVariable("userid") Long userid){
+        String shoppingCartDTOJSON = null;
 //        if (!userService.checkUserAvailable(userid)) {
 //            logger.error("User request invalid");
 //            return null;
 //        }
         try {
-            shoppingCartDTO = shoppingCartService.getShoppingCartByUser(userid);
+            shoppingCartDTOJSON = shoppingCartService.getShoppingCartByUser(userid);
         } catch (SearchException e) {
             e.printStackTrace();
             logger.error("get exception !");
             logger.error(e.getMessage());
-            return null;
+            return "None ShoppingCart Matched";
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("exception !");
             logger.error(e.getClass().getName());
-            return null;
+            return "Get ShoppingCart Exception:" + e.getClass().getName();
         }
-        return shoppingCartDTO;
+        return shoppingCartDTOJSON;
     }
 
     @RequestMapping(value = "/{userid}/{cartid}", method = RequestMethod.DELETE)

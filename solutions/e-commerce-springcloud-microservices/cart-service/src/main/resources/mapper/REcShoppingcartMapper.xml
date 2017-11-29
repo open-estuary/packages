@@ -262,4 +262,10 @@
     from r_ec_shoppingcart
     where nUserID = #{nuserid,jdbcType=BIGINT}
   </select>
+  <select id="selectByUserIdAndCartId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from r_ec_shoppingcart
+    where nUserID =  #{0} and nShoppingCartID =  #{1}
+  </select>
 </mapper>
