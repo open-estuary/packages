@@ -28,7 +28,7 @@ public interface IOrderService {
     /**
      * delete order
      */
-    void deleteOrderAndDeliveryAndOrderSKU(Long orderId) throws DeleteException;
+    void deleteOrderAndDeliveryAndOrderSKU(Long userId, Long orderId) throws DeleteException;
 
     /**
      * update order delivery
