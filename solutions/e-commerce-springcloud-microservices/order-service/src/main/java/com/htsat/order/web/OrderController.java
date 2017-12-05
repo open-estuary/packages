@@ -108,7 +108,7 @@ public class OrderController {
         status.setUserId(userid);
 
         try {
-            orderService.deleteOrderAndDeliveryAndOrderSKU(orderid);
+            orderService.deleteOrderAndDeliveryAndOrderSKU(userid, orderid);
         } catch (DeleteException e) {
             e.printStackTrace();
             logger.error("delete exception !");

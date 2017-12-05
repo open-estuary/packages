@@ -292,27 +292,35 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=3600,rollbackFor=Exception.class)
-    public void deleteOrderAndDeliveryAndOrderSKU(Long orderId) throws DeleteException {
-        deleteOrderInfoByMySQL(orderId);
+    public void deleteOrderAndDeliveryAndOrderSKU(Long userId, Long orderId) throws DeleteException {
+        deleteOrderInfoByMySQL(userId, orderId);
         deleteOrderInfoByRedis(orderId);
     }
 
-    private void deleteOrderInfoByMySQL(Long orderId) throws DeleteException {
-        REcOrderinfo orderinfo = orderinfoMapper.selectByPrimaryKey(orderId);
+    private void deleteOrderInfoByMySQL(Long userId, Long orderId) throws DeleteException {
+        REcOrderinfo orderinfo = orderinfoMapper.selectByOrderIdAndUserId(userId, orderId);
+        if (orderinfo == null)
+            throw new DeleteException("mysql : delete orderInfo failed, none order matched");
         List<REcOrdersku> orderskuList = orderskuMapper.selectByOrderId(orderId);
 
         //add inventory of sku
         for (REcOrdersku ordersku : orderskuList) {
-            skuMapper.updateInventory(ordersku.getNskuid(), 0 - ordersku.getNquantity());
+            try {
+                skuMapper.updateInventory(ordersku.getNskuid(), 0 - ordersku.getNquantity());
+            } catch (Exception e){
+                throw new DeleteException("mysql: update sku inventory failed");
+            }
         }
         //delete delivery
-        int resultDelivery = deliveryinfoMapper.deleteByPrimaryKey(orderinfo.getNdeliveryid());
-        if (resultDelivery != 1) {
+        try {
+            deliveryinfoMapper.deleteByPrimaryKey(orderinfo.getNdeliveryid());
+        } catch (Exception e){
             throw new DeleteException("mysql : delete deliveryInfo failed");
         }
         //delete order
-        int resultOrder = orderinfoMapper.deleteByPrimaryKey(orderId);
-        if (resultOrder != 1) {
+        try {
+            orderinfoMapper.deleteByPrimaryKey(orderId);
+        } catch (Exception e){
             throw new DeleteException("mysql : delete orderInfo failed");
         }
         //delete ordersku
@@ -321,10 +329,12 @@ public class OrderServiceImpl implements IOrderService {
             key.setNorderid(orderId);
             key.setNskuid(ordersku.getNskuid());
 
-            int resultOrderSKU = orderskuMapper.deleteByOrderskuKey(key);
-            if (resultOrderSKU != 1) {
+            try {
+                orderskuMapper.deleteByOrderskuKey(key);
+            } catch (Exception e){
                 throw new DeleteException("mysql : delete orderSKUList failed");
             }
+
         }
     }
 
