@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "${1}" ] ; then
-    echo "Usage: solr_create_fields.sh <solr ip> <solr port> <solr user> <solrcloud_enable>"
+    echo "Usage: solr_create_fields.sh <solr ip> <solr port> <solr user> <solrcloud_enable> <num_shard>"
     exit 0
 fi
 
@@ -21,7 +21,7 @@ if [ ! -z "${4}" ] && [ ${4} -eq 1 ] ; then
     echo "Enable SolrCloud Mode..."
 fi
 
-num_shards=3
+num_shards=${5:-3}
 repl_factor=1
 maxshard_pernode=1
 config_name="e-commerce"
